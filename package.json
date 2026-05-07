@@ -1,0 +1,36 @@
+{
+  "name": "webcake-ui-kit",
+  "version": "1.0.0",
+  "description": "UI Kit for Vue 2 && 3 - Pure Options API",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "echo 'No need to build - shipping raw SFC'",
+    "dev:vue2": "cd playground-vue2 && npm run dev",
+    "dev:vue3": "cd playground-vue3 && npm run dev"
+  },
+  "peerDependencies": {
+    "vue": "^2.6.0 || ^3.0.0"
+  },
+  "devDependencies": {
+    "vite": "^2.9.15",
+    "@vitejs/plugin-vue": "^2.3.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pancake-vn/webcake-ui-kit.git"
+  },
+  "keywords": [
+    "Vue Component",
+    "UI Component"
+  ],
+  "author": "Webcake Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pancake-vn/webcake-ui-kit/issues"
+  },
+  "homepage": "https://github.com/pancake-vn/webcake-ui-kit#readme"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "playground-vue3",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vue": "^3.4.21",
+    "webcake-ui-kit": "file:.."
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.4",
+    "vite": "^2.9.15"
+  }
+}

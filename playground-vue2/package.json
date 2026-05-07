@@ -1,0 +1,29 @@
+{
+  "name": "playground-vue2",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.config.js --mode development",
+    "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "vue": "^2.7.16",
+    "webcake-ui-kit": "file:.."
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.5",
+    "babel-loader": "^8.2.5",
+    "css-loader": "^5.2.7",
+    "html-webpack-plugin": "^4.5.2",
+    "style-loader": "^2.0.0",
+    "vue-loader": "^15.11.1",
+    "vue-template-compiler": "^2.7.16",
+    "webpack": "^4.47.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.3"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.3"
+  }
+}
