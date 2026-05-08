@@ -13,8 +13,12 @@
   transition: box-shadow 0.15s ease;
 }
 
-.ui-badge--round-default { border-radius: var(--rounded-lg); }
-.ui-badge--round-round { border-radius: var(--rounded-full); }
+.ui-badge--round-default {
+  border-radius: var(--rounded-lg);
+}
+.ui-badge--round-round {
+  border-radius: var(--rounded-full);
+}
 
 .ui-badge--primary {
   background: var(--primary-brand-bg);

@@ -16,7 +16,7 @@
   #storybook-explorer-tree .sidebar-subheading:first-of-type {
     margin-top: 4px;
   }
-  #storybook-explorer-tree .sidebar-subheading button[data-action="collapse-root"] {
+  #storybook-explorer-tree .sidebar-subheading button[data-action='collapse-root'] {
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 0.06em;
@@ -25,8 +25,8 @@
   }
 
   /* Component groups (Button, Badge) */
-  #storybook-explorer-tree a[data-nodetype="component"],
-  #storybook-explorer-tree a[data-nodetype="group"] {
+  #storybook-explorer-tree a[data-nodetype='component'],
+  #storybook-explorer-tree a[data-nodetype='group'] {
     font-weight: 600;
     padding: 7px 8px;
     border-radius: 8px;
@@ -35,12 +35,12 @@
 
   /* Story / docs leaves — boost contrast ONLY when not selected.
      Selected items keep theme.color.lightest (white) on theme.color.secondary. */
-  #storybook-explorer-tree a[data-nodetype="story"]:not([data-selected="true"]),
-  #storybook-explorer-tree a[data-nodetype="document"]:not([data-selected="true"]) {
+  #storybook-explorer-tree a[data-nodetype='story']:not([data-selected='true']),
+  #storybook-explorer-tree a[data-nodetype='document']:not([data-selected='true']) {
     color: #374151;
   }
-  #storybook-explorer-tree a[data-nodetype="story"],
-  #storybook-explorer-tree a[data-nodetype="document"] {
+  #storybook-explorer-tree a[data-nodetype='story'],
+  #storybook-explorer-tree a[data-nodetype='document'] {
     padding: 7px 8px;
     font-size: 13px;
     border-radius: 8px;
@@ -49,54 +49,54 @@
 
   /* Leaf row icons (bookmark / document) — inherit the row's text color
      instead of using SB's default teal. Targets the <svg> + <use> sprite. */
-  #storybook-explorer-tree a[data-nodetype="story"] svg,
-  #storybook-explorer-tree a[data-nodetype="document"] svg,
-  #storybook-explorer-tree a[data-nodetype="story"] svg use,
-  #storybook-explorer-tree a[data-nodetype="document"] svg use {
+  #storybook-explorer-tree a[data-nodetype='story'] svg,
+  #storybook-explorer-tree a[data-nodetype='document'] svg,
+  #storybook-explorer-tree a[data-nodetype='story'] svg use,
+  #storybook-explorer-tree a[data-nodetype='document'] svg use {
     fill: currentColor !important;
     color: inherit !important;
     opacity: 0.55;
   }
-  #storybook-explorer-tree a[data-nodetype="story"]:hover svg,
-  #storybook-explorer-tree a[data-nodetype="document"]:hover svg,
-  #storybook-explorer-tree a[data-selected="true"] svg {
+  #storybook-explorer-tree a[data-nodetype='story']:hover svg,
+  #storybook-explorer-tree a[data-nodetype='document']:hover svg,
+  #storybook-explorer-tree a[data-selected='true'] svg {
     opacity: 1;
   }
 
   /* Selected — keep theme colors, just round */
-  #storybook-explorer-tree a[data-selected="true"] {
+  #storybook-explorer-tree a[data-selected='true'] {
     border-radius: 8px !important;
     margin: 1px 0;
   }
 
   /* Hover (not selected) — neutral wash */
-  #storybook-explorer-tree a:not([data-selected="true"]):hover,
-  #storybook-explorer-tree button[data-action="collapse-root"]:hover {
+  #storybook-explorer-tree a:not([data-selected='true']):hover,
+  #storybook-explorer-tree button[data-action='collapse-root']:hover {
     background: rgba(0, 0, 0, 0.04);
     border-radius: 8px;
   }
 
   /* Dark mode — body inline bg from preview.js applyDark or html data-theme */
-  body[style*="rgb(28, 33, 40)"] #storybook-explorer-tree a[data-nodetype="story"]:not([data-selected="true"]),
-  body[style*="rgb(28, 33, 40)"] #storybook-explorer-tree a[data-nodetype="document"]:not([data-selected="true"]),
-  html[data-theme="dark"] #storybook-explorer-tree a[data-nodetype="story"]:not([data-selected="true"]),
-  html[data-theme="dark"] #storybook-explorer-tree a[data-nodetype="document"]:not([data-selected="true"]) {
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree a[data-nodetype='story']:not([data-selected='true']),
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree a[data-nodetype='document']:not([data-selected='true']),
+  html[data-theme='dark'] #storybook-explorer-tree a[data-nodetype='story']:not([data-selected='true']),
+  html[data-theme='dark'] #storybook-explorer-tree a[data-nodetype='document']:not([data-selected='true']) {
     color: #c9d1d9;
   }
-  body[style*="rgb(28, 33, 40)"] #storybook-explorer-tree a:not([data-selected="true"]):hover,
-  body[style*="rgb(28, 33, 40)"] #storybook-explorer-tree button[data-action="collapse-root"]:hover,
-  html[data-theme="dark"] #storybook-explorer-tree a:not([data-selected="true"]):hover,
-  html[data-theme="dark"] #storybook-explorer-tree button[data-action="collapse-root"]:hover {
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree a:not([data-selected='true']):hover,
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree button[data-action='collapse-root']:hover,
+  html[data-theme='dark'] #storybook-explorer-tree a:not([data-selected='true']):hover,
+  html[data-theme='dark'] #storybook-explorer-tree button[data-action='collapse-root']:hover {
     background: rgba(255, 255, 255, 0.06);
   }
 
   /* Search input — round corners */
-  input[type="search"][placeholder*="Find"] {
+  input[type='search'][placeholder*='Find'] {
     border-radius: 10px !important;
   }
 
   /* Topbar avatar / menu button */
-  [class*="sidebar-header"] button {
+  [class*='sidebar-header'] button {
     border-radius: 10px;
   }
 </style>

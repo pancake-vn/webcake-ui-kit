@@ -7,9 +7,9 @@ import { light, dark } from './theme'
 
 const channel = addons.getChannel()
 
-const applyDark = (isDark) => {
+const applyDark = isDark => {
   const targets = [document.documentElement, document.body]
-  targets.forEach((el) => {
+  targets.forEach(el => {
     if (!el) return
     el.classList.toggle('dark', isDark)
     el.style.background = isDark ? '#1c2128' : '#ffffff'
@@ -37,13 +37,7 @@ export const parameters = {
 
   options: {
     storySort: {
-      order: [
-        'Introduction',
-        'Foundations',
-        'Components',
-        ['Button', 'Badge', '*'],
-        '*'
-      ]
+      order: ['Introduction', 'Foundations', 'Components', ['Button', 'Badge', '*'], '*']
     }
   },
 

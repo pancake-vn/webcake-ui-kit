@@ -1,11 +1,5 @@
 <template>
-  <span
-    :class="[
-      'ui-badge',
-      `ui-badge--${variant}`,
-      `ui-badge--round-${roundness}`
-    ]"
-  >
+  <span :class="['ui-badge', `ui-badge--${variant}`, `ui-badge--round-${roundness}`]">
     <span v-if="hasIconLeft" class="ui-badge__icon">
       <slot name="icon-left"></slot>
     </span>

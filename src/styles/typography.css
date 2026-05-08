@@ -1,91 +1,91 @@
 @layer base {
-    :root {
-        /* font definations */
-        --font-family-sans: 'Inter';
-        --font-family-serif: 'Inter';
-        --font-family-heading: var(--font-family-sans);
-        --font-family-body: var(--font-family-sans);
-        --font-family-monospace: 'Geist Mono';
+  :root {
+    /* font definations */
+    --font-family-sans: 'Inter';
+    --font-family-serif: 'Inter';
+    --font-family-heading: var(--font-family-sans);
+    --font-family-body: var(--font-family-sans);
+    --font-family-monospace: 'Geist Mono';
 
-        /* Heading 1 */
-        --heading-1-font-family: var(--font-family-heading);
-        --heading-1-font-size: 48px;
-        --heading-1-line-height: 48px;
-        --heading-1-font-weight: 600;
-        --heading-1-letter-spacing: -1.5px;
+    /* Heading 1 */
+    --heading-1-font-family: var(--font-family-heading);
+    --heading-1-font-size: 48px;
+    --heading-1-line-height: 48px;
+    --heading-1-font-weight: 600;
+    --heading-1-letter-spacing: -1.5px;
 
-        /* ========================= Heading 2 ========================= */
-        --heading-2-font-family: var(--font-family-heading);
-        --heading-2-font-size: 30px;
-        --heading-2-line-height: 30px;
-        --heading-2-font-weight: 600;
-        --heading-2-letter-spacing: -1px;
+    /* ========================= Heading 2 ========================= */
+    --heading-2-font-family: var(--font-family-heading);
+    --heading-2-font-size: 30px;
+    --heading-2-line-height: 30px;
+    --heading-2-font-weight: 600;
+    --heading-2-letter-spacing: -1px;
 
-        /* ========================= Heading 3 ========================= */
-        --heading-3-font-family: var(--font-family-heading);
-        --heading-3-font-size: 24px;
-        --heading-3-line-height: 28.8px;
-        --heading-3-font-weight: 600;
-        --heading-3-letter-spacing: -1px;
+    /* ========================= Heading 3 ========================= */
+    --heading-3-font-family: var(--font-family-heading);
+    --heading-3-font-size: 24px;
+    --heading-3-line-height: 28.8px;
+    --heading-3-font-weight: 600;
+    --heading-3-letter-spacing: -1px;
 
-        /* ========================= Heading 4 ========================= */
-        --heading-4-font-family: var(--font-family-heading);
-        --heading-4-font-size: 20px;
-        --heading-4-line-height: 24px;
-        --heading-4-font-weight: 600;
-        --heading-4-letter-spacing: 0px;
+    /* ========================= Heading 4 ========================= */
+    --heading-4-font-family: var(--font-family-heading);
+    --heading-4-font-size: 20px;
+    --heading-4-line-height: 24px;
+    --heading-4-font-weight: 600;
+    --heading-4-letter-spacing: 0px;
 
-        /* ========================= Monospaced ========================= */
-        --monospaced-font-family: var(--font-family-mono);
-        --monospaced-font-size: 16px;
-        --monospaced-line-height: 24px;
-        --monospaced-font-weight: 400;
-        --monospaced-letter-spacing: 0px;
+    /* ========================= Monospaced ========================= */
+    --monospaced-font-family: var(--font-family-mono);
+    --monospaced-font-size: 16px;
+    --monospaced-line-height: 24px;
+    --monospaced-font-weight: 400;
+    --monospaced-letter-spacing: 0px;
 
-        /* ========================= Caption ========================= */
-        --caption-font-family: var(--font-family-body);
-        --caption-font-size: 14px;
-        --caption-line-height: 21px;
-        --caption-font-weight: 400;
-        --caption-letter-spacing: 1.5px;
+    /* ========================= Caption ========================= */
+    --caption-font-family: var(--font-family-body);
+    --caption-font-size: 14px;
+    --caption-line-height: 21px;
+    --caption-font-weight: 400;
+    --caption-letter-spacing: 1.5px;
 
-        /* ========================= Caption Mini ========================= */
-        --caption-mini-font-family: var(--font-family-body);
-        --caption-mini-font-size: 10px;
-        --caption-mini-line-height: 16px;
-        --caption-mini-font-weight: 400;
-        --caption-mini-letter-spacing: 0px;
+    /* ========================= Caption Mini ========================= */
+    --caption-mini-font-family: var(--font-family-body);
+    --caption-mini-font-size: 10px;
+    --caption-mini-line-height: 16px;
+    --caption-mini-font-weight: 400;
+    --caption-mini-letter-spacing: 0px;
 
-        /* ========================= Paragraph Weights ========================= */
-        --paragraph-font-weight: 400;
-        --paragraph-medium-font-weight: 500;
-        --paragraph-bold-font-weight: 600;
+    /* ========================= Paragraph Weights ========================= */
+    --paragraph-font-weight: 400;
+    --paragraph-medium-font-weight: 500;
+    --paragraph-bold-font-weight: 600;
 
-        /* ========================= Paragraph Large ========================= */
-        --paragraph-large-font-family: var(--font-family-body);
-        --paragraph-large-font-size: 18px;
-        --paragraph-large-line-height: 27px;
-        --paragraph-large-letter-spacing: 0px;
+    /* ========================= Paragraph Large ========================= */
+    --paragraph-large-font-family: var(--font-family-body);
+    --paragraph-large-font-size: 18px;
+    --paragraph-large-line-height: 27px;
+    --paragraph-large-letter-spacing: 0px;
 
-        /* ========================= Paragraph Regular ========================= */
-        --paragraph-regular-font-family: var(--font-family-body);
-        --paragraph-regular-font-size: 16px;
-        --paragraph-regular-line-height: 24px;
-        --paragraph-regular-letter-spacing: 0px;
-        --paragraph-regular-spacing: 16px;
+    /* ========================= Paragraph Regular ========================= */
+    --paragraph-regular-font-family: var(--font-family-body);
+    --paragraph-regular-font-size: 16px;
+    --paragraph-regular-line-height: 24px;
+    --paragraph-regular-letter-spacing: 0px;
+    --paragraph-regular-spacing: 16px;
 
-        /* ========================= Paragraph Small ========================= */
-        --paragraph-small-font-family: var(--font-family-body);
-        --paragraph-small-font-size: 14px;
-        --paragraph-small-line-height: 20px;
-        --paragraph-small-letter-spacing: 0px;
-        --paragraph-small-spacing: 14px;
+    /* ========================= Paragraph Small ========================= */
+    --paragraph-small-font-family: var(--font-family-body);
+    --paragraph-small-font-size: 14px;
+    --paragraph-small-line-height: 20px;
+    --paragraph-small-letter-spacing: 0px;
+    --paragraph-small-spacing: 14px;
 
-        /* ========================= Paragraph Mini ========================= */
-        --paragraph-mini-font-family: var(--font-family-body);
-        --paragraph-mini-font-size: 12px;
-        --paragraph-mini-line-height: 16px;
-        --paragraph-mini-letter-spacing: 0px;
-        --paragraph-mini-spacing: 12px;
-    }
+    /* ========================= Paragraph Mini ========================= */
+    --paragraph-mini-font-family: var(--font-family-body);
+    --paragraph-mini-font-size: 12px;
+    --paragraph-mini-line-height: 16px;
+    --paragraph-mini-letter-spacing: 0px;
+    --paragraph-mini-spacing: 12px;
+  }
 }

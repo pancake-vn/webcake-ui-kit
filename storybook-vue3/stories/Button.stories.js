@@ -24,7 +24,7 @@ export default {
   }
 }
 
-const Template = (args) => ({
+const Template = args => ({
   components: { Button },
   setup() {
     return { args }

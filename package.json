@@ -16,7 +16,21 @@
     "build:vue3": "cd playground-vue3 && npm run build",
     "build:storybook": "cd storybook-vue3 && npm run build-storybook",
     "test:build": "concurrently --kill-others-on-fail --names vue3,vue2,sb --prefix-colors cyan,magenta,yellow \"npm:build:vue3\" \"npm:build:vue2\" \"npm:build:storybook\"",
-    "test:storybook": "npm run build:storybook"
+    "test:storybook": "npm run build:storybook",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --ext .js,.cjs,.vue",
+    "lint:fix": "eslint . --ext .js,.cjs,.vue --fix",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,cjs,vue}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,json,md,html}": [
+      "prettier --write"
+    ]
   },
   "peerDependencies": {
     "vue": "^2.6.0 || ^3.0.0"
@@ -24,6 +38,12 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.4",
     "concurrently": "^7.6.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-vue": "^9.33.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.3.0",
+    "prettier": "^3.8.3",
     "vite": "^2.9.15"
   },
   "repository": {

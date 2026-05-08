@@ -29,7 +29,7 @@ export default {
   }
 }
 
-const Template = (args) => ({
+const Template = args => ({
   components: { Badge },
   setup() {
     return { args }

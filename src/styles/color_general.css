@@ -113,7 +113,7 @@
     --primary-brand-bg: var(--color-brand-shades-500);
     --primary-brand-fg: var(--color-brand-shades-500);
     --inverse-fg: var(--color-white-alpha-100);
-    --destructive: #9E4042;
+    --destructive: #9e4042;
     --destructive-inverse-fg: var(--color-white-alpha-100);
     --border-primary: var(--color-neutral-700);
     --border-secondary: var(--color-neutral-800);
@@ -155,7 +155,7 @@
     --neutral-600: var(--color-neutral-400);
     --neutral-700: var(--color-neutral-300);
     --neutral-800: var(--color-neutral-200);
-    
+
     --green-500: var(--color-green-500);
     --blue-500: var(--color-blue-500);
     --yellow-500: var(--color-yellow-500);
@@ -180,7 +180,7 @@
     /* card */
     --card: var(--color-neutral-900);
     --card-foreground: var(--color-white-alpha-100);
-    
+
     --popover: var(--color-black-alpha-100);
     --popover-foreground: var(--color-white-alpha-100);
 
@@ -197,6 +197,6 @@
 
     /* Effect */
     --ring: var(--color-neutral-700);
-    --ring-error: #6D2E2F;
+    --ring-error: #6d2e2f;
   }
 }
