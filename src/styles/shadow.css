@@ -1,0 +1,17 @@
+@import "./alpha_colors.css";
+
+@layer base {
+    :root {
+        --shadow-2xs: 0px 1px 0px 0px var(--color-black-alpha-5);
+        --shadow-xs: 0px 1px 2px 0px var(--color-black-alpha-5);
+        --shadow-sm: 0px 1px 3px 0px var(--color-black-alpha-10),
+            0px 1px 2px -1px var(--color-black-alpha-10);
+        --shadow-md: 0px 4px 6px -1px var(--color-black-alpha-10),
+            0px 2px 4px -2px var(--color-black-alpha-10);
+        --shadow-lg: 0px 10px 15px -3px var(--color-black-alpha-10),
+            0px 4px 6px -4px var(--color-black-alpha-10);
+        --shadow-xl: 0px 20px 25px -5px var(--color-black-alpha-10),
+            0px 8px 10px -6px var(--color-black-alpha-10);
+        --shadow-2xl: 0px 25px 50px -12px var(--color-black-alpha-10);
+    }
+}

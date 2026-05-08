@@ -1,0 +1,42 @@
+@layer base {
+    :root {
+        /* Primary color scale — mapped from brand-shades (emerald) */
+        --color-brand-neutrals-50: var(--color-neutral-50);
+        --color-brand-neutrals-100: var(--color-neutral-100);
+        --color-brand-neutrals-200: var(--color-neutral-200);
+        --color-brand-neutrals-300: var(--color-neutral-300);
+        --color-brand-neutrals-400: var(--color-neutral-400);
+        --color-brand-neutrals-500: var(--color-neutral-500);
+        --color-brand-neutrals-600: var(--color-neutral-600);
+        --color-brand-neutrals-700: var(--color-neutral-700);
+        --color-brand-neutrals-800: var(--color-neutral-800);
+        --color-brand-neutrals-900: var(--color-neutral-900);
+        --color-brand-neutrals-950: var(--color-neutral-950);
+
+        /* ========================= Brand Shades ========================= */
+        --color-brand-shades-50: var(--color-emerald-50);
+        --color-brand-shades-100: var(--color-emerald-100);
+        --color-brand-shades-200: var(--color-emerald-200);
+        --color-brand-shades-300: var(--color-emerald-300);
+        --color-brand-shades-400: var(--color-emerald-400);
+        --color-brand-shades-500: var(--color-emerald-500);
+        --color-brand-shades-600: var(--color-emerald-600);
+        --color-brand-shades-700: var(--color-emerald-700);
+        --color-brand-shades-800: var(--color-emerald-800);
+        --color-brand-shades-900: var(--color-emerald-900);
+        --color-brand-shades-950: var(--color-emerald-950);
+
+        /* ========================= Primary Landing ========================= */
+        --color-primary-landing-50: #F0FDF4;
+        --color-primary-landing-100: #DBFDE6;
+        --color-primary-landing-200: #BAF8CF;
+        --color-primary-landing-300: #84F1AA;
+        --color-primary-landing-400: #48E07D;
+        --color-primary-landing-500: #1DB954;
+        --color-primary-landing-600: #14A547;
+        --color-primary-landing-700: #13823B;
+        --color-primary-landing-800: #156633;
+        --color-primary-landing-900: #13542C;
+        --color-primary-landing-950: #042F15;
+    }
+}

@@ -1,0 +1,39 @@
+@layer base {
+    :root {
+        /* ========================= White Alpha ========================= */
+        --color-white-alpha-0: rgb(255 255 255 / 0%);
+        --color-white-alpha-001: rgb(255 255 255 / 0.01%);
+        --color-white-alpha-333: rgb(255 255 255 / 3.33%);
+        --color-white-alpha-5: rgb(255 255 255 / 5%);
+        --color-white-alpha-10: rgb(255 255 255 / 10%);
+        --color-white-alpha-15: rgb(255 255 255 / 15%);
+        --color-white-alpha-20: rgb(255 255 255 / 20%);
+        --color-white-alpha-30: rgb(255 255 255 / 30%);
+        --color-white-alpha-40: rgb(255 255 255 / 40%);
+        --color-white-alpha-50: rgb(255 255 255 / 50%);
+        --color-white-alpha-60: rgb(255 255 255 / 60%);
+        --color-white-alpha-70: rgb(255 255 255 / 70%);
+        --color-white-alpha-80: rgb(255 255 255 / 80%);
+        --color-white-alpha-90: rgb(255 255 255 / 90%);
+        --color-white-alpha-95: rgb(255 255 255 / 95%);
+        --color-white-alpha-100: rgb(255 255 255 / 100%);
+
+        /* ========================= Black Alpha ========================= */
+        --color-black-alpha-0: rgb(0 0 0 / 0%);
+        --color-black-alpha-001: rgb(0 0 0 / 0.01%);
+        --color-black-alpha-333: rgb(0 0 0 / 3.33%);
+        --color-black-alpha-5: rgb(0 0 0 / 5%);
+        --color-black-alpha-10: rgb(0 0 0 / 10%);
+        --color-black-alpha-15: rgb(0 0 0 / 15%);
+        --color-black-alpha-20: rgb(0 0 0 / 20%);
+        --color-black-alpha-30: rgb(0 0 0 / 30%);
+        --color-black-alpha-40: rgb(0 0 0 / 40%);
+        --color-black-alpha-50: rgb(0 0 0 / 50%);
+        --color-black-alpha-60: rgb(0 0 0 / 60%);
+        --color-black-alpha-70: rgb(0 0 0 / 70%);
+        --color-black-alpha-80: rgb(0 0 0 / 80%);
+        --color-black-alpha-90: rgb(0 0 0 / 90%);
+        --color-black-alpha-95: rgb(0 0 0 / 95%);
+        --color-black-alpha-100: rgb(0 0 0 / 100%);
+    }
+}
