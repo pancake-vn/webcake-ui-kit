@@ -51,8 +51,13 @@ Apply the SFC skeleton from `vue-dual-component` skill. Repo-specific rules — 
 5. **Vue 2 playground registration**: `playground-vue2/src/main.js` — same, but `Vue.component('<Name>', <Name>)`.
 6. **Vue 3 showcase**: append a `<section>` to `playground-vue3/src/App.vue` exercising the component's full variant matrix (every prop value × at least one slot scenario × any `:focus-visible` / `:hover` case worth eyeballing). The section is what makes `test:build` actually compile the component — without it the build is a no-op for verification purposes.
 7. **Vue 2 showcase**: append the **same** `<section>` to `playground-vue2/src/App.vue` (template syntax is portable since both Vue 2.6+ and Vue 3 support `#name` slot shorthand). Keep the two App.vue files in sync — drift between them is the most common reason "works on Vue 3 but breaks on Vue 2" gets missed.
+8. **Storybook story**: create `storybook-vue3/stories/<Name>.stories.js` (CSF 2 format, matches existing `Button.stories.js`). The story file must include:
+   - `import <Name> from '../../src/components/<name>/<Name>.vue'`
+   - Default export with `title: 'Components/<Name>'`, `component: <Name>`, and `argTypes` for every enum-like prop (use `control: { type: 'select' }` or `inline-radio`).
+   - At least these named exports: `Primary` (a single instance with default args via `Template.bind({})` + `.args = {...}`), `AllVariants` (renders every variant value in one row), `Matrix` (renders the full prop × prop grid if there's more than one axis), and one slot-exercising story (e.g. `WithIcons`) if the component has named slots.
+   - For interactive states (hover/focus styled via CSS), add a `FocusVisible` story whose elements have `tabindex="0"` so a reviewer can keyboard-test the ring.
 
-Steps 1–7 are non-negotiable for a single component change. **Don't** create Storybook stories automatically (Storybook uses a heavier per-component file format) — only mention in review and offer to add if the user wants it.
+Steps 1–8 are non-negotiable for a single component change.
 
 Re-read `vue-dual-component` SKILL.md before writing — apply its DON'T list strictly. Most common mistakes that slip in from Figma-flavored output: multiple root nodes (Figma frames often produce two siblings), `<script setup>` (Composition API is banned here), `v-model:foo` syntax, reading `class` off `$attrs`.
 
@@ -66,61 +71,27 @@ Aim for a minimal but representative block. For a component with a `variant` × 
 
 Use a `data()` array of variant names + `v-for` rather than hand-listing each one — easier to extend, and it exercises Vue's template compilation across both versions.
 
-## Phase 3 — Review (mandatory before declaring done)
+## Phase 3 — Review (delegate to component-review)
 
-After writing, run this checklist explicitly in the response — don't just claim it passed:
+After Phase 2 (steps 1–8) is complete, **load and run the `component-review` skill** at `.claude/skills/component-review/SKILL.md`. That skill owns the full quality gate: file-layout audit, dual-compat static check, CSS/token audit, wiring audit (index.js + playgrounds + storybook), `npm run test:build` execution, and visual handoff. Do not duplicate its checklist here — re-implementation drift will produce inconsistent reviews.
 
-**Code review (static):**
-- [ ] Single root in `<template>`.
-- [ ] Pure Options API. No `setup`, no `<script setup>`, no `import { ref, ... } from 'vue'`.
-- [ ] `name`, `props` (validated), `emits` declared. No event is emitted that isn't in `emits`.
-- [ ] No banned APIs from `vue-dual-component` DON'T list (`Teleport`, fragments, `.native`, `$listeners`, `class`/`style` from `$attrs`, filters, `Vue.set`, **`:deep(...)`**, etc.).
-- [ ] **No props named `hovered`/`focused`/`pressed`/`active` for interaction states.** Those are `:hover` / `:focus-visible` / `:active` CSS rules. Props are reserved for variants and logical modes.
-- [ ] **Folder layout correct**: `src/components/<name>/<Name>.vue` (PascalCase) + `src/components/<name>/<name>.css` (lowercase). SFC's `<style>` uses `src="./<name>.css" scoped`, no inline rules.
-- [ ] **All values in the CSS file use `var(--*)` from `src/styles/*.css`.** No inline hex or raw px (icon container sizes are the only acceptable exception).
-- [ ] **Named slots use the dual-compat detection pattern** `!!((this.$scopedSlots && this.$scopedSlots['name']) || this.$slots['name'])`.
-- [ ] Class names follow `ui-<name>` / `ui-<name>--<modifier>`.
-- [ ] Export added to `src/index.js` (alphabetical).
-- [ ] **Both playground `main.js` files register the component globally.**
-- [ ] **Both playground `App.vue` files have a showcase section** (kept in sync — same template).
-- [ ] **`npm run test:build` exits 0 on both vue3 and vue2.** (Run it yourself; don't claim "should compile".)
-- [ ] No new build dependency introduced (no TS, JSX, SCSS, Tailwind utilities).
+Pass the component name to the review skill (e.g. "review Badge"). It returns a structured report; surface that report verbatim in your reply, with the Figma-specific fidelity check below appended.
 
-**Compile-time check (run first, can run yourself):**
-
-After Phase 2 (steps 1–7) is complete, run `npm run test:build` from the repo root. This builds both playground-vue3 (Vite) and playground-vue2 (webpack 4) **in parallel via `concurrently`** and fails fast if the component has any banned API, fragment, `:deep()`, or syntax error on either Vue version. Catch and surface failures before handing off.
-
-If the build fails, **fix the SFC and re-run** — don't hand a broken state to the user. Loop: read error → identify which Vue version + which file → edit → re-run `test:build`. Stop only when both exit code 0, or when blocked by something requiring the user (auth, missing dep, Node version).
-
-Prerequisite: each playground needs `node_modules`. If a build fails with "module not found" / missing deps, instruct the user to `cd playground-vue3 && npm i` and `cd playground-vue2 && npm i` first. Note: `playground-vue2` requires Node 14 (per README) — newer Node may break `npm i` for webpack 4 + vue-loader 15. Don't try to "fix" this by upgrading deps; the pin is intentional.
-
-**Visual verification (must instruct user):**
-
-After compile passes, tell the user the exact commands to run, in this order:
-
-```
-npm run dev:vue3      # check rendering on Vue 3.4 at localhost:8001
-npm run dev:vue2      # check rendering on Vue 2.7 at localhost:8080
-```
-
-For Vue 2: if the playground was set up before this component was added and `webcake-ui-kit` was installed via `file:..` (not aliased), the user may need `cd playground-vue2 && npm i` to pick up the new file. Mention this proactively — it's the #1 "why doesn't my new component show up" issue in this repo.
-
-Note explicitly in the response: **the assistant cannot run the playgrounds and visually confirm rendering** (only `test:build` runs without a browser) — visual confirmation is the user's. Don't claim "tested on both" without evidence beyond the compile pass.
-
-**Fidelity review (against Figma):**
-- [ ] All variants from the Figma node are reachable via props.
-- [ ] All interactive states (hover/active/disabled/focus) have CSS rules — Figma rarely shows these explicitly; ask if missing.
-- [ ] Slot positions match the design's content placeholders.
+**Fidelity review (Figma-specific — append to the component-review report):**
+- [ ] Every variant value in the Figma node maps to a prop value (with sane typo fixes called out).
+- [ ] Every interaction state shown in Figma (Hover / Focus / Pressed / Disabled) maps to CSS pseudo-class rules in the `.css` file.
+- [ ] Slot positions match content placeholders in the Figma design.
 - [ ] Spacing/typography tokens match within ±1px (Figma export rounding).
+- [ ] Renamed variants (e.g. "Infor" → `info`) are listed in the report so the user can object.
 
 ## Phase 4 — Reply format
 
-End the turn with exactly:
+End the turn with:
 
-1. One-paragraph summary of what was added (file paths + line counts).
-2. The review checklist above with results.
-3. The two `npm run dev:*` commands the user should run.
-4. Any open questions or things you punted (e.g. "Figma node showed a `loading` state but no spinner asset — left as TODO; happy to add a CSS spinner if you want").
+1. One-paragraph summary of what was added (file paths).
+2. The `component-review` skill's report verbatim + the Figma fidelity append.
+3. The visual verification commands (`npm run preview` and `cd storybook-vue3 && npm run storybook`).
+4. Any open items punted (e.g. "Figma showed a `loading` state with no spinner asset — left as TODO; happy to add a CSS spinner if you want").
 
 Do not pad with restatements of the design or generic "let me know if you need changes" filler.
 

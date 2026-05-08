@@ -22,14 +22,15 @@ Components must compile under both Vue 2.7 (Options API era, vue-template-compil
 - **Avoid Vue-3-only features** (`<Teleport>`, `<Suspense>`, `v-model:arg`, multi v-model) and **Vue-2-only features** (filters, `.native`, `$listeners`, `Vue.set`/`Vue.extend`).
 - **`$attrs` divergence:** Vue 3's `$attrs` includes `class`/`style`, Vue 2's does not. Don't read these off `$attrs`.
 
-Two project-scoped skills encode the workflow:
+Three project-scoped skills encode the workflow:
 
 - `.claude/skills/vue-dual-component/SKILL.md` — full DO/DON'T list + SFC skeleton. Auto-loads on edits to `src/components/*.vue` or `src/index.js`.
-- `.claude/skills/figma-to-component/SKILL.md` — orchestrates Figma → SFC: composes the Figma MCP (`mcp__plugin_figma_figma__*`) and the `figma:figma-implement-design` skill with the dual-compat rules above, then runs a review checklist. Triggers on prompts like "Implement this design from Figma. @<figma.com URL>".
+- `.claude/skills/figma-to-component/SKILL.md` — orchestrates Figma → SFC: composes the Figma MCP (`mcp__plugin_figma_figma__*`) with the dual-compat rules above. Delegates the post-write quality gate to `component-review`. Triggers on prompts like "Implement this design from Figma. @<figma.com URL>".
+- `.claude/skills/component-review/SKILL.md` — standalone quality gate. Runs file-layout audit, dual-compat static check, CSS/token audit, wiring audit (index.js + playgrounds + storybook), and `npm run test:build`. Triggers on "review", "kiểm tra", "audit", or as Phase 3 of `figma-to-component`.
 
 ## Adding a component
 
-A new component touches **eight files** in one change — anything less and `test:build` is meaningless:
+A new component touches **nine files** in one change — anything less and `test:build` is meaningless:
 
 1. `src/components/<name>/<Name>.vue` — the SFC. Single-root template, Options API, validated props, declared `emits`, BEM `ui-<name>--<modifier>`. **No inline `<style>` block** — link the CSS file via `<style src="./<name>.css" scoped></style>`.
 1b. `src/components/<name>/<name>.css` — the actual CSS rules (folder name lowercase, Vue file PascalCase, CSS file lowercase).
@@ -39,10 +40,11 @@ A new component touches **eight files** in one change — anything less and `tes
 5. `playground-vue2/src/main.js` — register globally with `Vue.component(...)`.
 6. `playground-vue3/src/App.vue` — append a showcase `<section>` exercising every variant.
 7. `playground-vue2/src/App.vue` — append the **same** section (keep the two App.vue in sync).
+8. `storybook-vue3/stories/<Name>.stories.js` — CSF 2 file. Required exports: `Primary`, `AllVariants`, `Matrix` (when 2+ prop axes), one slot story, and `FocusVisible` (with `tabindex="0"`) if the component has `:focus-visible` styling. Storybook auto-loads `src/styles/index.css` via `.storybook/preview.js` — don't import per-story.
 
-Then `npm run test:build` to compile-check both versions, and `dev:vue3` / `dev:vue2` for visual.
+Then `npm run test:build` to compile-check both versions, `dev:vue3` / `dev:vue2` for visual, and `cd storybook-vue3 && npm run storybook` for the docs view.
 
-The skill at `.claude/skills/figma-to-component/SKILL.md` automates steps 1–7 from a Figma URL and runs `test:build` itself before handing off.
+The skill at `.claude/skills/figma-to-component/SKILL.md` automates steps 1–8 from a Figma URL and runs `test:build` itself before handing off.
 
 ## Commands
 
@@ -57,12 +59,16 @@ npm run build           # no-op, prints reminder
 
 npm run build:vue3      # production build of playground-vue3 (compile check)
 npm run build:vue2      # production build of playground-vue2 (compile check)
-npm run test:build      # both builds in parallel via concurrently — Tier 1 dual-compat compile check
+npm run build:storybook # build storybook-vue3 (compile check for stories)
+npm run test:build      # all 3 builds in parallel via concurrently — full Tier 1 dual-compat + stories check (~16s)
+npm run test:storybook  # alias for build:storybook (when only stories changed)
 ```
 
 `preview` is the daily driver while authoring components: it brings up both Vue 2 and Vue 3 dev servers at once with HMR, prefixed output (`[vue3]` / `[vue2]`), and Ctrl+C kills both. Open `localhost:8001` (Vue 3) and `localhost:8080` (Vue 2) side-by-side to spot dual-compat regressions in real time. No `--kill-others-on-fail` here — if one dev server crashes the other keeps running so you don't lose state on the working side.
 
-`test:build` is the cheapest CI signal: runs both vite and webpack builds in parallel via `concurrently` (with `--kill-others-on-fail` so one failure stops the other). If either fails, the component has a compile-time issue (banned API, fragment, `:deep()`, syntax) on that Vue version. It only catches what compilers see — runtime warnings (prop validators, slot quirks) still need visual verification via `dev:vue3` / `dev:vue2`.
+`test:build` is the comprehensive CI signal: runs vite (Vue 3 playground), webpack 4 (Vue 2 playground), and storybook all in parallel via `concurrently` (with `--kill-others-on-fail` so one failure stops the others). Wallclock ~16s, dominated by storybook. If any of the three fails, the component has a compile-time issue (banned API, fragment, `:deep()`, broken story import, syntax) on that target. It only catches what compilers see — runtime warnings (prop validators, slot quirks) still need visual verification via `dev:vue3` / `dev:vue2` / `npm run storybook`.
+
+Storybook auto-loads the design tokens via `storybook-vue3/.storybook/preview.js` (`import '../../src/styles/index.css'`). New components depending on `var(--*)` will render correctly without per-story imports.
 
 Vite-side gotcha encoded in `playground-vue3/vite.config.js`: `resolve.dedupe: ['vue']` is required because the lib is aliased to `../src` (which has no `node_modules`). Without dedupe, Rollup fails to resolve the `vue` import that `@vitejs/plugin-vue` injects when compiling SFCs from outside the playground's tree.
 

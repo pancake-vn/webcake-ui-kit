@@ -14,7 +14,9 @@
     "preview": "concurrently --names vue3,vue2 --prefix-colors cyan,magenta \"npm:dev:vue3\" \"npm:dev:vue2\"",
     "build:vue2": "cd playground-vue2 && npm run build",
     "build:vue3": "cd playground-vue3 && npm run build",
-    "test:build": "concurrently --kill-others-on-fail --names vue3,vue2 --prefix-colors cyan,magenta \"npm:build:vue3\" \"npm:build:vue2\""
+    "build:storybook": "cd storybook-vue3 && npm run build-storybook",
+    "test:build": "concurrently --kill-others-on-fail --names vue3,vue2,sb --prefix-colors cyan,magenta,yellow \"npm:build:vue3\" \"npm:build:vue2\" \"npm:build:storybook\"",
+    "test:storybook": "npm run build:storybook"
   },
   "peerDependencies": {
     "vue": "^2.6.0 || ^3.0.0"
