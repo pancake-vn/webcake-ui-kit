@@ -16,6 +16,16 @@ export default {
       options: ROUNDNESS
     },
     label: { control: 'text' }
+  },
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Compact label for status, counts, or metadata. Seven semantic `variant`s and two ' +
+          '`roundness` values. Supports `icon-left` / `icon-right` slots; default slot or `label` ' +
+          'prop sets the text. Rendered as an inline `<span>` so it can sit inside paragraphs.'
+      }
+    }
   }
 }
 
@@ -33,6 +43,14 @@ Primary.args = { variant: 'primary', roundness: 'default', label: 'Label' }
 export const Round = Template.bind({})
 Round.args = { variant: 'primary', roundness: 'round', label: 'Label' }
 
+Primary.parameters = {
+  docs: { description: { story: 'Default `primary` variant with default roundness.' } }
+}
+
+Round.parameters = {
+  docs: { description: { story: 'Pill shape via `roundness="round"` — useful for counts and tags.' } }
+}
+
 export const AllVariants = () => ({
   components: { Badge },
   setup() {
@@ -44,6 +62,10 @@ export const AllVariants = () => ({
     </div>
   `
 })
+
+AllVariants.parameters = {
+  docs: { description: { story: 'All seven semantic variants at default roundness.' } }
+}
 
 export const Matrix = () => ({
   components: { Badge },
@@ -68,6 +90,10 @@ export const Matrix = () => ({
   `
 })
 
+Matrix.parameters = {
+  docs: { description: { story: 'Cartesian product of `variant` × `roundness`.' } }
+}
+
 export const WithIcons = () => ({
   components: { Badge },
   template: `
@@ -79,6 +105,10 @@ export const WithIcons = () => ({
   `
 })
 
+WithIcons.parameters = {
+  docs: { description: { story: 'Slots `icon-left` and `icon-right` accept any inline content.' } }
+}
+
 export const FocusVisible = () => ({
   components: { Badge },
   template: `
@@ -88,3 +118,10 @@ export const FocusVisible = () => ({
     </div>
   `
 })
+FocusVisible.parameters = {
+  docs: {
+    description: {
+      story: 'Tab through to verify the `:focus-visible` ring (only shown for keyboard focus).'
+    }
+  }
+}
