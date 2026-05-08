@@ -27,7 +27,7 @@ Use `mcp__plugin_figma_figma__get_design_context` + `get_variable_defs` (+ `get_
   - **Variants** (visual style axes the consumer chooses) → **props**. Examples: `variant` ∈ {primary, secondary, danger}, `size` ∈ {sm, md, lg}, `roundness` ∈ {default, round}, `disabled` (a toggleable mode), `loading`.
   - **Interaction states** (browser-driven, triggered by user events) → **CSS pseudo-classes**, never props. Examples: Figma "Hover" → `:hover`, Figma "Focus" / "Focused" → `:focus-visible`, Figma "Pressed" / "Active" → `:active`. Do **not** create props like `hovered: Boolean` or `focused: Boolean`. The browser handles these states; the component only provides the styling.
   - **Edge case**: if the design has a state that browsers can't express (e.g. "Selected" in a tab group, where selection is logical not interactive), that IS a prop — name it `selected` / `active` / etc. and toggle a class.
-  Sanity-fix typos in variant names (e.g. Figma "Infor" → `info`); call this out in the review, don't ask first.
+    Sanity-fix typos in variant names (e.g. Figma "Infor" → `info`); call this out in the review, don't ask first.
 - **Slots**: where does user content go? (default slot, icon-left, icon-right, etc.). Mark anything that's clearly content (not a fixed asset) as a slot. Convert React-style boolean toggles like `showLeftIcon` + `iconLeft: ReactNode` to a single named slot — slot presence determines visibility.
 - **Events**: clickable surfaces → `click`; inputs → `input` + `change` (and `update:modelValue` for Vue 3 v-model). Pure presentational components (Badge, Tag, Chip-with-no-onClick) get `emits: []`.
 - **Tokens — DEFAULT BEHAVIOR, do not ask:** the repo has a full token system in `src/styles/*.css` (`color_general.css`, `spacing.css`, `typography.css`, `border_radius.css`, `shadow.css`, `alpha_colors.css`, `raw_colors.css`, `brand_colors.css`). **Always** map Figma values to existing CSS vars; never inline hex/px. If a needed semantic token is missing but a raw color exists, add a semantic alias to the appropriate group in `color_general.css` (and mirror in `.dark` if color differs in dark mode). Add reusable effects (focus rings, etc.) to `shadow.css`. The legacy `Button.vue` inlines literals — that file is the exception, not the rule. Don't ask the user about token policy.
@@ -59,7 +59,16 @@ Apply the SFC skeleton from `vue-dual-component` skill. Repo-specific rules — 
 
 Steps 1–8 are non-negotiable for a single component change.
 
-Re-read `vue-dual-component` SKILL.md before writing — apply its DON'T list strictly. Most common mistakes that slip in from Figma-flavored output: multiple root nodes (Figma frames often produce two siblings), `<script setup>` (Composition API is banned here), `v-model:foo` syntax, reading `class` off `$attrs`.
+After writing, **before handing off to Phase 3**, run the auto-fix pass:
+
+```
+npm run lint:fix     # eslint --fix on changed files
+npm run format       # prettier --write across the repo
+```
+
+Both should leave a clean tree. If `lint:fix` reports remaining errors (not auto-fixable), fix them manually before Phase 3. The most common one for Figma-derived code: a forbidden Composition API import slipped into the SFC (the lint rule `no-restricted-imports` blocks `ref`/`reactive`/`computed`/`setup` family from `vue` in `src/`). Rewrite to Options API.
+
+Re-read `vue-dual-component` SKILL.md before writing — apply its DON'T list strictly. Most common mistakes that slip in from Figma-flavored output: multiple root nodes (Figma frames often produce two siblings), `<script setup>` (Composition API is banned here AND blocked by ESLint), `v-model:foo` syntax (ESLint rule `vue/no-v-model-argument`), reading `class` off `$attrs`. Match the Prettier style up front (single quotes, no semi, `printWidth: 120`, `arrowParens: 'avoid'`) — saves a noisy reformat pass.
 
 ### Showcase template (steps 6–7)
 
@@ -78,6 +87,7 @@ After Phase 2 (steps 1–8) is complete, **load and run the `component-review` s
 Pass the component name to the review skill (e.g. "review Badge"). It returns a structured report; surface that report verbatim in your reply, with the Figma-specific fidelity check below appended.
 
 **Fidelity review (Figma-specific — append to the component-review report):**
+
 - [ ] Every variant value in the Figma node maps to a prop value (with sane typo fixes called out).
 - [ ] Every interaction state shown in Figma (Hover / Focus / Pressed / Disabled) maps to CSS pseudo-class rules in the `.css` file.
 - [ ] Slot positions match content placeholders in the Figma design.

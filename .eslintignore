@@ -1,0 +1,10 @@
+node_modules
+dist
+storybook-static
+package-lock.json
+playground-vue2/dist
+playground-vue3/dist
+storybook-vue3/storybook-static
+playground-vue2/node_modules
+playground-vue3/node_modules
+storybook-vue3/node_modules

@@ -14,5 +14,5 @@
   margin: 0;
   box-sizing: border-box;
   font-family: var(--font-family-sans);
-  border: 0 solid var(--border-primary)
+  border: 0 solid var(--border-primary);
 }

@@ -55,11 +55,41 @@ The CSS lives in a separate file (not `<style scoped>` inline) so styles are eas
 
 Legacy components (`Button.vue`, `Badge.vue`) at the flat path are grandfathered. Don't refactor them unless explicitly asked.
 
+## Code style — Prettier + ESLint enforced
+
+The repo runs **Prettier** + **ESLint** (config at root: `.prettierrc.json`, `.eslintrc.cjs`). A Husky `pre-commit` hook runs `lint-staged` (`eslint --fix` + `prettier --write`) on staged files, so commits fix style automatically — but write code in the target style up front to keep diffs clean.
+
+**Prettier (write code matching these rules):**
+
+- `singleQuote: true` — `'foo'`, never `"foo"` in JS/script blocks.
+- `semi: false` — no trailing semicolons in JS/script blocks.
+- `printWidth: 120` — break long lines at ~120 chars, not 80.
+- `tabWidth: 2`, `trailingComma: 'none'`, `arrowParens: 'avoid'` (`v => …`, not `(v) => …`).
+- LF line endings.
+
+**ESLint (`vue/vue3-essential` + `prettier`):**
+
+- **Composition API imports from `vue` are banned in `src/`** via `no-restricted-imports`. Forbidden named imports: `ref`, `reactive`, `computed`, `watch`, `watchEffect`, `onMounted`/`onBeforeMount`/`onUnmounted`/`onBeforeUnmount`/`onUpdated`/`onBeforeUpdate`, `defineComponent`, `defineAsyncComponent`, `defineProps`/`defineEmits`/`defineExpose`, `toRef`/`toRefs`, `shallowRef`/`shallowReactive`, `readonly`, `inject`/`provide`. Importing any of these in `src/**` fails the lint.
+- `vue/no-v-model-argument` and `vue/no-multiple-template-root` are errors in `src/**` — backstop for the dual-compat rules above.
+- Two rules are intentionally **disabled** so don't fight them:
+  - `vue/no-reserved-component-names` — off (the `Button` component name is deliberate).
+  - `vue/no-deprecated-dollar-scopedslots-api` — off (this repo _requires_ `$scopedSlots || $slots` for Vue 2.6+ slot detection; see DO rule #9).
+
+**Verify before declaring done** (run from repo root):
+
+```
+npm run lint           # eslint . — must exit 0
+npm run format:check   # prettier --check . — must exit 0
+```
+
+If either fails, run `npm run lint:fix` and `npm run format` to auto-fix, then re-check.
+
 ## Required SFC skeleton
 
 Two files. Copy verbatim when creating a new component, then edit:
 
 **`src/components/foo/Foo.vue`**
+
 ```vue
 <template>
   <div :class="['ui-foo', `ui-foo--${variant}`]">
@@ -97,6 +127,7 @@ export default {
 ```
 
 **`src/components/foo/foo.css`**
+
 ```css
 .ui-foo {
   display: inline-flex;
@@ -106,8 +137,14 @@ export default {
   font-size: var(--paragraph-mini-font-size);
   border-radius: var(--rounded-lg);
 }
-.ui-foo--default { background: var(--secondary-bg); color: var(--secondary-fg); }
-.ui-foo--alt { background: var(--primary-brand-bg); color: var(--inverse-fg); }
+.ui-foo--default {
+  background: var(--secondary-bg);
+  color: var(--secondary-fg);
+}
+.ui-foo--alt {
+  background: var(--primary-brand-bg);
+  color: var(--inverse-fg);
+}
 ```
 
 ## Workflow when adding/editing a component
@@ -115,7 +152,7 @@ export default {
 A "single component change" touches **nine** places — keep them in sync, edit them in one diff:
 
 1. `src/components/<name>/<Name>.vue` — the SFC (template + script + `<style src="./<name>.css" scoped></style>`).
-1b. `src/components/<name>/<name>.css` — the CSS rules. **No inline `<style>` block in the SFC.**
+   1b. `src/components/<name>/<name>.css` — the CSS rules. **No inline `<style>` block in the SFC.**
 2. `src/index.js` — add the named export, alphabetical: `export { default as <Name> } from './components/<name>/<Name>.vue'`.
 3. `src/styles/*.css` — add any missing semantic tokens (color → `color_general.css` + `.dark`, shadow → `shadow.css`, etc.). Skip if all needed tokens exist.
 4. `playground-vue3/src/main.js` — `import { <Name> } ... ; app.component('<Name>', <Name>)`.
@@ -126,8 +163,9 @@ A "single component change" touches **nine** places — keep them in sync, edit 
 
 Then verify:
 
-9. `npm run test:build` (from repo root) — runs both vite and webpack builds in parallel via `concurrently`. **Must exit 0 on both** before declaring done. If one fails, fix and re-run.
-10. Visual check via `npm run dev:vue3` (port 8001), `npm run dev:vue2` (port 8080), and `npm run storybook` (from `storybook-vue3/`, port 6006). The assistant cannot run these — instruct the user.
+9. `npm run lint` and `npm run format:check` (from repo root) — both must exit 0. If either fails, run `npm run lint:fix` + `npm run format` to auto-fix and re-check. The Husky `pre-commit` hook runs lint-staged on changed files automatically at commit time, but verifying ahead keeps the diff clean.
+10. `npm run test:build` (from repo root) — runs both vite and webpack builds + storybook in parallel via `concurrently`. **Must exit 0 on all three** before declaring done. If one fails, fix and re-run.
+11. Visual check via `npm run dev:vue3` (port 8001), `npm run dev:vue2` (port 8080), and `npm run storybook` (from `storybook-vue3/`, port 6006). The assistant cannot run these — instruct the user.
 
 First-time setup: each playground needs `npm i` in its own folder. `playground-vue2` requires Node 14 per README (webpack 4 + vue-loader 15 + native deps). If `npm i` fails on a newer Node, that's the cause — don't try to upgrade webpack/vue-loader to "fix" it.
 
@@ -146,6 +184,7 @@ Run through this list mentally against your diff:
 - [ ] No props for interaction states (hover/focus/active). Those are CSS pseudo-classes.
 - [ ] New component is exported from `src/index.js`.
 - [ ] User has been instructed to verify visually in **both** `dev:vue2` and `dev:vue3` (assistant cannot run playgrounds; don't claim "tested on both").
+- [ ] `npm run lint` exits 0 (no Composition API imports in `src/`, no v-model arg, single template root) AND `npm run format:check` exits 0 (Prettier-clean: single quotes, no semi, 120-col, no trailing commas).
 
 ## When the rules conflict with a feature request
 

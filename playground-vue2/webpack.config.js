@@ -1,6 +1,6 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   mode: 'development',
@@ -15,7 +15,7 @@ module.exports = {
     hot: true,
     open: true,
     headers: {
-      "Access-Control-Allow-Origin": "*"
+      'Access-Control-Allow-Origin': '*'
     }
   },
   module: {
@@ -45,15 +45,9 @@ module.exports = {
     extensions: ['.js', '.vue'],
 
     alias: {
-      vue$: path.resolve(
-        __dirname,
-        'node_modules/vue/dist/vue.esm.js'
-      ),
+      vue$: path.resolve(__dirname, 'node_modules/vue/dist/vue.esm.js'),
 
-      vue: path.resolve(
-        __dirname,
-        'node_modules/vue'
-      )
+      vue: path.resolve(__dirname, 'node_modules/vue')
     }
   }
-};
+}

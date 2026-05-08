@@ -1,9 +1,5 @@
 <template>
-  <button
-    :class="['ui-btn', `ui-btn--${type}`, `ui-btn--${size}`]"
-    :disabled="disabled"
-    @click="handleClick"
-  >
+  <button :class="['ui-btn', `ui-btn--${type}`, `ui-btn--${size}`]" :disabled="disabled" @click="handleClick">
     <slot></slot>
   </button>
 </template>

@@ -33,7 +33,7 @@ Three project-scoped skills encode the workflow:
 A new component touches **nine files** in one change — anything less and `test:build` is meaningless:
 
 1. `src/components/<name>/<Name>.vue` — the SFC. Single-root template, Options API, validated props, declared `emits`, BEM `ui-<name>--<modifier>`. **No inline `<style>` block** — link the CSS file via `<style src="./<name>.css" scoped></style>`.
-1b. `src/components/<name>/<name>.css` — the actual CSS rules (folder name lowercase, Vue file PascalCase, CSS file lowercase).
+   1b. `src/components/<name>/<name>.css` — the actual CSS rules (folder name lowercase, Vue file PascalCase, CSS file lowercase).
 2. `src/index.js` — named export, alphabetical: `export { default as <Name> } from './components/<name>/<Name>.vue'`.
 3. `src/styles/*.css` — add any missing semantic tokens (most are already there).
 4. `playground-vue3/src/main.js` — register globally with `app.component(...)`.

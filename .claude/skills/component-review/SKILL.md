@@ -60,7 +60,27 @@ Read the linked `.css` file:
 - [ ] `playground-vue2/src/App.vue` has the **same** section (literal copy — drift is the #1 cause of "works on one Vue but not the other" misses).
 - [ ] `storybook-vue3/stories/<Name>.stories.js` exists with required exports: `Primary`, `AllVariants`, `Matrix` (when 2+ prop axes), one slot story, `FocusVisible` (with `tabindex="0"`) if the component has `:focus-visible` styling.
 
-## Step 5 — Compile-time verification (run yourself)
+## Step 5 — Lint + format check (run yourself)
+
+Run from repo root:
+
+```
+npm run lint           # eslint . — must exit 0
+npm run format:check   # prettier --check . — must exit 0
+```
+
+Common failures for new components:
+
+- **Composition API import in `src/`** — `no-restricted-imports` rule blocks `ref`/`reactive`/`computed`/`watch`/`setup`-family/`defineComponent`/etc. from `vue` inside `src/**`. Rewrite to Options API.
+- **`v-model:argName` in template** — `vue/no-v-model-argument` (Vue-3-only syntax breaks Vue 2).
+- **Multiple template roots** — `vue/no-multiple-template-root` (breaks Vue 2 fragments).
+- **Prettier diff** — usually trailing semicolons, double quotes, or lines over 120 chars. Run `npm run format` to auto-fix; re-run `format:check`.
+
+If both fail and the diff is small + obvious (whitespace, quote style), run `npm run lint:fix && npm run format` and re-check. Otherwise report failures with the exact rule name and file path; let the author fix substantive lint errors. Don't disable rules to silence a real violation.
+
+The Husky `pre-commit` hook would catch these at commit time anyway, but the review must report them up front so they don't surprise the user.
+
+## Step 6 — Compile-time verification (run yourself)
 
 Run from repo root:
 
@@ -68,11 +88,11 @@ Run from repo root:
 npm run test:build
 ```
 
-Both vue3 and vue2 must exit code 0. If `test:storybook` exists, run that too (or `test:all` if defined). Fix-loop on failure: read error, identify file/version, edit, re-run. Don't hand back a broken state.
+All three targets (vue3, vue2, storybook) must exit code 0. Fix-loop on failure: read error, identify file/version, edit, re-run. Don't hand back a broken state.
 
 If a build fails because a playground lacks `node_modules` or storybook hasn't been installed, instruct the user — don't try to install yourself unless they say so. Note: `playground-vue2` is pinned to Node 14 (per README); newer Node may break `npm i` for webpack 4.
 
-## Step 6 — Fidelity check (against source intent)
+## Step 7 — Fidelity check (against source intent)
 
 If the component was generated from a Figma node, re-fetch via `mcp__plugin_figma_figma__get_screenshot` (just the URL — don't embed inline) and verify:
 
@@ -84,7 +104,7 @@ If the component was generated from a Figma node, re-fetch via `mcp__plugin_figm
 
 If no Figma source, skip this step but note in the report.
 
-## Step 7 — Visual handoff
+## Step 8 — Visual handoff
 
 The assistant **cannot** verify rendering. Tell the user the exact commands and what to look for:
 
@@ -94,6 +114,7 @@ cd storybook-vue3 && npm run storybook   # Storybook on port 6006
 ```
 
 Specifically ask the user to verify:
+
 1. Component renders identically on `localhost:8001` (Vue 3) and `localhost:8080` (Vue 2). Diffs between the two = dual-compat regression.
 2. Tab into focusable cases — `:focus-visible` ring appears with correct color (default ring vs error ring on destructive).
 3. Storybook controls panel works (changing `variant` dropdown re-renders).
@@ -105,7 +126,7 @@ Don't claim "verified visually" without the user reporting back.
 End the review with:
 
 1. **Pass / fail** verdict (one line).
-2. The 6 audit sections above, each with `✅` or `❌` + concrete fix instruction for any failure.
+2. The 7 audit sections above (file layout, dual-compat static, CSS, wiring, lint+format, build, fidelity), each with `✅` or `❌` + concrete fix instruction for any failure.
 3. The 3 commands the user should run to verify visually.
 4. Any open items punted (e.g. "Figma showed a `loading` state — not implemented; ask if needed").
 
