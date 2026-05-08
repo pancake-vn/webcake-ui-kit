@@ -112,7 +112,7 @@ export default {
 
 ## Workflow when adding/editing a component
 
-A "single component change" touches **eight** places — keep them in sync, edit them in one diff:
+A "single component change" touches **nine** places — keep them in sync, edit them in one diff:
 
 1. `src/components/<name>/<Name>.vue` — the SFC (template + script + `<style src="./<name>.css" scoped></style>`).
 1b. `src/components/<name>/<name>.css` — the CSS rules. **No inline `<style>` block in the SFC.**
@@ -122,11 +122,12 @@ A "single component change" touches **eight** places — keep them in sync, edit
 5. `playground-vue2/src/main.js` — same, but `Vue.component(...)`.
 6. `playground-vue3/src/App.vue` — append a `<section>` exercising every variant + slot + interactive state.
 7. `playground-vue2/src/App.vue` — append the **same** section (template syntax is portable across both versions; copy verbatim).
+8. `storybook-vue3/stories/<Name>.stories.js` — CSF 2 file matching the convention from `Button.stories.js` / `Badge.stories.js`. Include named exports `Primary`, `AllVariants`, `Matrix` (when 2+ prop axes), a slot story (e.g. `WithIcons`), and `FocusVisible` (with `tabindex="0"`) if the component has `:focus-visible` styling. Use `argTypes` with `control: { type: 'select' }` for enum props so the Storybook controls panel exposes them. Storybook auto-loads styles via `.storybook/preview.js` (`import '../../src/styles/index.css'`) — don't import them per-story.
 
 Then verify:
 
-8. `npm run test:build` (from repo root) — runs both vite and webpack builds in parallel via `concurrently`. **Must exit 0 on both** before declaring done. If one fails, fix and re-run.
-9. Visual check via `npm run dev:vue3` (port 8001) and `npm run dev:vue2` (port 8080). The assistant cannot do this — instruct the user.
+9. `npm run test:build` (from repo root) — runs both vite and webpack builds in parallel via `concurrently`. **Must exit 0 on both** before declaring done. If one fails, fix and re-run.
+10. Visual check via `npm run dev:vue3` (port 8001), `npm run dev:vue2` (port 8080), and `npm run storybook` (from `storybook-vue3/`, port 6006). The assistant cannot run these — instruct the user.
 
 First-time setup: each playground needs `npm i` in its own folder. `playground-vue2` requires Node 14 per README (webpack 4 + vue-loader 15 + native deps). If `npm i` fails on a newer Node, that's the cause — don't try to upgrade webpack/vue-loader to "fix" it.
 
@@ -140,6 +141,7 @@ Run through this list mentally against your diff:
 - [ ] No banned APIs from the DON'T list (incl. no `:deep()`).
 - [ ] All colors/spacing/radius/typography in the component CSS use `var(--*)` from `src/styles/*.css` — no inline hex/px.
 - [ ] Component lives at `src/components/<name>/<Name>.vue` + `src/components/<name>/<name>.css` (folder-per-component). SFC's `<style>` uses `src="./<name>.css" scoped`, not an inline block.
+- [ ] Storybook story exists at `storybook-vue3/stories/<Name>.stories.js` covering Primary + AllVariants + Matrix + slot + FocusVisible cases.
 - [ ] Named slot detection uses the `$scopedSlots || $slots` dual-compat check (if applicable).
 - [ ] No props for interaction states (hover/focus/active). Those are CSS pseudo-classes.
 - [ ] New component is exported from `src/index.js`.
