@@ -10,14 +10,19 @@
     "dev": "vite",
     "build": "echo 'No need to build - shipping raw SFC'",
     "dev:vue2": "cd playground-vue2 && npm run dev",
-    "dev:vue3": "cd playground-vue3 && npm run dev"
+    "dev:vue3": "cd playground-vue3 && npm run dev",
+    "preview": "concurrently --names vue3,vue2 --prefix-colors cyan,magenta \"npm:dev:vue3\" \"npm:dev:vue2\"",
+    "build:vue2": "cd playground-vue2 && npm run build",
+    "build:vue3": "cd playground-vue3 && npm run build",
+    "test:build": "concurrently --kill-others-on-fail --names vue3,vue2 --prefix-colors cyan,magenta \"npm:build:vue3\" \"npm:build:vue2\""
   },
   "peerDependencies": {
     "vue": "^2.6.0 || ^3.0.0"
   },
   "devDependencies": {
-    "vite": "^2.9.15",
-    "@vitejs/plugin-vue": "^2.3.4"
+    "@vitejs/plugin-vue": "^2.3.4",
+    "concurrently": "^7.6.0",
+    "vite": "^2.9.15"
   },
   "repository": {
     "type": "git",

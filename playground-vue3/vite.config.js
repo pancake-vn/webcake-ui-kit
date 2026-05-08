@@ -7,7 +7,8 @@ export default defineConfig({
   resolve: {
     alias: {
       'webcake-ui-kit': path.resolve(__dirname, '../src')
-    }
+    },
+    dedupe: ['vue']
   },
   server: {
     port: 8001
