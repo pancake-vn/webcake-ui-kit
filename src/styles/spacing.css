@@ -1,0 +1,34 @@
+@layer base {
+    :root {
+        /* ========================= Spacing Scale ========================= */
+        --spacing-3xs: 0.5px;
+        --spacing-2xs: 1px;
+        --spacing-xs: 2px;
+        --spacing-sm: 3px;
+        --spacing-md: 4px;
+        --spacing-lg: 5px;
+        --spacing-xl: 6px;
+        --spacing-2xl: 8px;
+        --spacing-3xl: 10px;
+        --spacing-4xl: 12px;
+        --spacing-5xl: 16px;
+        --spacing-6xl: 20px;
+        --spacing-7xl: 24px;
+        --spacing-8xl: 28px;
+        --spacing-9xl: 32px;
+        --spacing-10xl: 36px;
+        /* ========================= Hacks to Fit Scale ========================= */
+        --spacing-3: 3px;
+        --spacing-5: 5px;
+        --spacing-5p5: 5.5px;
+        --spacing-6: 6px;
+        --spacing-7: 7px;
+        --spacing-7p5: 7.5px;
+        --spacing-8p5: 8.5px;
+        --spacing-9: 9px;
+        --spacing-9p5: 9.5px;
+        --spacing-10: 10px;
+        --spacing-14: 14px;
+        --spacing-15p5: 15.5px;
+    }
+}

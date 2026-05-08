@@ -1,0 +1,35 @@
+@layer base {
+    :root {
+        /* Chart */
+        --chart-1: #F54A00;
+        --chart-2: #009689;
+        --chart-3: #104E64;
+        --chart-4: #FFB900;
+        --chart-5: #FE9A00;
+
+        --positive: #009689;
+        --negative: #F54A00;
+        
+        --fill: #BFDEFFB3;
+        --stroke: #8EC5FF;
+        --fill-2: #AACCFFB3;
+        --stroke-2: #3F8DFF;
+    }
+
+    .dark {
+        /* Chart */
+        --chart-1: #1447E6;
+        --chart-2: #00BC7D;
+        --chart-3: #FD9A00;
+        --chart-4: #AD46FF;
+        --chart-5: #FF2056;
+
+        --positive: #00BC7D;
+        --negative: #FF2056;
+
+        --fill: #475D75B3;
+        --stroke: #8EC5FF;
+        --fill-2: #1F4176B3;
+        --stroke-2: #3F8DFF;
+    }
+}

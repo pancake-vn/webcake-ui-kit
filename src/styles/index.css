@@ -1,3 +1,13 @@
+@import './alpha_colors.css';
+@import './border_radius.css';
+@import './brand_colors.css';
+@import './chart_colors.css';
+@import './color_general.css';
+@import './raw_colors.css';
+@import './shadow.css';
+@import './typography.css';
+@import './spacing.css';
+
 * {
   padding: 0;
   margin: 0;
