@@ -22,7 +22,10 @@ Components must compile under both Vue 2.7 (Options API era, vue-template-compil
 - **Avoid Vue-3-only features** (`<Teleport>`, `<Suspense>`, `v-model:arg`, multi v-model) and **Vue-2-only features** (filters, `.native`, `$listeners`, `Vue.set`/`Vue.extend`).
 - **`$attrs` divergence:** Vue 3's `$attrs` includes `class`/`style`, Vue 2's does not. Don't read these off `$attrs`.
 
-A project-scoped skill at `.claude/skills/vue-dual-component/SKILL.md` encodes the full DO/DON'T list and the SFC skeleton — it auto-loads on edits to `src/components/*.vue` or `src/index.js`.
+Two project-scoped skills encode the workflow:
+
+- `.claude/skills/vue-dual-component/SKILL.md` — full DO/DON'T list + SFC skeleton. Auto-loads on edits to `src/components/*.vue` or `src/index.js`.
+- `.claude/skills/figma-to-component/SKILL.md` — orchestrates Figma → SFC: composes the Figma MCP (`mcp__plugin_figma_figma__*`) and the `figma:figma-implement-design` skill with the dual-compat rules above, then runs a review checklist. Triggers on prompts like "Implement this design from Figma. @<figma.com URL>".
 
 ## Adding a component
 

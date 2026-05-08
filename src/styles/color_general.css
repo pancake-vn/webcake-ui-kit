@@ -62,6 +62,7 @@
     /* Notification */
     --positive-500: var(--color-green-500);
     --info-500: var(--color-blue-500);
+    --warning-500: var(--color-yellow-500);
     /* Brand */
     --brand-50: var(--color-brand-shades-50);
     --brand-100: var(--color-brand-shades-100);
@@ -158,6 +159,10 @@
     --green-500: var(--color-green-500);
     --blue-500: var(--color-blue-500);
     --yellow-500: var(--color-yellow-500);
+
+    --positive-500: var(--color-green-500);
+    --info-500: var(--color-blue-500);
+    --warning-500: var(--color-yellow-500);
 
     /* Brand */
     --brand-50: var(--color-brand-shades-950);
