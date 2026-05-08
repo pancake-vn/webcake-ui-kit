@@ -1,7 +1,7 @@
 module.exports = {
   stories: ['../stories/**/*.stories.js'],
 
-  addons: ['@storybook/addon-essentials'],
+  addons: ['@storybook/addon-essentials', 'storybook-dark-mode'],
 
   framework: '@storybook/vue3',
 
