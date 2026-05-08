@@ -37,14 +37,34 @@ Use `mcp__plugin_figma_figma__get_design_context` + `get_variable_defs` (+ `get_
 
 ## Phase 2 — Generate
 
-Apply the SFC skeleton from `vue-dual-component` skill. Repo-specific rules:
+Apply the SFC skeleton from `vue-dual-component` skill. Repo-specific rules — **all of these are mandatory for one component, edit them all in the same change**:
 
-1. File path: `src/components/<Name>.vue`. Mirror `Button.vue`'s structure exactly — `<template>` (single root), `<script>` (Options API: `name`, `props` with `validator`, `emits`, `methods`), `<style scoped>` (BEM `ui-<name>--<modifier>`).
-2. Register the export in `src/index.js`: `export { default as <Name> } from './components/<Name>.vue'`. Keep exports alphabetical for stable diffs.
-3. Tokens go in the right file: colors → `color_general.css` (mirror in `.dark`), spacing → `spacing.css`, radius → `border_radius.css`, typography → `typography.css`, effects/shadows → `shadow.css`. Don't dump everything into `index.css`. Component-only values (e.g. an icon size of 12px specific to Badge) can stay in the SFC's `<style scoped>`.
-4. **Do not** create stories or playground entries automatically — the user adds those when ready. If the design has many variants worth showcasing, mention it in the review and offer to add a story to `storybook-vue3/stories/`.
+1. **The SFC pair (folder per component)**: create `src/components/<name>/` with two files:
+   - `<Name>.vue` — `<template>` (single root), `<script>` (Options API: `name`, `props` with `validator`, `emits`, `methods`), and a single style link line: `<style src="./<name>.css" scoped></style>`. **No inline CSS rules in the SFC.**
+   - `<name>.css` — all the BEM rules (`ui-<name>`, `ui-<name>--<modifier>`, `ui-<name>__<element>`, `:hover` / `:focus-visible` / `:active` pseudos for interaction states). Uses `var(--*)` tokens from `src/styles/*.css`.
+
+   Folder name is **lowercase**, Vue file is **PascalCase**, CSS file is **lowercase**. Example: `src/components/badge/Badge.vue` + `src/components/badge/badge.css`. Don't `import './foo.css'` from `<script>` — that produces global CSS and breaks scoping; always link via `<style src=... scoped>`.
+
+2. **Library export**: `src/index.js` — add `export { default as <Name> } from './components/<name>/<Name>.vue'`. Keep exports alphabetical for stable diffs.
+3. **Tokens**: colors → `color_general.css` (mirror in `.dark`), spacing → `spacing.css`, radius → `border_radius.css`, typography → `typography.css`, effects/shadows → `shadow.css`. Don't dump everything into `index.css`. Component-only values (e.g. an icon size of 12px specific to Badge) can stay in the SFC's `<style scoped>`.
+4. **Vue 3 playground registration**: `playground-vue3/src/main.js` — import the new component and call `app.component('<Name>', <Name>)`. Sort imports alphabetical.
+5. **Vue 2 playground registration**: `playground-vue2/src/main.js` — same, but `Vue.component('<Name>', <Name>)`.
+6. **Vue 3 showcase**: append a `<section>` to `playground-vue3/src/App.vue` exercising the component's full variant matrix (every prop value × at least one slot scenario × any `:focus-visible` / `:hover` case worth eyeballing). The section is what makes `test:build` actually compile the component — without it the build is a no-op for verification purposes.
+7. **Vue 2 showcase**: append the **same** `<section>` to `playground-vue2/src/App.vue` (template syntax is portable since both Vue 2.6+ and Vue 3 support `#name` slot shorthand). Keep the two App.vue files in sync — drift between them is the most common reason "works on Vue 3 but breaks on Vue 2" gets missed.
+
+Steps 1–7 are non-negotiable for a single component change. **Don't** create Storybook stories automatically (Storybook uses a heavier per-component file format) — only mention in review and offer to add if the user wants it.
 
 Re-read `vue-dual-component` SKILL.md before writing — apply its DON'T list strictly. Most common mistakes that slip in from Figma-flavored output: multiple root nodes (Figma frames often produce two siblings), `<script setup>` (Composition API is banned here), `v-model:foo` syntax, reading `class` off `$attrs`.
+
+### Showcase template (steps 6–7)
+
+Aim for a minimal but representative block. For a component with a `variant` × `size` matrix, use a `v-for` table; for a simple component, a single row of representative cases is fine. Include at least:
+
+- One row/cell per variant value (so all branches of conditional CSS get rendered).
+- One slot scenario per slot (default + each named slot).
+- For interactive states styled with `:hover` / `:focus-visible` / `:active`, add a case with `tabindex="0"` so it's keyboard-reachable when the user verifies visually.
+
+Use a `data()` array of variant names + `v-for` rather than hand-listing each one — easier to extend, and it exercises Vue's template compilation across both versions.
 
 ## Phase 3 — Review (mandatory before declaring done)
 
@@ -56,15 +76,27 @@ After writing, run this checklist explicitly in the response — don't just clai
 - [ ] `name`, `props` (validated), `emits` declared. No event is emitted that isn't in `emits`.
 - [ ] No banned APIs from `vue-dual-component` DON'T list (`Teleport`, fragments, `.native`, `$listeners`, `class`/`style` from `$attrs`, filters, `Vue.set`, **`:deep(...)`**, etc.).
 - [ ] **No props named `hovered`/`focused`/`pressed`/`active` for interaction states.** Those are `:hover` / `:focus-visible` / `:active` CSS rules. Props are reserved for variants and logical modes.
-- [ ] **All values in `<style scoped>` use `var(--*)` from `src/styles/*.css`.** No inline hex or raw px (icon container sizes are the only acceptable exception).
+- [ ] **Folder layout correct**: `src/components/<name>/<Name>.vue` (PascalCase) + `src/components/<name>/<name>.css` (lowercase). SFC's `<style>` uses `src="./<name>.css" scoped`, no inline rules.
+- [ ] **All values in the CSS file use `var(--*)` from `src/styles/*.css`.** No inline hex or raw px (icon container sizes are the only acceptable exception).
 - [ ] **Named slots use the dual-compat detection pattern** `!!((this.$scopedSlots && this.$scopedSlots['name']) || this.$slots['name'])`.
 - [ ] Class names follow `ui-<name>` / `ui-<name>--<modifier>`.
 - [ ] Export added to `src/index.js` (alphabetical).
+- [ ] **Both playground `main.js` files register the component globally.**
+- [ ] **Both playground `App.vue` files have a showcase section** (kept in sync — same template).
+- [ ] **`npm run test:build` exits 0 on both vue3 and vue2.** (Run it yourself; don't claim "should compile".)
 - [ ] No new build dependency introduced (no TS, JSX, SCSS, Tailwind utilities).
+
+**Compile-time check (run first, can run yourself):**
+
+After Phase 2 (steps 1–7) is complete, run `npm run test:build` from the repo root. This builds both playground-vue3 (Vite) and playground-vue2 (webpack 4) **in parallel via `concurrently`** and fails fast if the component has any banned API, fragment, `:deep()`, or syntax error on either Vue version. Catch and surface failures before handing off.
+
+If the build fails, **fix the SFC and re-run** — don't hand a broken state to the user. Loop: read error → identify which Vue version + which file → edit → re-run `test:build`. Stop only when both exit code 0, or when blocked by something requiring the user (auth, missing dep, Node version).
+
+Prerequisite: each playground needs `node_modules`. If a build fails with "module not found" / missing deps, instruct the user to `cd playground-vue3 && npm i` and `cd playground-vue2 && npm i` first. Note: `playground-vue2` requires Node 14 (per README) — newer Node may break `npm i` for webpack 4 + vue-loader 15. Don't try to "fix" this by upgrading deps; the pin is intentional.
 
 **Visual verification (must instruct user):**
 
-Tell the user the exact commands to run, in this order:
+After compile passes, tell the user the exact commands to run, in this order:
 
 ```
 npm run dev:vue3      # check rendering on Vue 3.4 at localhost:8001
@@ -73,7 +105,7 @@ npm run dev:vue2      # check rendering on Vue 2.7 at localhost:8080
 
 For Vue 2: if the playground was set up before this component was added and `webcake-ui-kit` was installed via `file:..` (not aliased), the user may need `cd playground-vue2 && npm i` to pick up the new file. Mention this proactively — it's the #1 "why doesn't my new component show up" issue in this repo.
 
-Note explicitly in the response: **the assistant cannot run the playgrounds and visually confirm rendering** — that step is the user's. Don't claim "tested on both" without evidence.
+Note explicitly in the response: **the assistant cannot run the playgrounds and visually confirm rendering** (only `test:build` runs without a browser) — visual confirmation is the user's. Don't claim "tested on both" without evidence beyond the compile pass.
 
 **Fidelity review (against Figma):**
 - [ ] All variants from the Figma node are reachable via props.

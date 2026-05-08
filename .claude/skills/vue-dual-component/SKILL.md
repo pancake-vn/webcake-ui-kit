@@ -39,10 +39,27 @@ These either break Vue 2, break Vue 3, or change the public surface in incompati
 - ❌ `:deep(...)` selector function — Vue 3 only. Vue 2 uses `::v-deep` (deprecated in Vue 3). For dual-compat, **don't write deep selectors at all** — let consumers style their own slot content, or pre-size the slot wrapper (e.g. `.ui-foo__icon { width: 12px; height: 12px }`).
 - ❌ Inlining hex colors / raw pixel values in `<style scoped>` when an existing CSS var covers it. Always prefer `var(--token)` — see DO rule #8.
 
+## File layout — folder per component
+
+**New components MUST be organized as a folder, not a flat `.vue` file.** For a component named `Foo`:
+
+```
+src/components/foo/
+  Foo.vue        # template + script (NO inline <style>)
+  foo.css        # all CSS rules, linked from the SFC via <style src="...">
+```
+
+Naming: folder is **lowercase** (`foo`), the Vue file is **PascalCase** (`Foo.vue`), the CSS file is **lowercase** (`foo.css`). The export from `src/index.js` becomes `export { default as Foo } from './components/foo/Foo.vue'`.
+
+The CSS lives in a separate file (not `<style scoped>` inline) so styles are easy to read/diff/lint independently. Link it from the SFC using the `src` attribute on `<style>` — both Vue 2 (vue-loader 15) and Vue 3 (`@vitejs/plugin-vue`) support this and preserve `scoped` semantics. **Do not** `import './foo.css'` from `<script>` — that produces global (un-scoped) CSS and breaks isolation.
+
+Legacy components (`Button.vue`, `Badge.vue`) at the flat path are grandfathered. Don't refactor them unless explicitly asked.
+
 ## Required SFC skeleton
 
-Copy this when creating a new component. It uses tokens from `src/styles/*.css` and the dual-compat slot-detection pattern:
+Two files. Copy verbatim when creating a new component, then edit:
 
+**`src/components/foo/Foo.vue`**
 ```vue
 <template>
   <div :class="['ui-foo', `ui-foo--${variant}`]">
@@ -76,7 +93,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style src="./foo.css" scoped></style>
+```
+
+**`src/components/foo/foo.css`**
+```css
 .ui-foo {
   display: inline-flex;
   gap: var(--spacing-2xs);
@@ -87,16 +108,27 @@ export default {
 }
 .ui-foo--default { background: var(--secondary-bg); color: var(--secondary-fg); }
 .ui-foo--alt { background: var(--primary-brand-bg); color: var(--inverse-fg); }
-</style>
 ```
 
 ## Workflow when adding/editing a component
 
-1. Create/edit `src/components/<Name>.vue` following the skeleton.
-2. Add the export to `src/index.js`.
-3. Verify Vue 3 in the storybook or vue3 playground: `npm run dev:vue3` (from repo root).
-4. Verify Vue 2 in the vue2 playground: `npm run dev:vue2` (from repo root). **Both must render** — Vue 2 is the easier one to break (fragments, Composition API, etc.).
-5. If first-time setup, the playgrounds need `npm i` inside their own folders — see README. Note: `playground-vue2` uses webpack 4 + vue-loader 15 + vue-template-compiler 2.7, which require Node 14 (per README "Requirement"). If `npm i` fails on a newer Node, that's the cause — don't try to upgrade webpack/vue-loader to "fix" it.
+A "single component change" touches **eight** places — keep them in sync, edit them in one diff:
+
+1. `src/components/<name>/<Name>.vue` — the SFC (template + script + `<style src="./<name>.css" scoped></style>`).
+1b. `src/components/<name>/<name>.css` — the CSS rules. **No inline `<style>` block in the SFC.**
+2. `src/index.js` — add the named export, alphabetical: `export { default as <Name> } from './components/<name>/<Name>.vue'`.
+3. `src/styles/*.css` — add any missing semantic tokens (color → `color_general.css` + `.dark`, shadow → `shadow.css`, etc.). Skip if all needed tokens exist.
+4. `playground-vue3/src/main.js` — `import { <Name> } ... ; app.component('<Name>', <Name>)`.
+5. `playground-vue2/src/main.js` — same, but `Vue.component(...)`.
+6. `playground-vue3/src/App.vue` — append a `<section>` exercising every variant + slot + interactive state.
+7. `playground-vue2/src/App.vue` — append the **same** section (template syntax is portable across both versions; copy verbatim).
+
+Then verify:
+
+8. `npm run test:build` (from repo root) — runs both vite and webpack builds in parallel via `concurrently`. **Must exit 0 on both** before declaring done. If one fails, fix and re-run.
+9. Visual check via `npm run dev:vue3` (port 8001) and `npm run dev:vue2` (port 8080). The assistant cannot do this — instruct the user.
+
+First-time setup: each playground needs `npm i` in its own folder. `playground-vue2` requires Node 14 per README (webpack 4 + vue-loader 15 + native deps). If `npm i` fails on a newer Node, that's the cause — don't try to upgrade webpack/vue-loader to "fix" it.
 
 ## Quick self-check before declaring done
 
@@ -106,7 +138,8 @@ Run through this list mentally against your diff:
 - [ ] No `setup`, no `<script setup>`, no `import { ref, ... } from 'vue'`.
 - [ ] `name`, `props` (validated), `emits` declared.
 - [ ] No banned APIs from the DON'T list (incl. no `:deep()`).
-- [ ] All colors/spacing/radius/typography in `<style scoped>` use `var(--*)` from `src/styles/*.css` — no inline hex/px.
+- [ ] All colors/spacing/radius/typography in the component CSS use `var(--*)` from `src/styles/*.css` — no inline hex/px.
+- [ ] Component lives at `src/components/<name>/<Name>.vue` + `src/components/<name>/<name>.css` (folder-per-component). SFC's `<style>` uses `src="./<name>.css" scoped`, not an inline block.
 - [ ] Named slot detection uses the `$scopedSlots || $slots` dual-compat check (if applicable).
 - [ ] No props for interaction states (hover/focus/active). Those are CSS pseudo-classes.
 - [ ] New component is exported from `src/index.js`.

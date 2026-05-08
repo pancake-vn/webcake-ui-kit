@@ -29,9 +29,20 @@ Two project-scoped skills encode the workflow:
 
 ## Adding a component
 
-1. Create `src/components/<Name>.vue` following the pattern of `src/components/Button.vue` (BEM-ish `ui-<name>--<modifier>` classes, `<style scoped>`, validated props, declared `emits`).
-2. Add a named export to `src/index.js`.
-3. Verify in **both** playgrounds (see Commands below). Vue 2 is the easier one to break.
+A new component touches **eight files** in one change — anything less and `test:build` is meaningless:
+
+1. `src/components/<name>/<Name>.vue` — the SFC. Single-root template, Options API, validated props, declared `emits`, BEM `ui-<name>--<modifier>`. **No inline `<style>` block** — link the CSS file via `<style src="./<name>.css" scoped></style>`.
+1b. `src/components/<name>/<name>.css` — the actual CSS rules (folder name lowercase, Vue file PascalCase, CSS file lowercase).
+2. `src/index.js` — named export, alphabetical: `export { default as <Name> } from './components/<name>/<Name>.vue'`.
+3. `src/styles/*.css` — add any missing semantic tokens (most are already there).
+4. `playground-vue3/src/main.js` — register globally with `app.component(...)`.
+5. `playground-vue2/src/main.js` — register globally with `Vue.component(...)`.
+6. `playground-vue3/src/App.vue` — append a showcase `<section>` exercising every variant.
+7. `playground-vue2/src/App.vue` — append the **same** section (keep the two App.vue in sync).
+
+Then `npm run test:build` to compile-check both versions, and `dev:vue3` / `dev:vue2` for visual.
+
+The skill at `.claude/skills/figma-to-component/SKILL.md` automates steps 1–7 from a Figma URL and runs `test:build` itself before handing off.
 
 ## Commands
 
@@ -40,9 +51,22 @@ All commands run from the repo root unless noted.
 ```
 npm run dev:vue3        # Vite playground (port 8001) — Vue 3.4
 npm run dev:vue2        # webpack-dev-server (port 8080) — Vue 2.7
+npm run preview         # both dev servers in parallel via concurrently — open both ports side-by-side
 npm run dev             # bare Vite at root (rarely used; no entry HTML)
 npm run build           # no-op, prints reminder
+
+npm run build:vue3      # production build of playground-vue3 (compile check)
+npm run build:vue2      # production build of playground-vue2 (compile check)
+npm run test:build      # both builds in parallel via concurrently — Tier 1 dual-compat compile check
 ```
+
+`preview` is the daily driver while authoring components: it brings up both Vue 2 and Vue 3 dev servers at once with HMR, prefixed output (`[vue3]` / `[vue2]`), and Ctrl+C kills both. Open `localhost:8001` (Vue 3) and `localhost:8080` (Vue 2) side-by-side to spot dual-compat regressions in real time. No `--kill-others-on-fail` here — if one dev server crashes the other keeps running so you don't lose state on the working side.
+
+`test:build` is the cheapest CI signal: runs both vite and webpack builds in parallel via `concurrently` (with `--kill-others-on-fail` so one failure stops the other). If either fails, the component has a compile-time issue (banned API, fragment, `:deep()`, syntax) on that Vue version. It only catches what compilers see — runtime warnings (prop validators, slot quirks) still need visual verification via `dev:vue3` / `dev:vue2`.
+
+Vite-side gotcha encoded in `playground-vue3/vite.config.js`: `resolve.dedupe: ['vue']` is required because the lib is aliased to `../src` (which has no `node_modules`). Without dedupe, Rollup fails to resolve the `vue` import that `@vitejs/plugin-vue` injects when compiling SFCs from outside the playground's tree.
+
+For `test:build` to be meaningful, the showcase pages in `playground-vue{2,3}/src/App.vue` must actually mount the component being tested. When adding a new component, append it to both showcase pages so the build "touches" it.
 
 First-time setup for each sandbox (each has its own `node_modules`):
 
@@ -59,7 +83,7 @@ npm run storybook               # start-storybook -p 6006
 npm run build-storybook
 ```
 
-There is no test runner, no linter, and no typecheck configured. Verification is visual via the playgrounds and Storybook.
+There is no unit test runner, no linter, and no typecheck configured. Verification has two layers: `npm run test:build` for compile-time checks (Tier 1), and visual verification via `dev:vue3` / `dev:vue2` for runtime/visual checks.
 
 ## How the sandboxes resolve the library
 
