@@ -7,9 +7,12 @@
 @import './shadow.css';
 @import './typography.css';
 @import './spacing.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: var(--font-family-sans);
+  border: 0 solid var(--border-primary)
 }

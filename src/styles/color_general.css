@@ -13,22 +13,22 @@
     --muted-bg: var(--color-neutral-100);
     --primary-fg: var(--color-neutral-950);
     --secondary-fg: var(--color-neutral-700);
-    --accent-fg: var(--color-primary-900);
+    --accent-fg: var(--color-brand-shades-900);
     --muted-fg: var(--color-neutral-500);
-    --primary-brand-bg: var(--color-primary-600);
-    --primary-brand-fg: var(--color-primary-600);
+    --primary-brand-bg: var(--color-brand-shades-600);
+    --primary-brand-fg: var(--color-brand-shades-600);
     --inverse-fg: var(--color-white-alpha-100);
     --destructive: var(--color-red-600);
     --destructive-inverse-fg: var(--color-white-alpha-100);
     --border-primary: var(--color-neutral-200);
     --border-secondary: var(--color-neutral-100);
     --border-focus: var(--color-neutral-300);
-    --border-brand: var(--color-primary-600);
+    --border-brand: var(--color-brand-shades-600);
 
     /* Start: Unofficial */
     --primary-hover: var(--color-neutral-50);
     --secondary-hover: var(--color-neutral-50);
-    --primary-brand-hover: var(--color-primary-800);
+    --primary-brand-hover: var(--color-brand-shades-800);
     --negative-subtle: var(--color-red-50);
     --destructive-border: var(--color-red-500);
     --destructive-text: var(--color-red-600);
@@ -63,15 +63,15 @@
     --positive-500: var(--color-green-500);
     --info-500: var(--color-blue-500);
     /* Brand */
-    --brand-50: var(--color-primary-50);
-    --brand-100: var(--color-primary-100);
-    --brand-200: var(--color-primary-200);
-    --brand-300: var(--color-primary-300);
-    --brand-400: var(--color-primary-400);
-    --brand-500: var(--color-primary-500);
-    --brand-600: var(--color-primary-600);
-    --brand-700: var(--color-primary-700);
-    --brand-800: var(--color-primary-800);
+    --brand-50: var(--color-brand-shades-50);
+    --brand-100: var(--color-brand-shades-100);
+    --brand-200: var(--color-brand-shades-200);
+    --brand-300: var(--color-brand-shades-300);
+    --brand-400: var(--color-brand-shades-400);
+    --brand-500: var(--color-brand-shades-500);
+    --brand-600: var(--color-brand-shades-600);
+    --brand-700: var(--color-brand-shades-700);
+    --brand-800: var(--color-brand-shades-800);
     /* End: Unofficial */
 
     /* Components */
@@ -107,22 +107,22 @@
     --muted-bg: var(--color-neutral-900);
     --primary-fg: var(--color-neutral-50);
     --secondary-fg: var(--color-neutral-300);
-    --accent-fg: var(--color-primary-100);
+    --accent-fg: var(--color-brand-shades-100);
     --muted-fg: var(--color-neutral-400);
-    --primary-brand-bg: var(--color-primary-500);
-    --primary-brand-fg: var(--color-primary-500);
+    --primary-brand-bg: var(--color-brand-shades-500);
+    --primary-brand-fg: var(--color-brand-shades-500);
     --inverse-fg: var(--color-white-alpha-100);
     --destructive: #9E4042;
     --destructive-inverse-fg: var(--color-white-alpha-100);
     --border-primary: var(--color-neutral-700);
     --border-secondary: var(--color-neutral-800);
     --border-focus: var(--color-neutral-600);
-    --border-brand: var(--color-primary-400);
+    --border-brand: var(--color-brand-shades-400);
 
     /* Start: Unofficial */
     --primary-hover: var(--color-neutral-950);
     --secondary-hover: var(--color-neutral-900);
-    --primary-brand-hover: var(--color-primary-300);
+    --primary-brand-hover: var(--color-brand-shades-300);
     --negative-subtle: var(--color-red-950);
     --destructive-border: var(--color-red-500);
     --destructive-text: var(--color-red-400);
@@ -160,15 +160,15 @@
     --yellow-500: var(--color-yellow-500);
 
     /* Brand */
-    --brand-50: var(--color-primary-950);
-    --brand-100: var(--color-primary-900);
-    --brand-200: var(--color-primary-800);
-    --brand-300: var(--color-primary-700);
-    --brand-400: var(--color-primary-600);
-    --brand-500: var(--color-primary-500);
-    --brand-600: var(--color-primary-400);
-    --brand-700: var(--color-primary-300);
-    --brand-800: var(--color-primary-200);
+    --brand-50: var(--color-brand-shades-950);
+    --brand-100: var(--color-brand-shades-900);
+    --brand-200: var(--color-brand-shades-800);
+    --brand-300: var(--color-brand-shades-700);
+    --brand-400: var(--color-brand-shades-600);
+    --brand-500: var(--color-brand-shades-500);
+    --brand-600: var(--color-brand-shades-400);
+    --brand-700: var(--color-brand-shades-300);
+    --brand-800: var(--color-brand-shades-200);
     /* End: Unofficial */
 
     /* Components */
