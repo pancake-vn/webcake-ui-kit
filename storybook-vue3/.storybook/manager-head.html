@@ -97,12 +97,26 @@
     border-radius: 8px;
   }
 
-  /* Dark mode — body inline bg from preview.js applyDark or html data-theme */
-  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype='story']:not([data-selected='true']),
-  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype='document']:not([data-selected='true']),
-  html[data-theme='dark'] #storybook-explorer-tree [data-nodetype='story']:not([data-selected='true']),
-  html[data-theme='dark'] #storybook-explorer-tree [data-nodetype='document']:not([data-selected='true']) {
-    color: #c9d1d9;
+  /* Dark mode — body inline bg from preview.js applyDark or html data-theme.
+     Storybook's emotion styles use inline CSS-in-JS with high specificity, so we need
+     !important to win. Match theme.textColor (#e6edf3) so all rows read clearly. */
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype]:not([data-selected='true']),
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype]:not([data-selected='true']) *,
+  html[data-theme='dark'] #storybook-explorer-tree [data-nodetype]:not([data-selected='true']),
+  html[data-theme='dark'] #storybook-explorer-tree [data-nodetype]:not([data-selected='true']) *,
+  html.dark #storybook-explorer-tree [data-nodetype]:not([data-selected='true']),
+  html.dark #storybook-explorer-tree [data-nodetype]:not([data-selected='true']) *,
+  body.dark #storybook-explorer-tree [data-nodetype]:not([data-selected='true']),
+  body.dark #storybook-explorer-tree [data-nodetype]:not([data-selected='true']) * {
+    color: #e6edf3 !important;
+  }
+  /* Section header label ("COMPONENTS" / "INTRODUCTION") in dark mode */
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree button[data-action='collapse-root'],
+  html[data-theme='dark'] #storybook-explorer-tree button[data-action='collapse-root'],
+  html.dark #storybook-explorer-tree button[data-action='collapse-root'],
+  body.dark #storybook-explorer-tree button[data-action='collapse-root'] {
+    color: #e6edf3 !important;
+    opacity: 0.9;
   }
   body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover,
   body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree button[data-action='collapse-root']:hover,
