@@ -37,7 +37,14 @@ export const parameters = {
 
   options: {
     storySort: {
-      order: ['Introduction', 'Foundations', 'Components', ['Button', 'Badge', '*'], '*']
+      order: [
+        'Introduction',
+        ['Welcome', 'Installation', 'Quick Start', 'Theming', 'Dual Compatibility'],
+        'Foundations',
+        'Components',
+        ['Button', 'Badge', '*'],
+        '*'
+      ]
     }
   },
 
