@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "UI Kit for Vue 2 && 3 - Pure Options API",
   "main": "src/index.js",
+  "type": "module",
   "files": [
     "src"
   ],
@@ -62,5 +63,8 @@
   "bugs": {
     "url": "https://github.com/pancake-vn/webcake-ui-kit/issues"
   },
-  "homepage": "https://github.com/pancake-vn/webcake-ui-kit#readme"
+  "homepage": "https://github.com/pancake-vn/webcake-ui-kit#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
