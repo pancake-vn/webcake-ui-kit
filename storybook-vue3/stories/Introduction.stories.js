@@ -17,8 +17,7 @@ if (typeof window !== 'undefined') {
   }
 }
 
-const THEME_STYLE = `
-<style>
+const THEME_CSS = `
   .docs-page {
     --docs-fg: #111827;
     --docs-fg-strong: #0b0f1a;
@@ -59,11 +58,22 @@ const THEME_STYLE = `
   }
   .docs-page a.docs-btn-primary:hover { background: var(--docs-cta-bg-hover) !important; }
   .docs-page a.docs-btn-secondary:hover { background: var(--docs-secondary-bg-hover) !important; }
-  .docs-page a { color: var(--docs-link); }
-  .docs-page a:hover { color: var(--docs-link-hover); }
+  .docs-page a.docs-btn-primary { color: var(--docs-cta-fg) !important; }
+  .docs-page a.docs-btn-secondary { color: var(--docs-secondary-fg) !important; }
+  .docs-page a:not(.docs-btn) { color: var(--docs-link); }
+  .docs-page a:not(.docs-btn):hover { color: var(--docs-link-hover); }
   .docs-page strong { color: var(--docs-fg-strong); }
-</style>
 `
+
+if (typeof document !== 'undefined' && !document.getElementById('docs-theme-style')) {
+  const styleEl = document.createElement('style')
+  styleEl.id = 'docs-theme-style'
+  styleEl.textContent = THEME_CSS
+  document.head.appendChild(styleEl)
+}
+
+// kept so existing templates' ${THEME_STYLE} interpolation stays valid (now no-op)
+const THEME_STYLE = ''
 
 const PAGE_STYLE = `
   max-width: 880px;
