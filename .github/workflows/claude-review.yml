@@ -1,0 +1,71 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to review"
+        required: true
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'pull_request' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request &&
+       contains(github.event.comment.body, '/review'))
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Claude Code Review
+        uses: vuluu2k/claude-gh-actions@v1
+        with:
+          claude_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          max_turns: "50"
+          extra_prompt: |
+            ## Project skills (source of truth — read BEFORE reviewing)
+
+            This repo encodes its review rules as Claude Code skills under `.claude/skills/`.
+            Trigger-based auto-loading does NOT fire in this CI context, so you MUST manually
+            read each SKILL.md below and apply its rules to the diff.
+
+            For ANY changed file under `src/components/**`, `src/index.js`,
+            `playground-vue{2,3}/src/**`, or `storybook-vue3/stories/**`, read:
+
+            1. `.claude/skills/vue-dual-component/SKILL.md`
+               → Vue 2.7 + Vue 3.4 dual-compat rules (pure Options API, single root, declared
+                 emits, banned APIs, $attrs divergence). Flag any violation in the diff.
+
+            2. `.claude/skills/component-review/SKILL.md`
+               → Quality gate: file-layout audit, dual-compat static check, CSS/token audit,
+                 wiring audit (9-file checklist), required Storybook stories. Cross-check the
+                 PR against this gate; call out missing files/stories explicitly.
+
+            3. `.claude/skills/figma-to-component/SKILL.md`
+               → Only when the PR adds a Figma-derived component. Verify it followed the
+                 BEM naming, separate `<name>.css` file, and the post-write quality gate.
+
+            Also honour the user-feedback memory baked into the skills:
+            - CSS MUST use `var(--*)` tokens from `src/styles/*.css` — flag inline hex/rgb/px
+              literals (Button.vue legacy literals are the only allowed exception).
+            - Visual states (hover/focus/active) MUST be CSS pseudo-classes, NOT props.
+            - Responsive variants MUST be `@media` queries in `<name>.css`, NOT a `type` prop.
+
+            If a rule from a skill conflicts with `CLAUDE.md` or `review-config.yml`, the skill
+            wins — skills are the maintained source.
+        # If you ever want to skip the skill round-trip and inline rules instead, see
+        # .claude/review-config.yml's extra_rules — they mirror the skills.

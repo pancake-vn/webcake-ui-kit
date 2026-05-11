@@ -1,0 +1,29 @@
+review:
+  ignore_patterns:
+    - "node_modules/**"
+    - "playground-vue2/node_modules/**"
+    - "playground-vue3/node_modules/**"
+    - "storybook-vue3/node_modules/**"
+    - "playground-vue2/dist/**"
+    - "playground-vue3/dist/**"
+    - "storybook-vue3/storybook-static/**"
+    - "**/package-lock.json"
+    # Don't review skill source files as if they were app code — Claude reads them
+    # as instructions via extra_prompt in .github/workflows/claude-review.yml.
+    - ".claude/skills/**"
+
+  include_patterns:
+    - "src/**/*.vue"
+    - "src/**/*.css"
+    - "src/index.js"
+
+  # Review rules live in .claude/skills/* (loaded via extra_prompt in the workflow).
+  # Listed here too as a fallback for any reviewer that ignores skills.
+  extra_rules:
+    - "Apply ALL rules from .claude/skills/vue-dual-component/SKILL.md (Vue 2.7 + 3.4 dual-compat: pure Options API, single root, declared emits, no <script setup>/setup()/Composition API, no Teleport/Suspense/multi v-model/:deep(), no filters/.native/$listeners, no class/style off $attrs)."
+    - "Apply ALL rules from .claude/skills/component-review/SKILL.md (9-file wiring checklist, BEM `ui-<name>--<modifier>`, separate <name>.css linked via <style src=...>, required Storybook stories: Primary, AllVariants, Matrix when 2+ axes, slot story, FocusVisible)."
+    - "CSS MUST consume `var(--*)` tokens from src/styles/*.css — flag inline hex/rgb/px literals (Button.vue legacy is the only allowed exception)."
+    - "Visual states (hover/focus/active) MUST be CSS pseudo-classes (:hover/:focus-visible/:active), NOT boolean props."
+    - "Responsive variants MUST be @media queries in <name>.css, NOT a `type` or `breakpoint` prop."
+    - "playground-vue2/src/App.vue and playground-vue3/src/App.vue MUST stay in sync."
+    - "Any change under src/components/** or src/index.js SHOULD be verified with `npm run test:build` — call this out if the PR description omits it."
