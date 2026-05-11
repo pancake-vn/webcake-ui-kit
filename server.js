@@ -14,7 +14,7 @@ const storybookPath = path.join(
 
 app.use(express.static(storybookPath))
 
-app.get('/*', (_, res) => {
+app.get(/.*/, (_, res) => {
   res.sendFile(path.join(storybookPath, 'index.html'))
 })
 
