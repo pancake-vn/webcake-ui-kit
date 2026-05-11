@@ -9,6 +9,8 @@ This skill turns a Figma node URL into a Vue 2 + Vue 3 dual-compatible SFC under
 
 - **Figma side**: delegates fetching/parsing to the `figma:figma-implement-design` skill and the `mcp__plugin_figma_figma__*` MCP tools that ship with Claude Code.
 - **Authoring side**: delegates the dual-compat rules to the `vue-dual-component` skill in this repo.
+- **Testing side**: delegates unit-test authoring to the `component-test` skill in this repo (the spec is written as part of Phase 2, step 9 — not after).
+- **Review side**: delegates the quality gate to the `component-review` skill in this repo (Phase 3).
 - **This skill** owns the project-specific orchestration, file layout, and post-write review.
 
 ## Phase 0 — Preconditions (decide silently, only stop if blocked)
@@ -57,17 +59,21 @@ Apply the SFC skeleton from `vue-dual-component` skill. Repo-specific rules — 
    - Default export with `title: 'Components/<Name>'`, `component: <Name>`, and `argTypes` for every enum-like prop (use `control: { type: 'select' }` or `inline-radio`).
    - At least these named exports: `Primary` (a single instance with default args via `Template.bind({})` + `.args = {...}`), `AllVariants` (renders every variant value in one row), `Matrix` (renders the full prop × prop grid if there's more than one axis), and one slot-exercising story (e.g. `WithIcons`) if the component has named slots.
    - For interactive states (hover/focus styled via CSS), add a `FocusVisible` story whose elements have `tabindex="0"` so a reviewer can keyboard-test the ring.
+9. **Dual-compat unit test**: create `tests/<Name>.spec.js` by following the `component-test` skill at `.claude/skills/component-test/SKILL.md` (re-read it before writing). The spec must import from `'../src/index.js'` (verifies step 2 wiring), use `mount` from `./_utils.js` (handles v1/v2 API drift), and cover: smoke render, every enum prop value's class, every emit (one positive case + one negative when disabled/loading), every named slot, every boolean state class, and the v-model contract (both `change` and `update:modelValue` fire). Compound widgets that rely on `provide`/`inject` (Accordion, ToggleGroup) or wrap other components (AlertDialog, CheckboxGroup) get a tiny in-spec `Harness` component so the real parent–child contract runs — never stub a sibling library component. `appendChild`-to-body components (Dialog family) query `document.body` and clean up in `afterEach`.
 
-Steps 1–8 are non-negotiable for a single component change.
+Steps 1–9 are non-negotiable for a single component change.
 
-After writing, **before handing off to Phase 3**, run the auto-fix pass:
+After writing, **before handing off to Phase 3**, run the auto-fix pass and the unit-test pass:
 
 ```
 npm run lint:fix     # eslint --fix on changed files
 npm run format       # prettier --write across the repo
+npm test             # vitest on both Vue 2 and Vue 3 lanes — both must exit 0
 ```
 
-Both should leave a clean tree. If `lint:fix` reports remaining errors (not auto-fixable), fix them manually before Phase 3. The most common one for Figma-derived code: a forbidden Composition API import slipped into the SFC (the lint rule `no-restricted-imports` blocks `ref`/`reactive`/`computed`/`setup` family from `vue` in `src/`). Rewrite to Options API.
+`lint:fix` + `format` should leave a clean tree. If `lint:fix` reports remaining errors (not auto-fixable), fix them manually before Phase 3. The most common one for Figma-derived code: a forbidden Composition API import slipped into the SFC (the lint rule `no-restricted-imports` blocks `ref`/`reactive`/`computed`/`setup` family from `vue` in `src/`). Rewrite to Options API.
+
+`npm test` runs both `playground-vue3` (Vitest + `@vitejs/plugin-vue`) and `playground-vue2` (Vitest + `@vitejs/plugin-vue2`) in parallel via `concurrently`. If only one lane fails, the failure is dual-compat-specific (e.g. v1's `findAll()` returns a `WrapperArray`, not an array — the shim in `tests/_utils.js` already normalizes that, so the cause is usually a Vue 2-only API in the SFC, not the test). Fix the SFC, not the test.
 
 Re-read `vue-dual-component` SKILL.md before writing — apply its DON'T list strictly. Most common mistakes that slip in from Figma-flavored output: multiple root nodes (Figma frames often produce two siblings), `<script setup>` (Composition API is banned here AND blocked by ESLint), `v-model:foo` syntax (ESLint rule `vue/no-v-model-argument`), reading `class` off `$attrs`. Match the Prettier style up front (single quotes, no semi, `printWidth: 120`, `arrowParens: 'avoid'`) — saves a noisy reformat pass.
 
