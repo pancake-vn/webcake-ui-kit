@@ -3,13 +3,35 @@
   "version": "1.0.0",
   "description": "UI Kit for Vue 2 && 3 - Pure Options API",
   "main": "src/index.js",
+  "module": "src/index.js",
   "type": "module",
-  "files": [
-    "src"
+  "sideEffects": [
+    "*.css",
+    "*.vue"
   ],
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "require": "./src/index.js",
+      "default": "./src/index.js"
+    },
+    "./styles": "./src/styles/index.css",
+    "./styles/*": "./src/styles/*",
+    "./components/*": "./src/components/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "vite",
     "build": "echo 'No need to build - shipping raw SFC'",
+    "prepublishOnly": "npm run test:build && npm test",
     "dev:vue2": "cd playground-vue2 && npm run dev",
     "dev:vue3": "cd playground-vue3 && npm run dev",
     "preview": "concurrently --names vue3,vue2 --prefix-colors cyan,magenta \"npm:dev:vue3\" \"npm:dev:vue2\"",
@@ -25,7 +47,13 @@
     "format:check": "prettier --check .",
     "lint": "eslint . --ext .js,.cjs,.vue",
     "lint:fix": "eslint . --ext .js,.cjs,.vue --fix",
-    "prepare": "husky install"
+    "prepare": "husky install || echo \"(husky skipped)\"",
+    "release": "node scripts/release.js",
+    "release:patch": "node scripts/release.js patch",
+    "release:minor": "node scripts/release.js minor",
+    "release:major": "node scripts/release.js major",
+    "release:fast": "node scripts/release.js patch --skip-checks",
+    "release:dry": "node scripts/release.js patch --dry-run"
   },
   "lint-staged": {
     "*.{js,cjs,vue}": [
@@ -45,6 +73,7 @@
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.2",
     "eslint-plugin-vue": "^9.33.0",
+    "express": "^5.2.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.3.0",
     "prettier": "^3.8.3",
@@ -63,8 +92,5 @@
   "bugs": {
     "url": "https://github.com/pancake-vn/webcake-ui-kit/issues"
   },
-  "homepage": "https://github.com/pancake-vn/webcake-ui-kit#readme",
-  "dependencies": {
-    "express": "^5.2.1"
-  }
+  "homepage": "https://ui.webcake.io"
 }
