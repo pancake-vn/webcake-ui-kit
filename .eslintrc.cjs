@@ -79,6 +79,10 @@ module.exports = {
     {
       files: ['*.cjs', '.eslintrc.cjs', '*.config.js'],
       env: { node: true }
+    },
+    {
+      files: ['tests/**/*.js', '**/*.spec.js'],
+      env: { jest: true, node: true, browser: true }
     }
   ]
 }

@@ -22,15 +22,16 @@ Components must compile under both Vue 2.7 (Options API era, vue-template-compil
 - **Avoid Vue-3-only features** (`<Teleport>`, `<Suspense>`, `v-model:arg`, multi v-model) and **Vue-2-only features** (filters, `.native`, `$listeners`, `Vue.set`/`Vue.extend`).
 - **`$attrs` divergence:** Vue 3's `$attrs` includes `class`/`style`, Vue 2's does not. Don't read these off `$attrs`.
 
-Three project-scoped skills encode the workflow:
+Four project-scoped skills encode the workflow:
 
 - `.claude/skills/vue-dual-component/SKILL.md` — full DO/DON'T list + SFC skeleton. Auto-loads on edits to `src/components/*.vue` or `src/index.js`.
-- `.claude/skills/figma-to-component/SKILL.md` — orchestrates Figma → SFC: composes the Figma MCP (`mcp__plugin_figma_figma__*`) with the dual-compat rules above. Delegates the post-write quality gate to `component-review`. Triggers on prompts like "Implement this design from Figma. @<figma.com URL>".
+- `.claude/skills/figma-to-component/SKILL.md` — orchestrates Figma → SFC: composes the Figma MCP (`mcp__plugin_figma_figma__*`) with the dual-compat rules, writes the unit spec via `component-test`, and delegates the post-write quality gate to `component-review`. Triggers on prompts like "Implement this design from Figma. @<figma.com URL>".
+- `.claude/skills/component-test/SKILL.md` — dual-compat unit-test author. Produces `tests/<Name>.spec.js` that runs against Vue 2.7 and Vue 3.4 via the two Vitest configs. Triggers on "viết test / thêm test / test component", or when a new component lacks a matching spec. Invoked as Phase 2 step 9 by `figma-to-component`.
 - `.claude/skills/component-review/SKILL.md` — standalone quality gate. Runs file-layout audit, dual-compat static check, CSS/token audit, wiring audit (index.js + playgrounds + storybook), and `npm run test:build`. Triggers on "review", "kiểm tra", "audit", or as Phase 3 of `figma-to-component`.
 
 ## Adding a component
 
-A new component touches **nine files** in one change — anything less and `test:build` is meaningless:
+A new component touches **ten files** in one change — anything less and `test:build` / `test` are meaningless:
 
 1. `src/components/<name>/<Name>.vue` — the SFC. Single-root template, Options API, validated props, declared `emits`, BEM `ui-<name>--<modifier>`. **No inline `<style>` block** — link the CSS file via `<style src="./<name>.css" scoped></style>`.
    1b. `src/components/<name>/<name>.css` — the actual CSS rules (folder name lowercase, Vue file PascalCase, CSS file lowercase).
@@ -41,10 +42,11 @@ A new component touches **nine files** in one change — anything less and `test
 6. `playground-vue3/src/App.vue` — append a showcase `<section>` exercising every variant.
 7. `playground-vue2/src/App.vue` — append the **same** section (keep the two App.vue in sync).
 8. `storybook-vue3/stories/<Name>.stories.js` — CSF 2 file. Required exports: `Primary`, `AllVariants`, `Matrix` (when 2+ prop axes), one slot story, and `FocusVisible` (with `tabindex="0"`) if the component has `:focus-visible` styling. Storybook auto-loads `src/styles/index.css` via `.storybook/preview.js` — don't import per-story.
+9. `tests/<Name>.spec.js` — dual-compat unit spec. Import from `'../src/index.js'`, use `mount` from `./_utils.js`. Cover smoke render, each enum prop, each emit (positive + disabled negative), each named slot, boolean state classes, and v-model emits. See `.claude/skills/component-test/SKILL.md`.
 
-Then `npm run test:build` to compile-check both versions, `dev:vue3` / `dev:vue2` for visual, and `cd storybook-vue3 && npm run storybook` for the docs view.
+Then `npm run test:build` for compile-check, `npm test` for the dual-compat unit suite, `dev:vue3` / `dev:vue2` for visual, and `cd storybook-vue3 && npm run storybook` for the docs view.
 
-The skill at `.claude/skills/figma-to-component/SKILL.md` automates steps 1–8 from a Figma URL and runs `test:build` itself before handing off.
+The skill at `.claude/skills/figma-to-component/SKILL.md` automates steps 1–9 from a Figma URL and runs `npm test` + `test:build` itself before handing off.
 
 ## Commands
 
@@ -62,6 +64,10 @@ npm run build:vue2      # production build of playground-vue2 (compile check)
 npm run build:storybook # build storybook-vue3 (compile check for stories)
 npm run test:build      # all 3 builds in parallel via concurrently — full Tier 1 dual-compat + stories check (~16s)
 npm run test:storybook  # alias for build:storybook (when only stories changed)
+
+npm test                # Vitest: tests/*.spec.js × Vue 2 lane + Vue 3 lane, in parallel
+npm run test:vue3       # only the Vue 3 lane (faster while debugging a single failure)
+npm run test:vue2       # only the Vue 2 lane
 ```
 
 `preview` is the daily driver while authoring components: it brings up both Vue 2 and Vue 3 dev servers at once with HMR, prefixed output (`[vue3]` / `[vue2]`), and Ctrl+C kills both. Open `localhost:8001` (Vue 3) and `localhost:8080` (Vue 2) side-by-side to spot dual-compat regressions in real time. No `--kill-others-on-fail` here — if one dev server crashes the other keeps running so you don't lose state on the working side.
