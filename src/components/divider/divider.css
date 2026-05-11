@@ -1,0 +1,38 @@
+.ui-divider {
+  flex-shrink: 0;
+  background-color: var(--border-primary);
+}
+
+/* Horizontal */
+.ui-divider--horizontal {
+  display: block;
+  width: 100%;
+  height: 1px;
+}
+
+.ui-divider--horizontal.ui-divider--spacing-regular {
+  margin-top: var(--spacing-2xs);
+  margin-bottom: var(--spacing-2xs);
+}
+
+.ui-divider--horizontal.ui-divider--spacing-spacious {
+  margin-top: var(--spacing-7p5);
+  margin-bottom: var(--spacing-7p5);
+}
+
+/* Vertical */
+.ui-divider--vertical {
+  display: inline-block;
+  width: 1px;
+  align-self: stretch;
+}
+
+.ui-divider--vertical.ui-divider--spacing-regular {
+  margin-left: var(--spacing-2xs);
+  margin-right: var(--spacing-2xs);
+}
+
+.ui-divider--vertical.ui-divider--spacing-spacious {
+  margin-left: var(--spacing-7p5);
+  margin-right: var(--spacing-7p5);
+}

@@ -1,0 +1,60 @@
+.ui-select-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: 32px;
+  padding: var(--spacing-5p5) var(--spacing-xs);
+  border-radius: var(--radius);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  font-weight: var(--paragraph-font-weight);
+  color: var(--primary-fg);
+  cursor: pointer;
+  transition: background 0.15s;
+  outline: none;
+}
+
+.ui-select-option:hover {
+  background: var(--accent-bg);
+}
+
+.ui-select-option:focus-visible {
+  background: var(--accent-bg);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+.ui-select-option:active {
+  background: var(--accent-2);
+}
+
+.ui-select-option--selected {
+  background: var(--accent-2);
+  font-weight: var(--paragraph-medium-font-weight);
+}
+
+.ui-select-option--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ui-select-option--large {
+  min-height: 36px;
+  padding: var(--spacing-7p5) var(--spacing-sm);
+  gap: var(--spacing-sm);
+}
+
+.ui-select-option--destructive {
+  color: var(--destructive-text);
+}
+
+.ui-select-option--destructive:hover,
+.ui-select-option--destructive:active {
+  background: var(--negative-subtle);
+}
+
+.ui-select-option--destructive:focus-visible {
+  background: transparent;
+  box-shadow: 0 0 0 3px var(--ring);
+}

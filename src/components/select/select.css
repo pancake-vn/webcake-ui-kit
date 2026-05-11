@@ -1,0 +1,213 @@
+.ui-select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: 36px;
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-10);
+  background: var(--input);
+  box-shadow: var(--shadow-xs);
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.ui-select:hover:not(.ui-select--disabled) {
+  border-color: var(--border-focus);
+}
+
+.ui-select:focus-visible,
+.ui-select--open {
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-xs), var(--shadow-focus-ring);
+}
+
+.ui-select--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ui-select--loading {
+  cursor: wait;
+  pointer-events: none;
+}
+
+.ui-select--error {
+  border-color: var(--destructive-border);
+}
+
+.ui-select--error:hover:not(.ui-select--disabled),
+.ui-select--error:focus-visible,
+.ui-select--error.ui-select--open {
+  border-color: var(--destructive-border);
+  box-shadow: var(--shadow-xs), var(--shadow-focus-ring-error);
+}
+
+.ui-select__left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  overflow: hidden;
+}
+
+.ui-select__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--muted-fg);
+}
+
+.ui-select__prepend {
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--muted-fg);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ui-select__value {
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--primary-fg);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.ui-select__value--placeholder {
+  color: var(--muted-fg);
+}
+
+.ui-select__chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--muted-fg);
+  transition: transform 0.2s ease;
+}
+
+.ui-select--open .ui-select__chevron {
+  transform: rotate(180deg);
+}
+
+.ui-select__spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--muted-fg);
+  animation: ui-select-spin 0.75s linear infinite;
+}
+
+@keyframes ui-select-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* — sizes — */
+.ui-select--lg {
+  min-height: 40px;
+  padding: var(--spacing-10) var(--spacing-xs) var(--spacing-10) var(--spacing-md);
+  gap: var(--spacing-sm);
+}
+.ui-select--lg .ui-select__left {
+  gap: var(--spacing-sm);
+}
+
+/* default size is the base — no extra rules needed */
+
+.ui-select--sm {
+  min-height: 32px;
+  padding: var(--spacing-6) var(--spacing-xs);
+  gap: var(--spacing-6);
+}
+.ui-select--sm .ui-select__left {
+  gap: var(--spacing-6);
+}
+
+.ui-select--mini {
+  min-height: 28px;
+  padding: var(--spacing-2xs) var(--spacing-6);
+  gap: var(--spacing-2xs);
+  border-radius: var(--rounded-lg);
+}
+.ui-select--mini .ui-select__left {
+  gap: var(--spacing-2xs);
+}
+.ui-select--mini .ui-select__value,
+.ui-select--mini .ui-select__prepend {
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+}
+
+/* Dropdown */
+.ui-select__dropdown {
+  position: absolute;
+  top: calc(100% + var(--spacing-2xs));
+  left: 0;
+  right: 0;
+  background: var(--input);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-10);
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.ui-select__dropdown .ui-select__options::-webkit-scrollbar {
+  display: none;
+}
+
+.ui-select__options {
+  overflow-y: auto;
+  padding: var(--spacing-2xs);
+}
+
+.ui-select__scroll-indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--muted-fg);
+  background: var(--input);
+  padding: var(--spacing-2xs) 0;
+}
+
+.ui-select__scroll-indicator--up {
+  top: 0;
+}
+
+.ui-select__scroll-indicator--down {
+  bottom: 0;
+}
