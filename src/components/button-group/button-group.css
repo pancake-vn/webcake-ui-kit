@@ -1,0 +1,30 @@
+.ui-button-group {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+/* Reset radius on all children, re-apply corners to first/last */
+.ui-button-group .ui-btn {
+  border-radius: 0;
+}
+.ui-button-group .ui-btn:first-child {
+  border-top-left-radius: var(--rounded-xl);
+  border-bottom-left-radius: var(--rounded-xl);
+}
+.ui-button-group .ui-btn:last-child {
+  border-top-right-radius: var(--rounded-xl);
+  border-bottom-right-radius: var(--rounded-xl);
+}
+.ui-button-group .ui-btn:first-child:last-child {
+  border-radius: var(--rounded-xl);
+}
+
+/* Outlined buttons: collapse shared borders, lift on interaction */
+.ui-button-group .ui-btn--outline:not(:first-child) {
+  margin-left: -1px;
+}
+.ui-button-group .ui-btn--outline:hover:not(:disabled),
+.ui-button-group .ui-btn--outline:focus-visible {
+  position: relative;
+  z-index: 1;
+}

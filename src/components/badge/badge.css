@@ -54,10 +54,7 @@
 
 .ui-badge:focus-visible {
   outline: none;
-  box-shadow: var(--shadow-focus-ring);
-}
-.ui-badge--destructive:focus-visible {
-  box-shadow: var(--shadow-focus-ring-error);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 .ui-badge__icon {

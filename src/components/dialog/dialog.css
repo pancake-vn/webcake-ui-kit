@@ -1,0 +1,255 @@
+/* ── overlay ──────────────────────────────────────────────────────────── */
+.ui-dialog-root {
+  position: fixed;
+  inset: 0;
+}
+
+.ui-dialog-mask {
+  position: absolute;
+  inset: 0;
+  background: var(--backdrop);
+}
+
+.ui-dialog-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+  outline: none;
+  padding: 100px 16px 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ui-dialog-wrap {
+  padding: 24px;
+}
+
+@media (max-width: 767px) {
+  .ui-dialog-wrap {
+    padding: 8px;
+  }
+}
+
+.ui-dialog-wrap--centered {
+  justify-content: center;
+  padding: 16px;
+}
+
+.ui-dialog-wrap--fullscreen {
+  padding: 0;
+  overflow: hidden;
+  align-items: stretch;
+}
+
+.ui-dialog-content {
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+.ui-dialog-wrap--fullscreen .ui-dialog-content {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── shell ────────────────────────────────────────────────────────────── */
+.ui-dialog {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-height: 100%; /* Allow internal scrolling if content is taller than wrapper */
+}
+
+.ui-dialog-content {
+  width: min(640px, calc(100vw - 32px));
+}
+
+@media (max-width: 767px) {
+  .ui-dialog-content {
+    width: min(320px, calc(100vw - 32px));
+  }
+}
+
+.ui-dialog--fullscreen {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+}
+
+/* ── header ───────────────────────────────────────────────────────────── */
+.ui-dialog-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: 56px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.ui-dialog-header--divided {
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.ui-dialog-header__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+.ui-dialog-header__content {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-2xs);
+  min-width: 0;
+}
+
+.ui-dialog-header__content--breadcrumb {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-2xs);
+}
+
+.ui-dialog-header__content--empty {
+  flex: 1 1 0;
+}
+
+.ui-dialog-header__title {
+  width: 100%;
+  font-family: var(--heading-4-font-family);
+  font-size: var(--heading-4-font-size);
+  line-height: var(--heading-4-line-height);
+  letter-spacing: var(--heading-4-letter-spacing);
+  font-weight: var(--heading-4-font-weight);
+  color: var(--primary-fg);
+}
+
+.ui-dialog-header__sub-text {
+  width: 100%;
+  font-family: var(--paragraph-small-font-family);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+  font-weight: var(--paragraph-font-weight);
+  color: var(--muted-fg);
+}
+
+.ui-dialog-header__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.ui-dialog-header__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 32px;
+  min-height: 32px;
+  padding: var(--spacing-6);
+  margin: 0;
+  background: var(--ghost);
+  color: var(--primary-fg);
+  border: 0;
+  border-radius: var(--rounded-xl);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.ui-dialog-header__icon-btn svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.ui-dialog-header__icon-btn:hover {
+  background: var(--ghost-hover);
+}
+
+.ui-dialog-header__icon-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-ring);
+}
+
+/* ── body ─────────────────────────────────────────────────────────────── */
+.ui-dialog-body {
+  padding: var(--spacing-md);
+  font-family: var(--paragraph-small-font-family);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--secondary-fg);
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+
+/* ── footer ───────────────────────────────────────────────────────────── */
+.ui-dialog-footer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--spacing-md);
+  background: var(--accent-0);
+}
+
+.ui-dialog-footer--divided {
+  border-top: 1px solid var(--border-primary);
+}
+
+.ui-dialog-footer__inner {
+  width: 100%;
+  gap: var(--spacing-xs);
+}
+
+.ui-dialog-footer--align-right .ui-dialog-footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.ui-dialog-footer--align-fill .ui-dialog-footer__inner {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  align-items: center;
+}
+
+/* ── transitions ──────────────────────────────────────────────────────── */
+.ui-dialog-fade-enter-active,
+.ui-dialog-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.ui-dialog-fade-enter,
+.ui-dialog-fade-enter-from,
+.ui-dialog-fade-leave-to {
+  opacity: 0;
+}
+
+.ui-dialog-zoom-enter-active,
+.ui-dialog-zoom-leave-active {
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+.ui-dialog-zoom-enter,
+.ui-dialog-zoom-enter-from,
+.ui-dialog-zoom-leave-to {
+  opacity: 0;
+  transform: scale(0.96);
+}
