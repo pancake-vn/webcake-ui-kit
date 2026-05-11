@@ -21,7 +21,7 @@
     font-size: 11px;
     letter-spacing: 0.06em;
     opacity: 0.85;
-    padding: 10px 12px;
+    padding: 10px 24px;
     width: 100%;
     text-align: left;
     border-radius: 8px;
@@ -32,70 +32,95 @@
     background: rgba(0, 0, 0, 0.06);
   }
 
-  /* Component groups (Button, Badge) */
-  #storybook-explorer-tree a[data-nodetype='component'],
-  #storybook-explorer-tree a[data-nodetype='group'] {
+  /* Component / group rows (rendered as <button class="sidebar-item">) */
+  #storybook-explorer-tree [data-nodetype='component'],
+  #storybook-explorer-tree [data-nodetype='group'] {
     font-weight: 600;
-    padding: 7px 8px;
+    padding: 10px 6px;
     border-radius: 8px;
-    margin: 1px 0;
+    margin: 2px 0;
+    line-height: 1.35;
   }
 
   /* Story / docs leaves — boost contrast ONLY when not selected.
      Selected items keep theme.color.lightest (white) on theme.color.secondary. */
-  #storybook-explorer-tree a[data-nodetype='story']:not([data-selected='true']),
-  #storybook-explorer-tree a[data-nodetype='document']:not([data-selected='true']) {
+  #storybook-explorer-tree [data-nodetype='story']:not([data-selected='true']),
+  #storybook-explorer-tree [data-nodetype='document']:not([data-selected='true']) {
     color: #374151;
   }
-  #storybook-explorer-tree a[data-nodetype='story'],
-  #storybook-explorer-tree a[data-nodetype='document'] {
-    padding: 7px 8px;
+  #storybook-explorer-tree [data-nodetype='story'],
+  #storybook-explorer-tree [data-nodetype='document'] {
+    padding: 9px 12px;
     font-size: 13px;
     border-radius: 8px;
-    margin: 1px 0;
+    margin: 2px 0;
+    line-height: 1.4;
+  }
+
+  /* Hover text / chevron stays in green palette — Storybook's default colorSecondary
+     can look blue on some bases; force the webcake green explicitly. */
+  #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover,
+  #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover * {
+    color: #108b67 !important;
+  }
+  #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover svg,
+  #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover svg use {
+    fill: #108b67 !important;
   }
 
   /* Leaf row icons (bookmark / document) — inherit the row's text color
      instead of using SB's default teal. Targets the <svg> + <use> sprite. */
-  #storybook-explorer-tree a[data-nodetype='story'] svg,
-  #storybook-explorer-tree a[data-nodetype='document'] svg,
-  #storybook-explorer-tree a[data-nodetype='story'] svg use,
-  #storybook-explorer-tree a[data-nodetype='document'] svg use {
+  #storybook-explorer-tree [data-nodetype='story'] svg,
+  #storybook-explorer-tree [data-nodetype='document'] svg,
+  #storybook-explorer-tree [data-nodetype='story'] svg use,
+  #storybook-explorer-tree [data-nodetype='document'] svg use {
     fill: currentColor !important;
     color: inherit !important;
     opacity: 0.55;
   }
-  #storybook-explorer-tree a[data-nodetype='story']:hover svg,
-  #storybook-explorer-tree a[data-nodetype='document']:hover svg,
-  #storybook-explorer-tree a[data-selected='true'] svg {
+  #storybook-explorer-tree [data-nodetype='story']:hover svg,
+  #storybook-explorer-tree [data-nodetype='document']:hover svg,
+  #storybook-explorer-tree [data-selected='true'] svg {
     opacity: 1;
   }
 
   /* Selected — keep theme colors, just round */
-  #storybook-explorer-tree a[data-selected='true'] {
+  #storybook-explorer-tree [data-selected='true'] {
     border-radius: 8px !important;
-    margin: 1px 0;
+    margin: 2px 0;
   }
 
-  /* Hover (not selected) — neutral wash */
-  #storybook-explorer-tree a:not([data-selected='true']):hover,
+  /* Hover background (not selected) — neutral wash */
+  #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover,
   #storybook-explorer-tree button[data-action='collapse-root']:hover {
     background: rgba(0, 0, 0, 0.04);
     border-radius: 8px;
   }
 
   /* Dark mode — body inline bg from preview.js applyDark or html data-theme */
-  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree a[data-nodetype='story']:not([data-selected='true']),
-  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree a[data-nodetype='document']:not([data-selected='true']),
-  html[data-theme='dark'] #storybook-explorer-tree a[data-nodetype='story']:not([data-selected='true']),
-  html[data-theme='dark'] #storybook-explorer-tree a[data-nodetype='document']:not([data-selected='true']) {
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype='story']:not([data-selected='true']),
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype='document']:not([data-selected='true']),
+  html[data-theme='dark'] #storybook-explorer-tree [data-nodetype='story']:not([data-selected='true']),
+  html[data-theme='dark'] #storybook-explorer-tree [data-nodetype='document']:not([data-selected='true']) {
     color: #c9d1d9;
   }
-  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree a:not([data-selected='true']):hover,
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover,
   body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree button[data-action='collapse-root']:hover,
-  html[data-theme='dark'] #storybook-explorer-tree a:not([data-selected='true']):hover,
+  html[data-theme='dark'] #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover,
   html[data-theme='dark'] #storybook-explorer-tree button[data-action='collapse-root']:hover {
     background: rgba(255, 255, 255, 0.06);
+  }
+  html.dark #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover,
+  html.dark #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover *,
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover,
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover * {
+    color: #48e07d !important;
+  }
+  html.dark #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover svg,
+  html.dark #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover svg use,
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover svg,
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype]:not([data-selected='true']):hover svg use {
+    fill: #48e07d !important;
   }
 
   /* Search input — round corners */
