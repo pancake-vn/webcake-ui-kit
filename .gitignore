@@ -2,3 +2,4 @@ node_modules
 .omc
 dist
 storybook-static
+settings.local.json
