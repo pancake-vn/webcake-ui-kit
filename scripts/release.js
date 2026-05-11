@@ -8,10 +8,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const repoRoot = join(__dirname, '..')
 const pkgPath = join(repoRoot, 'package.json')
 
-const run = (cmd, opts = {}) =>
-  execSync(cmd, { stdio: 'inherit', cwd: repoRoot, ...opts })
-const capture = (cmd) =>
-  execSync(cmd, { cwd: repoRoot, encoding: 'utf8' }).trim()
+const run = (cmd, opts = {}) => execSync(cmd, { stdio: 'inherit', cwd: repoRoot, ...opts })
+const capture = cmd => execSync(cmd, { cwd: repoRoot, encoding: 'utf8' }).trim()
 
 const c = {
   reset: '\x1b[0m',
@@ -20,12 +18,12 @@ const c = {
   green: '\x1b[32m',
   yellow: '\x1b[33m',
   cyan: '\x1b[36m',
-  gray: '\x1b[90m',
+  gray: '\x1b[90m'
 }
 const log = (msg, color = '') => console.log(`${color}${msg}${c.reset}`)
 const step = (n, msg) => log(`\n${c.cyan}${c.bold}[${n}]${c.reset} ${msg}`)
-const ok = (msg) => log(`  ${c.green}OK${c.reset} ${msg}`)
-const fail = (msg) => {
+const ok = msg => log(`  ${c.green}OK${c.reset} ${msg}`)
+const fail = msg => {
   log(`  ${c.red}FAIL${c.reset} ${msg}`)
   process.exit(1)
 }
@@ -49,7 +47,23 @@ try {
   fail(`Not logged in. Run: ${c.yellow}npm login${c.reset}`)
 }
 
-step(2, 'Check git working tree clean')
+step(2, 'Sync per-component exports')
+if (dryRun) {
+  log(`  ${c.gray}[dry-run] would run: node scripts/sync-exports.js${c.reset}`)
+} else {
+  run('node scripts/sync-exports.js')
+  const syncDiff = capture('git status --porcelain package.json')
+  if (syncDiff) {
+    log(`  ${c.yellow}package.json updated — committing${c.reset}`)
+    run('git add package.json')
+    run('git commit -m "chore: sync per-component exports"')
+    ok('Synced + committed')
+  } else {
+    ok('Already in sync')
+  }
+}
+
+step(3, 'Check git working tree clean')
 const status = capture('git status --porcelain')
 if (status) {
   log(status, c.gray)
@@ -57,14 +71,14 @@ if (status) {
 }
 ok('Clean')
 
-step(3, 'Check current branch')
+step(4, 'Check current branch')
 const branch = capture('git rev-parse --abbrev-ref HEAD')
 log(`  Current branch: ${c.bold}${branch}${c.reset}`)
 if (branch !== 'master' && branch !== 'main') {
   log(`  ${c.yellow}WARN${c.reset} Not on master/main. Continuing anyway.`)
 }
 
-step(4, 'Check registry for current version')
+step(5, 'Check registry for current version')
 try {
   const remoteVersion = capture(`npm view ${pkg.name} version`)
   log(`  Local:  ${c.bold}${pkg.version}${c.reset}`)
@@ -73,7 +87,7 @@ try {
   log(`  ${c.gray}(package not yet published)${c.reset}`)
 }
 
-step(5, `Bump version (${bump})`)
+step(6, `Bump version (${bump})`)
 if (dryRun) {
   log(`  ${c.gray}[dry-run] would run: npm version ${bump}${c.reset}`)
 } else {
@@ -82,10 +96,8 @@ if (dryRun) {
   ok(`Version → ${c.bold}${newPkg.version}${c.reset}`)
 }
 
-step(6, skipChecks ? 'Skip prepublishOnly checks (--skip-checks)' : 'Run prepublishOnly checks')
-const publishCmd = skipChecks
-  ? 'npm publish --ignore-scripts'
-  : 'npm publish'
+step(7, skipChecks ? 'Skip prepublishOnly checks (--skip-checks)' : 'Run prepublishOnly checks')
+const publishCmd = skipChecks ? 'npm publish --ignore-scripts' : 'npm publish'
 
 if (dryRun) {
   log(`  ${c.gray}[dry-run] would run: ${publishCmd}${c.reset}`)
@@ -98,7 +110,7 @@ if (dryRun) {
   }
 }
 
-step(7, 'Push commit + tag to origin')
+step(8, 'Push commit + tag to origin')
 if (dryRun) {
   log(`  ${c.gray}[dry-run] would run: git push --follow-tags${c.reset}`)
 } else {

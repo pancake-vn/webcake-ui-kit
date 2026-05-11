@@ -6,17 +6,29 @@
   "module": "src/index.js",
   "type": "module",
   "sideEffects": [
-    "*.css",
-    "*.vue"
+    "**/*.css"
   ],
   "exports": {
     ".": {
       "import": "./src/index.js",
-      "require": "./src/index.js",
       "default": "./src/index.js"
     },
     "./styles": "./src/styles/index.css",
     "./styles/*": "./src/styles/*",
+    "./Accordion": "./src/components/accordion/Accordion.vue",
+    "./AccordionItem": "./src/components/accordion-item/AccordionItem.vue",
+    "./AlertDialog": "./src/components/alert-dialog/AlertDialog.vue",
+    "./Badge": "./src/components/badge/Badge.vue",
+    "./Breadcrumb": "./src/components/breadcrumb/Breadcrumb.vue",
+    "./Button": "./src/components/button/Button.vue",
+    "./ButtonGroup": "./src/components/button-group/ButtonGroup.vue",
+    "./Checkbox": "./src/components/checkbox/Checkbox.vue",
+    "./CheckboxGroup": "./src/components/checkbox-group/CheckboxGroup.vue",
+    "./Dialog": "./src/components/dialog/Dialog.vue",
+    "./Input": "./src/components/input/Input.vue",
+    "./RichCheckboxGroup": "./src/components/rich-checkbox-group/RichCheckboxGroup.vue",
+    "./Toggle": "./src/components/toggle/Toggle.vue",
+    "./ToggleGroup": "./src/components/toggle-group/ToggleGroup.vue",
     "./components/*": "./src/components/*",
     "./package.json": "./package.json"
   },
@@ -31,7 +43,9 @@
   "scripts": {
     "dev": "vite",
     "build": "echo 'No need to build - shipping raw SFC'",
-    "prepublishOnly": "npm run test:build && npm test",
+    "sync:exports": "node scripts/sync-exports.js",
+    "sync:exports:check": "node scripts/sync-exports.js --check",
+    "prepublishOnly": "npm run sync:exports:check && npm run test:build && npm test",
     "dev:vue2": "cd playground-vue2 && npm run dev",
     "dev:vue3": "cd playground-vue3 && npm run dev",
     "preview": "concurrently --names vue3,vue2 --prefix-colors cyan,magenta \"npm:dev:vue3\" \"npm:dev:vue2\"",
