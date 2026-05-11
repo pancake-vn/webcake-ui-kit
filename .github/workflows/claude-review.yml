@@ -11,6 +11,11 @@ on:
         description: "PR number to review"
         required: true
 
+# Cancel older review runs on the same PR when a new commit/comment arrives.
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number || github.event.issue.number || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   review:
     runs-on: ubuntu-latest
@@ -29,6 +34,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      # Cache the Claude CLI binary so the action's install step is a no-op
+      # on subsequent runs. Bump the suffix (-v1 → -v2) to force a fresh install.
+      - name: Cache Claude CLI
+        id: cache-claude
+        uses: actions/cache@v4
+        with:
+          path: ~/.claude/bin
+          key: claude-cli-${{ runner.os }}-v1
+
+      - name: Add cached Claude to PATH
+        if: steps.cache-claude.outputs.cache-hit == 'true'
+        run: echo "$HOME/.claude/bin" >> "$GITHUB_PATH"
 
       - name: Claude Code Review
         uses: vuluu2k/claude-gh-actions@v1
