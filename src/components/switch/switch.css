@@ -1,0 +1,46 @@
+.ui-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 33px;
+  height: 18px;
+  border-radius: var(--radius-infinite);
+  background: var(--border-primary);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  box-shadow: var(--shadow-xs);
+  outline: none;
+}
+
+.ui-switch--on {
+  background: var(--primary-brand-bg);
+}
+
+.ui-switch:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ui-switch:focus-visible {
+  box-shadow: var(--shadow-xs), var(--shadow-focus-ring);
+}
+
+.ui-switch__thumb {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--inverse-fg);
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.15s ease;
+  pointer-events: none;
+}
+
+.ui-switch--on .ui-switch__thumb {
+  transform: translateX(15px);
+}

@@ -1,0 +1,61 @@
+.ui-sidebar-group-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  margin-bottom: var(--spacing-3xs);
+}
+
+/* Collapsible: full-width trigger button */
+.ui-sidebar-group-label__trigger {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  min-width: 0;
+}
+
+.ui-sidebar-group-label__trigger:focus-visible {
+  outline: none;
+  border-radius: var(--radius-4);
+  box-shadow: 0 0 0 2px var(--sidebar-ring);
+}
+
+/* Label text (shared between trigger and plain span) */
+.ui-sidebar-group-label__text {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sidebar-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Chevron rotates on collapse */
+.ui-sidebar-group-label__chevron {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--sidebar-muted);
+  transition: transform 0.2s ease;
+}
+
+.ui-sidebar-group-label--collapsed .ui-sidebar-group-label__chevron {
+  transform: rotate(-90deg);
+}
+
+/* Optional action slot (mini button) */
+.ui-sidebar-group-label__action {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}

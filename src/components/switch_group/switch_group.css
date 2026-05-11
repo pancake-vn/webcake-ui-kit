@@ -1,0 +1,28 @@
+.ui-switch-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  cursor: pointer;
+}
+
+.ui-switch-group--block {
+  display: flex;
+  width: 100%;
+}
+
+.ui-switch-group--block .ui-switch-group__label {
+  flex: 1;
+  min-width: 0;
+}
+
+.ui-switch-group--disabled {
+  cursor: not-allowed;
+}
+
+.ui-switch-group__label {
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--secondary-fg);
+  user-select: none;
+}

@@ -88,7 +88,7 @@
 
     --sidebar: var(--color-neutral-50);
     --sidebar-muted: var(--color-neutral-500);
-    --sidebar-acccent: var(--color-neutral-200);
+    --sidebar-accent: var(--color-neutral-200);
     --sidebar-foreground: var(--color-neutral-700);
     --sidebar-accent-foreground: var(--color-neutral-900);
     --sidebar-primary: var(--color-neutral-900);
@@ -193,7 +193,7 @@
 
     --sidebar: var(--color-neutral-950);
     --sidebar-muted: var(--color-neutral-500);
-    --sidebar-acccent: var(--color-neutral-800);
+    --sidebar-accent: var(--color-neutral-800);
     --sidebar-foreground: var(--color-neutral-300);
     --sidebar-accent-foreground: var(--color-neutral-100);
     --sidebar-primary: var(--color-neutral-50);

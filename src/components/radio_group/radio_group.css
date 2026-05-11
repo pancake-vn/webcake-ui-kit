@@ -1,0 +1,11 @@
+.ui-radio-group {
+  display: flex;
+  gap: var(--spacing-sm, 8px);
+}
+.ui-radio-group--vertical {
+  flex-direction: column;
+}
+.ui-radio-group--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+}

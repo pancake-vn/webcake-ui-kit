@@ -1,0 +1,48 @@
+.ui-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ui-spinner--sm {
+  width: 16px;
+  height: 16px;
+}
+
+.ui-spinner--md {
+  width: 24px;
+  height: 24px;
+}
+
+.ui-spinner--lg {
+  width: 32px;
+  height: 32px;
+}
+
+.ui-spinner__svg {
+  width: 100%;
+  height: 100%;
+  animation: ui-spinner-spin 0.7s linear infinite;
+}
+
+.ui-spinner--mirrored .ui-spinner__svg {
+  animation-direction: reverse;
+}
+
+.ui-spinner__track {
+  stroke: var(--tertiary-bg);
+}
+
+.ui-spinner__arc {
+  stroke: currentColor;
+}
+
+@keyframes ui-spinner-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

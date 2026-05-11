@@ -1,0 +1,118 @@
+.ui-tabs {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  background: var(--secondary-bg);
+  border-radius: var(--radius-10);
+  box-sizing: border-box;
+}
+
+.ui-tabs--mini {
+  padding: 2px;
+}
+.ui-tabs--md {
+  padding: 4px;
+}
+.ui-tabs--lg {
+  padding: 4px;
+}
+
+/* — tab item — */
+.ui-tabs__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 var(--spacing-xs);
+  border: none;
+  background: none;
+  border-radius: var(--radius);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  font-weight: 500;
+  color: var(--secondary-fg);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  outline: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  transition: color 0.1s;
+}
+
+.ui-tabs__item:hover:not(.ui-tabs__item--active):not(.ui-tabs__item--disabled) {
+  color: var(--primary-fg);
+}
+
+.ui-tabs__item:focus-visible {
+  box-shadow: var(--shadow-focus-ring);
+}
+
+.ui-tabs__item--active {
+  background: var(--primary-bg);
+  color: var(--primary-fg);
+  box-shadow: var(--shadow-sm);
+  cursor: default;
+}
+
+.ui-tabs__item--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* — sizes — */
+.ui-tabs--mini .ui-tabs__item {
+  height: 20px;
+  padding: 0 6px;
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+}
+
+.ui-tabs--md .ui-tabs__item {
+  height: 28px;
+}
+
+.ui-tabs--lg .ui-tabs__item {
+  height: 32px;
+  padding: 0 var(--spacing-10);
+}
+
+/* — icon + label elements — */
+.ui-tabs__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.ui-tabs--mini .ui-tabs__icon {
+  width: 12px;
+  height: 12px;
+}
+
+.ui-tabs__label {
+  flex-shrink: 0;
+}
+
+/* — counter badge — */
+.ui-tabs__counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--rounded-full);
+  background: var(--tertiary-bg);
+  color: var(--primary-fg);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  font-weight: 600;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}

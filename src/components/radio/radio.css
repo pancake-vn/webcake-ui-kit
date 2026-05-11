@@ -1,0 +1,89 @@
+.ui-radio {
+  --size: var(--spacing-md);
+  --label-gap: var(--spacing-xs);
+  --label-color: var(--color-neutral-700);
+  --border-color: var(--border-3);
+  --focus-color: var(--border-primary);
+  --error-focus-color: var(--color-red-200);
+  --error-color: var(--color-red-500);
+  --inner-bg: var(--color-brand-shades-600);
+  --disabled-border-color: var(--color-neutral-200);
+  --disabled-checked-border-color: var(--color-neutral-950);
+  --disabled-inner-bg: var(--color-neutral-950);
+
+  position: relative;
+  display: inline-flex;
+  align-items: start;
+  gap: var(--label-gap);
+  cursor: pointer;
+  user-select: none;
+  color: var(--label-color);
+  transition: all 0.2s;
+}
+.ui-radio__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.ui-radio__inner {
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  background: #fff;
+  box-sizing: border-box;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-xs);
+  margin-top: 2px;
+}
+.ui-radio__inner::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s ease;
+  background: var(--inner-bg);
+}
+.ui-radio:hover .ui-radio__inner {
+  box-shadow: 0 0 0 3px var(--focus-color);
+}
+.ui-radio.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.ui-radio.disabled.checked {
+  opacity: 0.3;
+}
+.ui-radio.disabled .ui-radio__inner {
+  border-color: var(--disabled-border-color);
+}
+.ui-radio.disabled.checked .ui-radio__inner {
+  border-color: var(--disabled-checked-border-color);
+}
+.ui-radio.disabled.checked .ui-radio__inner::after {
+  background: var(--disabled-inner-bg);
+}
+
+.ui-radio.error:hover .ui-radio__inner {
+  box-shadow: 0 0 0 3px var(--error-focus-color);
+}
+.ui-radio.error .ui-radio__inner {
+  border-color: var(--error-color);
+}
+.ui-radio.error .ui-radio__inner::after {
+  background: var(--error-color);
+}
+
+.ui-radio.checked .ui-radio__inner::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.ui-radio__label_wrapper {
+  display: flex;
+  flex-direction: column;
+}
