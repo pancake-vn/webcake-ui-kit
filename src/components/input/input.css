@@ -1,0 +1,123 @@
+.ui-input {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+  background: var(--input);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-xs);
+  font-family: var(--font-family-body);
+  color: var(--primary-fg);
+  overflow: hidden;
+  transition:
+    border-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+/* Size — paddings, gaps, heights, typography. Inner field inherits typography. */
+.ui-input--size-md {
+  min-height: 36px;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-7p5) var(--spacing-sm);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+.ui-input--size-lg {
+  min-height: 40px;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-9p5) var(--spacing-md);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+.ui-input--size-sm {
+  min-height: 32px;
+  gap: var(--spacing-6);
+  padding: var(--spacing-5p5) var(--spacing-xs);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+.ui-input--size-xs {
+  min-height: 28px;
+  gap: var(--spacing-2xs);
+  padding: var(--spacing-6);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+
+/* Roundness — Mini uses smaller default radius per Figma. */
+.ui-input--round-default {
+  border-radius: var(--rounded-xl);
+}
+.ui-input--size-xs.ui-input--round-default {
+  border-radius: var(--rounded-lg);
+}
+.ui-input--round-round {
+  border-radius: var(--rounded-full);
+}
+
+/* Focus (interactive) — wrapper highlights when inner field is focused. */
+.ui-input:focus-within {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+/* Error (logical) — red border, no base shadow. */
+.ui-input--error {
+  border-color: var(--destructive-border);
+  box-shadow: none;
+}
+.ui-input--error:focus-within {
+  border-color: var(--destructive-border);
+  box-shadow: 0 0 0 3px var(--focus-ring-error);
+}
+
+/* Disabled — visual only; cursor handled by inner field. */
+.ui-input--disabled {
+  opacity: 0.5;
+}
+.ui-input--disabled:focus-within {
+  border-color: var(--border-primary);
+  box-shadow: var(--shadow-xs);
+}
+
+/* The native input — strips browser chrome and inherits typography from wrapper. */
+.ui-input__field {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+.ui-input__field::placeholder {
+  color: var(--muted-fg);
+  opacity: 1;
+}
+.ui-input__field:disabled {
+  cursor: not-allowed;
+}
+
+/* Decoration slot wrappers — fixed-size icon containers. */
+.ui-input__decoration {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--muted-fg);
+}
+.ui-input--size-xs .ui-input__decoration {
+  width: 16px;
+  height: 16px;
+}

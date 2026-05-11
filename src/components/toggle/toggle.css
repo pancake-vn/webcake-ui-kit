@@ -1,0 +1,174 @@
+/* ============================================================
+   Base
+   ============================================================ */
+.ui-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  margin: 0;
+  cursor: pointer;
+  font-family: var(--font-family-body);
+  font-weight: var(--paragraph-medium-font-weight);
+  text-align: center;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--primary-fg);
+  transition:
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.ui-toggle__label {
+  display: inline-flex;
+}
+
+.ui-toggle__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Sizes  (Mini → xs, Small → sm, Default → md, Large → lg)
+   ============================================================ */
+.ui-toggle--xs {
+  height: 24px;
+  padding: var(--spacing-3) var(--spacing-2xs);
+  gap: var(--spacing-6);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+.ui-toggle--xs .ui-toggle__icon {
+  width: 16px;
+  height: 16px;
+}
+
+.ui-toggle--sm {
+  height: 32px;
+  padding: var(--spacing-5p5) var(--spacing-6);
+  gap: var(--spacing-6);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+.ui-toggle--sm .ui-toggle__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.ui-toggle--md {
+  height: 36px;
+  padding: var(--spacing-7p5) var(--spacing-xs);
+  gap: var(--spacing-xs);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+.ui-toggle--md .ui-toggle__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.ui-toggle--lg {
+  height: 40px;
+  padding: var(--spacing-9p5) var(--spacing-sm);
+  gap: var(--spacing-xs);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+.ui-toggle--lg .ui-toggle__icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* ============================================================
+   Roundness
+   ============================================================ */
+.ui-toggle--round-default {
+  border-radius: var(--radius-10);
+}
+.ui-toggle--xs.ui-toggle--round-default {
+  border-radius: var(--rounded-lg);
+}
+.ui-toggle--lg.ui-toggle--round-default {
+  border-radius: var(--rounded-2xl);
+}
+.ui-toggle--round-round {
+  border-radius: var(--rounded-full);
+}
+
+/* ============================================================
+   Variant — Outlined
+   ============================================================ */
+.ui-toggle--variant-outlined {
+  background: var(--primary-bg);
+  color: var(--primary-fg);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-xs);
+}
+.ui-toggle--variant-outlined.ui-toggle--active {
+  background: var(--outline-active);
+  color: var(--primary-fg);
+}
+
+/* ============================================================
+   Variant — Ghost
+   ============================================================ */
+.ui-toggle--variant-ghost {
+  background: var(--ghost);
+  color: var(--primary-fg);
+  border: 1px solid transparent;
+}
+.ui-toggle--variant-ghost.ui-toggle--active {
+  background: var(--secondary-bg);
+  color: var(--primary-fg);
+}
+
+/* ============================================================
+   Focus
+   ============================================================ */
+.ui-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-ring);
+}
+
+/* ============================================================
+   Disabled
+   ============================================================ */
+.ui-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Icon-only — square button per size
+   ============================================================ */
+.ui-toggle--icon-only {
+  gap: 0;
+}
+.ui-toggle--icon-only.ui-toggle--xs {
+  min-height: 28px;
+  min-width: 24px;
+  padding: var(--spacing-3xs);
+}
+.ui-toggle--icon-only.ui-toggle--sm {
+  min-width: 32px;
+  padding: var(--spacing-6);
+}
+.ui-toggle--icon-only.ui-toggle--md {
+  min-width: 36px;
+  padding: var(--spacing-xs);
+}
+.ui-toggle--icon-only.ui-toggle--lg {
+  min-width: 40px;
+  padding: var(--spacing-10);
+}

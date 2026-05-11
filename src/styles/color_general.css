@@ -29,7 +29,8 @@
     --primary-hover: var(--color-neutral-50);
     --secondary-hover: var(--color-neutral-50);
     --primary-brand-hover: var(--color-brand-shades-800);
-    --negative-subtle: var(--color-red-50);
+    --destructive-hover: var(--color-red-500);
+    --destructive-subtle: var(--color-red-50);
     --destructive-border: var(--color-red-500);
     --destructive-text: var(--color-red-600);
     --ghost: var(--color-white-alpha-001);
@@ -37,8 +38,8 @@
     --ghost-hover: var(--color-black-alpha-5);
     --outline: var(--color-white-alpha-10);
     --outline-hover: var(--color-black-alpha-333);
-    --outline-active: var(--color-white-alpha-5);
-    --accent-0: var(--color-neutral-50);
+    --outline-active: var(--color-black-alpha-5);
+    --accent-0: rgba(245, 245, 245, 0.5);
     --accent-1: var(--color-neutral-100);
     --accent-2: var(--color-neutral-200);
     --border-0: var(--color-neutral-50);
@@ -76,6 +77,9 @@
     /* End: Unofficial */
 
     /* Components */
+    --button-black: var(--color-neutral-950);
+    --button-black-fg: var(--color-white-alpha-95);
+    --button-black-hover: var(--color-neutral-700);
     --card: var(--color-white-alpha-100);
     --card-foreground: var(--color-neutral-950);
 
@@ -95,8 +99,8 @@
     --input: var(--color-white-alpha-100);
 
     /* Effect */
-    --ring: var(--color-neutral-200);
-    --ring-error: var(--color-red-300);
+    --focus-ring: var(--color-neutral-200);
+    --focus-ring-error: var(--color-red-300);
   }
 
   .dark {
@@ -124,7 +128,8 @@
     --primary-hover: var(--color-neutral-950);
     --secondary-hover: var(--color-neutral-900);
     --primary-brand-hover: var(--color-brand-shades-300);
-    --negative-subtle: var(--color-red-950);
+    --destructive-hover: var(--color-red-500);
+    --destructive-subtle: var(--color-red-950);
     --destructive-border: var(--color-red-500);
     --destructive-text: var(--color-red-400);
     --ghost: var(--color-white-alpha-001);
@@ -133,7 +138,7 @@
     --outline: var(--color-white-alpha-5);
     --outline-hover: var(--color-black-alpha-10);
     --outline-active: var(--color-white-alpha-15);
-    --accent-0: var(--color-neutral-950);
+    --accent-0: rgba(38, 38, 38, 0.5);
     --accent-1: var(--color-neutral-800);
     --accent-2: var(--color-neutral-800);
     --border-0: var(--color-neutral-950);
@@ -177,7 +182,9 @@
     /* End: Unofficial */
 
     /* Components */
-    /* card */
+    --button-black: var(--color-neutral-50);
+    --button-black-fg: var(--color-black-alpha-95);
+    --button-black-hover: var(--color-neutral-200);
     --card: var(--color-neutral-900);
     --card-foreground: var(--color-white-alpha-100);
 
@@ -196,7 +203,7 @@
     --input: var(--color-white-alpha-5);
 
     /* Effect */
-    --ring: var(--color-neutral-700);
-    --ring-error: #6d2e2f;
+    --focus-ring: var(--color-neutral-700);
+    --focus-ring-error: #6d2e2f;
   }
 }

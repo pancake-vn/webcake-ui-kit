@@ -1,42 +1,270 @@
+/* ============================================================
+   Base
+   ============================================================ */
 .ui-btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  margin: 0;
   cursor: pointer;
-  font-weight: 500;
+  font-family: var(--font-family-body);
+  font-weight: var(--paragraph-medium-font-weight);
+  text-align: center;
+  white-space: nowrap;
+  transition:
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease;
+  -webkit-appearance: none;
 }
 
+.ui-btn__label {
+  display: inline-flex;
+}
+
+.ui-btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Sizes
+   ============================================================ */
+.ui-btn--xs {
+  height: 24px;
+  padding: var(--spacing-3) var(--spacing-xs);
+  gap: var(--spacing-6);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+.ui-btn--xs .ui-btn__icon,
+.ui-btn--xs :deep(svg) {
+  width: 16px;
+  height: 16px;
+}
+
+.ui-btn--sm {
+  height: 32px;
+  padding: var(--spacing-6) var(--spacing-sm);
+  gap: var(--spacing-6);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+.ui-btn--sm .ui-btn__icon,
+.ui-btn--sm :deep(svg) {
+  width: 20px;
+  height: 20px;
+}
+
+.ui-btn--md {
+  height: 36px;
+  padding: var(--spacing-xs) var(--spacing-md);
+  gap: var(--spacing-xs);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+.ui-btn--md .ui-btn__icon,
+.ui-btn--md :deep(svg) {
+  width: 20px;
+  height: 20px;
+}
+
+.ui-btn--lg {
+  height: 40px;
+  padding: var(--spacing-10) var(--spacing-xl);
+  gap: var(--spacing-xs);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+.ui-btn--lg .ui-btn__icon,
+.ui-btn--lg :deep(svg) {
+  width: 20px;
+  height: 20px;
+}
+
+.ui-btn--xl {
+  height: 48px;
+  padding: var(--spacing-sm) var(--spacing-2xl);
+  gap: var(--spacing-xs);
+  font-size: var(--paragraph-regular-font-size);
+  line-height: var(--paragraph-regular-line-height);
+  letter-spacing: var(--paragraph-regular-letter-spacing);
+}
+.ui-btn--xl .ui-btn__icon,
+.ui-btn--xl :deep(svg) {
+  width: 20px;
+  height: 20px;
+}
+
+/* ============================================================
+   Roundness
+   - mini (xs) uses rounded-lg by default; other sizes use 10px.
+   - round = full pill across all sizes.
+   ============================================================ */
+.ui-btn--round-default {
+  border-radius: var(--radius-10);
+}
+.ui-btn--xs.ui-btn--round-default {
+  border-radius: var(--rounded-lg);
+}
+.ui-btn--round-round {
+  border-radius: var(--rounded-full);
+}
+
+/* ============================================================
+   Variants
+   ============================================================ */
+
+/* Primary */
 .ui-btn--primary {
-  background: #3b82f6;
-  color: white;
+  background: var(--primary-brand-bg);
+  color: var(--inverse-fg);
 }
+.ui-btn--primary:hover,
+.ui-btn--primary:active {
+  background: var(--primary-brand-hover);
+}
+
+/* Neutral */
+.ui-btn--neutral {
+  background: var(--button-black);
+  color: var(--button-black-fg);
+}
+.ui-btn--neutral:hover,
+.ui-btn--neutral:active {
+  background: var(--button-black-hover);
+}
+
+/* Secondary */
 .ui-btn--secondary {
-  background: #6b7280;
-  color: white;
+  background: var(--secondary-bg);
+  color: var(--secondary-fg);
 }
-.ui-btn--danger {
-  background: #ef4444;
-  color: white;
-}
-.ui-btn--success {
-  background: #10b981;
-  color: white;
+.ui-btn--secondary:hover,
+.ui-btn--secondary:active {
+  background: var(--secondary-hover);
 }
 
-.ui-btn--small {
-  padding: 6px 12px;
-  font-size: 14px;
+/* Outline */
+.ui-btn--outline {
+  background: var(--primary-bg);
+  color: var(--primary-fg);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-xs);
 }
-.ui-btn--medium {
-  padding: 8px 16px;
-  font-size: 16px;
-}
-.ui-btn--large {
-  padding: 12px 20px;
-  font-size: 18px;
+.ui-btn--outline:hover,
+.ui-btn--outline:active {
+  background: var(--outline-hover);
 }
 
+/* Ghost */
+.ui-btn--ghost {
+  background: var(--ghost);
+  color: var(--primary-fg);
+}
+.ui-btn--ghost:hover,
+.ui-btn--ghost:active {
+  background: var(--ghost-hover);
+}
+
+/* Destructive */
+.ui-btn--destructive {
+  background: var(--destructive);
+  color: var(--destructive-inverse-fg);
+}
+.ui-btn--destructive:hover,
+.ui-btn--destructive:active {
+  background: var(--destructive-hover);
+}
+
+/* Link — text-only button on transparent ghost bg, brand-colored. */
+.ui-btn--link {
+  background: var(--ghost);
+  color: var(--primary-brand-fg);
+}
+.ui-btn--link:hover,
+.ui-btn--link:active {
+  color: var(--primary-brand-hover);
+}
+
+/* ============================================================
+   Focus
+   ============================================================ */
+.ui-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+.ui-btn--secondary:focus-visible {
+  background: var(--secondary-hover);
+}
+.ui-btn--outline:focus-visible {
+  border-color: var(--border-focus);
+}
+
+/* ============================================================
+   Disabled
+   ============================================================ */
 .ui-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Icon-only — square button, uniform padding per size.
+   Width = height; default slot content rendered in .ui-btn__icon
+   so the existing per-size icon sizing applies (16 for xs, 20
+   otherwise).
+   ============================================================ */
+.ui-btn--icon-only {
+  gap: 0;
+}
+
+.ui-btn--icon-only.ui-btn--xs {
+  min-width: 24px;
+  padding: var(--spacing-3xs);
+}
+.ui-btn--icon-only.ui-btn--sm {
+  min-width: 32px;
+  padding: var(--spacing-6);
+}
+.ui-btn--icon-only.ui-btn--md {
+  min-width: 36px;
+  padding: var(--spacing-xs);
+}
+.ui-btn--icon-only.ui-btn--lg {
+  min-width: 40px;
+  padding: var(--spacing-10);
+}
+.ui-btn--icon-only.ui-btn--xl {
+  min-width: 48px;
+  padding: var(--spacing-sm);
+}
+
+/* ============================================================
+   Loading — spinner replaces left icon, click suppressed.
+   Spinner inherits currentColor so it matches the variant fg.
+   ============================================================ */
+.ui-btn--loading {
+  cursor: progress;
+}
+
+.ui-btn__spinner {
+  animation: ui-btn-spin 0.7s linear infinite;
+  transform-origin: center center;
+  opacity: 0.85;
+}
+
+@keyframes ui-btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -1,0 +1,68 @@
+.ui-toggle-group {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+/* ── In-group: reset radius, then re-apply on first/last for connected look ── */
+.ui-toggle-group .ui-toggle--in-group:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+/* default (sm / md) */
+.ui-toggle-group .ui-toggle--in-group:first-child {
+  border-top-left-radius: var(--rounded-xl);
+  border-bottom-left-radius: var(--rounded-xl);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.ui-toggle-group .ui-toggle--in-group:last-child {
+  border-top-right-radius: var(--rounded-xl);
+  border-bottom-right-radius: var(--rounded-xl);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.ui-toggle-group .ui-toggle--in-group:first-child:last-child {
+  border-radius: var(--rounded-xl);
+}
+
+/* xs */
+.ui-toggle-group .ui-toggle--xs.ui-toggle--in-group:first-child {
+  border-top-left-radius: var(--rounded-lg);
+  border-bottom-left-radius: var(--rounded-lg);
+}
+.ui-toggle-group .ui-toggle--xs.ui-toggle--in-group:last-child {
+  border-top-right-radius: var(--rounded-lg);
+  border-bottom-right-radius: var(--rounded-lg);
+}
+.ui-toggle-group .ui-toggle--xs.ui-toggle--in-group:first-child:last-child {
+  border-radius: var(--rounded-lg);
+}
+
+/* lg */
+.ui-toggle-group .ui-toggle--lg.ui-toggle--in-group:first-child {
+  border-top-left-radius: var(--rounded-2xl);
+  border-bottom-left-radius: var(--rounded-2xl);
+}
+.ui-toggle-group .ui-toggle--lg.ui-toggle--in-group:last-child {
+  border-top-right-radius: var(--rounded-2xl);
+  border-bottom-right-radius: var(--rounded-2xl);
+}
+.ui-toggle-group .ui-toggle--lg.ui-toggle--in-group:first-child:last-child {
+  border-radius: var(--rounded-2xl);
+}
+
+/* ── Outlined toggles: collapse shared borders, lift on interaction ── */
+.ui-toggle-group .ui-toggle--variant-outlined.ui-toggle--in-group:not(:first-child) {
+  margin-left: -1px;
+}
+.ui-toggle-group .ui-toggle--variant-outlined.ui-toggle--in-group:hover:not(:disabled),
+.ui-toggle-group .ui-toggle--variant-outlined.ui-toggle--in-group:focus-visible {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Active state lifts above siblings so its borders show ── */
+.ui-toggle-group .ui-toggle--in-group.ui-toggle--active {
+  position: relative;
+  z-index: 1;
+}

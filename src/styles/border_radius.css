@@ -17,9 +17,9 @@
     --rounded-md: var(--radius-4);
     --rounded-lg: var(--radius-6);
     --radius: var(--radius-8);
-    --rounded-xl: var(--radius-12);
-    --rounded-2xl: var(--radius-16);
-    --rounded-3xl: var(--radius-24);
+    --rounded-xl: var(--radius-10);
+    --rounded-2xl: var(--radius-12);
+    --rounded-3xl: var(--radius-16);
     --rounded-full: var(--radius-infinite);
   }
 }

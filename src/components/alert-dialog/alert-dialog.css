@@ -1,0 +1,33 @@
+.ui-alert-dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.ui-alert-dialog-title {
+  font-family: var(--heading-4-font-family);
+  font-size: var(--heading-4-font-size);
+  line-height: var(--heading-4-line-height);
+  font-weight: var(--heading-4-font-weight);
+  letter-spacing: var(--heading-4-letter-spacing);
+  color: var(--primary-fg);
+}
+
+.ui-alert-dialog-description {
+  font-family: var(--paragraph-small-font-family);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+  color: var(--muted-fg);
+}
+
+@media (max-width: 767px) {
+  .ui-alert-dialog-body {
+    text-align: center;
+  }
+
+  .ui-alert-dialog-btn {
+    flex: 1 0 0;
+    min-width: 0;
+  }
+}

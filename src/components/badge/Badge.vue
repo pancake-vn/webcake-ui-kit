@@ -34,10 +34,10 @@ export default {
   emits: [],
   computed: {
     hasIconLeft() {
-      return !!((this.$scopedSlots && this.$scopedSlots['icon-left']) || this.$slots['icon-left'])
+      return !!this.$slots['icon-left']
     },
     hasIconRight() {
-      return !!((this.$scopedSlots && this.$scopedSlots['icon-right']) || this.$slots['icon-right'])
+      return !!this.$slots['icon-right']
     }
   }
 }
