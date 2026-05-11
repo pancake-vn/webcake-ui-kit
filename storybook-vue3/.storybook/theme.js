@@ -1,7 +1,9 @@
 import { create } from '@storybook/theming'
+import logoLight from './logo-light.svg'
+import logoDark from './logo-dark.svg'
 
 const shared = {
-  brandTitle: 'webcake-ui-kit',
+  brandTitle: 'Webcake UI',
   brandUrl: 'https://github.com/pancake-vn/webcake-ui-kit',
   brandTarget: '_blank',
 
@@ -18,6 +20,7 @@ const shared = {
 export const light = create({
   base: 'light',
   ...shared,
+  brandImage: logoLight,
 
   appBg: '#f7f8f8',
   appContentBg: '#ffffff',
@@ -39,6 +42,7 @@ export const light = create({
 export const dark = create({
   base: 'dark',
   ...shared,
+  brandImage: logoDark,
 
   colorPrimary: '#48E07D',
   colorSecondary: '#1DB954',
