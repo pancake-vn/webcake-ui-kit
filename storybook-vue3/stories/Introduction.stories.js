@@ -1,12 +1,76 @@
 import Button from '../../src/components/button/Button.vue'
 import Badge from '../../src/components/badge/Badge.vue'
+import { addons } from '@storybook/addons'
+import { SET_CURRENT_STORY, NAVIGATE_URL } from '@storybook/core-events'
+
+if (typeof window !== 'undefined') {
+  window.__navStory = storyId => {
+    try {
+      const channel = addons.getChannel()
+      // Manager router wants a relative URL with the ?path= query — same shape sidebar uses
+      channel.emit(NAVIGATE_URL, '?path=/story/' + storyId)
+      // Also tell the preview to render that story (in case manager doesn't push it)
+      channel.emit(SET_CURRENT_STORY, { storyId, viewMode: 'story' })
+    } catch (e) {
+      window.top.location.search = '?path=/story/' + storyId
+    }
+  }
+}
+
+const THEME_STYLE = `
+<style>
+  .docs-page {
+    --docs-fg: #111827;
+    --docs-fg-strong: #0b0f1a;
+    --docs-muted: #6b7280;
+    --docs-border: #d1d5db;
+    --docs-border-soft: #e5e7eb;
+    --docs-card-bg: rgba(15,23,42,0.025);
+    --docs-table-head: #f9fafb;
+    --docs-link: #ec4899;
+    --docs-link-hover: #db2777;
+    --docs-cta-bg: #111827;
+    --docs-cta-fg: #ffffff;
+    --docs-cta-bg-hover: #1f2937;
+    --docs-secondary-fg: #111827;
+    --docs-secondary-bg-hover: rgba(15,23,42,0.04);
+    color: var(--docs-fg);
+  }
+  .dark .docs-page,
+  html.dark .docs-page,
+  body.dark .docs-page {
+    --docs-fg: #e6e8eb;
+    --docs-fg-strong: #ffffff;
+    --docs-muted: #9aa3af;
+    --docs-border: #3a4150;
+    --docs-border-soft: #2a2f39;
+    --docs-card-bg: rgba(255,255,255,0.05);
+    --docs-table-head: #1c2128;
+    --docs-link: #ff89b5;
+    --docs-link-hover: #ffaecc;
+    --docs-cta-bg: #f4f4f5;
+    --docs-cta-fg: #0b0f1a;
+    --docs-cta-bg-hover: #ffffff;
+    --docs-secondary-fg: #e6e8eb;
+    --docs-secondary-bg-hover: rgba(255,255,255,0.06);
+  }
+  .docs-page a.docs-btn {
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .docs-page a.docs-btn-primary:hover { background: var(--docs-cta-bg-hover) !important; }
+  .docs-page a.docs-btn-secondary:hover { background: var(--docs-secondary-bg-hover) !important; }
+  .docs-page a { color: var(--docs-link); }
+  .docs-page a:hover { color: var(--docs-link-hover); }
+  .docs-page strong { color: var(--docs-fg-strong); }
+</style>
+`
 
 const PAGE_STYLE = `
   max-width: 880px;
   margin: 0 auto;
   padding: 56px 32px 80px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: var(--color-text, #111827);
+  color: var(--docs-fg);
   line-height: 1.65;
 `
 
@@ -51,10 +115,10 @@ const SECTION_H2 = `
   font-weight: 700;
   margin: 48px 0 12px;
   letter-spacing: -0.01em;
-  color: var(--color-text, #111827);
+  color: var(--docs-fg);
 `
 
-const MUTED = `color: #6b7280;`
+const MUTED = `color: var(--docs-muted);`
 
 export default {
   title: 'Introduction',
@@ -71,7 +135,8 @@ export default {
 
 export const Welcome = () => ({
   template: `
-    <div style="${PAGE_STYLE}">
+    ${THEME_STYLE}
+    <div class="docs-page" style="${PAGE_STYLE}">
       <header style="margin-bottom: 32px;">
         ${PILL('Vue 2 · Vue 3 · One source', '#13823B', '#DBFDE6')}
         <h1 style="
@@ -99,30 +164,30 @@ export const Welcome = () => ({
         margin: 32px 0 48px;
         flex-wrap: wrap;
       ">
-        <a href="?path=/story/introduction--installation" style="
+        <a class="docs-btn docs-btn-primary" href="../?path=/story/introduction--installation" onclick="event.preventDefault(); window.__navStory('introduction--installation')" style="
           padding: 10px 20px;
-          background: #111827;
-          color: white;
+          background: var(--docs-cta-bg);
+          color: var(--docs-cta-fg);
           border-radius: 8px;
           text-decoration: none;
           font-weight: 600;
           font-size: 14px;
         ">Get started →</a>
-        <a href="?path=/story/introduction--quick-start" style="
+        <a class="docs-btn docs-btn-secondary" href="../?path=/story/introduction--quick-start" onclick="event.preventDefault(); window.__navStory('introduction--quick-start')" style="
           padding: 10px 20px;
           background: transparent;
-          color: #111827;
-          border: 1px solid #d1d5db;
+          color: var(--docs-secondary-fg);
+          border: 1px solid var(--docs-border);
           border-radius: 8px;
           text-decoration: none;
           font-weight: 600;
           font-size: 14px;
         ">Quick start</a>
-        <a href="https://github.com/pancake-vn/webcake-ui-kit" target="_blank" rel="noopener" style="
+        <a class="docs-btn docs-btn-secondary" href="https://github.com/pancake-vn/webcake-ui-kit" target="_blank" rel="noopener" style="
           padding: 10px 20px;
           background: transparent;
-          color: #111827;
-          border: 1px solid #d1d5db;
+          color: var(--docs-secondary-fg);
+          border: 1px solid var(--docs-border);
           border-radius: 8px;
           text-decoration: none;
           font-weight: 600;
@@ -170,9 +235,9 @@ export const Welcome = () => ({
             ([icon, title, body]) => `
           <div style="
             padding: 18px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--docs-border);
             border-radius: 12px;
-            background: rgba(255,255,255,0.5);
+            background: var(--docs-card-bg);
           ">
             <div style="font-size: 22px; margin-bottom: 8px;">${icon}</div>
             <div style="font-weight: 700; margin-bottom: 4px; font-size: 15px;">${title}</div>
@@ -191,16 +256,16 @@ export const Welcome = () => ({
       <footer style="
         margin-top: 56px;
         padding-top: 20px;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid var(--docs-border);
         ${MUTED}
         font-size: 13px;
         display: flex;
         justify-content: space-between;
         align-items: center;
       ">
-        <span>Next: <strong style="color:#111827;">Installation →</strong></span>
-        <a href="?path=/story/introduction--installation" style="
-          color: #ff6b9d;
+        <span>Next: <strong style="color: var(--docs-fg-strong);">Installation →</strong></span>
+        <a href="../?path=/story/introduction--installation" onclick="event.preventDefault(); window.__navStory('introduction--installation')" style="
+          color: var(--docs-link);
           text-decoration: none;
           font-weight: 600;
         ">Read the install guide →</a>
@@ -215,7 +280,8 @@ export const Welcome = () => ({
 
 export const Installation = () => ({
   template: `
-    <div style="${PAGE_STYLE}">
+    ${THEME_STYLE}
+    <div class="docs-page" style="${PAGE_STYLE}">
       ${PILL('Step 1 of 3', '#1e40af', '#dbeafe')}
       <h1 style="margin: 16px 0 8px; font-size: 40px; font-weight: 800; letter-spacing: -0.02em;">
         Installation
@@ -292,16 +358,16 @@ Vue.component(<span style="color:#86efac;">'Input'</span>, Input)
       <footer style="
         margin-top: 56px;
         padding-top: 20px;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid var(--docs-border);
         ${MUTED}
         font-size: 13px;
         display: flex;
         justify-content: space-between;
         align-items: center;
       ">
-        <a href="?path=/story/introduction--welcome" style="color: #6b7280; text-decoration: none;">← Welcome</a>
-        <a href="?path=/story/introduction--quick-start" style="
-          color: #ff6b9d;
+        <a href="../?path=/story/introduction--welcome" onclick="event.preventDefault(); window.__navStory('introduction--welcome')" style="color: var(--docs-muted); text-decoration: none;">← Welcome</a>
+        <a href="../?path=/story/introduction--quick-start" onclick="event.preventDefault(); window.__navStory('introduction--quick-start')" style="
+          color: var(--docs-link);
           text-decoration: none;
           font-weight: 600;
         ">Next: Quick start →</a>
@@ -317,7 +383,8 @@ Vue.component(<span style="color:#86efac;">'Input'</span>, Input)
 export const QuickStart = () => ({
   components: { Button, Badge },
   template: `
-    <div style="${PAGE_STYLE}">
+    ${THEME_STYLE}
+    <div class="docs-page" style="${PAGE_STYLE}">
       ${PILL('Step 2 of 3', '#1e40af', '#dbeafe')}
       <h1 style="margin: 16px 0 8px; font-size: 40px; font-weight: 800; letter-spacing: -0.02em;">
         Quick start
@@ -349,9 +416,9 @@ export const QuickStart = () => ({
       <div style="
         margin: 16px 0 32px;
         padding: 24px;
-        border: 1px dashed #d1d5db;
+        border: 1px dashed var(--docs-border);
         border-radius: 12px;
-        background: rgba(255,255,255,0.4);
+        background: var(--docs-card-bg);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -374,9 +441,9 @@ export const QuickStart = () => ({
       <div style="
         margin: 16px 0 32px;
         padding: 24px;
-        border: 1px dashed #d1d5db;
+        border: 1px dashed var(--docs-border);
         border-radius: 12px;
-        background: rgba(255,255,255,0.4);
+        background: var(--docs-card-bg);
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
@@ -396,9 +463,9 @@ export const QuickStart = () => ({
       <div style="
         margin: 0 0 32px;
         padding: 24px;
-        border: 1px dashed #d1d5db;
+        border: 1px dashed var(--docs-border);
         border-radius: 12px;
-        background: rgba(255,255,255,0.4);
+        background: var(--docs-card-bg);
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
@@ -412,24 +479,24 @@ export const QuickStart = () => ({
 
       <h2 style="${SECTION_H2}">Where to go next</h2>
       <ul style="margin: 0; padding-left: 20px; font-size: 15px;">
-        <li><a href="?path=/story/introduction--theming" style="color:#ff6b9d; font-weight:600;">Theming</a> — rebrand the kit with CSS variables.</li>
-        <li><a href="?path=/story/introduction--dual-compatibility" style="color:#ff6b9d; font-weight:600;">Dual compatibility</a> — how this actually works on both Vue versions.</li>
+        <li><a href="../?path=/story/introduction--theming" onclick="event.preventDefault(); window.__navStory('introduction--theming')" style="color: var(--docs-link); font-weight:600;">Theming</a> — rebrand the kit with CSS variables.</li>
+        <li><a href="../?path=/story/introduction--dual-compatibility" onclick="event.preventDefault(); window.__navStory('introduction--dual-compatibility')" style="color: var(--docs-link); font-weight:600;">Dual compatibility</a> — how this actually works on both Vue versions.</li>
         <li><strong>Components →</strong> pick one from the left sidebar to see every prop, slot, and variant.</li>
       </ul>
 
       <footer style="
         margin-top: 56px;
         padding-top: 20px;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid var(--docs-border);
         ${MUTED}
         font-size: 13px;
         display: flex;
         justify-content: space-between;
         align-items: center;
       ">
-        <a href="?path=/story/introduction--installation" style="color: #6b7280; text-decoration: none;">← Installation</a>
-        <a href="?path=/story/introduction--theming" style="
-          color: #ff6b9d;
+        <a href="../?path=/story/introduction--installation" onclick="event.preventDefault(); window.__navStory('introduction--installation')" style="color: var(--docs-muted); text-decoration: none;">← Installation</a>
+        <a href="../?path=/story/introduction--theming" onclick="event.preventDefault(); window.__navStory('introduction--theming')" style="
+          color: var(--docs-link);
           text-decoration: none;
           font-weight: 600;
         ">Next: Theming →</a>
@@ -450,7 +517,8 @@ export const QuickStart = () => ({
 
 export const Theming = () => ({
   template: `
-    <div style="${PAGE_STYLE}">
+    ${THEME_STYLE}
+    <div class="docs-page" style="${PAGE_STYLE}">
       ${PILL('Step 3 of 3', '#1e40af', '#dbeafe')}
       <h1 style="margin: 16px 0 8px; font-size: 40px; font-weight: 800; letter-spacing: -0.02em;">
         Theming
@@ -505,9 +573,9 @@ export const Theming = () => ({
             ([title, path]) => `
           <div style="
             padding: 14px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--docs-border);
             border-radius: 10px;
-            background: rgba(255,255,255,0.5);
+            background: var(--docs-card-bg);
           ">
             <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${title}</div>
             <code style="${INLINE_CODE} font-size: 11.5px;">${path}</code>
@@ -520,16 +588,16 @@ export const Theming = () => ({
       <footer style="
         margin-top: 56px;
         padding-top: 20px;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid var(--docs-border);
         ${MUTED}
         font-size: 13px;
         display: flex;
         justify-content: space-between;
         align-items: center;
       ">
-        <a href="?path=/story/introduction--quick-start" style="color: #6b7280; text-decoration: none;">← Quick start</a>
-        <a href="?path=/story/introduction--dual-compatibility" style="
-          color: #ff6b9d;
+        <a href="../?path=/story/introduction--quick-start" onclick="event.preventDefault(); window.__navStory('introduction--quick-start')" style="color: var(--docs-muted); text-decoration: none;">← Quick start</a>
+        <a href="../?path=/story/introduction--dual-compatibility" onclick="event.preventDefault(); window.__navStory('introduction--dual-compatibility')" style="
+          color: var(--docs-link);
           text-decoration: none;
           font-weight: 600;
         ">Next: Dual compatibility →</a>
@@ -544,7 +612,8 @@ export const Theming = () => ({
 
 export const DualCompatibility = () => ({
   template: `
-    <div style="${PAGE_STYLE}">
+    ${THEME_STYLE}
+    <div class="docs-page" style="${PAGE_STYLE}">
       ${PILL('Deep dive', '#7c2d12', '#fed7aa')}
       <h1 style="margin: 16px 0 8px; font-size: 40px; font-weight: 800; letter-spacing: -0.02em;">
         Dual compatibility
@@ -567,9 +636,9 @@ export const DualCompatibility = () => ({
         margin: 0 0 24px;
       ">
         <thead>
-          <tr style="background: #f9fafb;">
-            <th style="text-align:left; padding: 10px 14px; border-bottom: 1px solid #e5e7eb;">Rule</th>
-            <th style="text-align:left; padding: 10px 14px; border-bottom: 1px solid #e5e7eb;">Why</th>
+          <tr style="background: var(--docs-table-head);">
+            <th style="text-align:left; padding: 10px 14px; border-bottom: 1px solid var(--docs-border);">Rule</th>
+            <th style="text-align:left; padding: 10px 14px; border-bottom: 1px solid var(--docs-border);">Why</th>
           </tr>
         </thead>
         <tbody>
@@ -590,8 +659,8 @@ export const DualCompatibility = () => ({
             .map(
               ([rule, why]) => `
             <tr>
-              <td style="padding: 10px 14px; border-bottom: 1px solid #f3f4f6; font-weight: 600;">${rule}</td>
-              <td style="padding: 10px 14px; border-bottom: 1px solid #f3f4f6; ${MUTED}">${why}</td>
+              <td style="padding: 10px 14px; border-bottom: 1px solid var(--docs-border-soft); font-weight: 600;">${rule}</td>
+              <td style="padding: 10px 14px; border-bottom: 1px solid var(--docs-border-soft); ${MUTED}">${why}</td>
             </tr>
           `
             )
@@ -620,7 +689,7 @@ export const DualCompatibility = () => ({
             ([icon, title, sub]) => `
           <div style="
             padding: 16px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--docs-border);
             border-radius: 10px;
           ">
             <div style="font-size: 22px; margin-bottom: 4px;">${icon}</div>
@@ -645,14 +714,14 @@ export const DualCompatibility = () => ({
       <footer style="
         margin-top: 56px;
         padding-top: 20px;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid var(--docs-border);
         ${MUTED}
         font-size: 13px;
         display: flex;
         justify-content: space-between;
         align-items: center;
       ">
-        <a href="?path=/story/introduction--theming" style="color: #6b7280; text-decoration: none;">← Theming</a>
+        <a href="../?path=/story/introduction--theming" onclick="event.preventDefault(); window.__navStory('introduction--theming')" style="color: var(--docs-muted); text-decoration: none;">← Theming</a>
         <span>Pick a component from the left sidebar to see it in action →</span>
       </footer>
     </div>
