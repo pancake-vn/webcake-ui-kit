@@ -25,6 +25,8 @@ channel.on(DOCS_RENDERED, () => {
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
 
+  viewMode: 'docs',
+
   layout: 'centered',
 
   controls: {
