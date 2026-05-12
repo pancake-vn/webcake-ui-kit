@@ -1,4 +1,4 @@
-import Toggle from '../../src/components/toggle/Toggle.vue'
+import WkToggle from '../../src/components/toggle/Toggle.vue'
 
 const VARIANTS = ['outlined', 'ghost']
 const SIZES = ['xs', 'sm', 'md', 'lg']
@@ -11,7 +11,7 @@ const starIcon =
 
 export default {
   title: 'Components/Toggle',
-  component: Toggle,
+  component: WkToggle,
   argTypes: {
     variant: { control: { type: 'inline-radio' }, options: VARIANTS },
     size: { control: { type: 'inline-radio' }, options: SIZES },
@@ -25,8 +25,8 @@ export default {
       description: {
         component:
           'A stateful toggle button. Press to toggle on/off — `aria-pressed` reflects state. ' +
-          'Standalone uses `v-model`; inside a `ToggleGroup`, the group manages the active state and the ' +
-          'Toggle reads/writes via `value`. ' +
+          'Standalone uses `v-model`; inside a `WkToggleGroup`, the group manages the active state and the ' +
+          'WkToggle reads/writes via `value`. ' +
           'Dual-compat: Vue 2 `v-model` binds `active`; Vue 3 `v-model` binds `modelValue`.'
       }
     }
@@ -34,18 +34,18 @@ export default {
 }
 
 const Template = args => ({
-  components: { Toggle },
+  components: { WkToggle },
   data() {
     return { args, value: !!args.active }
   },
-  template: `<Toggle v-bind="args" v-model="value">{{ args.label || 'Toggle' }}</Toggle>`
+  template: `<WkToggle v-bind="args" v-model="value">{{ args.label || 'WkToggle' }}</WkToggle>`
 })
 
 export const Primary = Template.bind({})
-Primary.args = { label: 'Toggle', variant: 'outlined', size: 'md', roundness: 'default' }
+Primary.args = { label: 'WkToggle', variant: 'outlined', size: 'md', roundness: 'default' }
 
 export const AllVariants = () => ({
-  components: { Toggle },
+  components: { WkToggle },
   data() {
     return { variants: VARIANTS, sizes: SIZES }
   },
@@ -54,10 +54,10 @@ export const AllVariants = () => ({
       <div v-for="v in variants" :key="v" style="display:flex; flex-direction:column; gap:8px;">
         <span style="color:var(--muted-fg); font-size:12px;">{{ v }}</span>
         <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-          <Toggle v-for="s in sizes" :key="s" :variant="v" :size="s">{{ s }}</Toggle>
+          <WkToggle v-for="s in sizes" :key="s" :variant="v" :size="s">{{ s }}</WkToggle>
         </div>
         <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-          <Toggle v-for="s in sizes" :key="s + '-on'" :variant="v" :size="s" :active="true">{{ s }} on</Toggle>
+          <WkToggle v-for="s in sizes" :key="s + '-on'" :variant="v" :size="s" :active="true">{{ s }} on</WkToggle>
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@ export const AllVariants = () => ({
 })
 
 export const Matrix = () => ({
-  components: { Toggle },
+  components: { WkToggle },
   data() {
     return { variants: VARIANTS, sizes: SIZES, roundness: ROUNDNESS }
   },
@@ -84,13 +84,13 @@ export const Matrix = () => ({
             <tr v-for="v in variants" :key="v">
               <td style="font-size:12px; color:var(--muted-fg);">{{ v }} (off)</td>
               <td v-for="s in sizes" :key="s">
-                <Toggle :variant="v" :size="s" :roundness="r">Label</Toggle>
+                <WkToggle :variant="v" :size="s" :roundness="r">Label</WkToggle>
               </td>
             </tr>
             <tr v-for="v in variants" :key="v + '-on'">
               <td style="font-size:12px; color:var(--muted-fg);">{{ v }} (on)</td>
               <td v-for="s in sizes" :key="s">
-                <Toggle :variant="v" :size="s" :roundness="r" :active="true">Label</Toggle>
+                <WkToggle :variant="v" :size="s" :roundness="r" :active="true">Label</WkToggle>
               </td>
             </tr>
           </tbody>
@@ -101,13 +101,13 @@ export const Matrix = () => ({
 })
 
 export const VModelInteractive = () => ({
-  components: { Toggle },
+  components: { WkToggle },
   data() {
     return { active: false }
   },
   template: `
     <div style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
-      <Toggle v-model="active">Bold</Toggle>
+      <WkToggle v-model="active">Bold</WkToggle>
       <code style="font-size:13px;">active = {{ active }}</code>
     </div>
   `
@@ -117,21 +117,21 @@ VModelInteractive.parameters = {
 }
 
 export const IconOnly = () => ({
-  components: { Toggle },
+  components: { WkToggle },
   data() {
     return { boldIcon, starIcon, sizes: SIZES, on: false, fav: true }
   },
   template: `
     <div style="display:flex; flex-direction:column; gap:16px; align-items:flex-start;">
       <div style="display:flex; gap:12px; align-items:center;">
-        <Toggle v-for="s in sizes" :key="s" :size="s" v-model="on" aria-label="Bold">
+        <WkToggle v-for="s in sizes" :key="s" :size="s" v-model="on" aria-label="Bold">
           <template #icon><span v-html="boldIcon" /></template>
-        </Toggle>
+        </WkToggle>
       </div>
       <div style="display:flex; gap:12px; align-items:center;">
-        <Toggle v-for="s in sizes" :key="s + '-r'" :size="s" roundness="round" v-model="fav" aria-label="Favorite">
+        <WkToggle v-for="s in sizes" :key="s + '-r'" :size="s" roundness="round" v-model="fav" aria-label="Favorite">
           <template #icon><span v-html="starIcon" /></template>
-        </Toggle>
+        </WkToggle>
       </div>
     </div>
   `
@@ -141,25 +141,25 @@ IconOnly.parameters = {
 }
 
 export const States = () => ({
-  components: { Toggle },
+  components: { WkToggle },
   template: `
     <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-      <Toggle>Default</Toggle>
-      <Toggle :active="true">Active</Toggle>
-      <Toggle disabled>Disabled</Toggle>
-      <Toggle :active="true" disabled>Active + disabled</Toggle>
+      <WkToggle>Default</WkToggle>
+      <WkToggle :active="true">Active</WkToggle>
+      <WkToggle disabled>Disabled</WkToggle>
+      <WkToggle :active="true" disabled>Active + disabled</WkToggle>
     </div>
   `
 })
 
 export const FocusVisible = () => ({
-  components: { Toggle },
+  components: { WkToggle },
   template: `
     <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-      <Toggle>Tab here</Toggle>
-      <Toggle :active="true">And here</Toggle>
-      <Toggle variant="ghost">Ghost</Toggle>
-      <Toggle variant="ghost" :active="true">Ghost on</Toggle>
+      <WkToggle>Tab here</WkToggle>
+      <WkToggle :active="true">And here</WkToggle>
+      <WkToggle variant="ghost">Ghost</WkToggle>
+      <WkToggle variant="ghost" :active="true">Ghost on</WkToggle>
     </div>
   `
 })

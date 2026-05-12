@@ -5,7 +5,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 0;
+  border: 1px solid transparent;
   margin: 0;
   cursor: pointer;
   font-family: var(--font-family-body);
@@ -163,6 +163,7 @@
 .ui-btn--outline:hover,
 .ui-btn--outline:active {
   background: var(--outline-hover);
+  box-shadow: none;
 }
 
 /* Ghost */
@@ -198,6 +199,9 @@
 /* ============================================================
    Focus
    ============================================================ */
+.ui-btn:focus {
+  outline: none;
+}
 .ui-btn:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px var(--focus-ring);
@@ -208,7 +212,9 @@
 .ui-btn--outline:focus-visible {
   border-color: var(--border-focus);
 }
-
+.ui-btn--destructive:focus-visible {
+  box-shadow: 0 0 0 3px var(--focus-ring-error);
+}
 /* ============================================================
    Disabled
    ============================================================ */

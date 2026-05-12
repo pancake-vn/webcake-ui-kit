@@ -28,7 +28,7 @@
     /* Start: Unofficial */
     --primary-hover: var(--color-neutral-50);
     --secondary-hover: var(--color-neutral-50);
-    --primary-brand-hover: var(--color-brand-shades-800);
+    --primary-brand-hover: var(--color-brand-shades-500);
     --destructive-hover: var(--color-red-500);
     --destructive-subtle: var(--color-red-50);
     --destructive-border: var(--color-red-500);
@@ -127,7 +127,7 @@
     /* Start: Unofficial */
     --primary-hover: var(--color-neutral-950);
     --secondary-hover: var(--color-neutral-900);
-    --primary-brand-hover: var(--color-brand-shades-300);
+    --primary-brand-hover: var(--color-brand-shades-500);
     --destructive-hover: var(--color-red-500);
     --destructive-subtle: var(--color-red-950);
     --destructive-border: var(--color-red-500);

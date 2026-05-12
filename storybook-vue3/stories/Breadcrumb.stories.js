@@ -1,4 +1,4 @@
-import Breadcrumb from '../../src/components/breadcrumb/Breadcrumb.vue'
+import WkBreadcrumb from '../../src/components/breadcrumb/Breadcrumb.vue'
 
 const SEPARATORS = ['chevron', 'slash']
 
@@ -24,7 +24,7 @@ const ellipsisIcon = `
 
 export default {
   title: 'Components/Breadcrumb',
-  component: Breadcrumb,
+  component: WkBreadcrumb,
   argTypes: {
     separator: { control: { type: 'inline-radio' }, options: SEPARATORS }
   },
@@ -41,16 +41,16 @@ export default {
 }
 
 const Template = args => ({
-  components: { Breadcrumb },
+  components: { WkBreadcrumb },
   setup() {
     return { args }
   },
-  template: `<Breadcrumb v-bind="args" />`
+  template: `<WkBreadcrumb v-bind="args" />`
 })
 
 export const Primary = Template.bind({})
 Primary.args = {
-  items: [{ label: 'Home', href: '/' }, { label: 'Components', href: '/components' }, { label: 'Breadcrumb' }]
+  items: [{ label: 'Home', href: '/' }, { label: 'Components', href: '/components' }, { label: 'WkBreadcrumb' }]
 }
 
 export const SingleItem = Template.bind({})
@@ -77,7 +77,7 @@ ManyItems.args = {
 
 export const WithIcon = Template.bind({})
 WithIcon.args = {
-  items: [{ icon: houseIcon, href: '/' }, { label: 'Components', href: '/components' }, { label: 'Breadcrumb' }]
+  items: [{ icon: houseIcon, href: '/' }, { label: 'Components', href: '/components' }, { label: 'WkBreadcrumb' }]
 }
 
 export const SlashSeparator = Template.bind({})
@@ -103,7 +103,7 @@ CollapsedWithEllipsis.args = {
 }
 
 export const AllVariants = () => ({
-  components: { Breadcrumb },
+  components: { WkBreadcrumb },
   data() {
     return {
       counts: [1, 2, 3, 4, 5, 6]
@@ -122,7 +122,7 @@ export const AllVariants = () => ({
     <div style="display:flex; flex-direction:column; gap:16px; align-items:flex-start;">
       <div v-for="n in counts" :key="n" style="display:flex; align-items:center; gap:16px;">
         <span style="color:var(--muted-fg); font-size:12px; min-width:60px;">Items: {{ n }}</span>
-        <Breadcrumb :items="itemsFor(n)" />
+        <WkBreadcrumb :items="itemsFor(n)" />
       </div>
     </div>
   `
@@ -132,9 +132,9 @@ AllVariants.parameters = {
 }
 
 export const CustomSlot = () => ({
-  components: { Breadcrumb },
+  components: { WkBreadcrumb },
   template: `
-    <Breadcrumb>
+    <WkBreadcrumb>
       <li class="ui-breadcrumb__row" style="display:inline-flex; align-items:center; gap:4px;">
         <a href="#" class="ui-breadcrumb__link">Home</a>
       </li>
@@ -146,7 +146,7 @@ export const CustomSlot = () => ({
         <span class="ui-breadcrumb__separator" aria-hidden="true">›</span>
         <span class="ui-breadcrumb__current" aria-current="page">Active page</span>
       </li>
-    </Breadcrumb>
+    </WkBreadcrumb>
   `
 })
 CustomSlot.parameters = {
@@ -154,34 +154,34 @@ CustomSlot.parameters = {
 }
 
 export const FocusVisible = () => ({
-  components: { Breadcrumb },
+  components: { WkBreadcrumb },
   data() {
     return {
-      items: [{ label: 'Home', href: '#' }, { label: 'Components', href: '#' }, { label: 'Breadcrumb' }]
+      items: [{ label: 'Home', href: '#' }, { label: 'Components', href: '#' }, { label: 'WkBreadcrumb' }]
     }
   },
-  template: `<Breadcrumb :items="items" />`
+  template: `<WkBreadcrumb :items="items" />`
 })
 FocusVisible.parameters = {
   docs: { description: { story: 'Tab through the links to verify focus rings.' } }
 }
 
 export const ClickEvent = () => ({
-  components: { Breadcrumb },
+  components: { WkBreadcrumb },
   data() {
     return {
-      items: [{ label: 'Home' }, { label: 'Components' }, { label: 'Breadcrumb' }],
+      items: [{ label: 'Home' }, { label: 'Components' }, { label: 'WkBreadcrumb' }],
       lastClicked: '(none)'
     }
   },
   methods: {
-    onItemClick(item, index, event) {
+    onItemClick(item, index) {
       this.lastClicked = `${item.label} (index: ${index})`
     }
   },
   template: `
     <div style="display:flex; flex-direction:column; gap:16px; align-items:flex-start;">
-      <Breadcrumb :items="items" @click="onItemClick" />
+      <WkBreadcrumb :items="items" @click="onItemClick" />
       <pre style="margin:0; padding:8px 12px; background:var(--secondary-bg); border-radius:var(--rounded-lg); font-size:12px; color:var(--secondary-fg);">clicked = {{ lastClicked }}</pre>
     </div>
   `

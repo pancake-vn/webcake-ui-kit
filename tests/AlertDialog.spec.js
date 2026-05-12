@@ -1,13 +1,13 @@
-import { AlertDialog } from '../src/index.js'
+import { WkAlertDialog } from '../src/index.js'
 import { mount } from './_utils.js'
 
-describe('AlertDialog', () => {
+describe('WkAlertDialog', () => {
   afterEach(() => {
     document.body.innerHTML = ''
   })
 
   it('renders title and description when open', async () => {
-    const w = mount(AlertDialog, {
+    const w = mount(WkAlertDialog, {
       props: { open: true, title: 'Are you sure?', description: 'This cannot be undone.' }
     })
     await w.vm.$nextTick()
@@ -17,7 +17,7 @@ describe('AlertDialog', () => {
   })
 
   it('renders configurable ok/cancel text', async () => {
-    const w = mount(AlertDialog, { props: { open: true, okText: 'Delete', cancelText: 'Keep' } })
+    const w = mount(WkAlertDialog, { props: { open: true, okText: 'Delete', cancelText: 'Keep' } })
     await w.vm.$nextTick()
     expect(document.body.textContent).toContain('Delete')
     expect(document.body.textContent).toContain('Keep')
@@ -25,7 +25,7 @@ describe('AlertDialog', () => {
   })
 
   it('emits ok when OK button is clicked', async () => {
-    const w = mount(AlertDialog, { props: { open: true, okText: 'OK', cancelText: 'No' } })
+    const w = mount(WkAlertDialog, { props: { open: true, okText: 'OK', cancelText: 'No' } })
     await w.vm.$nextTick()
     const buttons = Array.from(document.body.querySelectorAll('button'))
     const okBtn = buttons.find(b => b.textContent.trim() === 'OK')
@@ -36,7 +36,7 @@ describe('AlertDialog', () => {
   })
 
   it('emits cancel and change(false) when Cancel is clicked', async () => {
-    const w = mount(AlertDialog, { props: { open: true, okText: 'OK', cancelText: 'Cancel' } })
+    const w = mount(WkAlertDialog, { props: { open: true, okText: 'OK', cancelText: 'Cancel' } })
     await w.vm.$nextTick()
     const buttons = Array.from(document.body.querySelectorAll('button'))
     const cancelBtn = buttons.find(b => b.textContent.trim() === 'Cancel')
@@ -49,7 +49,7 @@ describe('AlertDialog', () => {
   })
 
   it('reads modelValue when provided', async () => {
-    const w = mount(AlertDialog, { props: { modelValue: true, open: false, title: 'Hello' } })
+    const w = mount(WkAlertDialog, { props: { modelValue: true, open: false, title: 'Hello' } })
     await w.vm.$nextTick()
     expect(document.body.textContent).toContain('Hello')
     w.unmount && w.unmount()

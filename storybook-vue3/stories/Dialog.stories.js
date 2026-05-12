@@ -1,11 +1,11 @@
-import Dialog from '../../src/components/dialog/Dialog.vue'
-import Button from '../../src/components/button/Button.vue'
+import WkDialog from '../../src/components/dialog/Dialog.vue'
+import WkButton from '../../src/components/button/Button.vue'
 
 const ALIGN = ['right', 'fill']
 
 export default {
   title: 'Components/Dialog',
-  component: Dialog,
+  component: WkDialog,
   argTypes: {
     footerAlign: { control: { type: 'inline-radio' }, options: ALIGN },
     title: { control: 'text' },
@@ -36,7 +36,7 @@ export default {
 }
 
 const Template = args => ({
-  components: { Dialog, Button },
+  components: { WkDialog, WkButton },
   data() {
     return { open: false }
   },
@@ -47,11 +47,11 @@ const Template = args => ({
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open dialog</Button>
-      <Dialog v-model="open" v-bind="bound" @ok="open = false">
+      <WkButton variant="primary" @click="open = true">Open dialog</WkButton>
+      <WkDialog v-model="open" v-bind="bound" @ok="open = false">
         <p>This is the dialog body.</p>
         <p>Click outside, press Esc, or use the footer buttons to close.</p>
-      </Dialog>
+      </WkDialog>
     </div>
   `
 })
@@ -78,7 +78,7 @@ export const NoFooter = Template.bind({})
 NoFooter.args = { title: 'No footer', footer: false }
 
 export const AsyncLoading = () => ({
-  components: { Dialog, Button },
+  components: { WkDialog, WkButton },
   data() {
     return { open: false, loading: false }
   },
@@ -92,47 +92,47 @@ export const AsyncLoading = () => ({
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open async dialog</Button>
-      <Dialog v-model="open" :confirmLoading="loading" title="Save changes?" ok-text="Save" @ok="onOk">
+      <WkButton variant="primary" @click="open = true">Open async dialog</WkButton>
+      <WkDialog v-model="open" :confirmLoading="loading" title="Save changes?" ok-text="Save" @ok="onOk">
         <p>OK button automatically shows a loading state because @ok returns a Promise.</p>
-      </Dialog>
+      </WkDialog>
     </div>
   `
 })
 
 export const LongContent = () => ({
-  components: { Dialog, Button },
+  components: { WkDialog, WkButton },
   data() {
     return { open: false }
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open scrollable dialog</Button>
-      <Dialog v-model="open" title="Long content">
+      <WkButton variant="primary" @click="open = true">Open scrollable dialog</WkButton>
+      <WkDialog v-model="open" title="Long content">
         <p v-for="n in 30" :key="n" style="margin: 0 0 12px 0;">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Paragraph #{{ n }}.
         </p>
-      </Dialog>
+      </WkDialog>
     </div>
   `
 })
 
 export const CustomFooter = () => ({
-  components: { Dialog, Button },
+  components: { WkDialog, WkButton },
   data() {
     return { open: false }
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open custom footer</Button>
-      <Dialog v-model="open" title="Three actions" footer-align="fill">
+      <WkButton variant="primary" @click="open = true">Open custom footer</WkButton>
+      <WkDialog v-model="open" title="Three actions" footer-align="fill">
         <p>Override the footer buttons via the <code>footer</code> slot.</p>
         <template #footer>
-          <Button variant="ghost" @click="open = false">Discard</Button>
-          <Button variant="outline" @click="open = false">Save draft</Button>
-          <Button variant="primary" @click="open = false">Publish</Button>
+          <WkButton variant="ghost" @click="open = false">Discard</WkButton>
+          <WkButton variant="outline" @click="open = false">Save draft</WkButton>
+          <WkButton variant="primary" @click="open = false">Publish</WkButton>
         </template>
-      </Dialog>
+      </WkDialog>
     </div>
   `
 })
@@ -141,91 +141,91 @@ export const FillFooter = Template.bind({})
 FillFooter.args = { title: 'Fill footer', footerAlign: 'fill', centered: true }
 
 export const Minimizable = () => ({
-  components: { Dialog, Button },
+  components: { WkDialog, WkButton },
   data() {
     return { open: false }
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open minimizable dialog</Button>
-      <Dialog v-model="open" title="Minimizable" minimizable>
+      <WkButton variant="primary" @click="open = true">Open minimizable dialog</WkButton>
+      <WkDialog v-model="open" title="Minimizable" minimizable>
         <p>Click the dash icon (—) to collapse the body. Click the restore icon to expand again.</p>
         <p>Closing the dialog resets the minimized state.</p>
-      </Dialog>
+      </WkDialog>
     </div>
   `
 })
 
 export const Fullscreen = () => ({
-  components: { Dialog, Button },
+  components: { WkDialog, WkButton },
   data() {
     return { open: false }
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open fullscreen dialog</Button>
-      <Dialog v-model="open" title="Minimizable + Fullscreen" minimizable fullscreen>
+      <WkButton variant="primary" @click="open = true">Open fullscreen dialog</WkButton>
+      <WkDialog v-model="open" title="Minimizable + Fullscreen" minimizable fullscreen>
         <p>Click the expand icon to enter fullscreen — the dialog fills the viewport.</p>
         <p>Click the compress icon to exit. The minimize and fullscreen states are mutually exclusive.</p>
         <p>Closing resets both states.</p>
-      </Dialog>
+      </WkDialog>
     </div>
   `
 })
 
 export const StackedDialogs = () => ({
-  components: { Dialog, Button },
+  components: { WkDialog, WkButton },
   data() {
     return { open1: false, open2: false }
   },
   template: `
     <div>
-      <Button variant="primary" @click="open1 = true">Open Dialog 1</Button>
-      <Dialog v-model="open1" title="First Dialog" width="600">
+      <WkButton variant="primary" @click="open1 = true">Open WkDialog 1</WkButton>
+      <WkDialog v-model="open1" title="First WkDialog" width="600">
         <p>This is the first dialog.</p>
         <br/>
-        <Button variant="primary" @click="open2 = true">Open Dialog 2</Button>
-      </Dialog>
-      <Dialog v-model="open2" title="Second Dialog" width="400" :z-index="1050">
+        <WkButton variant="primary" @click="open2 = true">Open WkDialog 2</WkButton>
+      </WkDialog>
+      <WkDialog v-model="open2" title="Second WkDialog" width="400" :z-index="1050">
         <p>This is the second dialog stacked on top of the first one.</p>
-      </Dialog>
+      </WkDialog>
     </div>
   `
 })
 
 export const CustomWidth = () => ({
-  components: { Dialog, Button },
+  components: { WkDialog, WkButton },
   data() {
     return { open: false }
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open 800px Dialog</Button>
-      <Dialog v-model="open" title="Custom Width" width="800">
+      <WkButton variant="primary" @click="open = true">Open 800px WkDialog</WkButton>
+      <WkDialog v-model="open" title="Custom Width" width="800">
         <p>This dialog has a custom width of 800px instead of the default.</p>
         <p>You can pass a number (e.g. <code>width="800"</code>) or a string (e.g. <code>width="50vw"</code>).</p>
-      </Dialog>
+      </WkDialog>
     </div>
   `
 })
 
 export const WithBlur = () => ({
-  components: { Dialog, Button },
+  components: { WkDialog, WkButton },
   data() {
     return { open: false }
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open Blurred Dialog</Button>
-      <Dialog v-model="open" title="Blurred Backdrop" blur>
+      <WkButton variant="primary" @click="open = true">Open Blurred WkDialog</WkButton>
+      <WkDialog v-model="open" title="Blurred Backdrop" blur>
         <p>The backdrop mask behind this dialog is blurred.</p>
-      </Dialog>
+      </WkDialog>
     </div>
   `
 })
 
 export const AllVariants = () => ({
-  components: { Dialog, Button },
+  components: { WkDialog, WkButton },
   data() {
     return {
       states: [
@@ -238,13 +238,13 @@ export const AllVariants = () => ({
   },
   template: `
     <div style="display:flex; gap:12px; flex-wrap:wrap;">
-      <Button
+      <WkButton
         v-for="s in states"
         :key="s.key"
         variant="secondary"
         @click="s.open = true"
-      >{{ s.label }}</Button>
-      <Dialog
+      >{{ s.label }}</WkButton>
+      <WkDialog
         v-for="s in states"
         :key="s.key + '-dialog'"
         v-model="s.open"
@@ -253,23 +253,23 @@ export const AllVariants = () => ({
         :footer="s.footer !== false"
         :footer-align="s.footerAlign || 'right'"
       >
-        <p>Dialog variant: {{ s.label }}</p>
-      </Dialog>
+        <p>WkDialog variant: {{ s.label }}</p>
+      </WkDialog>
     </div>
   `
 })
 
 export const FocusVisible = () => ({
-  components: { Dialog, Button },
+  components: { WkDialog, WkButton },
   data() {
     return { open: false }
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open + tab through</Button>
-      <Dialog v-model="open" title="Tab through">
+      <WkButton variant="primary" @click="open = true">Open + tab through</WkButton>
+      <WkDialog v-model="open" title="Tab through">
         <p>Tab through the close icon, body, and footer buttons.</p>
-      </Dialog>
+      </WkDialog>
     </div>
   `
 })

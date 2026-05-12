@@ -1,11 +1,11 @@
-import Badge from '../../src/components/badge/Badge.vue'
+import WkBadge from '../../src/components/badge/Badge.vue'
 
 const VARIANTS = ['primary', 'secondary', 'outline', 'ghost', 'destructive', 'info', 'warning']
 const ROUNDNESS = ['default', 'round']
 
 export default {
   title: 'Components/Badge',
-  component: Badge,
+  component: WkBadge,
   argTypes: {
     variant: {
       control: { type: 'select' },
@@ -30,11 +30,11 @@ export default {
 }
 
 const Template = args => ({
-  components: { Badge },
+  components: { WkBadge },
   setup() {
     return { args }
   },
-  template: `<Badge v-bind="args">{{ args.label || 'Label' }}</Badge>`
+  template: `<WkBadge v-bind="args">{{ args.label || 'Label' }}</WkBadge>`
 })
 
 export const Primary = Template.bind({})
@@ -52,13 +52,13 @@ Round.parameters = {
 }
 
 export const AllVariants = () => ({
-  components: { Badge },
+  components: { WkBadge },
   setup() {
     return { variants: VARIANTS }
   },
   template: `
     <div style="display: flex; gap: 12px; align-items: center;">
-      <Badge v-for="v in variants" :key="v" :variant="v">{{ v }}</Badge>
+      <WkBadge v-for="v in variants" :key="v" :variant="v">{{ v }}</WkBadge>
     </div>
   `
 })
@@ -68,7 +68,7 @@ AllVariants.parameters = {
 }
 
 export const Matrix = () => ({
-  components: { Badge },
+  components: { WkBadge },
   setup() {
     return { variants: VARIANTS, roundness: ROUNDNESS }
   },
@@ -83,7 +83,7 @@ export const Matrix = () => ({
       <tbody>
         <tr v-for="r in roundness" :key="r">
           <td style="color: #6b7280; padding-right: 8px;">{{ r }}</td>
-          <td v-for="v in variants" :key="v"><Badge :variant="v" :roundness="r">Label</Badge></td>
+          <td v-for="v in variants" :key="v"><WkBadge :variant="v" :roundness="r">Label</WkBadge></td>
         </tr>
       </tbody>
     </table>
@@ -95,12 +95,12 @@ Matrix.parameters = {
 }
 
 export const WithIcons = () => ({
-  components: { Badge },
+  components: { WkBadge },
   template: `
     <div style="display: flex; gap: 12px; align-items: center;">
-      <Badge variant="primary"><template #icon-left>★</template>Left icon</Badge>
-      <Badge variant="secondary">Right icon<template #icon-right>→</template></Badge>
-      <Badge variant="info"><template #icon-left>i</template>Both<template #icon-right>?</template></Badge>
+      <WkBadge variant="primary"><template #icon-left>★</template>Left icon</WkBadge>
+      <WkBadge variant="secondary">Right icon<template #icon-right>→</template></WkBadge>
+      <WkBadge variant="info"><template #icon-left>i</template>Both<template #icon-right>?</template></WkBadge>
     </div>
   `
 })
@@ -110,11 +110,11 @@ WithIcons.parameters = {
 }
 
 export const FocusVisible = () => ({
-  components: { Badge },
+  components: { WkBadge },
   template: `
     <div style="display: flex; gap: 12px; align-items: center;">
-      <Badge variant="primary" tabindex="0">Tab here for focus ring</Badge>
-      <Badge variant="destructive" tabindex="0">Tab for error ring</Badge>
+      <WkBadge variant="primary" tabindex="0">Tab here for focus ring</WkBadge>
+      <WkBadge variant="destructive" tabindex="0">Tab for error ring</WkBadge>
     </div>
   `
 })

@@ -163,21 +163,15 @@
   line-height: var(--paragraph-mini-line-height);
 }
 
-/* Dropdown */
+/* Dropdown — position/size set inline via JS (portal to body) */
 .ui-select__dropdown {
-  position: absolute;
-  top: calc(100% + var(--spacing-2xs));
-  left: 0;
-  right: 0;
   background: var(--input);
   border: 1px solid var(--border-primary);
   border-radius: var(--radius-10);
   box-shadow: var(--shadow-md);
-  z-index: 100;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-
   scrollbar-width: none;
   -ms-overflow-style: none;
 }

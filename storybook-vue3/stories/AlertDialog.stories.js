@@ -1,11 +1,11 @@
-import AlertDialog from '../../src/components/alert-dialog/AlertDialog.vue'
-import Button from '../../src/components/button/Button.vue'
+import WkAlertDialog from '../../src/components/alert-dialog/AlertDialog.vue'
+import WkButton from '../../src/components/button/Button.vue'
 
 const OK_VARIANTS = ['primary', 'destructive', 'secondary', 'neutral', 'outline', 'ghost']
 
 export default {
   title: 'Components/AlertDialog',
-  component: AlertDialog,
+  component: WkAlertDialog,
   argTypes: {
     title: { control: 'text' },
     description: { control: 'text' },
@@ -26,7 +26,7 @@ export default {
         component:
           'A modal dialog that interrupts the user with important content and expects a response. ' +
           'Built on top of `Modal` — inherits all overlay infrastructure (body-lock, focus management, ' +
-          'mask, transitions). Esc and mask-click are disabled by default per the AlertDialog pattern: ' +
+          'mask, transitions). Esc and mask-click are disabled by default per the WkAlertDialog pattern: ' +
           'the user must explicitly choose. Responsive: 480px wide on desktop with right-aligned buttons; ' +
           'below 480px the text centers and buttons go full-width (no size prop needed — resize the viewport).'
       }
@@ -35,7 +35,7 @@ export default {
 }
 
 const Template = args => ({
-  components: { AlertDialog, Button },
+  components: { WkAlertDialog, WkButton },
   data() {
     return { open: false }
   },
@@ -46,8 +46,8 @@ const Template = args => ({
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open alert dialog</Button>
-      <AlertDialog v-model="open" v-bind="bound" @ok="open = false" />
+      <WkButton variant="primary" @click="open = true">Open alert dialog</WkButton>
+      <WkAlertDialog v-model="open" v-bind="bound" @ok="open = false" />
     </div>
   `
 })
@@ -69,17 +69,17 @@ LeaveThisPage.args = {
 }
 
 export const AllVariants = () => ({
-  components: { AlertDialog, Button },
+  components: { WkAlertDialog, WkButton },
   data() {
     return { open: '' }
   },
   template: `
     <div style="display: flex; flex-wrap: wrap; gap: 12px;">
-      <Button variant="destructive" @click="open = 'delete'">Delete</Button>
-      <Button variant="primary" @click="open = 'leave'">Leave page</Button>
-      <Button variant="secondary" @click="open = 'confirm'">Confirm</Button>
+      <WkButton variant="destructive" @click="open = 'delete'">Delete</WkButton>
+      <WkButton variant="primary" @click="open = 'leave'">Leave page</WkButton>
+      <WkButton variant="secondary" @click="open = 'confirm'">Confirm</WkButton>
 
-      <AlertDialog
+      <WkAlertDialog
         :open="open === 'delete'"
         title="Delete this?"
         description="Are you sure you want to delete this item?"
@@ -88,7 +88,7 @@ export const AllVariants = () => ({
         @ok="open = ''"
         @cancel="open = ''"
       />
-      <AlertDialog
+      <WkAlertDialog
         :open="open === 'leave'"
         title="Are you sure you want to leave this page?"
         description="Your changes might not be saved."
@@ -97,7 +97,7 @@ export const AllVariants = () => ({
         @ok="open = ''"
         @cancel="open = ''"
       />
-      <AlertDialog
+      <WkAlertDialog
         :open="open === 'confirm'"
         title="Confirm action"
         description="This action cannot be undone."
@@ -110,7 +110,7 @@ export const AllVariants = () => ({
 })
 
 export const OkVariantMatrix = () => ({
-  components: { AlertDialog, Button },
+  components: { WkAlertDialog, WkButton },
   data() {
     return {
       okVariants: ['primary', 'destructive', 'secondary', 'outline'],
@@ -120,14 +120,14 @@ export const OkVariantMatrix = () => ({
   template: `
     <div>
       <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
-        <Button
+        <WkButton
           v-for="v in okVariants"
           :key="v"
           :variant="v"
           @click="activeKey = v"
-        >{{ v }}</Button>
+        >{{ v }}</WkButton>
       </div>
-      <AlertDialog
+      <WkAlertDialog
         v-for="v in okVariants"
         :key="v"
         :open="activeKey === v"
@@ -143,7 +143,7 @@ export const OkVariantMatrix = () => ({
 })
 
 export const ConfirmLoading = () => ({
-  components: { AlertDialog, Button },
+  components: { WkAlertDialog, WkButton },
   data() {
     return { open: false, loading: false }
   },
@@ -158,8 +158,8 @@ export const ConfirmLoading = () => ({
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open async alert</Button>
-      <AlertDialog
+      <WkButton variant="primary" @click="open = true">Open async alert</WkButton>
+      <WkAlertDialog
         v-model="open"
         title="Confirm purchase"
         description="Charge your card for the selected plan?"
@@ -172,52 +172,52 @@ export const ConfirmLoading = () => ({
 })
 
 export const CustomFooter = () => ({
-  components: { AlertDialog, Button },
+  components: { WkAlertDialog, WkButton },
   data() {
     return { open: false }
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open custom footer</Button>
-      <AlertDialog v-model="open" title="Save changes?" description="You have unsaved changes.">
+      <WkButton variant="primary" @click="open = true">Open custom footer</WkButton>
+      <WkAlertDialog v-model="open" title="Save changes?" description="You have unsaved changes.">
         <template #footer>
-          <Button variant="ghost" @click="open = false">Discard</Button>
-          <Button variant="outline" @click="open = false">Save draft</Button>
-          <Button variant="primary" @click="open = false">Publish</Button>
+          <WkButton variant="ghost" @click="open = false">Discard</WkButton>
+          <WkButton variant="outline" @click="open = false">Save draft</WkButton>
+          <WkButton variant="primary" @click="open = false">Publish</WkButton>
         </template>
-      </AlertDialog>
+      </WkAlertDialog>
     </div>
   `
 })
 
 export const KeyboardClosable = () => ({
-  components: { AlertDialog, Button },
+  components: { WkAlertDialog, WkButton },
   data() {
     return { open: false }
   },
   template: `
     <div>
-      <Button variant="primary" @click="open = true">Open (Esc + click-outside enabled)</Button>
-      <AlertDialog
+      <WkButton variant="primary" @click="open = true">Open (Esc + click-outside enabled)</WkButton>
+      <WkAlertDialog
         v-model="open"
         :keyboard="true"
         :mask-closable="true"
         title="Esc / click-outside enabled"
-        description="Press Esc or click outside to dismiss. Defaults are off for AlertDialog — opt in here."
+        description="Press Esc or click outside to dismiss. Defaults are off for WkAlertDialog — opt in here."
       />
     </div>
   `
 })
 
 export const FocusVisible = () => ({
-  components: { AlertDialog, Button },
+  components: { WkAlertDialog, WkButton },
   data() {
     return { open: false }
   },
   template: `
     <div>
-      <Button variant="primary" tabindex="0" @click="open = true">Open + tab through</Button>
-      <AlertDialog
+      <WkButton variant="primary" tabindex="0" @click="open = true">Open + tab through</WkButton>
+      <WkAlertDialog
         v-model="open"
         title="Tab through me"
         description="When this opens, focus moves to the wrap. Tab to verify the focus rings on Cancel and Continue."

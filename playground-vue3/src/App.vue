@@ -6,7 +6,7 @@
           <h1>Webcake UI Kit</h1>
           <p>Button + Checkbox showcase. Tab through controls to see focus rings; hover to see hover bg.</p>
         </div>
-        <Button
+        <WkButton
           variant="outline"
           roundness="round"
           :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
@@ -29,11 +29,11 @@
               stroke-linejoin="round"
             />
           </svg>
-        </Button>
+        </WkButton>
       </header>
       <section>
-        <Button @click="openDialog = true">Open Dialog</Button>
-        <Dialog
+        <WkButton @click="openDialog = true">Open Dialog</WkButton>
+        <WkDialog
           centered
           :open="openDialog"
           @cancel="openDialog = false"
@@ -46,15 +46,33 @@
           back
         >
           <div>
-            <Button @click="openDialog2 = true">Open Dialog 2</Button>
+            <WkButton @click="openDialog2 = true">Open Dialog 2</WkButton>
           </div>
-        </Dialog>
-        <Dialog :open="openDialog2" @cancel="openDialog2 = false" @ok="openDialog2 = false" :zIndex="2000">
+        </WkDialog>
+        <WkDialog :open="openDialog2" @cancel="openDialog2 = false" @ok="openDialog2 = false" :zIndex="2000">
           <template #header>
             <div>Dialog 22222</div>
           </template>
           <p>abcccc</p>
-        </Dialog>
+        </WkDialog>
+      </section>
+
+      <section class="section">
+        <h2>Pagination</h2>
+        <div class="row">
+          <WkPagination
+            :current="paginationPage"
+            :total="200"
+            :page-size="10"
+            :siblings="1"
+            :boundary="1"
+            showIcon
+            :prevLabel="null"
+            :nextLabel="null"
+            @change="paginationPage = $event"
+          />
+          <span class="row__item">current = {{ paginationPage }} (click `…` to jump ±5 pages)</span>
+        </div>
       </section>
     </div>
   </div>
@@ -139,7 +157,57 @@ export default {
       alertCustomFooter: false,
       alertAsync: false,
       alertAsyncLoading: false,
-      alertLastAction: ''
+      alertLastAction: '',
+      paginationPage: 7,
+      paginationDemoRows: [
+        { label: 'current=1, total=10', current: 1, total: 10, pageSize: 1, siblings: 1, boundary: 1, showIcon: false },
+        {
+          label: 'current=5, total=10 (middle)',
+          current: 5,
+          total: 10,
+          pageSize: 1,
+          siblings: 1,
+          boundary: 1,
+          showIcon: false
+        },
+        {
+          label: 'current=10, total=10',
+          current: 10,
+          total: 10,
+          pageSize: 1,
+          siblings: 1,
+          boundary: 1,
+          showIcon: false
+        },
+        {
+          label: 'current=1, total=7 (just fits)',
+          current: 1,
+          total: 7,
+          pageSize: 1,
+          siblings: 1,
+          boundary: 1,
+          showIcon: false
+        },
+        { label: 'current=2, total=2', current: 2, total: 2, pageSize: 1, siblings: 1, boundary: 1, showIcon: false },
+        {
+          label: 'current=15, total=30 (siblings=2)',
+          current: 15,
+          total: 30,
+          pageSize: 1,
+          siblings: 2,
+          boundary: 1,
+          showIcon: true
+        },
+        {
+          label: 'current=50, total=100 (boundary=2)',
+          current: 50,
+          total: 100,
+          pageSize: 1,
+          siblings: 1,
+          boundary: 2,
+          showIcon: false
+        }
+      ]
     }
   },
   computed: {

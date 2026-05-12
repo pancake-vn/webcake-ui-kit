@@ -1,4 +1,4 @@
-import Button from '../../src/components/button/Button.vue'
+import WkButton from '../../src/components/button/Button.vue'
 
 const VARIANTS = ['primary', 'neutral', 'secondary', 'outline', 'ghost', 'destructive', 'link']
 const SIZES = ['xs', 'sm', 'md', 'lg', 'xl']
@@ -14,7 +14,7 @@ const ARROW_ICON = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" 
 
 export default {
   title: 'Components/Button',
-  component: Button,
+  component: WkButton,
   argTypes: {
     variant: { control: { type: 'select' }, options: VARIANTS },
     size: { control: { type: 'inline-radio' }, options: SIZES },
@@ -37,24 +37,24 @@ export default {
 }
 
 const Template = args => ({
-  components: { Button },
+  components: { WkButton },
   setup() {
     return { args }
   },
-  template: `<Button v-bind="args">{{ args.label || 'Button' }}</Button>`
+  template: `<WkButton v-bind="args">{{ args.label || 'WkButton' }}</WkButton>`
 })
 
 export const Primary = Template.bind({})
 Primary.args = { variant: 'primary', size: 'md', label: 'Primary action' }
 
 export const AllVariants = () => ({
-  components: { Button },
+  components: { WkButton },
   setup() {
     return { variants: VARIANTS }
   },
   template: `
     <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
-      <Button v-for="v in variants" :key="v" :variant="v">{{ v }}</Button>
+      <WkButton v-for="v in variants" :key="v" :variant="v">{{ v }}</WkButton>
     </div>
   `
 })
@@ -63,13 +63,13 @@ AllVariants.parameters = {
 }
 
 export const Sizes = () => ({
-  components: { Button },
+  components: { WkButton },
   setup() {
     return { sizes: SIZES }
   },
   template: `
     <div style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;">
-      <Button v-for="s in sizes" :key="s" :size="s">{{ s }}</Button>
+      <WkButton v-for="s in sizes" :key="s" :size="s">{{ s }}</WkButton>
     </div>
   `
 })
@@ -78,7 +78,7 @@ Sizes.parameters = {
 }
 
 export const Matrix = () => ({
-  components: { Button },
+  components: { WkButton },
   setup() {
     return { variants: VARIANTS, sizes: SIZES }
   },
@@ -93,7 +93,7 @@ export const Matrix = () => ({
       <tbody>
         <tr v-for="s in sizes" :key="s">
           <td style="color:#6b7280; padding-right:8px; white-space:nowrap; font-size:12px;">{{ s }}</td>
-          <td v-for="v in variants" :key="v"><Button :variant="v" :size="s">Label</Button></td>
+          <td v-for="v in variants" :key="v"><WkButton :variant="v" :size="s">Label</WkButton></td>
         </tr>
       </tbody>
     </table>
@@ -104,7 +104,7 @@ Matrix.parameters = {
 }
 
 export const Roundness = () => ({
-  components: { Button },
+  components: { WkButton },
   setup() {
     return { roundness: ROUNDNESS, variants: VARIANTS }
   },
@@ -112,7 +112,7 @@ export const Roundness = () => ({
     <div style="display:flex; flex-direction:column; gap:16px;">
       <div v-for="r in roundness" :key="r" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
         <span style="min-width:64px; color:#6b7280; font-size:12px;">{{ r }}</span>
-        <Button v-for="v in variants" :key="v" :variant="v" :roundness="r">{{ v }}</Button>
+        <WkButton v-for="v in variants" :key="v" :variant="v" :roundness="r">{{ v }}</WkButton>
       </div>
     </div>
   `
@@ -122,16 +122,16 @@ Roundness.parameters = {
 }
 
 export const WithIconLeft = () => ({
-  components: { Button },
+  components: { WkButton },
   setup() {
     return { variants: VARIANTS, plusIcon: PLUS_ICON }
   },
   template: `
     <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-      <Button v-for="v in variants" :key="v" :variant="v">
+      <WkButton v-for="v in variants" :key="v" :variant="v">
         <template #icon-left><span v-html="plusIcon" style="display:inline-flex;"/></template>
         Add item
-      </Button>
+      </WkButton>
     </div>
   `
 })
@@ -140,16 +140,16 @@ WithIconLeft.parameters = {
 }
 
 export const WithIconRight = () => ({
-  components: { Button },
+  components: { WkButton },
   setup() {
     return { variants: VARIANTS, arrowIcon: ARROW_ICON }
   },
   template: `
     <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-      <Button v-for="v in variants" :key="v" :variant="v">
+      <WkButton v-for="v in variants" :key="v" :variant="v">
         Next
         <template #icon-right><span v-html="arrowIcon" style="display:inline-flex;"/></template>
-      </Button>
+      </WkButton>
     </div>
   `
 })
@@ -158,7 +158,7 @@ WithIconRight.parameters = {
 }
 
 export const IconOnly = () => ({
-  components: { Button },
+  components: { WkButton },
   setup() {
     return { variants: VARIANTS, sizes: SIZES, plusIcon: PLUS_ICON }
   },
@@ -166,9 +166,9 @@ export const IconOnly = () => ({
     <div style="display:flex; flex-direction:column; gap:16px;">
       <div v-for="s in sizes" :key="s" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
         <span style="min-width:32px; color:#6b7280; font-size:12px;">{{ s }}</span>
-        <Button v-for="v in variants" :key="v" :variant="v" :size="s">
+        <WkButton v-for="v in variants" :key="v" :variant="v" :size="s">
           <template #icon><span v-html="plusIcon" style="display:inline-flex;"/></template>
-        </Button>
+        </WkButton>
       </div>
     </div>
   `
@@ -183,13 +183,13 @@ IconOnly.parameters = {
 }
 
 export const Loading = () => ({
-  components: { Button },
+  components: { WkButton },
   setup() {
     return { variants: VARIANTS }
   },
   template: `
     <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-      <Button v-for="v in variants" :key="v" :variant="v" :loading="true">{{ v }}</Button>
+      <WkButton v-for="v in variants" :key="v" :variant="v" :loading="true">{{ v }}</WkButton>
     </div>
   `
 })
@@ -202,13 +202,13 @@ Loading.parameters = {
 }
 
 export const Disabled = () => ({
-  components: { Button },
+  components: { WkButton },
   setup() {
     return { variants: VARIANTS }
   },
   template: `
     <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-      <Button v-for="v in variants" :key="v" :variant="v" disabled>{{ v }}</Button>
+      <WkButton v-for="v in variants" :key="v" :variant="v" disabled>{{ v }}</WkButton>
     </div>
   `
 })
@@ -221,13 +221,13 @@ Disabled.parameters = {
 }
 
 export const FocusVisible = () => ({
-  components: { Button },
+  components: { WkButton },
   setup() {
     return { variants: VARIANTS }
   },
   template: `
     <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-      <Button v-for="v in variants" :key="v" :variant="v" tabindex="0">{{ v }}</Button>
+      <WkButton v-for="v in variants" :key="v" :variant="v" tabindex="0">{{ v }}</WkButton>
     </div>
   `
 })

@@ -26,20 +26,7 @@
       </span>
     </span>
 
-    <span v-if="loading" class="ui-select__spinner" aria-hidden="true">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <circle
-          cx="8"
-          cy="8"
-          r="6"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-dasharray="28"
-          stroke-dashoffset="10"
-        />
-      </svg>
-    </span>
+    <spinner v-if="loading" type="mirrored" size="sm" />
     <span v-else class="ui-select__chevron">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -52,7 +39,7 @@
       </svg>
     </span>
 
-    <div v-if="isOpen" class="ui-select__dropdown" @click.stop>
+    <div ref="dropdown" v-show="isOpen" class="ui-select__dropdown" :style="dropdownStyle" @click.stop>
       <div v-if="canScrollUp" class="ui-select__scroll-indicator ui-select__scroll-indicator--up">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path
@@ -96,12 +83,13 @@
 </template>
 
 <script>
-import SelectOption from '../select_option/SelectOption.vue'
+import SelectOption from '../select-option/SelectOption.vue'
+import Spinner from '../spinner/Spinner.vue'
 
 export default {
   name: 'Select',
 
-  components: { SelectOption },
+  components: { SelectOption, Spinner },
 
   provide() {
     return { select: this }
@@ -161,14 +149,18 @@ export default {
       isOpen: false,
       canScrollUp: false,
       canScrollDown: false,
-      labelCache: {}
+      labelCache: {},
+      dropdownStyle: {}
     }
   },
 
   watch: {
     isOpen(val) {
       if (val) {
-        this.$nextTick(this.updateScrollIndicators)
+        this.$nextTick(() => {
+          this.positionDropdown()
+          this.updateScrollIndicators()
+        })
       } else {
         this.canScrollUp = false
         this.canScrollDown = false
@@ -197,10 +189,19 @@ export default {
 
   mounted() {
     document.addEventListener('click', this.handleOutsideClick)
+    window.addEventListener('scroll', this.handleScroll, true)
+    window.addEventListener('resize', this.handleResize)
+    if (typeof document !== 'undefined' && this.$refs.dropdown) {
+      document.body.appendChild(this.$refs.dropdown)
+    }
+    if (typeof this.$on === 'function') {
+      // eslint-disable-next-line vue/no-deprecated-events-api
+      this.$on('hook:beforeDestroy', this.cleanup)
+    }
   },
 
   beforeUnmount() {
-    document.removeEventListener('click', this.handleOutsideClick)
+    this.cleanup()
   },
 
   methods: {
@@ -218,6 +219,17 @@ export default {
     registerOption(value, label) {
       this.labelCache = Object.assign({}, this.labelCache, { [value]: label })
     },
+    positionDropdown() {
+      if (!this.$el || !this.$refs.dropdown) return
+      var rect = this.$el.getBoundingClientRect()
+      this.dropdownStyle = {
+        position: 'fixed',
+        top: rect.bottom + 4 + 'px',
+        left: rect.left + 'px',
+        width: rect.width + 'px',
+        zIndex: 1050
+      }
+    },
     updateScrollIndicators() {
       const el = this.$refs.options
       if (!el) return
@@ -225,8 +237,22 @@ export default {
       this.canScrollDown = el.scrollTop + el.clientHeight < el.scrollHeight
     },
     handleOutsideClick(e) {
-      if (!this.$el.contains(e.target)) {
+      if (!this.$el.contains(e.target) && !(this.$refs.dropdown && this.$refs.dropdown.contains(e.target))) {
         this.close()
+      }
+    },
+    handleScroll() {
+      if (this.isOpen) this.positionDropdown()
+    },
+    handleResize() {
+      if (this.isOpen) this.positionDropdown()
+    },
+    cleanup() {
+      document.removeEventListener('click', this.handleOutsideClick)
+      window.removeEventListener('scroll', this.handleScroll, true)
+      window.removeEventListener('resize', this.handleResize)
+      if (this.$refs.dropdown && this.$refs.dropdown.parentNode === document.body) {
+        document.body.removeChild(this.$refs.dropdown)
       }
     }
   }

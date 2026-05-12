@@ -13,9 +13,8 @@
     @click="handleClick"
   >
     <!-- Left Icon / Spinner -->
-    <span v-if="loading" class="ui-btn__icon ui-btn__spinner">
-      <LoaderIconVue />
-    </span>
+    <Spinner v-if="loading" size="sm" type="mirrored" />
+
     <template v-if="showLeftIcon">
       <span v-if="hasIconOnly" class="ui-btn__icon">
         <slot name="icon"></slot>
@@ -38,12 +37,12 @@
 </template>
 
 <script>
-import LoaderIconVue from '../../icons/LoaderIcon.vue'
+import Spinner from '../spinner/Spinner.vue'
 
 export default {
   name: 'Button',
   components: {
-    LoaderIconVue
+    Spinner
   },
   props: {
     variant: {
