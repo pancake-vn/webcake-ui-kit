@@ -3,7 +3,7 @@
   align-items: center;
   gap: var(--spacing-xs);
   width: 100%;
-  padding: var(--spacing-5) var(--spacing-xs);
+  padding: var(--spacing-2xs) var(--spacing-xs);
   border-radius: var(--radius-6);
   color: var(--sidebar-foreground);
   background: transparent;
@@ -17,6 +17,7 @@
   transition:
     background-color 0.15s ease,
     color 0.15s ease;
+  height: 32px;
 }
 
 .ui-sidebar-item:hover {
@@ -62,8 +63,8 @@
 /* Icon */
 .ui-sidebar-item__icon {
   flex-shrink: 0;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
