@@ -1,15 +1,15 @@
-import { Toggle, ToggleGroup } from '../src/index.js'
+import { WkToggle, WkToggleGroup } from '../src/index.js'
 import { mount } from './_utils.js'
 
 const Harness = {
-  components: { ToggleGroup, Toggle },
+  components: { WkToggleGroup, WkToggle },
   props: ['value', 'multiple'],
   template: `
-    <ToggleGroup :value="value" :multiple="multiple" @change="onChange">
-      <Toggle value="a" label="A" />
-      <Toggle value="b" label="B" />
-      <Toggle value="c" label="C" />
-    </ToggleGroup>
+    <WkToggleGroup :value="value" :multiple="multiple" @change="onChange">
+      <WkToggle value="a" label="A" />
+      <WkToggle value="b" label="B" />
+      <WkToggle value="c" label="C" />
+    </WkToggleGroup>
   `,
   methods: {
     onChange(v) {
@@ -19,7 +19,7 @@ const Harness = {
   emits: ['change']
 }
 
-describe('ToggleGroup', () => {
+describe('WkToggleGroup', () => {
   it('renders all children with role=group', () => {
     const w = mount(Harness, { props: { value: null } })
     expect(w.find('.ui-toggle-group').exists()).toBe(true)

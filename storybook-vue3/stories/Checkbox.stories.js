@@ -1,8 +1,8 @@
-import Checkbox from '../../src/components/checkbox/Checkbox.vue'
+import WkCheckbox from '../../src/components/checkbox/Checkbox.vue'
 
 export default {
   title: 'Components/Checkbox',
-  component: Checkbox,
+  component: WkCheckbox,
   argTypes: {
     checked: { control: 'boolean' },
     error: { control: 'boolean' },
@@ -21,18 +21,18 @@ export default {
 }
 
 const Template = args => ({
-  components: { Checkbox },
+  components: { WkCheckbox },
   setup() {
     return { args }
   },
-  template: `<Checkbox v-model="args.checked" />`
+  template: `<WkCheckbox v-model="args.checked" />`
 })
 
 export const Primary = Template.bind({})
 Primary.args = { checked: false }
 
 export const AllStates = () => ({
-  components: { Checkbox },
+  components: { WkCheckbox },
   template: `
     <table style="border-collapse:separate; border-spacing:16px;">
       <thead>
@@ -46,15 +46,15 @@ export const AllStates = () => ({
       <tbody>
         <tr>
           <td style="color:#6b7280; font-size:12px; white-space:nowrap;">Unchecked</td>
-          <td><Checkbox /></td>
-          <td><Checkbox error /></td>
-          <td><Checkbox disabled /></td>
+          <td><WkCheckbox /></td>
+          <td><WkCheckbox error /></td>
+          <td><WkCheckbox disabled /></td>
         </tr>
         <tr>
           <td style="color:#6b7280; font-size:12px; white-space:nowrap;">Checked</td>
-          <td><Checkbox :checked="true" /></td>
-          <td><Checkbox :checked="true" error /></td>
-          <td><Checkbox :checked="true" disabled /></td>
+          <td><WkCheckbox :checked="true" /></td>
+          <td><WkCheckbox :checked="true" error /></td>
+          <td><WkCheckbox :checked="true" disabled /></td>
         </tr>
       </tbody>
     </table>
@@ -65,13 +65,13 @@ AllStates.parameters = {
 }
 
 export const Interactive = () => ({
-  components: { Checkbox },
+  components: { WkCheckbox },
   data() {
     return { value: false }
   },
   template: `
     <div style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
-      <Checkbox v-model="value" />
+      <WkCheckbox v-model="value" />
       <code style="font-size:13px;">v-model = {{ value }}</code>
     </div>
   `
@@ -81,13 +81,13 @@ Interactive.parameters = {
 }
 
 export const FocusVisible = () => ({
-  components: { Checkbox },
+  components: { WkCheckbox },
   template: `
     <div style="display:flex; gap:16px; align-items:center;">
-      <Checkbox />
-      <Checkbox :checked="true" />
-      <Checkbox error />
-      <Checkbox :checked="true" error />
+      <WkCheckbox />
+      <WkCheckbox :checked="true" />
+      <WkCheckbox error />
+      <WkCheckbox :checked="true" error />
     </div>
   `
 })

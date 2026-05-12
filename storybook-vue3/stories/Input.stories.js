@@ -1,11 +1,11 @@
-import Input from '../../src/components/input/Input.vue'
+import WkInput from '../../src/components/input/Input.vue'
 
 const SIZES = ['xs', 'sm', 'md', 'lg']
 const ROUNDNESS = ['default', 'round']
 
 export default {
   title: 'Components/Input',
-  component: Input,
+  component: WkInput,
   argTypes: {
     size: {
       control: { type: 'select' },
@@ -36,11 +36,11 @@ export default {
 }
 
 const Template = args => ({
-  components: { Input },
+  components: { WkInput },
   setup() {
     return { args }
   },
-  template: `<Input v-bind="args" />`
+  template: `<WkInput v-bind="args" />`
 })
 
 export const Primary = Template.bind({})
@@ -68,13 +68,13 @@ Disabled.parameters = {
 }
 
 export const AllVariants = () => ({
-  components: { Input },
+  components: { WkInput },
   setup() {
     return { sizes: SIZES }
   },
   template: `
     <div style="display: flex; flex-direction: column; gap: 12px; max-width: 320px;">
-      <Input v-for="s in sizes" :key="s" :size="s" :placeholder="'size=' + s" />
+      <WkInput v-for="s in sizes" :key="s" :size="s" :placeholder="'size=' + s" />
     </div>
   `
 })
@@ -83,7 +83,7 @@ AllVariants.parameters = {
 }
 
 export const Matrix = () => ({
-  components: { Input },
+  components: { WkInput },
   setup() {
     return { sizes: SIZES, roundness: ROUNDNESS }
   },
@@ -98,7 +98,7 @@ export const Matrix = () => ({
       <tbody>
         <tr v-for="s in sizes" :key="s">
           <td style="color: #6b7280; padding-right: 8px;">{{ s }}</td>
-          <td v-for="r in roundness" :key="r"><div style="width: 240px;"><Input :size="s" :roundness="r" placeholder="Placeholder" /></div></td>
+          <td v-for="r in roundness" :key="r"><div style="width: 240px;"><WkInput :size="s" :roundness="r" placeholder="Placeholder" /></div></td>
         </tr>
       </tbody>
     </table>
@@ -109,29 +109,29 @@ Matrix.parameters = {
 }
 
 export const WithSlots = () => ({
-  components: { Input },
+  components: { WkInput },
   template: `
     <div style="display: flex; flex-direction: column; gap: 12px; max-width: 320px;">
-      <Input placeholder="Search...">
+      <WkInput placeholder="Search...">
         <template #prefix>
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
             <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5" />
             <path d="m11 11 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
           </svg>
         </template>
-      </Input>
-      <Input placeholder="0.00">
+      </WkInput>
+      <WkInput placeholder="0.00">
         <template #prefix>$</template>
         <template #suffix>USD</template>
-      </Input>
-      <Input placeholder="you@example.com">
+      </WkInput>
+      <WkInput placeholder="you@example.com">
         <template #suffix>
           <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
             <rect x="3" y="5" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5" />
             <path d="m4 6 6 4 6-4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
           </svg>
         </template>
-      </Input>
+      </WkInput>
     </div>
   `
 })
@@ -144,11 +144,11 @@ WithSlots.parameters = {
 }
 
 export const FocusVisible = () => ({
-  components: { Input },
+  components: { WkInput },
   template: `
     <div style="display: flex; flex-direction: column; gap: 12px; max-width: 320px;">
-      <Input placeholder="Tab here — default focus ring" />
-      <Input error placeholder="Tab here — error focus ring" />
+      <WkInput placeholder="Tab here — default focus ring" />
+      <WkInput error placeholder="Tab here — error focus ring" />
     </div>
   `
 })

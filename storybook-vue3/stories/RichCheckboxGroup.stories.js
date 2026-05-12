@@ -1,8 +1,8 @@
-import RichCheckboxGroup from '../../src/components/rich-checkbox-group/RichCheckboxGroup.vue'
+import WkRichCheckboxGroup from '../../src/components/rich-checkbox-group/RichCheckboxGroup.vue'
 
 export default {
   title: 'Components/RichCheckboxGroup',
-  component: RichCheckboxGroup,
+  component: WkRichCheckboxGroup,
   argTypes: {
     checked: { control: 'boolean' },
     error: { control: 'boolean' },
@@ -15,7 +15,7 @@ export default {
     docs: {
       description: {
         component:
-          'Rich checkbox with a label and optional description line. Wraps `Checkbox` in a `<label>` so the ' +
+          'Rich checkbox with a label and optional description line. Wraps `WkCheckbox` in a `<label>` so the ' +
           'entire row is clickable. `flipped` moves the checkbox to the right. ' +
           'Supports `v-model`, `error`, `disabled`, and a `#description` slot.'
       }
@@ -24,11 +24,11 @@ export default {
 }
 
 const Template = args => ({
-  components: { RichCheckboxGroup },
+  components: { WkRichCheckboxGroup },
   setup() {
     return { args }
   },
-  template: `<div style="width:320px;"><RichCheckboxGroup v-bind="args" /></div>`
+  template: `<div style="width:320px;"><WkRichCheckboxGroup v-bind="args" /></div>`
 })
 
 export const Primary = Template.bind({})
@@ -39,27 +39,27 @@ Primary.args = {
 }
 
 export const AllVariants = () => ({
-  components: { RichCheckboxGroup },
+  components: { WkRichCheckboxGroup },
   template: `
     <div style="display:flex; flex-direction:column; gap:24px; align-items:flex-start;">
       <div style="display:flex; flex-direction:column; gap:8px;">
         <span style="color:#6b7280; font-size:12px;">flipped: false</span>
         <div style="display:flex; flex-direction:column; gap:8px; width:320px;">
-          <RichCheckboxGroup label="Unchecked" />
-          <RichCheckboxGroup :checked="true" label="Checked" />
-          <RichCheckboxGroup error label="Error" />
-          <RichCheckboxGroup disabled label="Disabled" />
-          <RichCheckboxGroup :checked="true" disabled label="Checked + disabled" />
+          <WkRichCheckboxGroup label="Unchecked" />
+          <WkRichCheckboxGroup :checked="true" label="Checked" />
+          <WkRichCheckboxGroup error label="Error" />
+          <WkRichCheckboxGroup disabled label="Disabled" />
+          <WkRichCheckboxGroup :checked="true" disabled label="Checked + disabled" />
         </div>
       </div>
       <div style="display:flex; flex-direction:column; gap:8px;">
         <span style="color:#6b7280; font-size:12px;">flipped: true</span>
         <div style="display:flex; flex-direction:column; gap:8px; width:320px;">
-          <RichCheckboxGroup flipped label="Unchecked" />
-          <RichCheckboxGroup flipped :checked="true" label="Checked" />
-          <RichCheckboxGroup flipped error label="Error" />
-          <RichCheckboxGroup flipped disabled label="Disabled" />
-          <RichCheckboxGroup flipped :checked="true" disabled label="Checked + disabled" />
+          <WkRichCheckboxGroup flipped label="Unchecked" />
+          <WkRichCheckboxGroup flipped :checked="true" label="Checked" />
+          <WkRichCheckboxGroup flipped error label="Error" />
+          <WkRichCheckboxGroup flipped disabled label="Disabled" />
+          <WkRichCheckboxGroup flipped :checked="true" disabled label="Checked + disabled" />
         </div>
       </div>
     </div>
@@ -70,21 +70,21 @@ AllVariants.parameters = {
 }
 
 export const WithDescription = () => ({
-  components: { RichCheckboxGroup },
+  components: { WkRichCheckboxGroup },
   template: `
     <div style="display:flex; flex-direction:column; gap:12px; width:320px;">
-      <RichCheckboxGroup
+      <WkRichCheckboxGroup
         :checked="true"
         label="Marketing emails"
         description="Receive our monthly newsletter and product updates."
       />
-      <RichCheckboxGroup
+      <WkRichCheckboxGroup
         label="Push notifications"
         description="Real-time alerts sent to your device."
       />
-      <RichCheckboxGroup flipped :checked="true" label="Flipped + description">
+      <WkRichCheckboxGroup flipped :checked="true" label="Flipped + description">
         <template #description>Custom <strong>slot</strong> content in the description.</template>
-      </RichCheckboxGroup>
+      </WkRichCheckboxGroup>
     </div>
   `
 })
@@ -99,18 +99,18 @@ WithDescription.parameters = {
 }
 
 export const Interactive = () => ({
-  components: { RichCheckboxGroup },
+  components: { WkRichCheckboxGroup },
   data() {
     return { marketing: true, push: false }
   },
   template: `
     <div style="display:flex; flex-direction:column; gap:8px; width:320px;">
-      <RichCheckboxGroup
+      <WkRichCheckboxGroup
         v-model="marketing"
         label="Marketing emails"
         description="Monthly newsletters and product updates."
       />
-      <RichCheckboxGroup
+      <WkRichCheckboxGroup
         v-model="push"
         label="Push notifications"
         description="Real-time alerts on your device."
@@ -126,12 +126,12 @@ Interactive.parameters = {
 }
 
 export const FocusVisible = () => ({
-  components: { RichCheckboxGroup },
+  components: { WkRichCheckboxGroup },
   template: `
     <div style="display:flex; flex-direction:column; gap:8px; width:320px;">
-      <RichCheckboxGroup label="Tab to me" description="Focus ring should appear on the checkbox box." />
-      <RichCheckboxGroup :checked="true" label="And here" description="Checked state + focus ring." />
-      <RichCheckboxGroup flipped label="Flipped — Tab here too" description="Focus ring on right-side box." />
+      <WkRichCheckboxGroup label="Tab to me" description="Focus ring should appear on the checkbox box." />
+      <WkRichCheckboxGroup :checked="true" label="And here" description="Checked state + focus ring." />
+      <WkRichCheckboxGroup flipped label="Flipped — Tab here too" description="Focus ring on right-side box." />
     </div>
   `
 })

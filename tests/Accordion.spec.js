@@ -1,15 +1,15 @@
-import { Accordion, AccordionItem } from '../src/index.js'
+import { WkAccordion, WkAccordionItem } from '../src/index.js'
 import { mount } from './_utils.js'
 
 const Harness = {
-  components: { Accordion, AccordionItem },
+  components: { WkAccordion, WkAccordionItem },
   props: ['value', 'multiple', 'defaultOpen', 'bordered'],
   template: `
-    <Accordion :value="value" :multiple="multiple" :default-open="defaultOpen || []" :bordered="!!bordered" @change="onChange">
-      <AccordionItem value="a" label="A">body-a</AccordionItem>
-      <AccordionItem value="b" label="B">body-b</AccordionItem>
-      <AccordionItem value="c" label="C" disabled>body-c</AccordionItem>
-    </Accordion>
+    <WkAccordion :value="value" :multiple="multiple" :default-open="defaultOpen || []" :bordered="!!bordered" @change="onChange">
+      <WkAccordionItem value="a" label="A">body-a</WkAccordionItem>
+      <WkAccordionItem value="b" label="B">body-b</WkAccordionItem>
+      <WkAccordionItem value="c" label="C" disabled>body-c</WkAccordionItem>
+    </WkAccordion>
   `,
   emits: ['change'],
   methods: {
@@ -19,7 +19,7 @@ const Harness = {
   }
 }
 
-describe('Accordion + AccordionItem', () => {
+describe('WkAccordion + WkAccordionItem', () => {
   it('renders all items with collapsed content', () => {
     const w = mount(Harness, { props: {} })
     expect(w.findAll('.ui-accordion-item').length).toBe(3)

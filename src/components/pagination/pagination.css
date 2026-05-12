@@ -1,0 +1,13 @@
+.ui-pagination {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  font-family: var(--font-family-body);
+  color: var(--primary-fg);
+}
+
+.ui-pagination--disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}

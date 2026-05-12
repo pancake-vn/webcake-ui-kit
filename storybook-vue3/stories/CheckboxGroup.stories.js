@@ -1,10 +1,10 @@
-import CheckboxGroup from '../../src/components/checkbox-group/CheckboxGroup.vue'
+import WkCheckboxGroup from '../../src/components/checkbox-group/CheckboxGroup.vue'
 
 const LAYOUTS = ['inline', 'block']
 
 export default {
   title: 'Components/CheckboxGroup',
-  component: CheckboxGroup,
+  component: WkCheckboxGroup,
   argTypes: {
     layout: { control: { type: 'inline-radio' }, options: LAYOUTS },
     checked: { control: 'boolean' },
@@ -16,7 +16,7 @@ export default {
     docs: {
       description: {
         component:
-          'Checkbox with an attached label. Renders a `<label>` so clicking the text toggles the checkbox. ' +
+          'WkCheckbox with an attached label. Renders a `<label>` so clicking the text toggles the checkbox. ' +
           '`layout="inline"` (default) places label on the right; `layout="block"` stretches to full width ' +
           'for use in stacked lists. Supports `v-model`, `error`, and `disabled`.'
       }
@@ -25,37 +25,37 @@ export default {
 }
 
 const Template = args => ({
-  components: { CheckboxGroup },
+  components: { WkCheckboxGroup },
   setup() {
     return { args }
   },
-  template: `<CheckboxGroup v-bind="args" />`
+  template: `<WkCheckboxGroup v-bind="args" />`
 })
 
 export const Primary = Template.bind({})
 Primary.args = { label: 'Accept terms and conditions', layout: 'inline' }
 
 export const AllVariants = () => ({
-  components: { CheckboxGroup },
+  components: { WkCheckboxGroup },
   template: `
     <div style="display:flex; flex-direction:column; gap:24px; align-items:flex-start;">
       <div style="display:flex; flex-direction:column; gap:8px;">
         <span style="color:#6b7280; font-size:12px;">layout: inline</span>
         <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:center;">
-          <CheckboxGroup layout="inline" label="Unchecked" />
-          <CheckboxGroup layout="inline" :checked="true" label="Checked" />
-          <CheckboxGroup layout="inline" error label="Error" />
-          <CheckboxGroup layout="inline" disabled label="Disabled" />
-          <CheckboxGroup layout="inline" :checked="true" disabled label="Checked + disabled" />
+          <WkCheckboxGroup layout="inline" label="Unchecked" />
+          <WkCheckboxGroup layout="inline" :checked="true" label="Checked" />
+          <WkCheckboxGroup layout="inline" error label="Error" />
+          <WkCheckboxGroup layout="inline" disabled label="Disabled" />
+          <WkCheckboxGroup layout="inline" :checked="true" disabled label="Checked + disabled" />
         </div>
       </div>
       <div style="display:flex; flex-direction:column; gap:8px; width:280px;">
         <span style="color:#6b7280; font-size:12px;">layout: block</span>
-        <CheckboxGroup layout="block" label="Unchecked" />
-        <CheckboxGroup layout="block" :checked="true" label="Checked" />
-        <CheckboxGroup layout="block" error label="Error" />
-        <CheckboxGroup layout="block" disabled label="Disabled" />
-        <CheckboxGroup layout="block" :checked="true" disabled label="Checked + disabled" />
+        <WkCheckboxGroup layout="block" label="Unchecked" />
+        <WkCheckboxGroup layout="block" :checked="true" label="Checked" />
+        <WkCheckboxGroup layout="block" error label="Error" />
+        <WkCheckboxGroup layout="block" disabled label="Disabled" />
+        <WkCheckboxGroup layout="block" :checked="true" disabled label="Checked + disabled" />
       </div>
     </div>
   `
@@ -65,7 +65,7 @@ AllVariants.parameters = {
 }
 
 export const MultipleItems = () => ({
-  components: { CheckboxGroup },
+  components: { WkCheckboxGroup },
   data() {
     return {
       options: [
@@ -88,7 +88,7 @@ export const MultipleItems = () => ({
   },
   template: `
     <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-start; width:240px;">
-      <CheckboxGroup
+      <WkCheckboxGroup
         v-for="opt in options"
         :key="opt.value"
         v-model="opt.checked"
@@ -104,15 +104,15 @@ MultipleItems.parameters = {
 }
 
 export const WithSlot = () => ({
-  components: { CheckboxGroup },
+  components: { WkCheckboxGroup },
   template: `
     <div style="display:flex; flex-direction:column; gap:12px; align-items:flex-start; width:280px;">
-      <CheckboxGroup layout="block">
+      <WkCheckboxGroup layout="block">
         <span>Subscribe to <strong>product updates</strong></span>
-      </CheckboxGroup>
-      <CheckboxGroup layout="block" :checked="true">
+      </WkCheckboxGroup>
+      <WkCheckboxGroup layout="block" :checked="true">
         <span style="color:var(--muted-fg); font-size:12px;">Default slot overrides the <code>label</code> prop</span>
-      </CheckboxGroup>
+      </WkCheckboxGroup>
     </div>
   `
 })
@@ -121,12 +121,12 @@ WithSlot.parameters = {
 }
 
 export const FocusVisible = () => ({
-  components: { CheckboxGroup },
+  components: { WkCheckboxGroup },
   template: `
     <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-start; width:240px;">
-      <CheckboxGroup layout="block" label="Tab to me — focus ring" />
-      <CheckboxGroup layout="block" :checked="true" label="Also tab here" />
-      <CheckboxGroup layout="block" error label="Error + focus" />
+      <WkCheckboxGroup layout="block" label="Tab to me — focus ring" />
+      <WkCheckboxGroup layout="block" :checked="true" label="Also tab here" />
+      <WkCheckboxGroup layout="block" error label="Error + focus" />
     </div>
   `
 })
