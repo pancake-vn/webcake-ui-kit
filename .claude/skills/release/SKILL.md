@@ -97,6 +97,8 @@ Show the draft entry plus a one-line summary: `Release vX.Y.Z (bumping from vA.B
 
 This commit must land **before** `scripts/release.js` runs, so it's on the branch when the version tag is created. The npm tarball packs from `src/` + `README.md` + `LICENSE` (see `package.json#files`); `CHANGELOG.md` is intentionally NOT in the tarball — it lives on GitHub. The GitHub Release that `scripts/release.js` creates in its step 9 reads this same CHANGELOG section as its body, so the content authored here flows straight to the Release page.
 
+`storybook-vue3/stories/Changelog.stories.js` also imports `CHANGELOG.md` as raw source (via the webpack `.md → asset/source` rule wired in `storybook-vue3/.storybook/main.js`) and parses it into the "Changelog" docs page in Storybook. So **once you commit `CHANGELOG.md`, the Storybook Changelog page picks up the new entry automatically** — no separate file to update. If you ever need to verify the page renders, run `cd storybook-vue3 && npm run storybook` and open the "Changelog" entry in the sidebar.
+
 ## Step 6 — Hand off to the user to run scripts/release.js
 
 **Do NOT run `node scripts/release.js patch` via the Bash tool.** The script prompts for an npm 2FA OTP via `readline.question()`; the Bash tool has no interactive TTY, so the prompt receives EOF immediately, the OTP arrives empty, publish is rejected, and the script burns its 3 retries against an empty string. The user must run the script in a context with a real TTY.
