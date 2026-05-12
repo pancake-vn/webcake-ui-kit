@@ -1,4 +1,4 @@
-import { SidebarGroupLabel } from '../src/index.js'
+import { WkSidebarGroupLabel as SidebarGroupLabel } from '../src/index.js'
 import { mount } from './_utils.js'
 
 describe('SidebarGroupLabel', () => {

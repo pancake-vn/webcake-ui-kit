@@ -1,4 +1,4 @@
-import { Tag } from '../src/index.js'
+import { WkTag as Tag } from '../src/index.js'
 import { mount } from './_utils.js'
 
 describe('Tag', () => {
