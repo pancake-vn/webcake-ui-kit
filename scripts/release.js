@@ -126,7 +126,39 @@ const main = async () => {
   }
 
   step(6, `Bump version (${bump})`)
-  if (dryRun) {
+  // Idempotent resume: if the tag for the current package.json#version already
+  // exists locally, a previous run already bumped — skip and resume from
+  // publish. Without this, re-running after a publish failure piles duplicate
+  // "release: vX.Y.Z" commits on top of each other.
+  const currentTag = `v${pkg.version}`
+  let currentTagExists = false
+  try {
+    capture(`git rev-parse --verify --quiet refs/tags/${currentTag}`)
+    currentTagExists = true
+  } catch {
+    currentTagExists = false
+  }
+  let alreadyPublished = false
+  try {
+    capture(`npm view ${pkg.name}@${pkg.version} version`)
+    alreadyPublished = true
+  } catch {
+    alreadyPublished = false
+  }
+
+  if (currentTagExists && alreadyPublished) {
+    fail(
+      `Tag ${currentTag} exists and ${pkg.name}@${pkg.version} is already on npm. ` +
+        `Bump package.json manually or delete the stale tag.`
+    )
+  }
+
+  if (currentTagExists) {
+    log(
+      `  ${c.gray}Tag ${currentTag} already exists locally and ${pkg.name}@${pkg.version} is not on npm — skipping bump (resume mode)${c.reset}`
+    )
+    ok(`Resuming at ${c.bold}${pkg.version}${c.reset}`)
+  } else if (dryRun) {
     log(`  ${c.gray}[dry-run] would run: npm version ${bump}${c.reset}`)
   } else {
     run(`npm version ${bump} -m "release: v%s"`)
