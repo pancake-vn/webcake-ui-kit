@@ -84,6 +84,13 @@ const THEME_CSS = `
     background-size: 12px 12px;
     background-position: 0 0, 0 6px, 6px -6px, -6px 0;
     background-color: #ffffff;
+    z-index: 0;
+  }
+  .sw__fill {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
   }
   .sw__hex {
     position: absolute;
@@ -95,7 +102,7 @@ const THEME_CSS = `
     text-transform: uppercase;
     letter-spacing: 0.02em;
     pointer-events: none;
-    z-index: 1;
+    z-index: 2;
   }
   .sw__pick {
     position: absolute;
@@ -109,29 +116,6 @@ const THEME_CSS = `
     margin: 0;
     background: transparent;
   }
-  .sw__copy {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    background: rgba(255,255,255,0.78);
-    color: #111;
-    border: 1px solid rgba(0,0,0,0.08);
-    font-size: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.12s ease, transform 0.12s ease;
-    z-index: 3;
-    padding: 0;
-    font-weight: 700;
-  }
-  .sw__copy:hover { transform: scale(1.08); background: #fff; }
-  .sw:hover .sw__copy { opacity: 1; }
   .sw__edited {
     position: absolute;
     top: 6px;
@@ -146,7 +130,11 @@ const THEME_CSS = `
   }
   .sw.is-edited .sw__edited { display: block; }
   .sw__meta {
-    padding: 8px 10px 10px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-between;
   }
   .sw__name {
     font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -154,6 +142,31 @@ const THEME_CSS = `
     color: var(--docs-fg-strong);
     word-break: break-all;
     line-height: 1.35;
+    flex: 1;
+    min-width: 0;
+  }
+  .sw__copy {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--docs-panel-bg);
+    color: var(--docs-fg-strong);
+    border: 1px solid var(--docs-border);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    font-weight: 700;
+    line-height: 1;
+    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  }
+  .sw__copy:hover {
+    background: var(--docs-fg-strong);
+    color: var(--docs-card-bg);
+    border-color: var(--docs-fg-strong);
   }
 
   /* ---------- Raw palette ---------- */
@@ -265,7 +278,7 @@ const THEME_CSS = `
     letter-spacing: -0.01em;
   }
   .panel__lead { font-size: 12.5px; color: var(--docs-muted); margin: 0; }
-  .panel__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .panel__actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .btn {
     appearance: none;
     border: 1px solid var(--docs-border);
@@ -419,25 +432,64 @@ function readableOn(hex) {
   return luminance(hex) > 0.5 ? '#111827' : '#ffffff'
 }
 
+/* Convert any computed color string (#hex / rgb / rgba / space-separated) into
+   #RRGGBB (alpha === 1) or #RRGGBBAA (alpha < 1). Returns the original if unparseable. */
+function normalizeColor(raw) {
+  if (!raw) return ''
+  const v = raw.trim()
+  if (/^#[0-9a-f]{6}([0-9a-f]{2})?$/i.test(v)) return v.toUpperCase()
+  if (/^#[0-9a-f]{3,4}$/i.test(v)) {
+    const expand = v
+      .slice(1)
+      .split('')
+      .map(c => c + c)
+      .join('')
+    return ('#' + expand).toUpperCase()
+  }
+  const m = v.match(
+    /rgba?\(\s*(\d+(?:\.\d+)?)\s*[, ]\s*(\d+(?:\.\d+)?)\s*[, ]\s*(\d+(?:\.\d+)?)\s*(?:[,\/]\s*(\d+(?:\.\d+)?)(%?))?\s*\)/i
+  )
+  if (!m) return v
+  const r = Math.round(parseFloat(m[1]))
+  const g = Math.round(parseFloat(m[2]))
+  const b = Math.round(parseFloat(m[3]))
+  let a = 1
+  if (m[4] !== undefined) {
+    a = parseFloat(m[4])
+    if (m[5] === '%') a /= 100
+  }
+  const h = n => Math.max(0, Math.min(255, n)).toString(16).padStart(2, '0').toUpperCase()
+  const base = `#${h(r)}${h(g)}${h(b)}`
+  if (a >= 0.999) return base
+  return base + h(Math.round(a * 255))
+}
+
 /* -------- shared lifecycle methods (mixin-style) -------- */
 const SHARED = {
   resolveAll() {
     const cs = getComputedStyle(document.documentElement)
     document.querySelectorAll('[data-token-hex]').forEach(el => {
-      const v = cs.getPropertyValue('--' + el.dataset.tokenHex).trim()
-      if (!v) return
-      el.textContent = v.toUpperCase()
-      if (/^#?[0-9a-f]{6}$/i.test(v.replace('#', ''))) el.style.color = readableOn(v)
+      const raw = cs.getPropertyValue('--' + el.dataset.tokenHex).trim()
+      if (!raw) return
+      const hex = normalizeColor(raw)
+      el.textContent = hex
+      // use the opaque base for contrast calc (strip alpha)
+      const base = hex.length === 9 ? hex.slice(0, 7) : hex
+      if (/^#[0-9a-f]{6}$/i.test(base)) el.style.color = readableOn(base)
     })
     // tint palette "step" labels too
     document.querySelectorAll('[data-chip-step]').forEach(el => {
-      const v = cs.getPropertyValue('--' + el.dataset.chipStep).trim()
-      if (/^#?[0-9a-f]{6}$/i.test(v.replace('#', ''))) el.style.color = readableOn(v)
+      const raw = cs.getPropertyValue('--' + el.dataset.chipStep).trim()
+      const hex = normalizeColor(raw)
+      const base = hex.length === 9 ? hex.slice(0, 7) : hex
+      if (/^#[0-9a-f]{6}$/i.test(base)) el.style.color = readableOn(base)
     })
-    // sync color inputs to current values
+    // sync color inputs to current values (color input only accepts 6-char hex)
     document.querySelectorAll('input[data-pick-token]').forEach(input => {
-      const v = cs.getPropertyValue('--' + input.dataset.pickToken).trim()
-      if (/^#[0-9a-f]{6}$/i.test(v)) input.value = v
+      const raw = cs.getPropertyValue('--' + input.dataset.pickToken).trim()
+      const hex = normalizeColor(raw)
+      const base = hex.length === 9 ? hex.slice(0, 7) : hex
+      if (/^#[0-9a-f]{6}$/i.test(base)) input.value = base
     })
     // is-edited dot
     const overrides = window.__colorsOverrides || {}
@@ -538,6 +590,7 @@ const SHARED = {
 function swSemantic({ token, checker }) {
   const cls = checker ? 'sw__chip sw__chip--checker' : 'sw__chip'
   const bg = checker ? '' : `style="background: var(--${token});"`
+  const fillLayer = checker ? `<span class="sw__fill" style="background: var(--${token});"></span>` : ''
   const pickInput = checker
     ? ''
     : `<input class="sw__pick" type="color" data-pick-token="${token}" title="Click to recolor --${token}" />`
@@ -545,12 +598,13 @@ function swSemantic({ token, checker }) {
     <div class="sw" data-token-card="${token}">
       <span class="sw__edited"></span>
       <div class="${cls}" ${bg}>
+        ${fillLayer}
         ${pickInput}
         <span class="sw__hex" data-token-hex="${token}">—</span>
-        <button class="sw__copy" data-copy-token="${token}" title="Copy var(--${token})">⧉</button>
       </div>
       <div class="sw__meta">
         <div class="sw__name">--${token}</div>
+        <button class="sw__copy" data-copy-token="${token}" title="Copy var(--${token})" aria-label="Copy var(--${token})">⧉</button>
       </div>
     </div>
   `
@@ -591,7 +645,7 @@ const PANEL_HTML = `
       <div class="panel__title">🎨 Live theming</div>
       <p class="panel__lead">
         Click <strong>any swatch chip</strong> to recolor that exact token live across this page and every other Storybook story.
-        Click the small <strong>⧉</strong> icon on a swatch to copy its <code style="font-family:'JetBrains Mono',monospace;">var(--token)</code>.
+        Use the <strong>⧉</strong> button next to each token name to copy its <code style="font-family:'JetBrains Mono',monospace;">var(--token)</code>.
       </p>
     </div>
     <div class="panel__actions">
@@ -645,8 +699,8 @@ export const Overview = () => ({
     <div class="colors-page" style="${PAGE_STYLE}">
       <h1 style="margin: 0 0 6px; font-size: 36px; font-weight: 800; letter-spacing: -0.02em;">Colors</h1>
       <p style="color: var(--docs-muted); margin: 0 0 22px; font-size: 15px;">
-        The complete color system. <strong>Click any swatch</strong> to recolor that token live; the change cascades to every other Storybook story.
-        Use the <strong>⧉</strong> button (on hover) to copy <code style="font-family:'JetBrains Mono',monospace;">var(--token)</code>.
+        The complete color system. <strong>Click any swatch chip</strong> to recolor that token live; the change cascades to every other Storybook story.
+        Use the <strong>⧉</strong> button next to each token name to copy <code style="font-family:'JetBrains Mono',monospace;">var(--token)</code>.
       </p>
 
       ${PANEL_HTML}
