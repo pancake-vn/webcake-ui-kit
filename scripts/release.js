@@ -146,21 +146,30 @@ const main = async () => {
     alreadyPublished = false
   }
 
-  if (currentTagExists && alreadyPublished) {
-    fail(
-      `Tag ${currentTag} exists and ${pkg.name}@${pkg.version} is already on npm. ` +
-        `Bump package.json manually or delete the stale tag.`
-    )
-  }
-
-  if (currentTagExists) {
+  // Three cases for the current package.json#version:
+  //   1. tag exists + already on npm → version is fully done; bump past it.
+  //   2. tag exists + NOT on npm     → prior run bumped but publish failed;
+  //                                    resume from publish without re-bumping.
+  //   3. tag missing                 → fresh bump.
+  if (currentTagExists && !alreadyPublished) {
     log(
       `  ${c.gray}Tag ${currentTag} already exists locally and ${pkg.name}@${pkg.version} is not on npm — skipping bump (resume mode)${c.reset}`
     )
     ok(`Resuming at ${c.bold}${pkg.version}${c.reset}`)
   } else if (dryRun) {
-    log(`  ${c.gray}[dry-run] would run: npm version ${bump}${c.reset}`)
+    if (currentTagExists && alreadyPublished) {
+      log(
+        `  ${c.gray}[dry-run] tag ${currentTag} and ${pkg.name}@${pkg.version} both exist — would run: npm version ${bump}${c.reset}`
+      )
+    } else {
+      log(`  ${c.gray}[dry-run] would run: npm version ${bump}${c.reset}`)
+    }
   } else {
+    if (currentTagExists && alreadyPublished) {
+      log(
+        `  ${c.yellow}Tag ${currentTag} and ${pkg.name}@${pkg.version} both exist — bumping past stale version${c.reset}`
+      )
+    }
     run(`npm version ${bump} -m "release: v%s"`)
     const newPkg = JSON.parse(readFileSync(pkgPath, 'utf8'))
     ok(`Version → ${c.bold}${newPkg.version}${c.reset}`)
