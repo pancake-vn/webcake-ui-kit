@@ -4,22 +4,6 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.4] - 2026-05-12
-
-### Added
-
-- New `WkTypography` component with `variant` (heading-1–4, paragraph-large/regular/small/mini, caption, caption-mini, monospaced), `as`, `weight`, `color`, `align`, and `text` props; renders the semantically appropriate HTML element by default and falls back to `span`.
-- Typography CSS shorthand token bundles (`--font-heading-*`, `--font-paragraph-*`, `--font-caption-*`, `--font-monospaced`) and utility classes (`.wk-heading-*`, `.wk-paragraph-*`, `.wk-caption-*`, `.wk-monospaced`, `.wk-weight-*`, `.wk-text-*`) added to `src/styles/typography.css`.
-
-### Fixed
-
-- Tab icon container in `WkTabs` resized from 16×16 px to 20×20 px to match design spec.
-- Monospaced font family token now references `--font-family-monospace` (corrected from `--font-family-mono`).
-
-### Internal
-
-- Version 1.0.3 was published then unpublished; npm permanently reserves it, so this release skips that number.
-
 ## [1.0.2] - 2026-05-12
 
 ### Fixed
