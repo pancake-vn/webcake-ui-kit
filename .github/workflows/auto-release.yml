@@ -1,0 +1,191 @@
+name: Auto Release
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'src/**'
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+concurrency:
+  group: auto-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'chore(release):')"
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Resolve bump type
+        id: bump
+        run: |
+          BUMP="${{ github.event.inputs.bump }}"
+          if [ -z "$BUMP" ]; then
+            MSG="${{ github.event.head_commit.message }}"
+            case "$MSG" in
+              *"BREAKING CHANGE"*|*"!:"*) BUMP="major" ;;
+              feat*|*"feat:"*|*"feat("*) BUMP="minor" ;;
+              *) BUMP="patch" ;;
+            esac
+          fi
+          echo "type=$BUMP" >> "$GITHUB_OUTPUT"
+
+      - name: Bump version
+        id: version
+        run: |
+          OLD_VERSION=$(node -p "require('./package.json').version")
+          NEW_VERSION=$(npm version ${{ steps.bump.outputs.type }} --no-git-tag-version)
+          NEW_VERSION="${NEW_VERSION#v}"
+          echo "old=$OLD_VERSION" >> "$GITHUB_OUTPUT"
+          echo "new=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$NEW_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Resolve prev tag
+        id: context
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 "HEAD^" 2>/dev/null || git describe --tags --abbrev=0 2>/dev/null || echo "")
+          DATE=$(date -u +%Y-%m-%d)
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          echo "prev_tag=$PREV_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Install Claude Code CLI
+        run: npm i -g @anthropic-ai/claude-code
+
+      - name: Generate changelog with Claude
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          NEW_VERSION: ${{ steps.version.outputs.new }}
+          REL_DATE: ${{ steps.context.outputs.date }}
+          PREV_TAG: ${{ steps.context.outputs.prev_tag }}
+        run: |
+          RANGE="${PREV_TAG:+${PREV_TAG}..HEAD}"
+          RANGE="${RANGE:-HEAD}"
+
+          PROMPT=$(cat <<EOF
+          You are the release manager for the webcake-ui-kit Vue component library.
+
+          Write the CHANGELOG entry for version ${NEW_VERSION} (${REL_DATE}).
+
+          Investigate the changes yourself using the tools available:
+          - Run "git log ${RANGE} --stat -- src/" to see commits touching src/.
+          - Run "git diff ${RANGE} -- src/" or "git diff ${RANGE} --stat -- src/" when you need more detail.
+          - Read CHANGELOG.md to match the existing tone and section ordering.
+          - Read package.json / src/index.js if you need to map files to public Wk* component names.
+
+          Output strictly Keep a Changelog format:
+
+          ## [${NEW_VERSION}] - ${REL_DATE}
+
+          ### Added
+          - ...
+
+          ### Changed
+          - ...
+
+          ### Fixed
+          - ...
+
+          Rules:
+          - Only include sections that have entries; omit empty sections.
+          - One bullet per user-visible change. Merge duplicate or noisy commits.
+          - Skip purely internal commits (CI, formatting, scripts) UNLESS nothing user-visible changed — then use a single "### Internal" section.
+          - Refer to components by their public Wk* name (e.g. WkButton, WkSelect).
+          - Each bullet: one sentence, present tense, ends with a period. No commit hashes, no emoji, no links.
+          - Write the final entry to .release_notes.md and print it. Do NOT modify CHANGELOG.md yourself.
+          EOF
+          )
+
+          claude -p "$PROMPT" \
+            --output-format text \
+            --allowedTools "Bash(git log:*),Bash(git diff:*),Read,Write" \
+            --permission-mode acceptEdits \
+            > .claude_output.log
+
+          if [ ! -s .release_notes.md ]; then
+            echo "Claude did not produce .release_notes.md" >&2
+            cat .claude_output.log >&2
+            exit 1
+          fi
+          echo "--- Release notes ---"
+          cat .release_notes.md
+
+      - name: Prepend entry to CHANGELOG.md
+        run: |
+          if [ -f CHANGELOG.md ]; then
+            awk -v notes_file=".release_notes.md" '
+              BEGIN { inserted=0 }
+              /^## \[/ && !inserted {
+                while ((getline line < notes_file) > 0) print line
+                close(notes_file)
+                print ""
+                inserted=1
+              }
+              { print }
+              END {
+                if (!inserted) {
+                  while ((getline line < notes_file) > 0) print line
+                }
+              }
+            ' CHANGELOG.md > CHANGELOG.md.new
+            mv CHANGELOG.md.new CHANGELOG.md
+          else
+            {
+              echo "# Changelog"
+              echo ""
+              cat .release_notes.md
+            } > CHANGELOG.md
+          fi
+
+      - name: Sync exports
+        run: npm run sync:exports
+
+      - name: Commit, tag and push
+        run: |
+          git add package.json CHANGELOG.md
+          git diff --cached --quiet || git add -u
+          git commit -m "chore(release): ${{ steps.version.outputs.tag }}"
+          git tag -a "${{ steps.version.outputs.tag }}" -m "Release ${{ steps.version.outputs.tag }}"
+          git push origin HEAD:master
+          git push origin "${{ steps.version.outputs.tag }}"
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" \
+            --title "${{ steps.version.outputs.tag }}" \
+            --notes-file .release_notes.md
