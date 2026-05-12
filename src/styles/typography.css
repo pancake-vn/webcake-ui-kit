@@ -35,7 +35,7 @@
   --heading-4-letter-spacing: 0px;
 
   /* ========================= Monospaced ========================= */
-  --monospaced-font-family: var(--font-family-mono);
+  --monospaced-font-family: var(--font-family-monospace);
   --monospaced-font-size: 16px;
   --monospaced-line-height: 24px;
   --monospaced-font-weight: 400;
@@ -86,4 +86,106 @@
   --paragraph-mini-line-height: 16px;
   --paragraph-mini-letter-spacing: 0px;
   --paragraph-mini-spacing: 12px;
+
+  /* ========================= Font shorthand bundles =========================
+     One `font:` value per text style — composes weight, size/line-height and
+     family from the split tokens above. Note: the CSS `font` shorthand does
+     NOT include letter-spacing, so utility classes apply it separately. */
+  --font-heading-1: var(--heading-1-font-weight) var(--heading-1-font-size) / var(--heading-1-line-height)
+    var(--heading-1-font-family);
+  --font-heading-2: var(--heading-2-font-weight) var(--heading-2-font-size) / var(--heading-2-line-height)
+    var(--heading-2-font-family);
+  --font-heading-3: var(--heading-3-font-weight) var(--heading-3-font-size) / var(--heading-3-line-height)
+    var(--heading-3-font-family);
+  --font-heading-4: var(--heading-4-font-weight) var(--heading-4-font-size) / var(--heading-4-line-height)
+    var(--heading-4-font-family);
+
+  --font-paragraph-large: var(--paragraph-font-weight) var(--paragraph-large-font-size) /
+    var(--paragraph-large-line-height) var(--paragraph-large-font-family);
+  --font-paragraph-regular: var(--paragraph-font-weight) var(--paragraph-regular-font-size) /
+    var(--paragraph-regular-line-height) var(--paragraph-regular-font-family);
+  --font-paragraph-small: var(--paragraph-font-weight) var(--paragraph-small-font-size) /
+    var(--paragraph-small-line-height) var(--paragraph-small-font-family);
+  --font-paragraph-mini: var(--paragraph-font-weight) var(--paragraph-mini-font-size) /
+    var(--paragraph-mini-line-height) var(--paragraph-mini-font-family);
+
+  --font-caption: var(--caption-font-weight) var(--caption-font-size) / var(--caption-line-height)
+    var(--caption-font-family);
+  --font-caption-mini: var(--caption-mini-font-weight) var(--caption-mini-font-size) / var(--caption-mini-line-height)
+    var(--caption-mini-font-family);
+  --font-monospaced: var(--monospaced-font-weight) var(--monospaced-font-size) / var(--monospaced-line-height)
+    var(--monospaced-font-family);
+}
+
+/* ========================= Utility classes =========================
+   Apply a typography style via class instead of inline CSS.
+   Use the weight modifier classes after a paragraph class to override
+   weight (paragraph defaults to 400, --medium = 500, --bold = 600). */
+.wk-heading-1 {
+  font: var(--font-heading-1);
+  letter-spacing: var(--heading-1-letter-spacing);
+}
+.wk-heading-2 {
+  font: var(--font-heading-2);
+  letter-spacing: var(--heading-2-letter-spacing);
+}
+.wk-heading-3 {
+  font: var(--font-heading-3);
+  letter-spacing: var(--heading-3-letter-spacing);
+}
+.wk-heading-4 {
+  font: var(--font-heading-4);
+  letter-spacing: var(--heading-4-letter-spacing);
+}
+
+.wk-paragraph-large {
+  font: var(--font-paragraph-large);
+  letter-spacing: var(--paragraph-large-letter-spacing);
+}
+.wk-paragraph-regular {
+  font: var(--font-paragraph-regular);
+  letter-spacing: var(--paragraph-regular-letter-spacing);
+}
+.wk-paragraph-small {
+  font: var(--font-paragraph-small);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+.wk-paragraph-mini {
+  font: var(--font-paragraph-mini);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+
+.wk-caption {
+  font: var(--font-caption);
+  letter-spacing: var(--caption-letter-spacing);
+}
+.wk-caption-mini {
+  font: var(--font-caption-mini);
+  letter-spacing: var(--caption-mini-letter-spacing);
+}
+.wk-monospaced {
+  font: var(--font-monospaced);
+  letter-spacing: var(--monospaced-letter-spacing);
+}
+
+/* Weight overrides — declared after variants so they win at equal specificity. */
+.wk-weight-regular {
+  font-weight: var(--paragraph-font-weight);
+}
+.wk-weight-medium {
+  font-weight: var(--paragraph-medium-font-weight);
+}
+.wk-weight-bold {
+  font-weight: var(--paragraph-bold-font-weight);
+}
+
+/* Alignment helpers. */
+.wk-text-left {
+  text-align: left;
+}
+.wk-text-center {
+  text-align: center;
+}
+.wk-text-right {
+  text-align: right;
 }

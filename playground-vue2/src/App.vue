@@ -57,6 +57,28 @@
           <p>abcccc</p>
         </WkDialog>
       </section>
+
+      <section class="section">
+        <h2>Typography</h2>
+        <WkTypography variant="heading-1">Heading 1 — the quick brown fox</WkTypography>
+        <WkTypography variant="heading-2">Heading 2 — the quick brown fox</WkTypography>
+        <WkTypography variant="heading-3">Heading 3 — the quick brown fox</WkTypography>
+        <WkTypography variant="heading-4">Heading 4 — the quick brown fox</WkTypography>
+        <WkTypography variant="paragraph-large">Paragraph Large — body copy at 18px.</WkTypography>
+        <WkTypography variant="paragraph-regular">Paragraph Regular — body copy at 16px.</WkTypography>
+        <WkTypography variant="paragraph-regular" weight="medium">Paragraph Regular (medium) — 500.</WkTypography>
+        <WkTypography variant="paragraph-regular" weight="bold">Paragraph Regular (bold) — 600.</WkTypography>
+        <WkTypography variant="paragraph-small">Paragraph Small — 14px.</WkTypography>
+        <WkTypography variant="paragraph-mini">Paragraph Mini — 12px.</WkTypography>
+        <WkTypography variant="caption">CAPTION — 14px with tracking.</WkTypography>
+        <WkTypography variant="caption-mini">CAPTION MINI — 10px.</WkTypography>
+        <WkTypography variant="monospaced">monospaced — const code = true</WkTypography>
+        <WkTypography variant="paragraph-regular" color="muted-fg">Color: muted-fg</WkTypography>
+        <WkTypography variant="paragraph-regular" color="destructive">Color: destructive</WkTypography>
+        <WkTypography variant="paragraph-regular" align="center">Aligned center</WkTypography>
+        <WkTypography variant="paragraph-regular" align="right">Aligned right</WkTypography>
+        <WkTypography variant="heading-3" as="div">heading-3 rendered as &lt;div&gt; via as prop</WkTypography>
+      </section>
     </div>
   </div>
 </template>

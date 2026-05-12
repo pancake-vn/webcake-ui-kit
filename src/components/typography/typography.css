@@ -1,0 +1,4 @@
+.ui-typography {
+  margin: 0;
+  color: var(--ui-typography-color, inherit);
+}
