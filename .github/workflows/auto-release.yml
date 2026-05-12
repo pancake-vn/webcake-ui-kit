@@ -77,6 +77,9 @@ jobs:
           echo "date=$DATE" >> "$GITHUB_OUTPUT"
           echo "prev_tag=$PREV_TAG" >> "$GITHUB_OUTPUT"
 
+      - name: Install root deps
+        run: npm ci --ignore-scripts
+
       - name: Install Claude Code CLI
         run: npm i -g @anthropic-ai/claude-code
 
@@ -177,8 +180,11 @@ jobs:
           git push origin HEAD:master
           git push origin "${{ steps.version.outputs.tag }}"
 
+      - name: Verify exports map
+        run: npm run sync:exports:check
+
       - name: Publish to npm
-        run: npm publish --access public
+        run: npm publish --access public --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
 
