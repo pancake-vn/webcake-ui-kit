@@ -1,35 +1,33 @@
-@layer base {
-  :root {
-    /* Chart */
-    --chart-1: #f54a00;
-    --chart-2: #009689;
-    --chart-3: #104e64;
-    --chart-4: #ffb900;
-    --chart-5: #fe9a00;
+:root {
+  /* Chart */
+  --chart-1: #f54a00;
+  --chart-2: #009689;
+  --chart-3: #104e64;
+  --chart-4: #ffb900;
+  --chart-5: #fe9a00;
 
-    --positive: #009689;
-    --negative: #f54a00;
+  --positive: #009689;
+  --negative: #f54a00;
 
-    --fill: #bfdeffb3;
-    --stroke: #8ec5ff;
-    --fill-2: #aaccffb3;
-    --stroke-2: #3f8dff;
-  }
+  --fill: #bfdeffb3;
+  --stroke: #8ec5ff;
+  --fill-2: #aaccffb3;
+  --stroke-2: #3f8dff;
+}
 
-  .dark {
-    /* Chart */
-    --chart-1: #1447e6;
-    --chart-2: #00bc7d;
-    --chart-3: #fd9a00;
-    --chart-4: #ad46ff;
-    --chart-5: #ff2056;
+.dark {
+  /* Chart */
+  --chart-1: #1447e6;
+  --chart-2: #00bc7d;
+  --chart-3: #fd9a00;
+  --chart-4: #ad46ff;
+  --chart-5: #ff2056;
 
-    --positive: #00bc7d;
-    --negative: #ff2056;
+  --positive: #00bc7d;
+  --negative: #ff2056;
 
-    --fill: #475d75b3;
-    --stroke: #8ec5ff;
-    --fill-2: #1f4176b3;
-    --stroke-2: #3f8dff;
-  }
+  --fill: #475d75b3;
+  --stroke: #8ec5ff;
+  --fill-2: #1f4176b3;
+  --stroke-2: #3f8dff;
 }
