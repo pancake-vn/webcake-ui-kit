@@ -4,6 +4,20 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-05-12
+
+### Fixed
+
+- Fixed layer color token in components.
+
+### Added
+
+- Storybook now includes a Changelog docs page sourced from `CHANGELOG.md`.
+
+### Internal
+
+- Release script (`scripts/release.js`) is now idempotent (safely resumes after a failed publish) and prompts for npm 2FA OTP; auto-creates a GitHub Release on publish.
+
 ## [1.0.1] - 2026-05-12
 
 ### Added
