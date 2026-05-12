@@ -432,6 +432,28 @@ function readableOn(hex) {
   return luminance(hex) > 0.5 ? '#111827' : '#ffffff'
 }
 
+/* Composite a #RRGGBB or #RRGGBBAA hex onto the page's effective card background
+   so contrast is computed against what the user actually SEES (matters for alpha
+   tokens — e.g. 5% black is visually light gray, not black). */
+function effectiveColor(hex) {
+  if (!hex) return '#ffffff'
+  if (hex.length === 7) return hex
+  if (hex.length !== 9) return hex
+  const dark =
+    (typeof document !== 'undefined' &&
+      (document.documentElement.classList.contains('dark') ||
+        (document.body && document.body.classList.contains('dark')))) ||
+    false
+  const bg = dark ? [22, 26, 33] : [255, 255, 255] // matches --docs-card-bg
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  const a = parseInt(hex.slice(7, 9), 16) / 255
+  const blend = (c, base) => Math.round(c * a + base * (1 - a))
+  const h = n => n.toString(16).padStart(2, '0').toUpperCase()
+  return `#${h(blend(r, bg[0]))}${h(blend(g, bg[1]))}${h(blend(b, bg[2]))}`
+}
+
 /* Convert any computed color string (#hex / rgb / rgba / space-separated) into
    #RRGGBB (alpha === 1) or #RRGGBBAA (alpha < 1). Returns the original if unparseable. */
 function normalizeColor(raw) {
@@ -473,16 +495,16 @@ const SHARED = {
       if (!raw) return
       const hex = normalizeColor(raw)
       el.textContent = hex
-      // use the opaque base for contrast calc (strip alpha)
-      const base = hex.length === 9 ? hex.slice(0, 7) : hex
-      if (/^#[0-9a-f]{6}$/i.test(base)) el.style.color = readableOn(base)
+      // contrast vs. what's actually rendered (alpha gets composited onto card bg)
+      const visible = effectiveColor(hex)
+      if (/^#[0-9a-f]{6}$/i.test(visible)) el.style.color = readableOn(visible)
     })
     // tint palette "step" labels too
     document.querySelectorAll('[data-chip-step]').forEach(el => {
       const raw = cs.getPropertyValue('--' + el.dataset.chipStep).trim()
       const hex = normalizeColor(raw)
-      const base = hex.length === 9 ? hex.slice(0, 7) : hex
-      if (/^#[0-9a-f]{6}$/i.test(base)) el.style.color = readableOn(base)
+      const visible = effectiveColor(hex)
+      if (/^#[0-9a-f]{6}$/i.test(visible)) el.style.color = readableOn(visible)
     })
     // sync color inputs to current values (color input only accepts 6-char hex)
     document.querySelectorAll('input[data-pick-token]').forEach(input => {
