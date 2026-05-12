@@ -1,0 +1,50 @@
+name: Deploy Storybook
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-storybook
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, web-docs-api-01]
+    env:
+      DEPLOY_DIR: /home/cc/webcake-ui-kit
+      PM2_NAME: web-ui-kit
+      PM2_PORT: '6006'
+
+    steps:
+      - name: Sync repo into deploy dir
+        run: |
+          set -e
+          cd "$DEPLOY_DIR"
+          git fetch origin master
+          git reset --hard origin/master
+          git clean -fd -e node_modules -e storybook-vue3/node_modules
+
+      - name: Install root deps (for server.js)
+        working-directory: ${{ env.DEPLOY_DIR }}
+        run: npm ci --ignore-scripts
+
+      - name: Install storybook deps
+        working-directory: ${{ env.DEPLOY_DIR }}/storybook-vue3
+        run: npm ci
+
+      - name: Build storybook
+        working-directory: ${{ env.DEPLOY_DIR }}
+        run: npm run build:storybook
+
+      - name: Start or reload PM2
+        working-directory: ${{ env.DEPLOY_DIR }}
+        run: |
+          set -e
+          if pm2 describe "$PM2_NAME" > /dev/null 2>&1; then
+            pm2 reload "$PM2_NAME" --update-env
+          else
+            pm2 start server.js --name "$PM2_NAME"
+          fi
+          pm2 save
