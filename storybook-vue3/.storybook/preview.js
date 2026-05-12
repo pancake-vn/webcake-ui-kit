@@ -43,8 +43,36 @@ export const parameters = {
         'Introduction',
         ['Welcome', 'Installation', 'Quick Start', 'Theming', 'Dual Compatibility'],
         'Foundations',
+        ['Colors', 'Typography'],
         'Components',
-        ['Button', 'Badge', '*'],
+        [
+          'Forms',
+          [
+            'Button',
+            'ButtonGroup',
+            'Input',
+            'Checkbox',
+            'CheckboxGroup',
+            'Radio',
+            'RadioGroup',
+            'Select',
+            'SelectOption',
+            'Switch',
+            'SwitchGroup',
+            'Toggle',
+            'ToggleGroup',
+            'Slider',
+            'RichCheckboxGroup',
+            'RichSwitchGroup'
+          ],
+          'Overlays',
+          ['Dialog', 'AlertDialog'],
+          'Layout',
+          ['Accordion', 'Tabs', 'Breadcrumb', 'Pagination', 'SidebarItem', 'SidebarGroupLabel'],
+          'Display',
+          ['Badge', 'Tag', 'Divider', 'Spinner']
+        ],
+        'Changelog',
         '*'
       ]
     }

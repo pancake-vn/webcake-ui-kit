@@ -4,7 +4,7 @@ import WkButton from '../../src/components/button/Button.vue'
 const OK_VARIANTS = ['primary', 'destructive', 'secondary', 'neutral', 'outline', 'ghost']
 
 export default {
-  title: 'Components/AlertDialog',
+  title: 'Components/Overlays/AlertDialog',
   component: WkAlertDialog,
   argTypes: {
     title: { control: 'text' },

@@ -1,7 +1,7 @@
 import WkPagination from '../../src/components/pagination/Pagination.vue'
 
 export default {
-  title: 'Components/Pagination',
+  title: 'Components/Layout/Pagination',
   component: WkPagination,
   argTypes: {
     current: { control: { type: 'number', min: 1 } },

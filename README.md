@@ -12,7 +12,7 @@ Ship the same components to Vue 2.7 _and_ Vue 3 — from a single source, with o
 [![npm version](https://img.shields.io/npm/v/webcake-ui-kit.svg?style=for-the-badge&color=ff6b9d&logo=npm&logoColor=white)](https://www.npmjs.com/package/webcake-ui-kit)
 [![Vue 2 & 3](https://img.shields.io/badge/Vue-2.7%20%7C%C2%A03.x-42b883?style=for-the-badge&logo=vue.js&logoColor=white)](https://vuejs.org/)
 [![No build](https://img.shields.io/badge/build-not%20required-success?style=for-the-badge)](#-why-ship-raw-sfc)
-[![License](https://img.shields.io/badge/license-ISC-blue?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 
 <br />
 
@@ -35,7 +35,7 @@ Most Vue component libraries force you to **pick a side**. Choose Vue 2 → you'
 **webcake-ui-kit refuses that tradeoff.** Every component is hand-authored under strict dual-compatibility rules so the _same import_ compiles, renders, and behaves identically on **Vue 2.7** and **Vue 3.4+** — from a codebase you can grep, fork, and theme as if it were your own.
 
 ```js
-import { Button, Dialog, Input } from 'webcake-ui-kit'
+import { WkButton, WkDialog, WkInput } from 'webcake-ui-kit'
 // ✅ Vue 2.7 — works
 // ✅ Vue 3.x — works
 // ✅ Same API. Same styles. Same behavior. One source of truth.
@@ -92,14 +92,14 @@ import 'webcake-ui-kit/styles'
 ```js
 // main.js
 import { createApp } from 'vue'
-import { Button, Dialog, Input } from 'webcake-ui-kit'
+import { WkButton, WkDialog, WkInput } from 'webcake-ui-kit'
 import 'webcake-ui-kit/styles'
 import App from './App.vue'
 
 const app = createApp(App)
-app.component('Button', Button)
-app.component('Dialog', Dialog)
-app.component('Input', Input)
+app.component('WkButton', WkButton)
+app.component('WkDialog', WkDialog)
+app.component('WkInput', WkInput)
 app.mount('#app')
 ```
 
@@ -109,13 +109,13 @@ app.mount('#app')
 ```js
 // main.js
 import Vue from 'vue'
-import { Button, Dialog, Input } from 'webcake-ui-kit'
+import { WkButton, WkDialog, WkInput } from 'webcake-ui-kit'
 import 'webcake-ui-kit/styles'
 import App from './App.vue'
 
-Vue.component('Button', Button)
-Vue.component('Dialog', Dialog)
-Vue.component('Input', Input)
+Vue.component('WkButton', WkButton)
+Vue.component('WkDialog', WkDialog)
+Vue.component('WkInput', WkInput)
 
 new Vue({ render: h => h(App) }).$mount('#app')
 ```
@@ -129,11 +129,11 @@ new Vue({ render: h => h(App) }).$mount('#app')
 ```vue
 <template>
   <div>
-    <Button variant="primary" @click="open = true">Open dialog</Button>
+    <WkButton variant="primary" @click="open = true">Open dialog</WkButton>
 
-    <Dialog v-model="open" title="Hello from webcake 👋">
-      <Input v-model="name" placeholder="Your name" />
-    </Dialog>
+    <WkDialog v-model="open" title="Hello from webcake 👋">
+      <WkInput v-model="name" placeholder="Your name" />
+    </WkDialog>
   </div>
 </template>
 
@@ -203,23 +203,24 @@ Every component, every variant, every prop — browsable before you `npm install
 
 ## 🧩 Components
 
+All exports are prefixed with **`Wk`** to avoid global name collisions and to be greppable across consumer apps.
+
 <div align="center">
 
-| Forms                | Overlays    | Layout        | Display |
-| :------------------- | :---------- | :------------ | :------ |
-| Button               | Dialog      | Accordion     | Badge   |
-| ButtonGroup          | AlertDialog | AccordionItem | Tag     |
-| Input                | Tooltip\*   | Sidebar       | Divider |
-| Checkbox             |             | Tabs          | Spinner |
-| CheckboxGroup        |             | Breadcrumb    |         |
-| Radio                |             |               |         |
-| RadioGroup           |             |               |         |
-| Select               |             |               |         |
-| Switch / SwitchGroup |             |               |         |
-| Toggle / ToggleGroup |             |               |         |
-| Slider               |             |               |         |
-| RichCheckboxGroup    |             |               |         |
-| RichSwitchGroup      |             |               |         |
+| Forms                     | Overlays      | Layout              | Display      |
+| :------------------------ | :------------ | :------------------ | :----------- |
+| WkButton                  | WkDialog      | WkAccordion         | WkBadge      |
+| WkButtonGroup             | WkAlertDialog | WkAccordionItem     | WkTag        |
+| WkInput                   | WkTooltip\*   | WkTabs              | WkDivider    |
+| WkCheckbox                |               | WkBreadcrumb        | WkSpinner    |
+| WkCheckboxGroup           |               | WkPagination        | WkTypography |
+| WkRadio / WkRadioGroup    |               | WkSidebarItem       |              |
+| WkSelect / WkSelectOption |               | WkSidebarGroupLabel |              |
+| WkSwitch / WkSwitchGroup  |               |                     |              |
+| WkToggle / WkToggleGroup  |               |                     |              |
+| WkSlider                  |               |                     |              |
+| WkRichCheckboxGroup       |               |                     |              |
+| WkRichSwitchGroup         |               |                     |              |
 
 <sub>\* coming soon · _more on the way_</sub>
 
@@ -351,7 +352,7 @@ Before opening one:
 
 ## 📜 License
 
-**ISC** © Webcake Team — use it, fork it, ship it.
+**MIT** © Webcake Team — use it, fork it, ship it.
 
 ---
 

@@ -13,7 +13,7 @@ const ARROW_ICON = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" 
 </svg>`
 
 export default {
-  title: 'Components/Button',
+  title: 'Components/Forms/Button',
   component: WkButton,
   argTypes: {
     variant: { control: { type: 'select' }, options: VARIANTS },

@@ -1,5 +1,5 @@
-import Button from '../../src/components/button/Button.vue'
-import Badge from '../../src/components/badge/Badge.vue'
+import WkButton from '../../src/components/button/Button.vue'
+import WkBadge from '../../src/components/badge/Badge.vue'
 import { addons } from '@storybook/addons'
 import { SET_CURRENT_STORY, NAVIGATE_URL } from '@storybook/core-events'
 
@@ -260,7 +260,7 @@ export const Welcome = () => ({
 
       <h2 style="${SECTION_H2}">What it looks like</h2>
       <pre style="${CODE_BLOCK}"><code><span style="color:#94a3b8;">// works on Vue 2.7 AND Vue 3.x — same import, same API</span>
-<span style="color:#c084fc;">import</span> { Button, Dialog, Input } <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'webcake-ui-kit'</span>
+<span style="color:#c084fc;">import</span> { WkButton, WkDialog, WkInput } <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'webcake-ui-kit'</span>
 <span style="color:#c084fc;">import</span> <span style="color:#86efac;">'webcake-ui-kit/styles'</span></code></pre>
 
       <footer style="
@@ -331,26 +331,26 @@ export const Installation = () => ({
       <h3 style="font-size: 16px; font-weight: 700; margin: 24px 0 10px;">Vue 3</h3>
       <pre style="${CODE_BLOCK}"><code><span style="color:#94a3b8;">// main.js</span>
 <span style="color:#c084fc;">import</span> { createApp } <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'vue'</span>
-<span style="color:#c084fc;">import</span> { Button, Dialog, Input } <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'webcake-ui-kit'</span>
+<span style="color:#c084fc;">import</span> { WkButton, WkDialog, WkInput } <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'webcake-ui-kit'</span>
 <span style="color:#c084fc;">import</span> <span style="color:#86efac;">'webcake-ui-kit/styles'</span>
 <span style="color:#c084fc;">import</span> App <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'./App.vue'</span>
 
 <span style="color:#c084fc;">const</span> app <span style="color:#c084fc;">=</span> createApp(App)
-app.component(<span style="color:#86efac;">'Button'</span>, Button)
-app.component(<span style="color:#86efac;">'Dialog'</span>, Dialog)
-app.component(<span style="color:#86efac;">'Input'</span>, Input)
+app.component(<span style="color:#86efac;">'WkButton'</span>, WkButton)
+app.component(<span style="color:#86efac;">'WkDialog'</span>, WkDialog)
+app.component(<span style="color:#86efac;">'WkInput'</span>, WkInput)
 app.mount(<span style="color:#86efac;">'#app'</span>)</code></pre>
 
       <h3 style="font-size: 16px; font-weight: 700; margin: 24px 0 10px;">Vue 2.7</h3>
       <pre style="${CODE_BLOCK}"><code><span style="color:#94a3b8;">// main.js</span>
 <span style="color:#c084fc;">import</span> Vue <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'vue'</span>
-<span style="color:#c084fc;">import</span> { Button, Dialog, Input } <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'webcake-ui-kit'</span>
+<span style="color:#c084fc;">import</span> { WkButton, WkDialog, WkInput } <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'webcake-ui-kit'</span>
 <span style="color:#c084fc;">import</span> <span style="color:#86efac;">'webcake-ui-kit/styles'</span>
 <span style="color:#c084fc;">import</span> App <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'./App.vue'</span>
 
-Vue.component(<span style="color:#86efac;">'Button'</span>, Button)
-Vue.component(<span style="color:#86efac;">'Dialog'</span>, Dialog)
-Vue.component(<span style="color:#86efac;">'Input'</span>, Input)
+Vue.component(<span style="color:#86efac;">'WkButton'</span>, WkButton)
+Vue.component(<span style="color:#86efac;">'WkDialog'</span>, WkDialog)
+Vue.component(<span style="color:#86efac;">'WkInput'</span>, WkInput)
 
 <span style="color:#c084fc;">new</span> Vue({ render: h <span style="color:#c084fc;">=&gt;</span> h(App) }).$mount(<span style="color:#86efac;">'#app'</span>)</code></pre>
 
@@ -359,10 +359,10 @@ Vue.component(<span style="color:#86efac;">'Input'</span>, Input)
         Prefer importing per-component instead of registering globally? That works too:
       </p>
       <pre style="${CODE_BLOCK}"><code><span style="color:#94a3b8;">// MyPage.vue</span>
-<span style="color:#c084fc;">import</span> { Button, Badge } <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'webcake-ui-kit'</span>
+<span style="color:#c084fc;">import</span> { WkButton, WkBadge } <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'webcake-ui-kit'</span>
 
 <span style="color:#c084fc;">export default</span> {
-  components: { Button, Badge }
+  components: { WkButton, WkBadge }
 }</code></pre>
 
       <footer style="
@@ -391,7 +391,7 @@ Vue.component(<span style="color:#86efac;">'Input'</span>, Input)
 /* ────────────────────────────────────────────────────────────────────────── */
 
 export const QuickStart = () => ({
-  components: { Button, Badge },
+  components: { WkButton, WkBadge },
   template: `
     ${THEME_STYLE}
     <div class="docs-page" style="${PAGE_STYLE}">
@@ -410,9 +410,9 @@ export const QuickStart = () => ({
       </p>
 
       <pre style="${CODE_BLOCK}"><code><span style="color:#f87171;">&lt;template&gt;</span>
-  <span style="color:#f87171;">&lt;Button</span> <span style="color:#fbbf24;">variant</span>=<span style="color:#86efac;">"primary"</span> <span style="color:#fbbf24;">@click</span>=<span style="color:#86efac;">"sayHi"</span><span style="color:#f87171;">&gt;</span>
+  <span style="color:#f87171;">&lt;WkButton</span> <span style="color:#fbbf24;">variant</span>=<span style="color:#86efac;">"primary"</span> <span style="color:#fbbf24;">@click</span>=<span style="color:#86efac;">"sayHi"</span><span style="color:#f87171;">&gt;</span>
     Click me
-  <span style="color:#f87171;">&lt;/Button&gt;</span>
+  <span style="color:#f87171;">&lt;/WkButton&gt;</span>
 <span style="color:#f87171;">&lt;/template&gt;</span>
 
 <span style="color:#f87171;">&lt;script&gt;</span>
@@ -435,7 +435,7 @@ export const QuickStart = () => ({
         gap: 12px;
       ">
         <span style="${MUTED} font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;">Live →</span>
-        <Button variant="primary" @click="sayHi">Click me</Button>
+        <WkButton variant="primary" @click="sayHi">Click me</WkButton>
       </div>
 
       <h2 style="${SECTION_H2}">Variants &amp; sizes</h2>
@@ -443,10 +443,10 @@ export const QuickStart = () => ({
         Every component exposes its variations through a small, predictable prop API:
       </p>
 
-      <pre style="${CODE_BLOCK}"><code><span style="color:#f87171;">&lt;Button</span> <span style="color:#fbbf24;">variant</span>=<span style="color:#86efac;">"primary"</span><span style="color:#f87171;">&gt;</span>Primary<span style="color:#f87171;">&lt;/Button&gt;</span>
-<span style="color:#f87171;">&lt;Button</span> <span style="color:#fbbf24;">variant</span>=<span style="color:#86efac;">"outline"</span><span style="color:#f87171;">&gt;</span>Outline<span style="color:#f87171;">&lt;/Button&gt;</span>
-<span style="color:#f87171;">&lt;Button</span> <span style="color:#fbbf24;">variant</span>=<span style="color:#86efac;">"ghost"</span><span style="color:#f87171;">&gt;</span>Ghost<span style="color:#f87171;">&lt;/Button&gt;</span>
-<span style="color:#f87171;">&lt;Button</span> <span style="color:#fbbf24;">variant</span>=<span style="color:#86efac;">"destructive"</span><span style="color:#f87171;">&gt;</span>Delete<span style="color:#f87171;">&lt;/Button&gt;</span></code></pre>
+      <pre style="${CODE_BLOCK}"><code><span style="color:#f87171;">&lt;WkButton</span> <span style="color:#fbbf24;">variant</span>=<span style="color:#86efac;">"primary"</span><span style="color:#f87171;">&gt;</span>Primary<span style="color:#f87171;">&lt;/WkButton&gt;</span>
+<span style="color:#f87171;">&lt;WkButton</span> <span style="color:#fbbf24;">variant</span>=<span style="color:#86efac;">"outline"</span><span style="color:#f87171;">&gt;</span>Outline<span style="color:#f87171;">&lt;/WkButton&gt;</span>
+<span style="color:#f87171;">&lt;WkButton</span> <span style="color:#fbbf24;">variant</span>=<span style="color:#86efac;">"ghost"</span><span style="color:#f87171;">&gt;</span>Ghost<span style="color:#f87171;">&lt;/WkButton&gt;</span>
+<span style="color:#f87171;">&lt;WkButton</span> <span style="color:#fbbf24;">variant</span>=<span style="color:#86efac;">"destructive"</span><span style="color:#f87171;">&gt;</span>Delete<span style="color:#f87171;">&lt;/WkButton&gt;</span></code></pre>
 
       <div style="
         margin: 16px 0 32px;
@@ -460,10 +460,10 @@ export const QuickStart = () => ({
         align-items: center;
         justify-content: center;
       ">
-        <Button variant="primary">Primary</Button>
-        <Button variant="outline">Outline</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button variant="destructive">Delete</Button>
+        <WkButton variant="primary">Primary</WkButton>
+        <WkButton variant="outline">Outline</WkButton>
+        <WkButton variant="ghost">Ghost</WkButton>
+        <WkButton variant="destructive">Delete</WkButton>
       </div>
 
       <h2 style="${SECTION_H2}">Mixing components</h2>
@@ -482,9 +482,9 @@ export const QuickStart = () => ({
         align-items: center;
         justify-content: center;
       ">
-        <Button variant="primary" size="sm">Save</Button>
-        <Badge>New</Badge>
-        <Badge variant="success">Released</Badge>
+        <WkButton variant="primary" size="sm">Save</WkButton>
+        <WkBadge>New</WkBadge>
+        <WkBadge variant="success">Released</WkBadge>
       </div>
 
       <h2 style="${SECTION_H2}">Where to go next</h2>

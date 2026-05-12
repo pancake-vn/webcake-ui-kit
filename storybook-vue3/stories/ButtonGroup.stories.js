@@ -2,7 +2,7 @@ import WkButtonGroup from '../../src/components/button-group/ButtonGroup.vue'
 import WkButton from '../../src/components/button/Button.vue'
 
 export default {
-  title: 'Components/ButtonGroup',
+  title: 'Components/Forms/ButtonGroup',
   component: WkButtonGroup,
   argTypes: {
     multiple: { control: 'boolean' }

@@ -3,7 +3,7 @@ import WkCheckboxGroup from '../../src/components/checkbox-group/CheckboxGroup.v
 const LAYOUTS = ['inline', 'block']
 
 export default {
-  title: 'Components/CheckboxGroup',
+  title: 'Components/Forms/CheckboxGroup',
   component: WkCheckboxGroup,
   argTypes: {
     layout: { control: { type: 'inline-radio' }, options: LAYOUTS },

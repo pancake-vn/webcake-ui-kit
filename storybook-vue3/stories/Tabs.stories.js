@@ -10,7 +10,7 @@ const DEMO_TABS = [
 ]
 
 export default {
-  title: 'Components/Tabs',
+  title: 'Components/Layout/Tabs',
   component: WkTabs,
   argTypes: {
     size: { control: { type: 'inline-radio' }, options: SIZES },

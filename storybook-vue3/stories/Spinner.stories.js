@@ -1,7 +1,7 @@
 import WkSpinner from '../../src/components/spinner/Spinner.vue'
 
 export default {
-  title: 'Components/Spinner',
+  title: 'Components/Display/Spinner',
   component: WkSpinner,
   argTypes: {
     size: { control: { type: 'inline-radio' }, options: ['sm', 'md', 'lg'] },

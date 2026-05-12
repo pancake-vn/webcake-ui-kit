@@ -2,7 +2,7 @@ import WkAccordion from '../../src/components/accordion/Accordion.vue'
 import WkAccordionItem from '../../src/components/accordion-item/AccordionItem.vue'
 
 export default {
-  title: 'Components/Accordion',
+  title: 'Components/Layout/Accordion',
   component: WkAccordion,
   subcomponents: { WkAccordionItem },
   argTypes: {

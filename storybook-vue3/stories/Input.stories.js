@@ -4,7 +4,7 @@ const SIZES = ['xs', 'sm', 'md', 'lg']
 const ROUNDNESS = ['default', 'round']
 
 export default {
-  title: 'Components/Input',
+  title: 'Components/Forms/Input',
   component: WkInput,
   argTypes: {
     size: {

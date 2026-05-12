@@ -2,7 +2,7 @@ import WkSelect from '../../src/components/select/Select.vue'
 import WkSelectOption from '../../src/components/select-option/SelectOption.vue'
 
 export default {
-  title: 'Components/SelectOption',
+  title: 'Components/Forms/SelectOption',
   component: WkSelectOption,
   argTypes: {
     size: { control: { type: 'inline-radio' }, options: ['regular', 'large'] },

@@ -5,6 +5,8 @@ module.exports = {
 
   framework: '@storybook/vue3',
 
+  staticDirs: ['../public'],
+
   core: {
     builder: 'webpack5'
   },

@@ -1,7 +1,7 @@
 import WkDivider from '../../src/components/divider/Divider.vue'
 
 export default {
-  title: 'Components/Divider',
+  title: 'Components/Display/Divider',
   component: WkDivider,
   argTypes: {
     direction: { control: { type: 'inline-radio' }, options: ['horizontal', 'vertical'] },

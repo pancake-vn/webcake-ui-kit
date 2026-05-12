@@ -9,7 +9,7 @@ const alignRightIcon =
   '<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true"><path d="M4 6h12M8 10h8M6 14h10" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg>'
 
 export default {
-  title: 'Components/ToggleGroup',
+  title: 'Components/Forms/ToggleGroup',
   component: WkToggleGroup,
   argTypes: {
     multiple: { control: 'boolean' }

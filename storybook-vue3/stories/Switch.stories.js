@@ -1,7 +1,7 @@
 import WkSwitch from '../../src/components/switch/Switch.vue'
 
 export default {
-  title: 'Components/Switch',
+  title: 'Components/Forms/Switch',
   component: WkSwitch,
   argTypes: {
     value: { control: 'boolean' },

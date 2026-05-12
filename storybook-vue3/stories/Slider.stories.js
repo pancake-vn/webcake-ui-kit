@@ -1,7 +1,7 @@
 import WkSlider from '../../src/components/slider/Slider.vue'
 
 export default {
-  title: 'Components/Slider',
+  title: 'Components/Forms/Slider',
   component: WkSlider,
   argTypes: {
     orientation: { control: { type: 'inline-radio' }, options: ['horizontal', 'vertical'] },

@@ -2,7 +2,7 @@ import WkRadio from '../../src/components/radio/Radio.vue'
 import WkRadioGroup from '../../src/components/radio-group/RadioGroup.vue'
 
 export default {
-  title: 'Components/Radio',
+  title: 'Components/Forms/Radio',
   component: WkRadio,
   argTypes: {
     checked: { control: 'boolean' },
