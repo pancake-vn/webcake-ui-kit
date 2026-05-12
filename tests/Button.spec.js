@@ -36,7 +36,7 @@ describe('WkButton', () => {
 
   it('does not emit click when loading and shows spinner', async () => {
     const w = mount(WkButton, { props: { label: 'X', loading: true } })
-    expect(w.find('.ui-btn__spinner').exists()).toBe(true)
+    expect(w.find('.ui-spinner').exists()).toBe(true)
     await w.trigger('click')
     expect(w.emitted('click')).toBeFalsy()
   })

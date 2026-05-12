@@ -7,7 +7,7 @@
     }"
   >
     <div v-if="!flipped" class="ui-rich-switch-group__aligner">
-      <Switch :value="value" :disabled="disabled" @change="$emit('change', $event)" @input="$emit('input', $event)" />
+      <WkSwitch :value="value" :disabled="disabled" @change="$emit('change', $event)" @input="$emit('input', $event)" />
     </div>
     <div class="ui-rich-switch-group__content">
       <span class="ui-rich-switch-group__label"
@@ -18,17 +18,17 @@
       </span>
     </div>
     <div v-if="flipped" class="ui-rich-switch-group__aligner">
-      <Switch :value="value" :disabled="disabled" @change="$emit('change', $event)" @input="$emit('input', $event)" />
+      <WkSwitch :value="value" :disabled="disabled" @change="$emit('change', $event)" @input="$emit('input', $event)" />
     </div>
   </div>
 </template>
 
 <script>
-import Switch from '../switch/Switch.vue'
+import WkSwitch from '../switch/Switch.vue'
 
 export default {
   name: 'RichSwitchGroup',
-  components: { Switch: Switch },
+  components: { WkSwitch },
   props: {
     value: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
