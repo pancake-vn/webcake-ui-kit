@@ -13,6 +13,7 @@
       "import": "./src/index.js",
       "default": "./src/index.js"
     },
+    "./icons": "./src/icons/index.js",
     "./styles": "./src/styles/index.css",
     "./styles/*": "./src/styles/*",
     "./WkAccordion": "./src/components/accordion/Accordion.vue",

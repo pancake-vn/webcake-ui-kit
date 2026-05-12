@@ -127,8 +127,8 @@
 }
 
 .ui-sidebar-item--collapsed .ui-sidebar-item__icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   color: var(--sidebar-foreground);
 }
 
