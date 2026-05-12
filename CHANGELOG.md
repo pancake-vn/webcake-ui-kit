@@ -4,6 +4,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6] - 2026-05-12
+
+### Added
+
+- New icon components `WkiSection` and `WkiSurvey` exported from `src/icons/index.js`.
+
+### Fixed
+
+- Fixed icon size in the collapsed state of `WkSidebarItem` (corrected from 18×18 px to 20×20 px).
+
 ## [1.0.4] - 2026-05-12
 
 ### Added

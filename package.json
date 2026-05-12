@@ -1,6 +1,6 @@
 {
   "name": "webcake-ui-kit",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "UI Kit for Vue 2 && 3 - Pure Options API",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -13,7 +13,6 @@
       "import": "./src/index.js",
       "default": "./src/index.js"
     },
-    "./icons": "./src/icons/index.js",
     "./styles": "./src/styles/index.css",
     "./styles/*": "./src/styles/*",
     "./WkAccordion": "./src/components/accordion/Accordion.vue",
@@ -47,6 +46,7 @@
     "./WkToggleGroup": "./src/components/toggle-group/ToggleGroup.vue",
     "./WkTypography": "./src/components/typography/Typography.vue",
     "./components/*": "./src/components/*",
+    "./icons": "./src/icons/index.js",
     "./package.json": "./package.json"
   },
   "files": [
