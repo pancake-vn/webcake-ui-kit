@@ -4,6 +4,10 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Auto Release"]
+    types: [completed]
+    branches: [master]
 
 concurrency:
   group: deploy-storybook
@@ -11,6 +15,8 @@ concurrency:
 
 jobs:
   deploy:
+    # Run on normal push/dispatch, OR when Auto Release finished successfully.
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: [self-hosted, web-docs-api-01]
     env:
       DEPLOY_DIR: /home/cc/webcake-ui-kit
