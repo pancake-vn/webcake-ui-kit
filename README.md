@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="./storybook-vue3/.storybook/logo-light.svg" alt="webcake-ui-kit" height="48" />
-
-# webcake-ui-kit
+# <img src="./storybook-vue3/.storybook/logo-icon.svg" alt="" height="36" align="center" /> webcake-ui-kit
 
 ### The Vue UI kit that doesn't make you choose.
 
