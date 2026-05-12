@@ -137,9 +137,46 @@
     fill: #48e07d !important;
   }
 
-  /* Search input — round corners */
+  /* Focus ring — kill the browser-default blue and use webcake green.
+     Storybook's sidebar buttons render with the UA outline on :focus, which
+     reads as blue on most platforms and clashes with the green brand. */
+  #storybook-explorer-tree [data-nodetype]:focus,
+  #storybook-explorer-tree button[data-action='collapse-root']:focus,
+  #storybook-explorer-tree [data-nodetype]:focus-visible,
+  #storybook-explorer-tree button[data-action='collapse-root']:focus-visible {
+    outline: 2px solid #13823b !important;
+    outline-offset: -2px;
+    box-shadow: none !important;
+  }
+  #storybook-explorer-tree [data-nodetype]:focus:not(:focus-visible),
+  #storybook-explorer-tree button[data-action='collapse-root']:focus:not(:focus-visible) {
+    outline: none !important;
+  }
+  /* Dark-mode focus uses the lighter green so it stays visible on dark bg. */
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype]:focus-visible,
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree button[data-action='collapse-root']:focus-visible,
+  html[data-theme='dark'] #storybook-explorer-tree [data-nodetype]:focus-visible,
+  html[data-theme='dark'] #storybook-explorer-tree button[data-action='collapse-root']:focus-visible,
+  html.dark #storybook-explorer-tree [data-nodetype]:focus-visible,
+  html.dark #storybook-explorer-tree button[data-action='collapse-root']:focus-visible {
+    outline-color: #48e07d !important;
+  }
+
+  /* Search input — round corners + green focus ring */
   input[type='search'][placeholder*='Find'] {
     border-radius: 10px !important;
+  }
+  input[type='search'][placeholder*='Find']:focus,
+  input[type='search'][placeholder*='Find']:focus-visible {
+    outline: 2px solid #13823b !important;
+    outline-offset: 1px;
+    border-color: #13823b !important;
+  }
+  body[style*='rgb(28, 33, 40)'] input[type='search'][placeholder*='Find']:focus,
+  html[data-theme='dark'] input[type='search'][placeholder*='Find']:focus,
+  html.dark input[type='search'][placeholder*='Find']:focus {
+    outline-color: #48e07d !important;
+    border-color: #48e07d !important;
   }
 
   /* Topbar avatar / menu button */
