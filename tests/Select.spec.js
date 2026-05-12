@@ -3,6 +3,12 @@ import { mount } from './_utils.js'
 
 const FRUITS = ['Apple', 'Banana', 'Cherry']
 
+afterEach(() => {
+  document.body.querySelectorAll('.ui-select__dropdown').forEach(el => {
+    if (el.parentNode) el.parentNode.removeChild(el)
+  })
+})
+
 describe('WkSelect', () => {
   it('renders placeholder when no value', () => {
     const w = mount(WkSelect, { props: { placeholder: 'Pick one', options: FRUITS } })
@@ -42,7 +48,7 @@ describe('WkSelect', () => {
     const w = mount(WkSelect, { props: { options: FRUITS } })
     await w.trigger('click')
     expect(w.classes()).toContain('ui-select--open')
-    expect(w.find('.ui-select__dropdown').exists()).toBe(true)
+    expect(document.body.querySelector('.ui-select__dropdown')).not.toBeNull()
   })
 
   it('does not open when disabled', async () => {
@@ -64,7 +70,7 @@ describe('WkSelect', () => {
 
   it('renders spinner icon when loading', () => {
     const w = mount(WkSelect, { props: { loading: true, options: FRUITS } })
-    expect(w.find('.ui-select__spinner').exists()).toBe(true)
+    expect(w.find('.ui-spinner').exists()).toBe(true)
   })
 
   it('renders chevron when not loading', () => {
