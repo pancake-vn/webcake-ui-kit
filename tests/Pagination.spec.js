@@ -42,7 +42,7 @@ describe('WkPagination — render & a11y', () => {
 
   it('marks the active page with ui-button--outline class', () => {
     const w = mount(WkPagination, { props: { current: 3, total: 5, pageSize: 1 } })
-    const active = w.find('.ui-button--outline')
+    const active = w.find('.ui-btn--outline')
     expect(active.exists()).toBe(true)
     expect(active.text().trim()).toBe('3')
   })
@@ -142,7 +142,7 @@ describe('WkPagination — interaction & events', () => {
 
   it('does not emit when clicking the already-active page', async () => {
     const w = mount(WkPagination, { props: { current: 3, total: 10, pageSize: 1 } })
-    await w.find('.ui-button--outline').trigger('click')
+    await w.find('.ui-btn--outline').trigger('click')
     expect(w.emitted('change')).toBeFalsy()
   })
 
@@ -203,8 +203,8 @@ describe('WkPagination — jumpStep', () => {
   })
 
   it('clamps the jump target within the valid page range', async () => {
-    // 18+5=23, clamped to 20
-    const w = mount(WkPagination, { props: { current: 18, total: 20, pageSize: 1, jumpStep: 5 } })
+    // right ellipsis with current=3, total=20, jumpStep=20: 3+20=23 → clamped to 20
+    const w = mount(WkPagination, { props: { current: 3, total: 20, pageSize: 1, jumpStep: 20 } })
     const els = ellipsisBtns(w)
     if (els.length > 0) {
       await els[els.length - 1].trigger('click')

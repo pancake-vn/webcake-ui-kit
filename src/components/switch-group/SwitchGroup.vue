@@ -1,6 +1,6 @@
 <template>
   <div class="ui-switch-group" :class="[`ui-switch-group--${layout}`, { 'ui-switch-group--disabled': disabled }]">
-    <Switch :value="value" :disabled="disabled" @change="$emit('change', $event)" @input="$emit('input', $event)" />
+    <WkSwitch :value="value" :disabled="disabled" @change="$emit('change', $event)" @input="$emit('input', $event)" />
     <span class="ui-switch-group__label"
       ><slot>{{ label }}</slot></span
     >
@@ -8,11 +8,11 @@
 </template>
 
 <script>
-import Switch from '../switch/Switch.vue'
+import WkSwitch from '../switch/Switch.vue'
 
 export default {
   name: 'SwitchGroup',
-  components: { Switch: Switch },
+  components: { WkSwitch },
   props: {
     value: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },

@@ -66,7 +66,7 @@ describe('WkRadio inside WkRadioGroup', () => {
   it('emits change on the group when a radio is clicked', async () => {
     const w = mountGroup({ value: '', options: [] }, { value: 'a', label: 'A' })
     await w.find('input[type="radio"]').trigger('change')
-    expect(w.find('.ui-radio-group').emitted('change')).toBeTruthy()
-    expect(w.find('.ui-radio-group').emitted('change')[0][0]).toBe('a')
+    expect(w.findComponent(WkRadioGroup).emitted('change')).toBeTruthy()
+    expect(w.findComponent(WkRadioGroup).emitted('change')[0][0]).toBe('a')
   })
 })
