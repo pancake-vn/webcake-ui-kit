@@ -44,6 +44,7 @@
     "./WkTag": "./src/components/tag/Tag.vue",
     "./WkToggle": "./src/components/toggle/Toggle.vue",
     "./WkToggleGroup": "./src/components/toggle-group/ToggleGroup.vue",
+    "./WkTypography": "./src/components/typography/Typography.vue",
     "./components/*": "./src/components/*",
     "./package.json": "./package.json"
   },
