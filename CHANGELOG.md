@@ -4,6 +4,20 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.10] - 2026-05-13
+
+### Added
+
+- New `WkiImageMarquee` icon component exported from `src/icons/`.
+
+### Changed
+
+- `WkiButton`, `WkiSection`, `WkiSurvey`, and `WkiTab` icons now accept `size` (Number, default `16`) and `color` (String, default `currentColor`) props, replacing previously hardcoded pixel dimensions and fill colors.
+
+### Fixed
+
+- Storybook story titles for all components now use a flat two-level path (e.g., `Forms/Button`) instead of the incorrect three-level `Components/Forms/Button` prefix.
+
 ## [1.0.9] - 2026-05-13
 
 ### Fixed
