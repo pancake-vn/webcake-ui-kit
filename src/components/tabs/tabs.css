@@ -40,6 +40,7 @@
   box-sizing: border-box;
   flex-shrink: 0;
   transition: color 0.1s;
+  flex: 1;
 }
 
 .ui-tabs__item:hover:not(.ui-tabs__item--active):not(.ui-tabs__item--disabled) {
