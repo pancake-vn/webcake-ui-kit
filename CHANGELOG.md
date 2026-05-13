@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.9] - 2026-05-13
+
+### Fixed
+
+- Fixed `WkSidebarItem` hover styles: collapsed items now show a background highlight on hover; expanded items show a box-shadow outline ring instead of a background fill.
+- Fixed `WkSidebarItem` active state: background now uses `--color-brand-neutrals-200` and no longer overrides text color or font weight; default text color and collapsed icon color now use direct neutral tokens instead of deprecated sidebar-scoped tokens.
+
 ## [1.0.8] - 2026-05-12
 
 ### Fixed
