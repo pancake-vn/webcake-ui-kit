@@ -140,26 +140,42 @@
 
   /* Focus ring — kill the browser-default blue and use webcake green.
      Storybook's sidebar buttons render with the UA outline on :focus, which
-     reads as blue on most platforms and clashes with the green brand. */
+     reads as blue on most platforms and clashes with the green brand.
+     We target both [data-nodetype] (SB6 stable attr) and .sidebar-item
+     (the className SB6 actually applies to the focusable element). */
   #storybook-explorer-tree [data-nodetype]:focus,
   #storybook-explorer-tree button[data-action='collapse-root']:focus,
+  #storybook-explorer-tree .sidebar-item:focus,
+  #storybook-explorer-tree a.sidebar-item:focus,
   #storybook-explorer-tree [data-nodetype]:focus-visible,
-  #storybook-explorer-tree button[data-action='collapse-root']:focus-visible {
+  #storybook-explorer-tree button[data-action='collapse-root']:focus-visible,
+  #storybook-explorer-tree .sidebar-item:focus-visible,
+  #storybook-explorer-tree a.sidebar-item:focus-visible {
     outline: 2px solid #13823b !important;
     outline-offset: -2px;
     box-shadow: none !important;
   }
+
+  #storybook-explorer-tree button.sidebar-item:focus {
+    background: #13823b26 !important;
+  }
+
   #storybook-explorer-tree [data-nodetype]:focus:not(:focus-visible),
-  #storybook-explorer-tree button[data-action='collapse-root']:focus:not(:focus-visible) {
+  #storybook-explorer-tree button[data-action='collapse-root']:focus:not(:focus-visible),
+  #storybook-explorer-tree .sidebar-item:focus:not(:focus-visible),
+  #storybook-explorer-tree a.sidebar-item:focus:not(:focus-visible) {
     outline: none !important;
   }
   /* Dark-mode focus uses the lighter green so it stays visible on dark bg. */
   body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree [data-nodetype]:focus-visible,
   body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree button[data-action='collapse-root']:focus-visible,
+  body[style*='rgb(28, 33, 40)'] #storybook-explorer-tree .sidebar-item:focus-visible,
   html[data-theme='dark'] #storybook-explorer-tree [data-nodetype]:focus-visible,
   html[data-theme='dark'] #storybook-explorer-tree button[data-action='collapse-root']:focus-visible,
+  html[data-theme='dark'] #storybook-explorer-tree .sidebar-item:focus-visible,
   html.dark #storybook-explorer-tree [data-nodetype]:focus-visible,
-  html.dark #storybook-explorer-tree button[data-action='collapse-root']:focus-visible {
+  html.dark #storybook-explorer-tree button[data-action='collapse-root']:focus-visible,
+  html.dark #storybook-explorer-tree .sidebar-item:focus-visible {
     outline-color: #48e07d !important;
   }
 

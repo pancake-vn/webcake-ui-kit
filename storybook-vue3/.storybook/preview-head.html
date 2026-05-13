@@ -1,0 +1,224 @@
+<style>
+  /* "On this page" TOC for component Docs tab.
+     Targets SB6 addon-docs DOM (.sbdocs-wrapper / .sbdocs-content / .sbdocs-h2 / .sbdocs-h3).
+     Activated by the script below: it adds .sbdocs-wrapper--has-toc and appends an <aside>. */
+
+  .sbdocs-wrapper--has-toc {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 48px;
+    max-width: 1340px;
+    margin: 0 auto;
+    padding-right: 32px;
+  }
+  .sbdocs-wrapper--has-toc .sbdocs-content {
+    min-width: 0;
+  }
+
+  .sbdocs-toc {
+    position: sticky;
+    top: 32px;
+    align-self: start;
+    padding: 4rem 0 2rem;
+    font-family:
+      'Inter',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
+  }
+  .sbdocs-toc__label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+    margin: 0 0 12px;
+  }
+  .sbdocs-toc__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid #e5e7eb;
+  }
+  .sbdocs-toc__link {
+    display: block;
+    padding: 6px 14px;
+    margin-left: -1px;
+    color: #6b7280;
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    font-size: 13px;
+    line-height: 1.4;
+    transition:
+      color 120ms,
+      border-color 120ms;
+    word-break: break-word;
+  }
+  .sbdocs-toc__link--h3 {
+    padding-left: 28px;
+    font-size: 12.5px;
+  }
+  .sbdocs-toc__link:hover {
+    color: #111827;
+  }
+  .sbdocs-toc__link--active {
+    color: #13823b;
+    border-left-color: #13823b;
+    font-weight: 600;
+  }
+
+  /* Stack under content when narrow. */
+  @media (max-width: 1100px) {
+    .sbdocs-wrapper--has-toc {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .sbdocs-toc {
+      display: none;
+    }
+  }
+
+  /* Dark mode — matches theme.dark + the html.dark / body.dark classes
+     applied by preview.js applyDark(). */
+  html.dark .sbdocs-toc__list,
+  body.dark .sbdocs-toc__list,
+  body[style*='rgb(28, 33, 40)'] .sbdocs-toc__list {
+    border-left-color: #30363d;
+  }
+  html.dark .sbdocs-toc__link,
+  body.dark .sbdocs-toc__link,
+  body[style*='rgb(28, 33, 40)'] .sbdocs-toc__link {
+    color: #8b949e;
+  }
+  html.dark .sbdocs-toc__link:hover,
+  body.dark .sbdocs-toc__link:hover,
+  body[style*='rgb(28, 33, 40)'] .sbdocs-toc__link:hover {
+    color: #e6edf3;
+  }
+  html.dark .sbdocs-toc__link--active,
+  body.dark .sbdocs-toc__link--active,
+  body[style*='rgb(28, 33, 40)'] .sbdocs-toc__link--active {
+    color: #48e07d;
+    border-left-color: #48e07d;
+  }
+  html.dark .sbdocs-toc__label,
+  body.dark .sbdocs-toc__label,
+  body[style*='rgb(28, 33, 40)'] .sbdocs-toc__label {
+    color: #8b949e;
+  }
+</style>
+
+<script>
+  ;(function () {
+    if (window.__webcakeTocInit) return
+    window.__webcakeTocInit = true
+
+    var built = new WeakSet()
+
+    function buildToc(wrapper) {
+      if (built.has(wrapper)) return
+      // Need a real content node before we can read headings.
+      var content = wrapper.querySelector('.sbdocs-content')
+      if (!content) return
+
+      var headings = content.querySelectorAll('.sbdocs-h2[id], .sbdocs-h3[id]')
+      if (headings.length < 2) return // not worth a TOC for 1 item
+
+      built.add(wrapper)
+
+      var items = []
+      for (var i = 0; i < headings.length; i++) {
+        var h = headings[i]
+        var tag = h.tagName.toLowerCase()
+        items.push(
+          '<li><a href="#' +
+            h.id +
+            '" data-toc-link="' +
+            h.id +
+            '" class="sbdocs-toc__link sbdocs-toc__link--' +
+            tag +
+            '">' +
+            (h.textContent || '').trim() +
+            '</a></li>'
+        )
+      }
+
+      var aside = document.createElement('aside')
+      aside.className = 'sbdocs-toc'
+      aside.setAttribute('aria-label', 'On this page')
+      aside.innerHTML =
+        '<div class="sbdocs-toc__label">On this page</div>' + '<ul class="sbdocs-toc__list">' + items.join('') + '</ul>'
+
+      wrapper.appendChild(aside)
+      wrapper.classList.add('sbdocs-wrapper--has-toc')
+
+      // Click → smooth scroll + update hash (no full reload).
+      aside.addEventListener('click', function (e) {
+        var a = e.target.closest('a[data-toc-link]')
+        if (!a) return
+        var id = a.getAttribute('data-toc-link')
+        var target = document.getElementById(id)
+        if (!target) return
+        e.preventDefault()
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        try {
+          history.replaceState(null, '', '#' + id)
+        } catch (_) {}
+      })
+
+      // Scroll spy.
+      var linkByid = {}
+      var links = aside.querySelectorAll('[data-toc-link]')
+      for (var k = 0; k < links.length; k++) {
+        linkByid[links[k].getAttribute('data-toc-link')] = links[k]
+      }
+      function setActive(id) {
+        for (var key in linkByid) {
+          linkByid[key].classList.toggle('sbdocs-toc__link--active', key === id)
+        }
+      }
+      setActive(headings[0].id)
+
+      if (typeof IntersectionObserver === 'undefined') return
+      var io = new IntersectionObserver(
+        function (entries) {
+          var visible = entries
+            .filter(function (e) {
+              return e.isIntersecting
+            })
+            .sort(function (a, b) {
+              return a.boundingClientRect.top - b.boundingClientRect.top
+            })
+          if (visible[0]) setActive(visible[0].target.id)
+        },
+        { rootMargin: '-20% 0% -70% 0%', threshold: 0 }
+      )
+      for (var j = 0; j < headings.length; j++) io.observe(headings[j])
+    }
+
+    function scan() {
+      var wrappers = document.querySelectorAll('.sbdocs-wrapper')
+      for (var i = 0; i < wrappers.length; i++) buildToc(wrappers[i])
+    }
+
+    // SB renders the docs page lazily and re-mounts on navigation, so we
+    // watch the body for additions. Debounce via rAF to avoid loops.
+    var raf = 0
+    var mo = new MutationObserver(function () {
+      if (raf) return
+      raf = requestAnimationFrame(function () {
+        raf = 0
+        scan()
+      })
+    })
+    if (document.body) {
+      mo.observe(document.body, { childList: true, subtree: true })
+      scan()
+    } else {
+      document.addEventListener('DOMContentLoaded', function () {
+        mo.observe(document.body, { childList: true, subtree: true })
+        scan()
+      })
+    }
+  })()
+</script>
