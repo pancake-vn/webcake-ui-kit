@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.11] - 2026-05-13
+
+### Fixed
+
+- Fixed `WkSidebarItem` hover style: both collapsed and expanded items now show a unified background highlight (`--color-brand-neutrals-50`) on hover, replacing the previous split behavior of a background fill for collapsed and a box-shadow ring for expanded.
+
 ## [1.0.10] - 2026-05-13
 
 ### Added
