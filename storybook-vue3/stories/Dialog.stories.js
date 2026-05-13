@@ -4,7 +4,7 @@ import WkButton from '../../src/components/button/Button.vue'
 const ALIGN = ['right', 'fill']
 
 export default {
-  title: 'Components/Overlays/Dialog',
+  title: 'Overlays/Dialog',
   component: WkDialog,
   argTypes: {
     footerAlign: { control: { type: 'inline-radio' }, options: ALIGN },

@@ -1,7 +1,7 @@
 import Tag from '../../src/components/tag/Tag.vue'
 
 export default {
-  title: 'Components/Display/Tag',
+  title: 'Display/Tag',
   component: Tag,
   argTypes: {
     type: { control: { type: 'inline-radio' }, options: ['default', 'outline'] },

@@ -1,7 +1,7 @@
 import WkSwitchGroup from '../../src/components/switch-group/SwitchGroup.vue'
 
 export default {
-  title: 'Components/Forms/SwitchGroup',
+  title: 'Forms/SwitchGroup',
   component: WkSwitchGroup,
   argTypes: {
     layout: { control: { type: 'inline-radio' }, options: ['inline', 'block'] },

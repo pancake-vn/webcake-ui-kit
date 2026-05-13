@@ -1,7 +1,7 @@
 import WkSidebarItem from '../../src/components/sidebar-item/SidebarItem.vue'
 
 export default {
-  title: 'Components/Layout/SidebarItem',
+  title: 'Layout/SidebarItem',
   component: WkSidebarItem,
   argTypes: {
     size: { control: { type: 'inline-radio' }, options: ['regular', 'large'] },

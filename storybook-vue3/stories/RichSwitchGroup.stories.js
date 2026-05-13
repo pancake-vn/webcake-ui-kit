@@ -1,7 +1,7 @@
 import WkRichSwitchGroup from '../../src/components/rich-switch-group/RichSwitchGroup.vue'
 
 export default {
-  title: 'Components/Forms/RichSwitchGroup',
+  title: 'Forms/RichSwitchGroup',
   component: WkRichSwitchGroup,
   argTypes: {
     value: { control: 'boolean' },

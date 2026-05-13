@@ -23,7 +23,7 @@ const ellipsisIcon = `
 `
 
 export default {
-  title: 'Components/Layout/Breadcrumb',
+  title: 'Layout/Breadcrumb',
   component: WkBreadcrumb,
   argTypes: {
     separator: { control: { type: 'inline-radio' }, options: SEPARATORS }

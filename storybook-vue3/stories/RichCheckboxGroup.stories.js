@@ -1,7 +1,7 @@
 import WkRichCheckboxGroup from '../../src/components/rich-checkbox-group/RichCheckboxGroup.vue'
 
 export default {
-  title: 'Components/Forms/RichCheckboxGroup',
+  title: 'Forms/RichCheckboxGroup',
   component: WkRichCheckboxGroup,
   argTypes: {
     checked: { control: 'boolean' },
