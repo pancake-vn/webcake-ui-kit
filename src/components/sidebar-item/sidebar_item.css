@@ -20,12 +20,8 @@
   height: 32px;
 }
 
-.ui-sidebar-item.ui-sidebar-item--collapsed:hover {
-  background-color: var(--color-brand-neutrals-100);
-}
-
-.ui-sidebar-item:not(.ui-sidebar-item--collapsed):hover {
-  box-shadow: 0 0 0 3px var(--color-brand-neutrals-300);
+.ui-sidebar-item:hover {
+  background-color: var(--color-brand-neutrals-50);
 }
 
 .ui-sidebar-item:focus-visible {
