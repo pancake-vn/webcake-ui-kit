@@ -5,7 +5,7 @@ const SIZES = ['mini', 'sm', 'default', 'lg']
 const FRUITS = ['Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry', 'Fig', 'Grape']
 
 export default {
-  title: 'Components/Forms/Select',
+  title: 'Forms/Select',
   component: WkSelect,
   argTypes: {
     size: { control: { type: 'inline-radio' }, options: SIZES },

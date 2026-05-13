@@ -1,7 +1,7 @@
 import WkCheckbox from '../../src/components/checkbox/Checkbox.vue'
 
 export default {
-  title: 'Components/Forms/Checkbox',
+  title: 'Forms/Checkbox',
   component: WkCheckbox,
   argTypes: {
     checked: { control: 'boolean' },

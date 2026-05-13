@@ -1,7 +1,7 @@
 import SidebarGroupLabel from '../../src/components/sidebar-group-label/SidebarGroupLabel.vue'
 
 export default {
-  title: 'Components/Layout/SidebarGroupLabel',
+  title: 'Layout/SidebarGroupLabel',
   component: SidebarGroupLabel,
   argTypes: {
     label: { control: 'text' },

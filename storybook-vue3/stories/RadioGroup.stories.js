@@ -3,7 +3,7 @@ import WkRadioGroup from '../../src/components/radio-group/RadioGroup.vue'
 const DIRECTIONS = ['vertical', 'horizontal']
 
 export default {
-  title: 'Components/Forms/RadioGroup',
+  title: 'Forms/RadioGroup',
   component: WkRadioGroup,
   argTypes: {
     direction: { control: { type: 'inline-radio' }, options: DIRECTIONS },

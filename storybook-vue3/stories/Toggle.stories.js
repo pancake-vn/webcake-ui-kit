@@ -10,7 +10,7 @@ const starIcon =
   '<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true"><path d="m10 3 2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L2.8 8.2l5-.7L10 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>'
 
 export default {
-  title: 'Components/Forms/Toggle',
+  title: 'Forms/Toggle',
   component: WkToggle,
   argTypes: {
     variant: { control: { type: 'inline-radio' }, options: VARIANTS },

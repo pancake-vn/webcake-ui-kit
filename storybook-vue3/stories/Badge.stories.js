@@ -4,7 +4,7 @@ const VARIANTS = ['primary', 'secondary', 'outline', 'ghost', 'destructive', 'in
 const ROUNDNESS = ['default', 'round']
 
 export default {
-  title: 'Components/Display/Badge',
+  title: 'Display/Badge',
   component: WkBadge,
   argTypes: {
     variant: {
