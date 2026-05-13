@@ -1,0 +1,7 @@
+.ui-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+  color: currentColor;
+  stroke-width: 1.75;
+}

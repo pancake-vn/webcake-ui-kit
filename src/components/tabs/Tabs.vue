@@ -34,7 +34,7 @@ export default {
       type: String,
       default: 'sm',
       validator: function (v) {
-        return ['mini', 'sm', 'md', 'lg'].includes(v)
+        return ['xs', 'sm', 'md', 'lg'].includes(v)
       }
     }
   },

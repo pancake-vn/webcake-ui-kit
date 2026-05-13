@@ -21,7 +21,7 @@ export default {
 
 const Template = args => ({
   components: { WkSpinner },
-  setup() {
+  data() {
     return { args }
   },
   template: `<WkSpinner v-bind="args" />`

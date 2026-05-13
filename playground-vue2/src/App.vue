@@ -102,6 +102,26 @@ export default {
       openDialog: false,
       openDialog2: false,
       selected: '',
+      iconNames: [
+        'search',
+        'x',
+        'check',
+        'chevron-down',
+        'chevron-up',
+        'chevron-left',
+        'chevron-right',
+        'eye',
+        'eye-off',
+        'plus',
+        'minus',
+        'trash',
+        'edit',
+        'loader',
+        'info',
+        'warning',
+        'circle-check',
+        'circle-x'
+      ],
       checkboxValue: true,
       accordionValue: [],
       isDark: false,
@@ -123,7 +143,7 @@ export default {
       tgFormat: ['bold'],
       tgView: 'grid',
       inputValue: '',
-      inputSizes: ['regular', 'large', 'small', 'mini'],
+      inputSizes: ['regular', 'large', 'small', 'xs'],
       inputRoundness: ['default', 'round'],
       breadcrumbCounts: [1, 2, 3, 4, 5, 6],
       breadcrumbWithIcon: [
@@ -480,5 +500,26 @@ export default {
   border: 1px solid var(--border-primary);
   border-radius: var(--rounded-xl);
   overflow: hidden;
+}
+.icon-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.icon-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-10);
+  width: 80px;
+}
+.icon-label {
+  font-size: 10px;
+  color: var(--muted-fg);
+  text-align: center;
+  word-break: break-all;
 }
 </style>

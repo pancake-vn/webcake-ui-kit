@@ -1,16 +1,10 @@
 import WkButton from '../../src/components/button/Button.vue'
+import ChevronRightIcon from '../../src/icons/ChevronRightIcon.vue'
+import ChevronLeftIcon from '../../src/icons/ChevronLeftIcon.vue'
 
 const VARIANTS = ['primary', 'neutral', 'secondary', 'outline', 'ghost', 'destructive', 'link']
 const SIZES = ['xs', 'sm', 'md', 'lg', 'xl']
 const ROUNDNESS = ['default', 'round']
-
-const PLUS_ICON = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-</svg>`
-
-const ARROW_ICON = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>`
 
 export default {
   title: 'Forms/Button',
@@ -122,14 +116,16 @@ Roundness.parameters = {
 }
 
 export const WithIconLeft = () => ({
-  components: { WkButton },
-  setup() {
-    return { variants: VARIANTS, plusIcon: PLUS_ICON }
+  components: { WkButton, ChevronLeftIcon },
+  data() {
+    return { variants: VARIANTS }
   },
   template: `
     <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
       <WkButton v-for="v in variants" :key="v" :variant="v">
-        <template #icon-left><span v-html="plusIcon" style="display:inline-flex;"/></template>
+        <template #icon-left>
+          <ChevronLeftIcon />
+        </template>
         Add item
       </WkButton>
     </div>
@@ -140,15 +136,17 @@ WithIconLeft.parameters = {
 }
 
 export const WithIconRight = () => ({
-  components: { WkButton },
-  setup() {
-    return { variants: VARIANTS, arrowIcon: ARROW_ICON }
+  components: { WkButton, ChevronRightIcon },
+  data() {
+    return { variants: VARIANTS }
   },
   template: `
     <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
       <WkButton v-for="v in variants" :key="v" :variant="v">
         Next
-        <template #icon-right><span v-html="arrowIcon" style="display:inline-flex;"/></template>
+        <template #icon-right>
+          <ChevronRightIcon />
+        </template>
       </WkButton>
     </div>
   `
@@ -158,16 +156,18 @@ WithIconRight.parameters = {
 }
 
 export const IconOnly = () => ({
-  components: { WkButton },
-  setup() {
-    return { variants: VARIANTS, sizes: SIZES, plusIcon: PLUS_ICON }
+  components: { WkButton, ChevronRightIcon },
+  data() {
+    return { variants: VARIANTS, sizes: SIZES }
   },
   template: `
     <div style="display:flex; flex-direction:column; gap:16px;">
       <div v-for="s in sizes" :key="s" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
         <span style="min-width:32px; color:#6b7280; font-size:12px;">{{ s }}</span>
         <WkButton v-for="v in variants" :key="v" :variant="v" :size="s">
-          <template #icon><span v-html="plusIcon" style="display:inline-flex;"/></template>
+          <template #icon>
+            <ChevronRightIcon />
+          </template>
         </WkButton>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import SidebarGroupLabel from '../../src/components/sidebar-group-label/SidebarGroupLabel.vue'
+import PlusIcon from '../../src/icons/PlusIcon.vue'
 
 export default {
   title: 'Layout/SidebarGroupLabel',
@@ -71,15 +72,13 @@ Interactive.parameters = {
 }
 
 export const WithActionSlot = () => ({
-  components: { SidebarGroupLabel },
+  components: { SidebarGroupLabel, PlusIcon },
   template: `
     <div style="width:240px;">
       <SidebarGroupLabel label="Projects">
         <template #action>
           <button style="background:none;border:none;cursor:pointer;padding:2px;color:inherit;line-height:1;">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M7 2v10M2 7h10" stroke-linecap="round"/>
-            </svg>
+            <PlusIcon :size="14" />
           </button>
         </template>
       </SidebarGroupLabel>

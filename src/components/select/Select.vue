@@ -28,28 +28,12 @@
 
     <spinner v-if="loading" type="mirrored" size="sm" />
     <span v-else class="ui-select__chevron">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M4 6L8 10L12 6"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
+      <ChevronDownIcon :size="16" />
     </span>
 
     <div ref="dropdown" v-show="isOpen" class="ui-select__dropdown" :style="dropdownStyle" @click.stop>
       <div v-if="canScrollUp" class="ui-select__scroll-indicator ui-select__scroll-indicator--up">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M4 10L8 6L12 10"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <ChevronUpIcon :size="16" />
       </div>
       <div
         ref="options"
@@ -68,28 +52,22 @@
         </slot>
       </div>
       <div v-if="canScrollDown" class="ui-select__scroll-indicator ui-select__scroll-indicator--down">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M4 6L8 10L12 6"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <ChevronDownIcon :size="16" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import ChevronDownIcon from '../../icons/ChevronDownIcon.vue'
+import ChevronUpIcon from '../../icons/ChevronUpIcon.vue'
 import SelectOption from '../select-option/SelectOption.vue'
 import Spinner from '../spinner/Spinner.vue'
 
 export default {
   name: 'Select',
 
-  components: { SelectOption, Spinner },
+  components: { SelectOption, Spinner, ChevronDownIcon, ChevronUpIcon },
 
   provide() {
     return { select: this }
@@ -105,7 +83,7 @@ export default {
       type: String,
       default: 'default',
       validator: function (v) {
-        return ['mini', 'sm', 'default', 'lg'].includes(v)
+        return ['xs', 'sm', 'default', 'lg'].includes(v)
       }
     },
     value: {

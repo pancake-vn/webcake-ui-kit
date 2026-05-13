@@ -11,20 +11,16 @@
     :aria-hidden="label ? undefined : 'true'"
     :aria-label="label || undefined"
   >
-    <path d="M12 2v4" />
-    <path d="m16.2 7.8 2.9-2.9" />
-    <path d="M18 12h4" />
-    <path d="m16.2 16.2 2.9 2.9" />
-    <path d="M12 18v4" />
-    <path d="m4.9 19.1 2.9-2.9" />
-    <path d="M2 12h4" />
-    <path d="m4.9 4.9 2.9 2.9" />
+    <path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8" />
+    <path d="M9 19.8V15m0 0H4.2M9 15l-6 6" />
+    <path d="M15 4.2V9m0 0h4.8M15 9l6-6" />
+    <path d="M9 4.2V9m0 0H4.2M9 9 3 3" />
   </svg>
 </template>
 
 <script>
 export default {
-  name: 'LoaderIcon',
+  name: 'ShrinkIcon',
   props: {
     size: { type: Number, default: 20 },
     label: { type: String, default: '' }

@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 
-.ui-tabs--mini {
+.ui-tabs--xs {
   padding: 2px;
 }
 .ui-tabs--md {
@@ -64,7 +64,7 @@
 }
 
 /* — sizes — */
-.ui-tabs--mini .ui-tabs__item {
+.ui-tabs--xs .ui-tabs__item {
   height: 20px;
   padding: 0 6px;
   font-size: var(--paragraph-mini-font-size);
@@ -90,7 +90,7 @@
   flex-shrink: 0;
 }
 
-.ui-tabs--mini .ui-tabs__icon {
+.ui-tabs--xs .ui-tabs__icon {
   width: 12px;
   height: 12px;
 }

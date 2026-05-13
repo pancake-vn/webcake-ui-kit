@@ -27,7 +27,7 @@ describe('WkTabs', () => {
   })
 
   it('applies size class', () => {
-    for (const size of ['mini', 'sm', 'md', 'lg']) {
+    for (const size of ['xs', 'sm', 'md', 'lg']) {
       const w = mount(WkTabs, { props: { tabs: TABS, value: 'a', size } })
       expect(w.classes()).toContain(`ui-tabs--${size}`)
     }

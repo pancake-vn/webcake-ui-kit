@@ -1,4 +1,5 @@
 import WkInput from '../../src/components/input/Input.vue'
+import SearchIcon from '../../src/icons/SearchIcon.vue'
 
 const SIZES = ['xs', 'sm', 'md', 'lg']
 const ROUNDNESS = ['default', 'round']
@@ -109,15 +110,12 @@ Matrix.parameters = {
 }
 
 export const WithSlots = () => ({
-  components: { WkInput },
+  components: { WkInput, SearchIcon },
   template: `
     <div style="display: flex; flex-direction: column; gap: 12px; max-width: 320px;">
       <WkInput placeholder="Search...">
         <template #prefix>
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-            <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5" />
-            <path d="m11 11 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+          <SearchIcon :size="16" />
         </template>
       </WkInput>
       <WkInput placeholder="0.00">

@@ -148,17 +148,17 @@
   gap: var(--spacing-6);
 }
 
-.ui-select--mini {
+.ui-select--xs {
   min-height: 28px;
   padding: var(--spacing-2xs) var(--spacing-6);
   gap: var(--spacing-2xs);
   border-radius: var(--rounded-lg);
 }
-.ui-select--mini .ui-select__left {
+.ui-select--xs .ui-select__left {
   gap: var(--spacing-2xs);
 }
-.ui-select--mini .ui-select__value,
-.ui-select--mini .ui-select__prepend {
+.ui-select--xs .ui-select__value,
+.ui-select--xs .ui-select__prepend {
   font-size: var(--paragraph-mini-font-size);
   line-height: var(--paragraph-mini-line-height);
 }
