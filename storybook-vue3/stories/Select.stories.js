@@ -1,6 +1,6 @@
 import WkSelect from '../../src/components/select/Select.vue'
 
-const SIZES = ['mini', 'sm', 'default', 'lg']
+const SIZES = ['xs', 'sm', 'default', 'lg']
 
 const FRUITS = ['Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry', 'Fig', 'Grape']
 
@@ -46,7 +46,7 @@ export const AllSizes = () => ({
   },
   template: `
     <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
-      <div v-for="size in ['mini','sm','default','lg']" :key="size" style="display:flex;align-items:center;gap:12px;">
+      <div v-for="size in ['xs','sm','default','lg']" :key="size" style="display:flex;align-items:center;gap:12px;">
         <span style="color:#6b7280;font-size:12px;width:48px;">{{ size }}</span>
         <WkSelect :size="size" value="Apple" :options="fruits" style="width:200px;" />
       </div>

@@ -16,15 +16,7 @@
         ><slot>{{ label }}</slot></span
       >
       <span class="ui-sidebar-group-label__chevron" aria-hidden="true">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-          <path
-            d="M3 4.5L6 7.5L9 4.5"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <ChevronDownIcon :size="16" />
       </span>
     </button>
     <span v-else class="ui-sidebar-group-label__text"
@@ -37,9 +29,12 @@
 </template>
 
 <script>
+import ChevronDownIcon from '../../icons/ChevronDownIcon.vue'
 export default {
   name: 'SidebarGroupLabel',
-
+  components: {
+    ChevronDownIcon
+  },
   props: {
     label: {
       type: String,

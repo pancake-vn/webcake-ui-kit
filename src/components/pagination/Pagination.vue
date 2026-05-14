@@ -2,15 +2,7 @@
   <nav class="ui-pagination" role="navigation" :aria-label="ariaLabel" :class="{ 'ui-pagination--disabled': disabled }">
     <Button variant="ghost" :disabled="isPrevDisabled" @click="goPrev" :label="prevLabel || ''">
       <template v-if="showIcon" #icon-left>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M10 4L6 8L10 12"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <ChevronLeftIcon />
       </template>
     </Button>
 
@@ -32,37 +24,14 @@
         @click="onEllipsisClick(item)"
       >
         <template #icon>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-ellipsis-icon lucide-ellipsis"
-          >
-            <circle cx="12" cy="12" r="1" />
-            <circle cx="19" cy="12" r="1" />
-            <circle cx="5" cy="12" r="1" />
-          </svg>
+          <EllipsisIcon />
         </template>
       </Button>
     </template>
 
     <Button variant="ghost" :disabled="isNextDisabled" @click="goNext" :label="nextLabel || ''">
       <template v-if="showIcon" #icon-right>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M6 4L10 8L6 12"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <ChevronRightIcon />
       </template>
     </Button>
   </nav>
@@ -70,6 +39,9 @@
 
 <script>
 import Button from '../button/Button.vue'
+import ChevronLeftIcon from '../../icons/ChevronLeftIcon.vue'
+import ChevronRightIcon from '../../icons/ChevronRightIcon.vue'
+import EllipsisIcon from '../../icons/EllipsisIcon.vue'
 
 function range(start, end) {
   if (end < start) return []
@@ -80,7 +52,7 @@ function range(start, end) {
 
 export default {
   name: 'Pagination',
-  components: { Button },
+  components: { Button, ChevronLeftIcon, ChevronRightIcon, EllipsisIcon },
 
   model: {
     prop: 'current',

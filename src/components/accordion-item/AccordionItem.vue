@@ -26,15 +26,7 @@
       </span>
       <span :class="['ui-accordion-item__icon', isOpen && 'ui-accordion-item__icon--open']">
         <slot name="icon">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path
-              d="m4 6 4 4 4-4"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <ChevronDownIcon :size="16" />
         </slot>
       </span>
     </button>
@@ -45,10 +37,13 @@
 </template>
 
 <script>
+import ChevronDownIcon from '../../icons/ChevronDownIcon.vue'
+
 let uidCounter = 0
 
 export default {
   name: 'AccordionItem',
+  components: { ChevronDownIcon },
   inject: {
     accordion: { default: null }
   },

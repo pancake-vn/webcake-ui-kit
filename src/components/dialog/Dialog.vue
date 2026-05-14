@@ -40,18 +40,8 @@
                     :aria-label="minimized ? 'Restore' : 'Minimize'"
                     @click="toggleMinimize"
                   >
-                    <svg
-                      v-if="!minimized"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                    >
-                      <path d="M5 10h10" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
-                    </svg>
-                    <svg v-else viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <rect x="4" y="5" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.75" />
-                    </svg>
+                    <MinusIcon v-if="!minimized" />
+                    <UnfoldVerticalIcon v-else />
                   </button>
                   <button
                     v-if="fullscreen"
@@ -60,46 +50,8 @@
                     :aria-label="isFullscreen ? 'Exit fullscreen' : 'Fullscreen'"
                     @click="toggleFullscreen"
                   >
-                    <svg
-                      v-if="!isFullscreen"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.75"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-expand-icon lucide-expand"
-                    >
-                      <path d="m15 15 6 6" />
-                      <path d="m15 9 6-6" />
-                      <path d="M21 16v5h-5" />
-                      <path d="M21 8V3h-5" />
-                      <path d="M3 16v5h5" />
-                      <path d="m3 21 6-6" />
-                      <path d="M3 8V3h5" />
-                      <path d="M9 9 3 3" />
-                    </svg>
-                    <svg
-                      v-else
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.75"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-shrink-icon lucide-shrink"
-                    >
-                      <path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8" />
-                      <path d="M9 19.8V15m0 0H4.2M9 15l-6 6" />
-                      <path d="M15 4.2V9m0 0h4.8M15 9l6-6" />
-                      <path d="M9 4.2V9m0 0H4.2M9 9 3 3" />
-                    </svg>
+                    <ExpandIcon v-if="!isFullscreen" />
+                    <ShrinkIcon v-else />
                   </button>
                   <button
                     v-if="closable"
@@ -108,12 +60,7 @@
                     aria-label="Close"
                     @click="handleCancel"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path
-                        d="M14.4841 4.48408C14.7688 4.19932 15.2312 4.19932 15.516 4.48408C15.8007 4.76883 15.8007 5.23122 15.516 5.51598L11.0319 10L15.516 14.4841C15.8007 14.7688 15.8007 15.2312 15.516 15.516C15.2312 15.8007 14.7688 15.8007 14.4841 15.516L10 11.0319L5.51598 15.516C5.23122 15.8007 4.76883 15.8007 4.48408 15.516C4.19932 15.2312 4.19932 14.7688 4.48408 14.4841L8.96813 10L4.48408 5.51598C4.19932 5.23122 4.19932 4.76883 4.48408 4.48408C4.76883 4.19932 5.23122 4.19932 5.51598 4.48408L10 8.96813L14.4841 4.48408Z"
-                        fill="#171717"
-                      />
-                    </svg>
+                    <XIcon />
                   </button>
                 </div>
               </div>
@@ -147,10 +94,15 @@
 
 <script>
 import Button from '../button/Button.vue'
+import MinusIcon from '../../icons/MinusIcon.vue'
+import UnfoldVerticalIcon from '../../icons/UnfoldVerticalIcon.vue'
+import ExpandIcon from '../../icons/ExpandIcon.vue'
+import ShrinkIcon from '../../icons/ShrinkIcon.vue'
+import XIcon from '../../icons/XIcon.vue'
 
 export default {
   name: 'Dialog',
-  components: { Button },
+  components: { Button, MinusIcon, UnfoldVerticalIcon, ExpandIcon, ShrinkIcon, XIcon },
   model: { prop: 'open', event: 'change' },
   props: {
     open: { type: Boolean, default: false },

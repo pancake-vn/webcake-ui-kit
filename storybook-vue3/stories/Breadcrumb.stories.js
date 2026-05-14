@@ -1,26 +1,16 @@
 import WkBreadcrumb from '../../src/components/breadcrumb/Breadcrumb.vue'
 
+const HOUSE_ICON =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">' +
+  '<path d="m15 18-6-6 6-6"/>' +
+  '</svg>'
+
+const ELLIPSIS_ICON =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">' +
+  '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>' +
+  '</svg>'
+
 const SEPARATORS = ['chevron', 'slash']
-
-const houseIcon = `
-  <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">
-    <path
-      d="m1.5 8 6.5-5.5L14.5 8M3 7v6.5h10V7"
-      stroke="currentColor"
-      stroke-width="1.4"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-`
-
-const ellipsisIcon = `
-  <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">
-    <circle cx="3" cy="8" r="1.25" fill="currentColor" />
-    <circle cx="8" cy="8" r="1.25" fill="currentColor" />
-    <circle cx="13" cy="8" r="1.25" fill="currentColor" />
-  </svg>
-`
 
 export default {
   title: 'Layout/Breadcrumb',
@@ -77,7 +67,7 @@ ManyItems.args = {
 
 export const WithIcon = Template.bind({})
 WithIcon.args = {
-  items: [{ icon: houseIcon, href: '/' }, { label: 'Components', href: '/components' }, { label: 'WkBreadcrumb' }]
+  items: [{ icon: HOUSE_ICON, href: '/' }, { label: 'Components', href: '/components' }, { label: 'WkBreadcrumb' }]
 }
 
 export const SlashSeparator = Template.bind({})
@@ -95,7 +85,7 @@ export const CollapsedWithEllipsis = Template.bind({})
 CollapsedWithEllipsis.args = {
   items: [
     { label: 'Home', href: '/' },
-    { icon: ellipsisIcon, href: '#' },
+    { icon: ELLIPSIS_ICON, href: '#' },
     { label: 'Level x-2', href: '#' },
     { label: 'Level x-1', href: '#' },
     { label: 'Level x' }

@@ -10,19 +10,17 @@
       @change="onChange"
     />
     <span class="ui-checkbox__box" aria-hidden="true">
-      <svg v-if="isChecked" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path
-          d="M11.3055 3.13885C11.5049 2.93952 11.8285 2.93952 12.0279 3.13885C12.2272 3.33818 12.2272 3.66185 12.0279 3.86118L5.61119 10.2778C5.41186 10.4772 5.08819 10.4772 4.88886 10.2778L1.97219 7.36118C1.77286 7.16185 1.77286 6.83818 1.97219 6.63885C2.17152 6.43952 2.49519 6.43952 2.69452 6.63885L5.25002 9.19435L11.3055 3.13885Z"
-          fill="white"
-        />
-      </svg>
+      <CheckIcon v-if="isChecked" :size="16" />
     </span>
   </span>
 </template>
 
 <script>
+import CheckIcon from '../../icons/CheckIcon.vue'
+
 export default {
   name: 'Checkbox',
+  components: { CheckIcon },
   inheritAttrs: false,
   model: { prop: 'checked', event: 'change' },
   props: {

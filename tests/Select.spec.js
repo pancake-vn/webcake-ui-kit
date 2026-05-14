@@ -23,7 +23,7 @@ describe('WkSelect', () => {
   })
 
   it('applies size class', () => {
-    for (const size of ['mini', 'sm', 'default', 'lg']) {
+    for (const size of ['xs', 'sm', 'default', 'lg']) {
       const w = mount(WkSelect, { props: { size, options: FRUITS } })
       expect(w.classes()).toContain(`ui-select--${size}`)
     }
