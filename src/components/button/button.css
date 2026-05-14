@@ -43,7 +43,7 @@
   letter-spacing: var(--paragraph-mini-letter-spacing);
 }
 .ui-btn--xs .ui-btn__icon,
-.ui-btn--xs :deep(svg) {
+.ui-btn--xs ::v-deep svg {
   width: 16px;
   height: 16px;
 }
@@ -57,7 +57,7 @@
   letter-spacing: var(--paragraph-small-letter-spacing);
 }
 .ui-btn--sm .ui-btn__icon,
-.ui-btn--sm :deep(svg) {
+.ui-btn--sm ::v-deep svg {
   width: 20px;
   height: 20px;
 }
@@ -71,7 +71,7 @@
   letter-spacing: var(--paragraph-small-letter-spacing);
 }
 .ui-btn--md .ui-btn__icon,
-.ui-btn--md :deep(svg) {
+.ui-btn--md ::v-deep svg {
   width: 20px;
   height: 20px;
 }
@@ -85,7 +85,7 @@
   letter-spacing: var(--paragraph-small-letter-spacing);
 }
 .ui-btn--lg .ui-btn__icon,
-.ui-btn--lg :deep(svg) {
+.ui-btn--lg ::v-deep svg {
   width: 20px;
   height: 20px;
 }
@@ -99,7 +99,7 @@
   letter-spacing: var(--paragraph-regular-letter-spacing);
 }
 .ui-btn--xl .ui-btn__icon,
-.ui-btn--xl :deep(svg) {
+.ui-btn--xl ::v-deep svg {
   width: 20px;
   height: 20px;
 }

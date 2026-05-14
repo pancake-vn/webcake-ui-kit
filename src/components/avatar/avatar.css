@@ -1,0 +1,91 @@
+.ui-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--accent-bg);
+  color: var(--primary-fg);
+  font-family: var(--font-family-body);
+  font-weight: var(--paragraph-bold-font-weight);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+  vertical-align: middle;
+  overflow: visible;
+}
+
+/* Sizes — match Figma frame widths exactly */
+.ui-avatar--regular {
+  width: 40px;
+  height: 40px;
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+}
+.ui-avatar--small {
+  width: 32px;
+  height: 32px;
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+}
+.ui-avatar--tiny {
+  width: 24px;
+  height: 24px;
+  font-size: 10px;
+  line-height: 16px;
+}
+.ui-avatar--extra-tiny {
+  width: 20px;
+  height: 20px;
+  font-size: 9px;
+  line-height: 12px;
+}
+
+/* Roundness */
+.ui-avatar--round {
+  border-radius: var(--rounded-full);
+}
+.ui-avatar--roundrect {
+  border-radius: var(--rounded-lg);
+}
+
+/* Image */
+.ui-avatar__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* Fallback (initials / custom slot) */
+.ui-avatar__fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  user-select: none;
+}
+
+/* Online indicator — auto-sized per avatar size, 2px white ring punches out of avatar */
+.ui-avatar__indicator {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--rounded-full);
+  background: var(--positive-500);
+  box-shadow: 0 0 0 2px var(--primary-bg);
+}
+.ui-avatar--regular .ui-avatar__indicator {
+  width: 10px;
+  height: 10px;
+}
+.ui-avatar--small .ui-avatar__indicator {
+  width: 8px;
+  height: 8px;
+}
+.ui-avatar--tiny .ui-avatar__indicator,
+.ui-avatar--extra-tiny .ui-avatar__indicator {
+  width: 6px;
+  height: 6px;
+}

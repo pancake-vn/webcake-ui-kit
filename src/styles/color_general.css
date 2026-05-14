@@ -79,6 +79,8 @@
   --button-black: var(--color-neutral-950);
   --button-black-fg: var(--color-white-alpha-95);
   --button-black-hover: var(--color-neutral-700);
+  --tooltip: var(--color-black-alpha-100);
+  --tooltip-foreground: var(--color-white-alpha-100);
   --card: var(--color-white-alpha-100);
   --card-foreground: var(--color-neutral-950);
 
@@ -184,6 +186,8 @@
   --button-black: var(--color-neutral-50);
   --button-black-fg: var(--color-black-alpha-95);
   --button-black-hover: var(--color-neutral-200);
+  --tooltip: var(--color-white-alpha-100);
+  --tooltip-foreground: var(--color-black-alpha-100);
   --card: var(--color-neutral-900);
   --card-foreground: var(--color-white-alpha-100);
 

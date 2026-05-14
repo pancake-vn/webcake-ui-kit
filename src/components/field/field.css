@@ -1,0 +1,87 @@
+.ui-field {
+  display: flex;
+  gap: var(--spacing-2xs);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Vertical: label on top, body below */
+.ui-field--vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Horizontal: label on the left, body on the right */
+.ui-field--horizontal {
+  flex-direction: row;
+}
+.ui-field--horizontal.ui-field--align-center {
+  align-items: center;
+}
+.ui-field--horizontal.ui-field--align-start {
+  align-items: flex-start;
+}
+
+/* Label */
+.ui-field__label {
+  flex-shrink: 0;
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+  font-weight: var(--paragraph-medium-font-weight);
+  color: var(--primary-fg);
+}
+.ui-field--required .ui-field__label {
+  color: var(--destructive-text);
+}
+
+/* Body wraps the control + inline message so both align under the label
+   column in horizontal layout, and stack tightly in vertical layout. */
+.ui-field__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.ui-field__control {
+  width: 100%;
+}
+
+/* Inline message: 16px icon + text. Defaults to muted; turns destructive on error. */
+.ui-field__message {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+  font-weight: var(--paragraph-font-weight);
+  color: var(--muted-fg);
+}
+.ui-field--error .ui-field__message {
+  color: var(--destructive-text);
+}
+
+.ui-field__message-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: inherit;
+}
+.ui-field__message-icon ::v-deep svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ui-field__message-text {
+  flex: 1 1 0;
+  min-width: 0;
+}

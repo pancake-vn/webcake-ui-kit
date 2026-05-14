@@ -33,7 +33,11 @@
       </header>
 
       <section>
-        <WkButton @click="openDialog = true">Open Dialog</WkButton>
+        <WkButton @click="openDialog = true">
+          <template #icon>
+            <WkiSection />
+          </template>
+        </WkButton>
         <WkDialog
           centered
           :open="openDialog"
@@ -47,7 +51,19 @@
           back
         >
           <div>
-            <WkButton @click="openDialog2 = true">Open Dialog 2</WkButton>
+            <WkButton @click="openDialog2 = true">
+              <template #icon>
+                <WkiSection />
+              </template>
+            </WkButton>
+
+            <WkTooltip
+              side="right"
+              title="To learn more about how this works, check out the docs. If you have any questions, please reach out to us."
+              :max-width="205"
+            >
+              <WkButton variant="outline">Export File</WkButton>
+            </WkTooltip>
           </div>
         </WkDialog>
         <WkDialog :open="openDialog2" @cancel="openDialog2 = false" @ok="openDialog2 = false" :zIndex="2000">
@@ -79,11 +95,302 @@
         <WkTypography variant="paragraph-regular" align="right">Aligned right</WkTypography>
         <WkTypography variant="heading-3" as="div">heading-3 rendered as &lt;div&gt; via as prop</WkTypography>
       </section>
+
+      <section class="section">
+        <h2>Avatar</h2>
+        <div class="row">
+          <WkAvatar name="CN" />
+          <WkAvatar name="CN" size="small" />
+          <WkAvatar name="CN" size="tiny" />
+          <WkAvatar name="CN" size="extra-tiny" />
+          <WkAvatar name="CN" roundness="roundrect" />
+          <WkAvatar name="CN" roundness="roundrect" size="small" />
+          <WkAvatar name="CN" online />
+          <WkAvatar src="https://i.pravatar.cc/80?img=12" alt="User 1" />
+          <WkAvatar src="https://i.pravatar.cc/80?img=14" alt="User 2" roundness="roundrect" />
+          <WkAvatar src="https://i.pravatar.cc/80?img=15" alt="User 3" online />
+          <WkAvatar src="https://broken-url-fallback-test.invalid/x.png" alt="Falls back to initials" name="FB" />
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Avatar Stack</h2>
+        <div class="stack">
+          <span class="row__item">3 items, no overflow</span>
+          <WkAvatarStack :items="avatarStackItems.slice(0, 3)" />
+          <span class="row__item">10 items, max=3 → shows 3 + “+7”</span>
+          <WkAvatarStack :items="avatarStackItems" :max="3" />
+          <span class="row__item">Size = small, 10 items, max=4</span>
+          <WkAvatarStack :items="avatarStackItems" :max="4" size="small" />
+          <span class="row__item">Custom overflow slot (uppercase label)</span>
+          <WkAvatarStack :items="avatarStackItems" :max="2">
+            <template #overflow="{ count }">+{{ count }} more</template>
+          </WkAvatarStack>
+          <span class="row__item">animation = pulse (whole stack)</span>
+          <WkAvatarStack :items="avatarStackItems" :max="3" animation="pulse" />
+          <span class="row__item">animation = bounce (whole stack)</span>
+          <WkAvatarStack :items="avatarStackItems" :max="3" animation="bounce" />
+          <span class="row__item">animation = ring (whole stack)</span>
+          <WkAvatarStack :items="avatarStackItems" :max="3" animation="ring" />
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Empty — variants</h2>
+        <div class="empty-grid">
+          <div v-for="v in emptyVariants" :key="v" class="empty-cell">
+            <span class="row__item">{{ v }}</span>
+            <WkEmpty :variant="v" title="Title" description="Description">
+              <template #media>
+                <WkEmptyIcon>
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect x="4" y="6" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M4 10h16" stroke="currentColor" stroke-width="1.5" />
+                  </svg>
+                </WkEmptyIcon>
+              </template>
+              <WkButton>Button</WkButton>
+              <a href="#" class="empty-link" @click.prevent>Link</a>
+            </WkEmpty>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Empty — example states</h2>
+        <div class="empty-grid">
+          <div class="empty-cell">
+            <WkEmpty
+              variant="outline-dashed"
+              title="Cloud Storage Empty"
+              description="Upload files to your cloud storage to access them anywhere."
+            >
+              <template #media>
+                <WkEmptyIcon>
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path
+                      d="M7 18a4 4 0 1 1 .9-7.9A6 6 0 0 1 18 11a3.5 3.5 0 0 1 0 7H7Z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M12 14v-4m0 0-2 2m2-2 2 2"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </WkEmptyIcon>
+              </template>
+              <WkButton>Upload Files</WkButton>
+            </WkEmpty>
+          </div>
+          <div class="empty-cell">
+            <WkEmpty
+              variant="background"
+              title="No Notifications"
+              description="You're all caught up. New notifications will appear here."
+            >
+              <template #media>
+                <WkEmptyIcon>
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path
+                      d="M6 9a6 6 0 1 1 12 0v3l1.5 3h-15L6 12V9Z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linejoin="round"
+                    />
+                    <path d="M10 18a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  </svg>
+                </WkEmptyIcon>
+              </template>
+              <WkButton variant="outline">Refresh</WkButton>
+            </WkEmpty>
+          </div>
+          <div class="empty-cell">
+            <WkEmpty
+              title="User Offline"
+              description="This user is currently offline. You can leave a message to notify them or try again later."
+            >
+              <template #media>
+                <WkAvatar src="https://i.pravatar.cc/80?img=12" alt="" />
+              </template>
+              <WkButton>Leave Message</WkButton>
+            </WkEmpty>
+          </div>
+          <div class="empty-cell">
+            <WkEmpty title="No Team Members" description="Invite your team to collaborate on this project.">
+              <template #media>
+                <WkAvatarStack :items="avatarStackItems.slice(0, 3)" />
+              </template>
+              <WkButton>Invite Members</WkButton>
+            </WkEmpty>
+          </div>
+          <div class="empty-cell">
+            <WkEmpty
+              title="404 — Not Found"
+              description="The page you're looking for doesn't exist. Try searching for what you need below."
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Field — Vertical layout (wraps existing inputs)</h2>
+        <div class="field-grid">
+          <WkField label="Label">
+            <WkInput v-model="fieldText" placeholder="Value" />
+          </WkField>
+          <WkField label="Label">
+            <WkSelect :value="fieldSelect" :options="fieldOptions" @change="fieldSelect = $event" />
+          </WkField>
+          <WkField label="Label" align="start">
+            <WkRadioGroup :value="fieldRadio" :options="fieldOptions" @change="fieldRadio = $event" />
+          </WkField>
+          <WkField label="Label" align="start">
+            <textarea class="field-textarea" placeholder="Type your message here." />
+          </WkField>
+          <WkField label="Label" align="start">
+            <div class="field-checkbox-list">
+              <WkCheckboxGroup label="Option 1" :checked="true" />
+              <WkCheckboxGroup label="Option 2" />
+              <WkCheckboxGroup label="Option 3" />
+            </div>
+          </WkField>
+          <WkField label="Label">
+            <WkSlider :value="fieldSlider" @change="fieldSlider = $event" />
+          </WkField>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Field — Horizontal layout</h2>
+        <div class="field-grid">
+          <WkField layout="horizontal" label="Label">
+            <WkInput v-model="fieldText" placeholder="Value" />
+          </WkField>
+          <WkField layout="horizontal" label="Label">
+            <WkSelect :value="fieldSelect" :options="fieldOptions" @change="fieldSelect = $event" />
+          </WkField>
+          <WkField layout="horizontal" label="Label" align="start">
+            <WkRadioGroup
+              :value="fieldRadio"
+              :options="fieldOptions.slice(0, 2)"
+              direction="horizontal"
+              @change="fieldRadio = $event"
+            />
+          </WkField>
+          <WkField layout="horizontal" label="Label" align="start">
+            <textarea class="field-textarea" placeholder="Type your message here." />
+          </WkField>
+          <WkField layout="horizontal" label="Label" align="start">
+            <div class="field-checkbox-list">
+              <WkCheckboxGroup label="Option 1" />
+              <WkCheckboxGroup label="Option 2" />
+              <WkCheckboxGroup label="Option 3" />
+            </div>
+          </WkField>
+          <WkField layout="horizontal" label="Label">
+            <WkSlider :value="fieldSlider" @change="fieldSlider = $event" />
+          </WkField>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Field — example states</h2>
+        <div class="field-form">
+          <WkField label="Name" required error-text="This field is require">
+            <WkInput placeholder="Enter your name..." :error="true" />
+          </WkField>
+          <WkField label="E-mail address" help-text="This field is require">
+            <WkInput placeholder="Enter your e-mail address..." />
+          </WkField>
+          <WkField label="Category">
+            <WkSelect :options="fieldOptions" />
+          </WkField>
+          <WkField label="Message" align="start">
+            <textarea class="field-textarea" placeholder="Type your message here." />
+          </WkField>
+        </div>
+        <div class="field-form field-form--horizontal">
+          <WkField layout="horizontal" label="Width">
+            <WkInput placeholder="Value" />
+          </WkField>
+          <WkField layout="horizontal" label="Max. width">
+            <WkInput placeholder="Value" />
+          </WkField>
+          <WkField layout="horizontal" label="Height">
+            <WkInput placeholder="Value" />
+          </WkField>
+          <WkField layout="horizontal" label="Max. height">
+            <WkInput placeholder="Value" />
+          </WkField>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Tooltip — sides (hover the boxes, or toggle 'open' to pin)</h2>
+        <div class="tooltip-grid">
+          <div v-for="s in tooltipSides" :key="s" class="tooltip-cell">
+            <span class="row__item">side = {{ s }}</span>
+            <WkTooltip :side="s" title="Tooltip text" :open="tooltipsPinned">
+              <span class="tooltip-anchor" tabindex="0">Hover me</span>
+            </WkTooltip>
+          </div>
+        </div>
+        <div class="row">
+          <label class="row__item">
+            <input type="checkbox" v-model="tooltipsPinned" />
+            Pin all tooltips open (showcase mode)
+          </label>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Tooltip — examples</h2>
+        <div class="tooltip-examples">
+          <WkTooltip side="top" title="Add to library" :open="tooltipsPinned">
+            <button class="tooltip-icon-button" type="button" aria-label="Add to library">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </button>
+          </WkTooltip>
+          <WkTooltip
+            side="right"
+            title="To learn more about how this works, check out the docs. If you have any questions, please reach out to us."
+            :max-width="205"
+          >
+            <WkButton variant="outline">Export File</WkButton>
+          </WkTooltip>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Tooltip — color & arrow</h2>
+        <div class="tooltip-examples">
+          <WkTooltip side="top" title="Default color" :open="tooltipsPinned">
+            <span class="tooltip-anchor" tabindex="0">default</span>
+          </WkTooltip>
+          <WkTooltip side="top" title="Brand color" color="brand" :open="tooltipsPinned">
+            <span class="tooltip-anchor" tabindex="0">brand</span>
+          </WkTooltip>
+          <WkTooltip side="top" title="Destructive" color="destructive" :open="tooltipsPinned">
+            <span class="tooltip-anchor" tabindex="0">destructive</span>
+          </WkTooltip>
+          <WkTooltip side="top" title="No arrow" :arrow="false" :open="tooltipsPinned">
+            <span class="tooltip-anchor" tabindex="0">arrow = false</span>
+          </WkTooltip>
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
+import WkiSection from '../../src/icons/ChevronDownIcon.vue'
 const HOUSE_ICON =
   '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">' +
   '<path d="m1.5 8 6.5-5.5L14.5 8M3 7v6.5h10V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />' +
@@ -102,6 +409,30 @@ export default {
       openDialog: false,
       openDialog2: false,
       selected: '',
+      avatarStackItems: [
+        { name: 'AB' },
+        { name: 'CD' },
+        { name: 'EF' },
+        { name: 'GH' },
+        { name: 'IJ' },
+        { name: 'KL' },
+        { name: 'MN' },
+        { name: 'OP' },
+        { name: 'QR' },
+        { name: 'ST' }
+      ],
+      emptyVariants: ['default', 'outline', 'background', 'outline-dashed'],
+      fieldText: '',
+      fieldSelect: '',
+      fieldRadio: 'a',
+      fieldSlider: 50,
+      fieldOptions: [
+        { label: 'Option 1', value: 'a' },
+        { label: 'Option 2', value: 'b' },
+        { label: 'Option 3', value: 'c' }
+      ],
+      tooltipSides: ['top', 'bottom', 'left', 'right'],
+      tooltipsPinned: true,
       iconNames: [
         'search',
         'x',
@@ -233,6 +564,9 @@ export default {
         }
       ]
     }
+  },
+  components: {
+    WkiSection
   },
   computed: {
     optionsState() {
@@ -521,5 +855,131 @@ export default {
   color: var(--muted-fg);
   text-align: center;
   word-break: break-all;
+}
+
+.empty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(372px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+.empty-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 420px;
+}
+.empty-link {
+  font: var(--font-paragraph-small);
+  font-weight: var(--paragraph-medium-font-weight);
+  color: var(--primary-brand-fg);
+  text-decoration: none;
+}
+.empty-link:hover {
+  text-decoration: underline;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 720px;
+}
+.field-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  width: 342px;
+  max-width: 100%;
+}
+.field-form--horizontal {
+  margin-top: var(--spacing-2xl);
+}
+.field-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+.field-textarea {
+  display: block;
+  width: 100%;
+  min-height: 76px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--primary-fg);
+  background: var(--primary-bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-xl);
+  resize: vertical;
+  box-sizing: border-box;
+}
+.field-textarea::placeholder {
+  color: var(--muted-fg);
+}
+.field-textarea:focus-visible {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.tooltip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, max-content));
+  gap: 48px 32px;
+  padding: 32px;
+}
+.tooltip-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.tooltip-anchor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 36px;
+  padding: 0 12px;
+  background: var(--accent-bg);
+  border: 1px dashed var(--border-primary);
+  border-radius: var(--rounded-lg);
+  font-size: var(--paragraph-small-font-size);
+  color: var(--secondary-fg);
+  cursor: default;
+}
+.tooltip-anchor:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+.tooltip-examples {
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  padding: 48px 32px;
+}
+.tooltip-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: var(--ghost-hover);
+  color: var(--primary-fg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-xl);
+  cursor: pointer;
+}
+.tooltip-icon-button > svg {
+  width: 16px;
+  height: 16px;
+}
+.tooltip-icon-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 </style>

@@ -1,0 +1,102 @@
+/* Wrapper just anchors the trigger inline. The content bubble is moved
+   out to <body> at mount time so it can never be clipped by overflow
+   on an ancestor. Position is computed in JS. */
+.ui-tooltip {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.ui-tooltip__trigger {
+  display: inline-flex;
+}
+
+/* Color tokens cascade via a local CSS variable so the arrow inherits
+   the same background and stays in sync with the bubble. */
+.ui-tooltip__content--default {
+  --_tooltip-color-bg: var(--tooltip);
+  --_tooltip-color-fg: var(--tooltip-foreground);
+}
+.ui-tooltip__content--brand {
+  --_tooltip-color-bg: var(--primary-brand-bg);
+  --_tooltip-color-fg: var(--inverse-fg);
+}
+.ui-tooltip__content--destructive {
+  --_tooltip-color-bg: var(--destructive);
+  --_tooltip-color-fg: var(--destructive-inverse-fg);
+}
+
+.ui-tooltip__content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-6) var(--spacing-xs);
+  background: var(--_tooltip-color-bg);
+  color: var(--_tooltip-color-fg);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+  font-weight: var(--paragraph-font-weight);
+  border-radius: var(--rounded-lg);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.ui-tooltip__content--wrap {
+  white-space: normal;
+}
+
+.ui-tooltip__text {
+  display: inline-block;
+}
+
+/* Arrow as a CSS triangle. The pointing border uses the inherited
+   color variable so it always matches the bubble background. */
+.ui-tooltip__arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.ui-tooltip__arrow--top {
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 5px solid var(--_tooltip-color-bg);
+}
+.ui-tooltip__arrow--bottom {
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 5px solid var(--_tooltip-color-bg);
+}
+.ui-tooltip__arrow--left {
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 5px solid var(--_tooltip-color-bg);
+}
+.ui-tooltip__arrow--right {
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 5px solid var(--_tooltip-color-bg);
+}
+
+/* The bubble itself needs to be position-context for the arrow.
+   We rely on the inline `position: fixed` set by the positioning logic
+   in JS, but we also want consumers to be able to apply a manual
+   transform if needed — the arrow's position uses absolute, which is
+   fine because the bubble's fixed position establishes a containing
+   block for its descendants. */
+.ui-tooltip__content {
+  position: relative;
+}

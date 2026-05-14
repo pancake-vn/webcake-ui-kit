@@ -24,7 +24,6 @@
 .ui-divider--vertical {
   display: inline-block;
   width: 1px;
-  align-self: stretch;
 }
 
 .ui-divider--vertical.ui-divider--spacing-regular {
