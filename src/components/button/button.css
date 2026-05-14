@@ -235,23 +235,23 @@
 }
 
 .ui-btn--icon-only.ui-btn--xs {
-  min-width: 24px;
+  width: 24px;
   padding: var(--spacing-3xs);
 }
 .ui-btn--icon-only.ui-btn--sm {
-  min-width: 32px;
+  width: 32px;
   padding: var(--spacing-6);
 }
 .ui-btn--icon-only.ui-btn--md {
-  min-width: 36px;
+  width: 36px;
   padding: var(--spacing-xs);
 }
 .ui-btn--icon-only.ui-btn--lg {
-  min-width: 40px;
+  width: 40px;
   padding: var(--spacing-10);
 }
 .ui-btn--icon-only.ui-btn--xl {
-  min-width: 48px;
+  width: 48px;
   padding: var(--spacing-sm);
 }
 

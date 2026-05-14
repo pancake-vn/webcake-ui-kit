@@ -289,6 +289,22 @@ export const Welcome = () => ({
 /* ────────────────────────────────────────────────────────────────────────── */
 
 export const Installation = () => ({
+  data() {
+    return {
+      copiedNpm: false,
+      copiedPnpm: false,
+      copiedYarn: false
+    }
+  },
+  methods: {
+    copy(text, type) {
+      navigator.clipboard.writeText(text)
+      this['copied' + type] = true
+      setTimeout(() => {
+        this['copied' + type] = false
+      }, 2000)
+    }
+  },
   template: `
     ${THEME_STYLE}
     <div class="docs-page" style="${PAGE_STYLE}">
@@ -304,9 +320,18 @@ export const Installation = () => ({
       <p style="margin: 0 0 12px;">Pick your favourite package manager:</p>
 
       <div style="display: grid; gap: 10px;">
-        <pre style="${CODE_BLOCK}"><code><span style="color:#94a3b8;">$</span> <span style="color:#86efac;">npm</span> install webcake-ui-kit</code></pre>
-        <pre style="${CODE_BLOCK}"><code><span style="color:#94a3b8;">$</span> <span style="color:#86efac;">pnpm</span> add webcake-ui-kit</code></pre>
-        <pre style="${CODE_BLOCK}"><code><span style="color:#94a3b8;">$</span> <span style="color:#86efac;">yarn</span> add webcake-ui-kit</code></pre>
+        <div style="position: relative;">
+          <pre style="${CODE_BLOCK}"><code><span style="color:#94a3b8;">$</span> <span style="color:#86efac;">npm</span> install webcake-ui-kit</code></pre>
+          <button @click="copy('npm install webcake-ui-kit', 'Npm')" style="position: absolute; right: 12px; top: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #e5e7eb; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: inherit; transition: all 0.2s ease; line-height: 1;">{{ copiedNpm ? 'Copied!' : 'Copy' }}</button>
+        </div>
+        <div style="position: relative;">
+          <pre style="${CODE_BLOCK}"><code><span style="color:#94a3b8;">$</span> <span style="color:#86efac;">pnpm</span> add webcake-ui-kit</code></pre>
+          <button @click="copy('pnpm add webcake-ui-kit', 'Pnpm')" style="position: absolute; right: 12px; top: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #e5e7eb; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: inherit; transition: all 0.2s ease; line-height: 1;">{{ copiedPnpm ? 'Copied!' : 'Copy' }}</button>
+        </div>
+        <div style="position: relative;">
+          <pre style="${CODE_BLOCK}"><code><span style="color:#94a3b8;">$</span> <span style="color:#86efac;">yarn</span> add webcake-ui-kit</code></pre>
+          <button @click="copy('yarn add webcake-ui-kit', 'Yarn')" style="position: absolute; right: 12px; top: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #e5e7eb; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: inherit; transition: all 0.2s ease; line-height: 1;">{{ copiedYarn ? 'Copied!' : 'Copy' }}</button>
+        </div>
       </div>
 
       <div style="
