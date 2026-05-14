@@ -1,0 +1,80 @@
+.ui-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: var(--spacing-2xl);
+  border-radius: var(--rounded-2xl);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Variants */
+.ui-empty--default {
+  background: transparent;
+  border: 0;
+}
+.ui-empty--outline {
+  background: transparent;
+  border: 1px solid var(--border-primary);
+}
+.ui-empty--background {
+  background: var(--accent-bg);
+  border: 0;
+}
+.ui-empty--outline-dashed {
+  background: transparent;
+  border: 1px dashed var(--border-primary);
+}
+
+/* Inner content stack */
+.ui-empty__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+.ui-empty__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-empty__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+  text-align: center;
+  width: 100%;
+}
+
+.ui-empty__title {
+  margin: 0;
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-regular-font-size);
+  line-height: var(--paragraph-regular-line-height);
+  letter-spacing: var(--paragraph-regular-letter-spacing);
+  font-weight: var(--paragraph-medium-font-weight);
+  color: var(--primary-fg);
+}
+
+.ui-empty__description {
+  margin: 0;
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+  font-weight: var(--paragraph-font-weight);
+  color: var(--muted-fg);
+}
+
+/* Footer slot — stacks action group(s) below the text block.
+   Consumer composes button rows / link rows freely; gap matches the
+   outer content stack so a single child OR multiple children line up. */
+.ui-empty__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}

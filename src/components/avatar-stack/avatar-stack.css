@@ -1,0 +1,110 @@
+.ui-avatar-stack {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+/* Each child avatar overlaps the previous one and shows a white ring to
+   "punch out" of its neighbours. Box-shadow follows border-radius and does
+   not take up layout space, so the avatar dimensions stay intact. */
+.ui-avatar-stack__item {
+  position: relative;
+  margin-left: -8px;
+  box-shadow: 0 0 0 2px var(--primary-bg);
+}
+.ui-avatar-stack__item:first-child {
+  margin-left: 0;
+}
+
+/* Stacking order: earlier siblings sit above later ones so the leftmost
+   avatar's ring is visible over its neighbour. */
+.ui-avatar-stack__item {
+  z-index: 1;
+}
+.ui-avatar-stack__item:nth-child(1) {
+  z-index: 5;
+}
+.ui-avatar-stack__item:nth-child(2) {
+  z-index: 4;
+}
+.ui-avatar-stack__item:nth-child(3) {
+  z-index: 3;
+}
+.ui-avatar-stack__item:nth-child(4) {
+  z-index: 2;
+}
+
+/* Overflow chip — same shape as siblings, slightly darker background. */
+.ui-avatar-stack__overflow {
+  background: var(--secondary-bg);
+  color: var(--secondary-fg);
+}
+
+/* ============================ Animations ============================
+   Three loop animations the consumer opts into via the `animation` prop
+   on AvatarStack. Each animation is applied to every visible avatar
+   child (including the "+N" overflow chip). All honour
+   `prefers-reduced-motion: reduce`. */
+
+@keyframes ui-avatar-stack-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.94);
+    opacity: 0.78;
+  }
+}
+
+@keyframes ui-avatar-stack-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes ui-avatar-stack-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+.ui-avatar-stack__item--animation-pulse {
+  animation: ui-avatar-stack-pulse 1.6s ease-in-out infinite;
+}
+
+.ui-avatar-stack__item--animation-bounce {
+  animation: ui-avatar-stack-bounce 1.2s ease-in-out infinite;
+}
+
+.ui-avatar-stack__item--animation-ring::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 2px solid var(--positive-500);
+  pointer-events: none;
+  animation: ui-avatar-stack-ring 1.6s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-avatar-stack__item--animation-pulse,
+  .ui-avatar-stack__item--animation-bounce {
+    animation: none;
+  }
+  .ui-avatar-stack__item--animation-ring::after {
+    animation: none;
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}

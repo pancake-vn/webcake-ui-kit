@@ -1,0 +1,30 @@
+.ui-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: var(--spacing-xs);
+  background: var(--secondary-bg);
+  border-radius: var(--rounded-lg);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* Inner frame fixes the icon at the Figma-specified 24x24. Consumers
+   place their <svg> (or <img>) directly in the default slot; the frame
+   normalises sizing so different icons line up. */
+.ui-empty-icon__frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--primary-fg);
+}
+
+.ui-empty-icon__frame > svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
