@@ -4,6 +4,22 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.18] - 2026-05-14
+
+### Added
+
+- New `WkAvatar` component with `size` (regular/small/tiny/extra-tiny), `roundness` (round/roundrect), `src`, `alt`, `name`, and `online` props; falls back to a name initial or slot content when the image fails to load.
+- New `WkAvatarStack` component for displaying a row of overlapping avatars from an `items` array, with a `max` prop to cap the visible count and a customizable overflow badge showing the remaining count.
+- New `WkEmpty` component for empty-state layouts supporting `default`, `outline`, `background`, and `outline-dashed` variants, with `title`, `description`, `media`, and default action slots.
+- New `WkEmptyIcon` component for use inside empty states; wraps slotted content in a 40×40 px rounded container and normalizes inner SVG icons to 24×24 px.
+- New `WkField` component for form field composition, supporting `vertical` and `horizontal` layouts, `label`, `helpText`, `errorText`, `required`, and `error` props, with `label`, `message`, and `message-icon` slots.
+- New `WkTooltip` component with configurable `side` (top/right/bottom/left), `color`, `title`, `arrow`, and `maxWidth` props; tooltip is triggered by hover or focus on the slotted trigger element.
+
+### Fixed
+
+- Fixed `WkButton` icon SVG sizing in Vue 2: replaced `:deep(svg)` with `::v-deep svg` in the size-variant CSS rules (xs, sm, md, lg, xl), restoring correct icon dimensions in Vue 2 builds.
+- Fixed `WkDivider` vertical variant incorrectly stretching to fill its flex container's cross axis by removing the `align-self: stretch` rule.
+
 ## [1.0.17] - 2026-05-14
 
 ### Fixed
