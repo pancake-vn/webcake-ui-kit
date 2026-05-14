@@ -4,6 +4,18 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.13] - 2026-05-14
+
+### Changed
+
+- `WkSelect` `size` prop value `"mini"` is renamed to `"xs"`; update `size="mini"` to `size="xs"` in any consumer to avoid the value silently falling back to the default size.
+- `WkTabs` `size` prop value `"mini"` is renamed to `"xs"`; update `size="mini"` to `size="xs"` in any consumer.
+- `WkAccordionItem`, `WkBreadcrumb`, `WkCheckbox`, `WkDialog`, `WkPagination`, `WkSelect`, `WkSidebarGroupLabel`, and `WkSpinner` now render their icons via a new shared icon component system instead of per-component inline SVGs, standardising stroke-width (1.75) and sizing across the library.
+
+### Fixed
+
+- Fixed `WkCheckbox` checkmark alignment: removed a 1 px top/left offset on the inner box element that caused the check icon to appear visually mispositioned.
+
 ## [1.0.12] - 2026-05-13
 
 ### Fixed
