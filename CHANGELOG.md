@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.16] - 2026-05-14
+
+### Fixed
+
+- Fixed `WkiPadding` icon not being importable via `webcake-ui-kit/src/icons` by adding its missing named export to `src/icons/index.js`.
+
 ## [1.0.15] - 2026-05-14
 
 ### Added
