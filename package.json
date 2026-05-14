@@ -1,6 +1,6 @@
 {
   "name": "webcake-ui-kit",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "UI Kit for Vue 2 && 3 - Pure Options API",
   "main": "src/index.js",
   "module": "src/index.js",

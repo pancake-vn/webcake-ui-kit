@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.14] - 2026-05-14
+
+### Fixed
+
+- Fixed `WkDialog` width constraint on small viewports by replacing `min()` with equivalent `width` + `max-width` properties, improving compatibility with browsers that do not support the CSS `min()` function.
+
 ## [1.0.13] - 2026-05-14
 
 ### Changed
