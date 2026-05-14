@@ -75,7 +75,7 @@
   flex-shrink: 0;
   color: inherit;
 }
-.ui-field__message-icon > svg {
+.ui-field__message-icon ::v-deep svg {
   width: 100%;
   height: 100%;
   display: block;

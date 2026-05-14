@@ -23,7 +23,7 @@
   color: var(--primary-fg);
 }
 
-.ui-empty-icon__frame > svg {
+.ui-empty-icon__frame ::v-deep svg {
   width: 100%;
   height: 100%;
   display: block;
