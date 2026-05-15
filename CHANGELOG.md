@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.19] - 2026-05-15
+
+### Added
+
+- New icon components `WkiBottom`, `WkiBottomRight`, `WkiCreateBom`, `WkiLeft`, `WkiLine`, `WkiRectangleDot`, `WkiRight`, `WkiSmallDot`, `WkiTop`, `WkiTopLeft`, and `WkiTopRight` added to `src/icons/`, each accepting `size` (Number, default `16`) and `color` (String, default `currentColor`) props and exported from `webcake-ui-kit/src/icons`.
+
 ## [1.0.18] - 2026-05-14
 
 ### Added
