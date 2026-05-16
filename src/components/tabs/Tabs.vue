@@ -8,7 +8,7 @@
       :class="{
         'ui-tabs__item--active': tab.value === value,
         'ui-tabs__item--disabled': tab.disabled,
-        'ui-tabs__item--stretch': this.stretchItems
+        'ui-tabs__item--stretch': stretchItems
       }"
       :disabled="tab.disabled || undefined"
       @click="select(tab.value)"
