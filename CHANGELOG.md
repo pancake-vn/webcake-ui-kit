@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.26] - 2026-05-16
+
+### Fixed
+
+- Fixed `WkInput` ignoring consumer-supplied `class` on the wrapper element in Vue 3 by explicitly forwarding `$attrs.class` to the wrapper div and stripping it from the `v-bind="$attrs"` spread on the native `<input>`, preventing the class from being applied to the inner input instead of the outer container.
+
 ## [1.0.25] - 2026-05-16
 
 ### Fixed
