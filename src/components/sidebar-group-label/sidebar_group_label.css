@@ -1,9 +1,8 @@
 .ui-sidebar-group-label {
   display: flex;
   align-items: center;
-  gap: var(--spacing-2xs);
-  padding: var(--spacing-2xs) var(--spacing-xs);
-  margin-bottom: var(--spacing-3xs);
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
 }
 
 /* Collapsible: full-width trigger button */
@@ -11,7 +10,7 @@
   flex: 1;
   display: flex;
   align-items: center;
-  gap: var(--spacing-2xs);
+  gap: var(--spacing-xs);
   background: transparent;
   border: none;
   padding: 0;
@@ -29,15 +28,18 @@
 /* Label text (shared between trigger and plain span) */
 .ui-sidebar-group-label__text {
   flex: 1;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--sidebar-muted);
   overflow: hidden;
+  color: var(--sidebar-muted);
   text-overflow: ellipsis;
-  white-space: nowrap;
+
+  /* paragraph mini/medium */
+  font-family: var(--font-definitions-font-family-body);
+  font-size: var(--paragraph-mini-font-size);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+  text-align: left;
 }
 
 /* Chevron rotates on collapse */
