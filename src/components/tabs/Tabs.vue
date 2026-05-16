@@ -7,7 +7,8 @@
       class="ui-tabs__item"
       :class="{
         'ui-tabs__item--active': tab.value === value,
-        'ui-tabs__item--disabled': tab.disabled
+        'ui-tabs__item--disabled': tab.disabled,
+        'ui-tabs__item--stretch': this.stretchItems
       }"
       :disabled="tab.disabled || undefined"
       @click="select(tab.value)"
@@ -44,6 +45,10 @@ export default {
       validator: function (v) {
         return ['xs', 'sm', 'md', 'lg'].includes(v)
       }
+    },
+    stretchItems: {
+      type: Boolean,
+      default: () => false
     }
   },
   emits: ['input', 'change'],
