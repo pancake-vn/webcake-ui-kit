@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.24] - 2026-05-16
+
+### Fixed
+
+- Fixed `WkTabs` `stretchItems` prop having no effect by correcting a misplaced CSS rule: `.ui-tabs__item--stretch` was nested inside `.ui-tabs__item`, making it match only descendants instead of the item element itself, so `flex: 1` was never applied.
+
 ## [1.0.23] - 2026-05-16
 
 ### Fixed
