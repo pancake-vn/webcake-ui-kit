@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.22] - 2026-05-16
+
+### Added
+
+- `WkTabs` accepts a new `stretchItems` boolean prop (default `false`); when `true`, each tab item expands to fill an equal share of the tab bar width via `flex: 1`.
+
 ## [1.0.21] - 2026-05-16
 
 ### Added
