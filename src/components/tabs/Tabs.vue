@@ -12,9 +12,17 @@
       :disabled="tab.disabled || undefined"
       @click="select(tab.value)"
     >
-      <span v-if="hasIconSlot" class="ui-tabs__icon"><slot name="tab-icon" :tab="tab" /></span>
-      <span v-if="tab.label" class="ui-tabs__label">{{ tab.label }}</span>
-      <span v-if="tab.counter > 0" class="ui-tabs__counter">{{ tab.counter }}</span>
+      <div class="ui-tabs__item-inner">
+        <slot name="label" :tab="tab">
+          <span v-if="tab.icon" class="ui-tabs__icon">
+            <slot name="icon" :tab="tab">
+              <component :is="tab.icon" />
+            </slot>
+          </span>
+          <span v-if="tab.label" class="ui-tabs__label">{{ tab.label }}</span>
+          <span v-if="tab.counter > 0" class="ui-tabs__counter">{{ tab.counter }}</span>
+        </slot>
+      </div>
     </button>
   </div>
 </template>
@@ -39,11 +47,6 @@ export default {
     }
   },
   emits: ['input', 'change'],
-  computed: {
-    hasIconSlot: function () {
-      return !!((this.$scopedSlots && this.$scopedSlots['tab-icon']) || this.$slots['tab-icon'])
-    }
-  },
   methods: {
     select: function (val) {
       if (val === this.value) return
