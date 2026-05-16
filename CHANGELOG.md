@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.21] - 2026-05-16
+
+### Added
+
+- `WkTabs` tab items now support an `icon` property (a Vue component reference) on each tab data object; the icon is rendered automatically via `<component :is="tab.icon" />` without requiring a slot.
+- `WkTabs` exposes a new `label` scoped slot (bound with `tab`) that wraps the full tab content (icon, label, and counter), enabling complete custom rendering per tab.
+- `WkTabs` exposes a new `icon` scoped slot (bound with `tab`) for overriding how a tab's icon component is rendered while keeping the default label and counter.
+
+### Changed
+
+- `WkTabs` tab icon slot is renamed from `tab-icon` to `icon`; update any `<template #tab-icon="{ tab }">` usage to `<template #icon="{ tab }">`.
+
+### Fixed
+
+- Fixed `WkTabs` tab item layout by separating the outer button element (block `flex`, fills available width) from a new inner wrapper (`inline-flex`, sizes to content), correcting stretch and alignment behavior.
+- Fixed `WkTabs` icon container not constraining nested SVG elements to the expected 20×20 px dimensions.
+
 ## [1.0.20] - 2026-05-15
 
 ### Fixed
