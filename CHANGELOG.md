@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.25] - 2026-05-16
+
+### Fixed
+
+- Fixed `WkTabs` `stretchItems` class binding in Vue 2 by removing the erroneous `this.` prefix from the template expression, which caused the binding to be silently ignored in Vue 2.
+- Fixed `WkSidebarGroupLabel` horizontal padding by removing the extra `var(--spacing-sm)` side padding so all four sides use the uniform `var(--spacing-xs)` value.
+
 ## [1.0.24] - 2026-05-16
 
 ### Fixed
