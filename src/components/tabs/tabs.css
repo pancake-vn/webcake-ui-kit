@@ -19,12 +19,10 @@
 
 /* — tab item — */
 .ui-tabs__item {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
   height: 26px;
-  padding: 0 var(--spacing-xs);
   border: none;
   background: none;
   border-radius: var(--radius);
@@ -40,7 +38,15 @@
   box-sizing: border-box;
   flex-shrink: 0;
   transition: color 0.1s;
-  flex: 1;
+}
+
+.ui-tabs__item-inner {
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 var(--spacing-xs);
 }
 
 .ui-tabs__item:hover:not(.ui-tabs__item--active):not(.ui-tabs__item--disabled) {
@@ -89,6 +95,11 @@
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .ui-tabs--xs .ui-tabs__icon {
