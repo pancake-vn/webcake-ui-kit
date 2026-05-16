@@ -38,6 +38,10 @@
   box-sizing: border-box;
   flex-shrink: 0;
   transition: color 0.1s;
+
+  .ui-tabs__item--stretch {
+    flex: 1;
+  }
 }
 
 .ui-tabs__item-inner {
