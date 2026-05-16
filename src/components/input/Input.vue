@@ -5,7 +5,8 @@
       `ui-input--size-${size}`,
       `ui-input--round-${roundness}`,
       error && 'ui-input--error',
-      disabled && 'ui-input--disabled'
+      disabled && 'ui-input--disabled',
+      $attrs.class
     ]"
   >
     <span v-if="hasPrefix" class="ui-input__decoration ui-input__prefix" aria-hidden="true">
@@ -20,7 +21,7 @@
       :disabled="disabled"
       :readonly="readonly"
       :name="name"
-      v-bind="$attrs"
+      v-bind="{ ...$attrs, class: undefined }"
       @input="onInput"
       @focus="onFocus"
       @blur="onBlur"
