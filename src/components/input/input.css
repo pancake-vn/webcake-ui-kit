@@ -2,8 +2,6 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: 100%;
-  max-width: 320px;
   background: var(--input);
   border: 1px solid var(--border-primary);
   box-shadow: var(--shadow-xs);
