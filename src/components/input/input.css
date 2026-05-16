@@ -1,5 +1,4 @@
 .ui-input {
-  position: relative;
   display: inline-flex;
   align-items: center;
   background: var(--input);

@@ -15,6 +15,7 @@
     <input
       ref="input"
       class="ui-input__field"
+      :style="centered ? { textAlign: 'center' } : {}"
       :type="type"
       :value="currentValue"
       :placeholder="placeholder"
@@ -55,7 +56,8 @@ export default {
     name: { type: String, default: '' },
     error: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
-    readonly: { type: Boolean, default: false }
+    readonly: { type: Boolean, default: false },
+    centered: { type: Boolean, default: false }
   },
   emits: ['input', 'change', 'update:modelValue', 'focus', 'blur', 'pressEnter'],
   computed: {
