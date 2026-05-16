@@ -4,6 +4,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.28] - 2026-05-16
+
+### Added
+
+- `WkInput` accepts a new `centered` boolean prop (default `false`); when `true`, the native input field renders its text center-aligned.
+
+### Fixed
+
+- Fixed `WkInput` wrapper incorrectly carrying `position: relative`, which caused unintended stacking-context and offset side effects when the component was placed inside positioned containers.
+
 ## [1.0.27] - 2026-05-16
 
 ### Fixed
