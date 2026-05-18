@@ -286,43 +286,48 @@ export default {
 const releases = parseChangelog(changelogMd || '')
 const latestVersion = releases[0]?.version
 
-export const AllReleases = () => ({
-  template: `
-    <div class="docs-page" style="${PAGE_STYLE}">
-      <header style="margin-bottom: 32px;">
-        ${PILL('Release notes', '#1e40af', '#dbeafe')}
-        <h1 style="
-          margin: 16px 0 8px;
-          font-size: 44px;
-          font-weight: 800;
-          letter-spacing: -0.02em;
-          line-height: 1.1;
-        ">
-          Changelog
-        </h1>
-        <p style="${MUTED} font-size: 16px; margin: 0; line-height: 1.6;">
-          All notable changes to <code style="${INLINE_CODE}">webcake-ui-kit</code>.
-          Format follows
-          <a href="https://keepachangelog.com/en/1.1.0/" target="_blank" rel="noopener">Keep a Changelog</a>;
-          versioning follows
-          <a href="https://semver.org/spec/v2.0.0.html" target="_blank" rel="noopener">SemVer</a>.
-        </p>
-        <p style="${MUTED} font-size: 13.5px; margin: 14px 0 0;">
-          Sourced directly from
-          <a href="https://github.com/pancake-vn/webcake-ui-kit/blob/master/CHANGELOG.md" target="_blank" rel="noopener">
-            CHANGELOG.md
-          </a>
-          in the repo — this page rebuilds automatically when the file changes.
-        </p>
-      </header>
+export const AllReleases = () => {
+  const releasesHtml =
+    releases.length === 0
+      ? `<p style="${MUTED}">No releases yet.</p>`
+      : releases.map((r, i) => renderRelease(r, r.version === latestVersion && i === 0)).join('')
 
-      ${
-        releases.length === 0
-          ? `<p style="${MUTED}">No releases yet.</p>`
-          : releases.map((r, i) => renderRelease(r, r.version === latestVersion && i === 0)).join('')
-      }
-    </div>
-  `
-})
+  return {
+    data() {
+      return { releasesHtml }
+    },
+    template: `
+      <div class="docs-page" style="${PAGE_STYLE}">
+        <header style="margin-bottom: 32px;">
+          ${PILL('Release notes', '#1e40af', '#dbeafe')}
+          <h1 style="
+            margin: 16px 0 8px;
+            font-size: 44px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+          ">
+            Changelog
+          </h1>
+          <p style="${MUTED} font-size: 16px; margin: 0; line-height: 1.6;">
+            All notable changes to <code style="${INLINE_CODE}">webcake-ui-kit</code>.
+            Format follows
+            <a href="https://keepachangelog.com/en/1.1.0/" target="_blank" rel="noopener">Keep a Changelog</a>;
+            versioning follows
+            <a href="https://semver.org/spec/v2.0.0.html" target="_blank" rel="noopener">SemVer</a>.
+          </p>
+          <p style="${MUTED} font-size: 13.5px; margin: 14px 0 0;">
+            Sourced directly from
+            <a href="https://github.com/pancake-vn/webcake-ui-kit/blob/master/CHANGELOG.md" target="_blank" rel="noopener">
+              CHANGELOG.md
+            </a>
+            in the repo — this page rebuilds automatically when the file changes.
+          </p>
+        </header>
+        <div v-html="releasesHtml"></div>
+      </div>
+    `
+  }
+}
 
 AllReleases.parameters = { docs: { source: { state: 'closed' } } }
