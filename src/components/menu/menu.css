@@ -1,0 +1,64 @@
+.ui-menu-host {
+  display: contents;
+}
+
+.ui-menu-portal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.ui-menu {
+  position: fixed;
+  background: var(--card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-xl);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  min-width: 176px;
+  max-width: 320px;
+  outline: none;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+.ui-menu__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+  max-height: 320px;
+  overflow-y: auto;
+  border-radius: var(--rounded-lg);
+}
+
+.ui-menu__content::-webkit-scrollbar {
+  width: 6px;
+}
+.ui-menu__content::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+  border-radius: 3px;
+}
+
+/* Open/close animation — class names cover both Vue 2 and Vue 3 transition naming. */
+.ui-menu-enter-active,
+.ui-menu-leave-active {
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease;
+}
+.ui-menu-enter,
+.ui-menu-enter-from,
+.ui-menu-leave-to {
+  opacity: 0;
+  transform: scale(0.96);
+}
+.ui-menu-enter-to,
+.ui-menu-leave,
+.ui-menu-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}

@@ -1,16 +1,16 @@
 <template>
   <div
     class="ui-select-option"
-    :class="{
-      'ui-select-option--selected': isSelected,
-      'ui-select-option--disabled': isDisabled,
-      'ui-select-option--large': size === 'large',
-      'ui-select-option--destructive': variant === 'destructive'
-    }"
-    tabindex="0"
+    :class="[
+      size === 'large' ? 'ui-select-option--large' : null,
+      variant === 'destructive' ? 'ui-select-option--destructive' : null,
+      isDisabled ? 'ui-select-option--disabled' : null,
+      isSelected ? 'ui-select-option--selected' : null
+    ]"
+    role="option"
+    :aria-selected="isSelected ? 'true' : 'false'"
+    :aria-disabled="isDisabled ? 'true' : null"
     @click="handleClick"
-    @keydown.enter="handleClick"
-    @keydown.space.prevent="handleClick"
   >
     <slot>{{ label || value }}</slot>
   </div>
@@ -55,25 +55,21 @@ export default {
 
   emits: [],
 
-  mounted() {
-    if (this.select && this.select.registerOption) {
-      this.select.registerOption(this.value, this.label || this.value)
-    }
-  },
-
   computed: {
     isSelected() {
-      return this.select ? this.select.value === this.value : false
+      return !!(this.select && this.select.value !== undefined && this.select.value === this.value)
     },
     isDisabled() {
-      return this.disabled || (this.select ? this.select.disabled : false)
+      return this.disabled || !!(this.select && this.select.disabled)
     }
   },
 
   methods: {
     handleClick() {
-      if (this.isDisabled || !this.select) return
-      this.select.select(this.value)
+      if (this.isDisabled) return
+      if (this.select && typeof this.select.select === 'function') {
+        this.select.select(this.value)
+      }
     }
   }
 }

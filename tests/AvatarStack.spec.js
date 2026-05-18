@@ -60,4 +60,58 @@ describe('WkAvatarStack', () => {
     const w = mount(WkAvatarStack, { props: { items: ITEMS, animation: 'none' } })
     expect(w.find('[class*="animation"]').exists()).toBe(false)
   })
+
+  it('renders custom #avatar slot content for each item', () => {
+    const Harness = {
+      components: { WkAvatarStack },
+      data: () => ({ items: ITEMS }),
+      template: `
+        <WkAvatarStack :items="items">
+          <template #avatar="{ avatar }">
+            <span class="custom-av">{{ avatar.name }}</span>
+          </template>
+        </WkAvatarStack>
+      `
+    }
+    const w = mount(Harness)
+    const customs = w.findAll('.custom-av')
+    expect(customs.length).toBe(3)
+    expect(customs[0].text()).toBe('Alice')
+    expect(customs[1].text()).toBe('Bob')
+  })
+
+  it('passes size to the #avatar slot scope', () => {
+    const received = []
+    const Harness = {
+      components: { WkAvatarStack },
+      data: () => ({ items: ITEMS.slice(0, 1), received }),
+      template: `
+        <WkAvatarStack :items="items" size="small">
+          <template #avatar="{ size }">
+            <span :class="'sz-' + size">x</span>
+          </template>
+        </WkAvatarStack>
+      `
+    }
+    const w = mount(Harness)
+    expect(w.find('.sz-small').exists()).toBe(true)
+  })
+
+  it('assigns descending z-index so first item sits above last', () => {
+    const w = mount(WkAvatarStack, { props: { items: ITEMS } })
+    const items = w.findAll('.ui-avatar-stack__item')
+    const z0 = parseInt(items[0].element.style.zIndex)
+    const z2 = parseInt(items[2].element.style.zIndex)
+    expect(z0).toBeGreaterThan(z2)
+  })
+
+  it('z-index works correctly with more than 4 items', () => {
+    const many = Array.from({ length: 8 }, (_, i) => ({ name: `User${i}`, src: '' }))
+    const w = mount(WkAvatarStack, { props: { items: many } })
+    const items = w.findAll('.ui-avatar-stack__item')
+    const z0 = parseInt(items[0].element.style.zIndex)
+    const z7 = parseInt(items[7].element.style.zIndex)
+    expect(z0).toBeGreaterThan(z7)
+    expect(z0 - z7).toBe(7)
+  })
 })

@@ -1,0 +1,116 @@
+.ui-dropdown-items {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-2xs);
+}
+
+.ui-dropdown-items__entry {
+  display: contents;
+}
+
+/* 9px total height: 4px margin + 1px line + 4px margin */
+.ui-dropdown-items__divider {
+  height: 1px;
+  background: var(--border-primary);
+  margin: 4px 0;
+  flex-shrink: 0;
+}
+
+.ui-dropdown-items__item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-7p5) var(--spacing-sm);
+  min-height: 36px;
+  border-radius: var(--radius-8, 8px);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--primary-fg);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s;
+}
+
+.ui-dropdown-items__item:hover:not(.ui-dropdown-items__item--disabled) {
+  background: var(--accent-bg);
+}
+
+.ui-dropdown-items__item--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ui-dropdown-items__item--sub {
+  padding-left: calc(var(--spacing-sm) + var(--spacing-md));
+}
+
+.ui-dropdown-items__group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mini label, 500 weight, muted — 5.5px vertical / 8px horizontal */
+.ui-dropdown-items__group-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-5p5) var(--spacing-xs);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-mini-font-size, 12px);
+  line-height: var(--paragraph-mini-line-height, 16px);
+  color: var(--muted-fg);
+  font-weight: 500;
+  cursor: default;
+  user-select: none;
+}
+
+.ui-dropdown-items__submenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-dropdown-items__submenu-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-7p5) var(--spacing-sm);
+  min-height: 36px;
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--muted-fg);
+  cursor: default;
+  user-select: none;
+}
+
+/* 20px container — icon SVG inside is typically 16px, centred */
+.ui-dropdown-items__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.ui-dropdown-items__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Extra/shortcut text — paragraph small, muted, right-aligned */
+.ui-dropdown-items__extra {
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--muted-fg);
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-left: var(--spacing-sm);
+  white-space: nowrap;
+}

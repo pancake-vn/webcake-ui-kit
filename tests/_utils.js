@@ -18,6 +18,9 @@ function patchWrapper(w) {
     }
     const origFind = w.find.bind(w)
     w.find = sel => patchWrapper(origFind(sel))
+    if (!w.unmount && typeof w.destroy === 'function') {
+      w.unmount = w.destroy.bind(w)
+    }
   }
   return w
 }

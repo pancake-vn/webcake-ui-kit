@@ -93,6 +93,7 @@
 </template>
 
 <script>
+import { acquire, release } from '../../floating/portal-root.js'
 import Button from '../button/Button.vue'
 import MinusIcon from '../../icons/MinusIcon.vue'
 import UnfoldVerticalIcon from '../../icons/UnfoldVerticalIcon.vue'
@@ -206,9 +207,9 @@ export default {
     this._prevFocus = null
     this._prevOverflow = ''
     this._prevPadding = ''
-    //Đẩy dialog ra ngoài body
-    if (typeof document !== 'undefined' && this.$el && this.$el.parentNode !== document.body) {
-      document.body.appendChild(this.$el)
+    if (typeof document !== 'undefined' && this.$el) {
+      this._dialogPortalRoot = acquire()
+      if (this._dialogPortalRoot) this._dialogPortalRoot.appendChild(this.$el)
     }
     if (typeof this.$on === 'function') {
       // eslint-disable-next-line vue/no-deprecated-events-api
@@ -234,7 +235,7 @@ export default {
       this.$emit('cancel', e)
       this.setOpen(false)
     },
-    onWrapMousedown(e) {
+    onWrapMousedown() {
       this._mousedownOnWrap = true
     },
     onWrapMouseup(e) {
@@ -296,8 +297,12 @@ export default {
     },
     cleanup() {
       this.unlockBody()
-      if (this.$el && this.$el.parentNode === document.body) {
-        document.body.removeChild(this.$el)
+      if (this.$el && this.$el.parentNode) {
+        this.$el.parentNode.removeChild(this.$el)
+      }
+      if (this._dialogPortalRoot) {
+        release()
+        this._dialogPortalRoot = null
       }
     }
   }

@@ -8,7 +8,6 @@ describe('WkDialog', () => {
 
   it('does not render dialog content when closed', () => {
     const w = mount(WkDialog, { props: { open: false } })
-    // WkDialog appends to body in mounted(); check there is no visible wrap.
     expect(document.querySelector('.ui-dialog-wrap')).toBeNull()
     w.unmount && w.unmount()
   })
@@ -18,6 +17,15 @@ describe('WkDialog', () => {
     await w.vm.$nextTick()
     expect(document.querySelector('.ui-dialog-wrap')).not.toBeNull()
     expect(document.body.textContent).toContain('Hello')
+    w.unmount && w.unmount()
+  })
+
+  it('mounts into #wk-portal-root inside body', async () => {
+    const w = mount(WkDialog, { props: { open: true, title: 'Portal' } })
+    await w.vm.$nextTick()
+    const root = document.body.querySelector('#wk-portal-root')
+    expect(root).not.toBeNull()
+    expect(root.querySelector('.ui-dialog-root')).not.toBeNull()
     w.unmount && w.unmount()
   })
 
@@ -53,5 +61,13 @@ describe('WkDialog', () => {
     await w.vm.$nextTick()
     expect(document.querySelector('.ui-dialog-footer')).toBeNull()
     w.unmount && w.unmount()
+  })
+
+  it('removes portal node from DOM on unmount', async () => {
+    const w = mount(WkDialog, { props: { open: true } })
+    await w.vm.$nextTick()
+    expect(document.body.querySelector('#wk-portal-root')).not.toBeNull()
+    w.unmount && w.unmount()
+    expect(document.body.querySelector('.ui-dialog-root')).toBeNull()
   })
 })

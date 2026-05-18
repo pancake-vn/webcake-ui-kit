@@ -110,23 +110,6 @@
   transform: rotate(180deg);
 }
 
-.ui-select__spinner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  color: var(--muted-fg);
-  animation: ui-select-spin 0.75s linear infinite;
-}
-
-@keyframes ui-select-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* — sizes — */
 .ui-select--lg {
   min-height: 40px;
@@ -163,45 +146,20 @@
   line-height: var(--paragraph-mini-line-height);
 }
 
-/* Dropdown — position/size set inline via JS (portal to body) */
-.ui-select__dropdown {
-  background: var(--input);
-  border: 1px solid var(--border-primary);
-  border-radius: var(--radius-10);
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
+/* List wrapper inside the portal'd Menu. Width is anchored to trigger via the
+   Menu component's anchorWidth prop (computes min-width). */
+.ui-select__list {
   display: flex;
   flex-direction: column;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.ui-select__dropdown .ui-select__options::-webkit-scrollbar {
-  display: none;
-}
-
-.ui-select__options {
   overflow-y: auto;
   padding: var(--spacing-2xs);
+  scrollbar-width: thin;
 }
 
-.ui-select__scroll-indicator {
-  position: absolute;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: var(--muted-fg);
-  background: var(--input);
-  padding: var(--spacing-2xs) 0;
+.ui-select__list::-webkit-scrollbar {
+  width: 6px;
 }
-
-.ui-select__scroll-indicator--up {
-  top: 0;
-}
-
-.ui-select__scroll-indicator--down {
-  bottom: 0;
+.ui-select__list::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+  border-radius: 3px;
 }

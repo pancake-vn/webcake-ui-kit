@@ -1,73 +1,72 @@
 <template>
-  <div
-    class="ui-select"
-    :class="[
-      `ui-select--${size}`,
-      {
-        'ui-select--open': isOpen,
-        'ui-select--disabled': disabled,
-        'ui-select--error': error,
-        'ui-select--loading': loading
-      }
-    ]"
-    tabindex="0"
-    @click="toggle"
-    @keydown.esc="close"
-    @keydown.enter.prevent="toggle"
-    @keydown.space.prevent="toggle"
+  <Menu
+    :open="isOpen"
+    :disabled="disabled || loading"
+    placement="bottom-start"
+    :offset="4"
+    :anchor-width="true"
+    :close-on-select="false"
+    @change="onMenuChange"
+    @close="onMenuClose"
   >
-    <span class="ui-select__left">
-      <span v-if="hasIconSlot" class="ui-select__icon">
-        <slot name="icon" />
-      </span>
-      <span v-if="prepend" class="ui-select__prepend">{{ prepend }}</span>
-      <span class="ui-select__value" :class="{ 'ui-select__value--placeholder': !selectedLabel }">
-        {{ selectedLabel || placeholder }}
-      </span>
-    </span>
-
-    <spinner v-if="loading" type="mirrored" size="sm" />
-    <span v-else class="ui-select__chevron">
-      <ChevronDownIcon :size="16" />
-    </span>
-
-    <div ref="dropdown" v-show="isOpen" class="ui-select__dropdown" :style="dropdownStyle" @click.stop>
-      <div v-if="canScrollUp" class="ui-select__scroll-indicator ui-select__scroll-indicator--up">
-        <ChevronUpIcon :size="16" />
-      </div>
+    <template #trigger="{ toggle, isOpen: open, attrs, triggerRef }">
       <div
-        ref="options"
-        class="ui-select__options"
-        :style="listHeight ? { maxHeight: listHeight + 'px' } : {}"
-        @scroll="updateScrollIndicators"
+        :ref="triggerRef"
+        class="ui-select"
+        :class="[
+          `ui-select--${size}`,
+          {
+            'ui-select--open': open,
+            'ui-select--disabled': disabled,
+            'ui-select--error': error,
+            'ui-select--loading': loading
+          }
+        ]"
+        tabindex="0"
+        v-bind="attrs"
+        @click="toggle"
+        @keydown.enter.prevent="toggle"
+        @keydown.space.prevent="toggle"
       >
-        <slot>
-          <select-option
-            v-for="opt in normalizedOptions"
-            :key="opt.value"
-            :value="opt.value"
-            :label="opt.label"
-            :disabled="opt.disabled"
-          />
-        </slot>
+        <span class="ui-select__left">
+          <span v-if="hasIconSlot" class="ui-select__icon">
+            <slot name="icon" />
+          </span>
+          <span v-if="prepend" class="ui-select__prepend">{{ prepend }}</span>
+          <span class="ui-select__value" :class="{ 'ui-select__value--placeholder': !selectedLabel }">
+            {{ selectedLabel || placeholder }}
+          </span>
+        </span>
+        <Spinner v-if="loading" type="mirrored" size="sm" />
+        <span v-else class="ui-select__chevron">
+          <ChevronDownIcon :size="16" />
+        </span>
       </div>
-      <div v-if="canScrollDown" class="ui-select__scroll-indicator ui-select__scroll-indicator--down">
-        <ChevronDownIcon :size="16" />
-      </div>
+    </template>
+    <div class="ui-select__list" :style="listStyle">
+      <slot>
+        <SelectOption
+          v-for="opt in normalizedOptions"
+          :key="opt.value"
+          :value="opt.value"
+          :label="opt.label"
+          :disabled="opt.disabled"
+        />
+      </slot>
     </div>
-  </div>
+  </Menu>
 </template>
 
 <script>
 import ChevronDownIcon from '../../icons/ChevronDownIcon.vue'
-import ChevronUpIcon from '../../icons/ChevronUpIcon.vue'
+import Menu from '../menu/Menu.vue'
 import SelectOption from '../select-option/SelectOption.vue'
 import Spinner from '../spinner/Spinner.vue'
 
 export default {
   name: 'Select',
 
-  components: { SelectOption, Spinner, ChevronDownIcon, ChevronUpIcon },
+  components: { Menu, SelectOption, Spinner, ChevronDownIcon },
 
   provide() {
     return { select: this }
@@ -83,7 +82,7 @@ export default {
       type: String,
       default: 'default',
       validator: function (v) {
-        return ['xs', 'sm', 'default', 'lg'].includes(v)
+        return ['xs', 'sm', 'default', 'lg'].indexOf(v) !== -1
       }
     },
     value: {
@@ -125,24 +124,7 @@ export default {
   data() {
     return {
       isOpen: false,
-      canScrollUp: false,
-      canScrollDown: false,
-      labelCache: {},
-      dropdownStyle: {}
-    }
-  },
-
-  watch: {
-    isOpen(val) {
-      if (val) {
-        this.$nextTick(() => {
-          this.positionDropdown()
-          this.updateScrollIndicators()
-        })
-      } else {
-        this.canScrollUp = false
-        this.canScrollDown = false
-      }
+      labelCache: {}
     }
   },
 
@@ -162,76 +144,25 @@ export default {
     },
     hasIconSlot() {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
+    },
+    listStyle() {
+      return { maxHeight: this.listHeight + 'px' }
     }
-  },
-
-  mounted() {
-    document.addEventListener('click', this.handleOutsideClick)
-    window.addEventListener('scroll', this.handleScroll, true)
-    window.addEventListener('resize', this.handleResize)
-    if (typeof document !== 'undefined' && this.$refs.dropdown) {
-      document.body.appendChild(this.$refs.dropdown)
-    }
-    if (typeof this.$on === 'function') {
-      // eslint-disable-next-line vue/no-deprecated-events-api
-      this.$on('hook:beforeDestroy', this.cleanup)
-    }
-  },
-
-  beforeUnmount() {
-    this.cleanup()
   },
 
   methods: {
-    toggle() {
-      if (this.disabled || this.loading) return
-      this.isOpen = !this.isOpen
+    onMenuChange(v) {
+      this.isOpen = v
     },
-    close() {
+    onMenuClose() {
       this.isOpen = false
     },
     select(val) {
       this.$emit('change', val)
-      this.close()
+      this.isOpen = false
     },
     registerOption(value, label) {
       this.labelCache = Object.assign({}, this.labelCache, { [value]: label })
-    },
-    positionDropdown() {
-      if (!this.$el || !this.$refs.dropdown) return
-      var rect = this.$el.getBoundingClientRect()
-      this.dropdownStyle = {
-        position: 'fixed',
-        top: rect.bottom + 4 + 'px',
-        left: rect.left + 'px',
-        width: rect.width + 'px',
-        zIndex: 1050
-      }
-    },
-    updateScrollIndicators() {
-      const el = this.$refs.options
-      if (!el) return
-      this.canScrollUp = el.scrollTop > 0
-      this.canScrollDown = el.scrollTop + el.clientHeight < el.scrollHeight
-    },
-    handleOutsideClick(e) {
-      if (!this.$el.contains(e.target) && !(this.$refs.dropdown && this.$refs.dropdown.contains(e.target))) {
-        this.close()
-      }
-    },
-    handleScroll() {
-      if (this.isOpen) this.positionDropdown()
-    },
-    handleResize() {
-      if (this.isOpen) this.positionDropdown()
-    },
-    cleanup() {
-      document.removeEventListener('click', this.handleOutsideClick)
-      window.removeEventListener('scroll', this.handleScroll, true)
-      window.removeEventListener('resize', this.handleResize)
-      if (this.$refs.dropdown && this.$refs.dropdown.parentNode === document.body) {
-        document.body.removeChild(this.$refs.dropdown)
-      }
     }
   }
 }

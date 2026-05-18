@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import { acquire, release } from '../../floating/portal-root.js'
+
 const GAP = 4
 
 export default {
@@ -83,7 +85,10 @@ export default {
   },
   mounted() {
     if (typeof document !== 'undefined' && this.$refs.tooltip) {
-      document.body.appendChild(this.$refs.tooltip)
+      this._tooltipPortalRoot = acquire()
+      if (this._tooltipPortalRoot) {
+        this._tooltipPortalRoot.appendChild(this.$refs.tooltip)
+      }
     }
     window.addEventListener('scroll', this.onScrollOrResize, true)
     window.addEventListener('resize', this.onScrollOrResize)
@@ -138,8 +143,12 @@ export default {
     cleanup() {
       window.removeEventListener('scroll', this.onScrollOrResize, true)
       window.removeEventListener('resize', this.onScrollOrResize)
-      if (this.$refs.tooltip && this.$refs.tooltip.parentNode === document.body) {
-        document.body.removeChild(this.$refs.tooltip)
+      if (this.$refs.tooltip && this.$refs.tooltip.parentNode) {
+        this.$refs.tooltip.parentNode.removeChild(this.$refs.tooltip)
+      }
+      if (this._tooltipPortalRoot) {
+        release()
+        this._tooltipPortalRoot = null
       }
     }
   }

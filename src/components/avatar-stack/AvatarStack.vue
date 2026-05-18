@@ -1,17 +1,20 @@
 <template>
   <span :class="['ui-avatar-stack', `ui-avatar-stack--${size}`]">
-    <Avatar
+    <span
       v-for="(item, idx) in visibleItems"
       :key="`avatar-${idx}`"
-      :size="size"
-      :src="item.src || ''"
-      :alt="item.alt || ''"
-      :name="item.name || ''"
       :class="itemClasses"
-    />
-    <Avatar v-if="overflowCount > 0" :size="size" :class="[...itemClasses, 'ui-avatar-stack__overflow']">
-      <slot name="overflow" v-bind="{ count: overflowCount }">{{ formattedOverflow }}</slot>
-    </Avatar>
+      :style="{ zIndex: totalCount - idx }"
+    >
+      <slot name="avatar" :avatar="item" :index="idx" :size="size">
+        <Avatar :size="size" :src="item.src || ''" :alt="item.alt || ''" :name="item.name || ''" />
+      </slot>
+    </span>
+    <span v-if="overflowCount > 0" :class="itemClasses" :style="{ zIndex: 0 }">
+      <Avatar :size="size" class="ui-avatar-stack__overflow">
+        <slot name="overflow" v-bind="{ count: overflowCount }">{{ formattedOverflow }}</slot>
+      </Avatar>
+    </span>
   </span>
 </template>
 
@@ -64,6 +67,9 @@ export default {
         return this.overflowLabel(this.overflowCount)
       }
       return '+' + this.overflowCount
+    },
+    totalCount() {
+      return this.visibleItems.length + (this.overflowCount > 0 ? 1 : 0)
     },
     itemClasses() {
       const classes = ['ui-avatar-stack__item']

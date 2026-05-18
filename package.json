@@ -28,6 +28,7 @@
     "./WkCheckboxGroup": "./src/components/checkbox-group/CheckboxGroup.vue",
     "./WkDialog": "./src/components/dialog/Dialog.vue",
     "./WkDivider": "./src/components/divider/Divider.vue",
+    "./WkDropdown": "./src/components/dropdown/Dropdown.vue",
     "./WkEmpty": "./src/components/empty/Empty.vue",
     "./WkEmptyIcon": "./src/components/empty-icon/EmptyIcon.vue",
     "./WkField": "./src/components/field/Field.vue",

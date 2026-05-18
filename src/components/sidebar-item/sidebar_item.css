@@ -21,12 +21,13 @@
 }
 
 .ui-sidebar-item:hover {
-  background-color: var(--color-brand-neutrals-50);
+  background-color: var(--sidebar-hover);
 }
 
 .ui-sidebar-item:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--sidebar-ring);
+  box-shadow: 0 0 0 3px var(--sidebar-ring);
+  background-color: var(--ghost);
 }
 
 .ui-sidebar-item:active {
@@ -35,7 +36,7 @@
 
 /* Active (selected page) */
 .ui-sidebar-item--active {
-  background-color: var(--color-brand-neutrals-200);
+  background-color: var(--sidebar-accent);
 }
 
 /* Disabled */
