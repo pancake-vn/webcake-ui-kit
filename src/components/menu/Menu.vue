@@ -133,6 +133,12 @@ export default {
       // eslint-disable-next-line vue/no-deprecated-events-api
       this.$on('hook:beforeDestroy', this._cleanupAll)
     }
+    if (!this._triggerEl && this.$el) {
+      const firstChild = this.$el.firstElementChild
+      if (firstChild && !firstChild.classList.contains('ui-menu-portal')) {
+        this._triggerEl = firstChild
+      }
+    }
     if (this.isOpen) this.handleOpen()
   },
   beforeUnmount() {
