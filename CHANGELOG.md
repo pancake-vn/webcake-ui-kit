@@ -4,6 +4,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.30] - 2026-05-18
+
+### Added
+
+- `WkSidebarItem` chevron area now exposes an `icon-right` named slot, allowing consumers to replace the default expand/collapse chevron with a custom icon.
+
+### Fixed
+
+- `WkMenu` now auto-detects its trigger element from the first non-portal child when no explicit trigger reference is set, preventing broken positioning in portal-based usage patterns.
+
 ## [1.0.29] - 2026-05-18
 
 ### Added
