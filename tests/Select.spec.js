@@ -4,9 +4,7 @@ import { mount } from './_utils.js'
 const FRUITS = ['Apple', 'Banana', 'Cherry']
 
 afterEach(() => {
-  document.body.querySelectorAll('.ui-select__dropdown').forEach(el => {
-    if (el.parentNode) el.parentNode.removeChild(el)
-  })
+  document.body.innerHTML = ''
 })
 
 describe('WkSelect', () => {
@@ -25,42 +23,45 @@ describe('WkSelect', () => {
   it('applies size class', () => {
     for (const size of ['xs', 'sm', 'default', 'lg']) {
       const w = mount(WkSelect, { props: { size, options: FRUITS } })
-      expect(w.classes()).toContain(`ui-select--${size}`)
+      expect(w.find('.ui-select').classes()).toContain(`ui-select--${size}`)
     }
   })
 
   it('applies error class', () => {
     const w = mount(WkSelect, { props: { error: true, options: FRUITS } })
-    expect(w.classes()).toContain('ui-select--error')
+    expect(w.find('.ui-select').classes()).toContain('ui-select--error')
   })
 
   it('applies disabled class', () => {
     const w = mount(WkSelect, { props: { disabled: true, options: FRUITS } })
-    expect(w.classes()).toContain('ui-select--disabled')
+    expect(w.find('.ui-select').classes()).toContain('ui-select--disabled')
   })
 
   it('applies loading class', () => {
     const w = mount(WkSelect, { props: { loading: true, options: FRUITS } })
-    expect(w.classes()).toContain('ui-select--loading')
+    expect(w.find('.ui-select').classes()).toContain('ui-select--loading')
   })
 
   it('opens dropdown on click', async () => {
     const w = mount(WkSelect, { props: { options: FRUITS } })
-    await w.trigger('click')
-    expect(w.classes()).toContain('ui-select--open')
-    expect(document.body.querySelector('.ui-select__dropdown')).not.toBeNull()
+    await w.find('.ui-select').trigger('click')
+    await w.vm.$nextTick()
+    expect(w.find('.ui-select').classes()).toContain('ui-select--open')
+    expect(document.body.querySelector('.ui-menu')).not.toBeNull()
   })
 
   it('does not open when disabled', async () => {
     const w = mount(WkSelect, { props: { disabled: true, options: FRUITS } })
-    await w.trigger('click')
-    expect(w.classes()).not.toContain('ui-select--open')
+    await w.find('.ui-select').trigger('click')
+    await w.vm.$nextTick()
+    expect(w.find('.ui-select').classes()).not.toContain('ui-select--open')
   })
 
   it('does not open when loading', async () => {
     const w = mount(WkSelect, { props: { loading: true, options: FRUITS } })
-    await w.trigger('click')
-    expect(w.classes()).not.toContain('ui-select--open')
+    await w.find('.ui-select').trigger('click')
+    await w.vm.$nextTick()
+    expect(w.find('.ui-select').classes()).not.toContain('ui-select--open')
   })
 
   it('renders prepend text', () => {

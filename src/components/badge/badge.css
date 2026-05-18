@@ -44,17 +44,22 @@
   color: var(--destructive-inverse-fg);
 }
 .ui-badge--info {
-  background: var(--info-500);
+  background: var(--blue-500);
   color: var(--inverse-fg);
 }
 .ui-badge--warning {
-  background: var(--warning-500);
+  background: var(--yellow-500);
   color: var(--inverse-fg);
 }
 
 .ui-badge:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.ui-badge--destructive:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring-error);
 }
 
 .ui-badge__icon {

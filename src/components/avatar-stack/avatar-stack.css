@@ -4,34 +4,35 @@
   vertical-align: middle;
 }
 
-/* Each child avatar overlaps the previous one and shows a white ring to
-   "punch out" of its neighbours. Box-shadow follows border-radius and does
-   not take up layout space, so the avatar dimensions stay intact. */
 .ui-avatar-stack__item {
   position: relative;
   margin-left: -8px;
-  box-shadow: 0 0 0 2px var(--primary-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  flex-shrink: 0;
+  z-index: 1;
+  border-radius: var(--rounded-full);
 }
+
 .ui-avatar-stack__item:first-child {
   margin-left: 0;
 }
 
-/* Stacking order: earlier siblings sit above later ones so the leftmost
-   avatar's ring is visible over its neighbour. */
-.ui-avatar-stack__item {
+/* Ring via pseudo-element so it follows the inner circle regardless of
+   how many wrapper elements sit between __item and the avatar (e.g. Tooltip). */
+.ui-avatar-stack__item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--primary-bg);
+  pointer-events: none;
   z-index: 1;
-}
-.ui-avatar-stack__item:nth-child(1) {
-  z-index: 5;
-}
-.ui-avatar-stack__item:nth-child(2) {
-  z-index: 4;
-}
-.ui-avatar-stack__item:nth-child(3) {
-  z-index: 3;
-}
-.ui-avatar-stack__item:nth-child(4) {
-  z-index: 2;
 }
 
 /* Overflow chip — same shape as siblings, slightly darker background. */
@@ -41,10 +42,8 @@
 }
 
 /* ============================ Animations ============================
-   Three loop animations the consumer opts into via the `animation` prop
-   on AvatarStack. Each animation is applied to every visible avatar
-   child (including the "+N" overflow chip). All honour
-   `prefers-reduced-motion: reduce`. */
+   Three loop animations the consumer opts into via the `animation` prop.
+   Applied to the wrapper span so the ring pseudo-element animates too. */
 
 @keyframes ui-avatar-stack-pulse {
   0%,
@@ -90,9 +89,12 @@
 .ui-avatar-stack__item--animation-ring::after {
   content: '';
   position: absolute;
-  inset: -3px;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+  left: -3px;
   border-radius: inherit;
-  border: 2px solid var(--positive-500);
+  border: 2px solid var(--green-500);
   pointer-events: none;
   animation: ui-avatar-stack-ring 1.6s ease-out infinite;
 }

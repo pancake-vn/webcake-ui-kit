@@ -73,7 +73,7 @@
   right: 0;
   bottom: 0;
   border-radius: var(--rounded-full);
-  background: var(--positive-500);
+  background: var(--green-500);
   box-shadow: 0 0 0 2px var(--primary-bg);
 }
 .ui-avatar--regular .ui-avatar__indicator {

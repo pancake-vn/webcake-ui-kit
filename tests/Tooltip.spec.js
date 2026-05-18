@@ -2,9 +2,7 @@ import { WkTooltip } from '../src/index.js'
 import { mount } from './_utils.js'
 
 afterEach(() => {
-  document.body.querySelectorAll('.ui-tooltip__content').forEach(el => {
-    if (el.parentNode) el.parentNode.removeChild(el)
-  })
+  document.body.innerHTML = ''
 })
 
 describe('WkTooltip', () => {
@@ -21,9 +19,12 @@ describe('WkTooltip', () => {
     expect(w.find('.trigger-btn').exists()).toBe(true)
   })
 
-  it('teleports tooltip content to document.body on mount', () => {
+  it('teleports tooltip content into portal root on mount', () => {
     mount(WkTooltip, { props: { title: 'My tooltip', open: true } })
     expect(document.body.querySelector('.ui-tooltip__content')).not.toBeNull()
+    const portal = document.body.querySelector('#wk-portal-root')
+    expect(portal).not.toBeNull()
+    expect(portal.querySelector('.ui-tooltip__content')).not.toBeNull()
   })
 
   it('shows title text inside tooltip', () => {
