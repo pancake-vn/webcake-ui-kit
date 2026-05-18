@@ -4,6 +4,27 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.29] - 2026-05-18
+
+### Added
+
+- `WkMenu` is a new portal-based floating menu primitive that handles placement, z-index stacking, click-outside dismissal, Escape/Tab keyboard handling, and focus management; it is the shared foundation for overlay components.
+- `WkDropdown` is a new dropdown component built on `WkMenu` that supports click and hover trigger modes, an `items` prop for structured menu lists (regular items, groups, submenus, dividers), configurable placement and width, and `open`/`close`/`select` events.
+- `WkAvatarStack` now accepts an `avatar` scoped slot (bound with `avatar`, `index`, and `size`) for fully custom avatar rendering per item.
+
+### Changed
+
+- `WkSelect` dropdown panel is now rendered through the shared `WkMenu` portal layer, providing correct z-index stacking, Escape/Tab keyboard dismissal, and automatic trigger-width anchoring.
+- `WkSelectOption` now renders with `role="option"`, `aria-selected`, and `aria-disabled` ARIA attributes for improved screen-reader accessibility.
+- `WkAvatarStack` items now receive descending z-index values so avatar images overlap in the correct visual order.
+- `WkDialog` and `WkTooltip` portal attachment now uses the shared portal-root module instead of appending directly to `document.body`.
+- Design tokens in the shared token sheet are remapped from `--color-neutral-*` to the `--color-brand-neutrals-*` palette; notification tokens are renamed from `--positive-500`, `--info-500`, and `--warning-500` to `--green-500`, `--blue-500`, and `--yellow-500`; a new `--sidebar-hover` token is added.
+
+### Fixed
+
+- `WkBadge` destructive variant now renders a red focus ring using `--focus-ring-error` on `:focus-visible` instead of the generic neutral ring.
+- `WkSidebarItem` hover background is corrected to use the new `--sidebar-hover` token, the focus-visible ring is widened to `3px`, and the active background is updated to `--sidebar-accent`.
+
 ## [1.0.28] - 2026-05-16
 
 ### Added
