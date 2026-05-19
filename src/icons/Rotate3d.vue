@@ -1,0 +1,33 @@
+<template>
+  <BaseIcon v-bind="$attrs" v-on="listeners">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m15.194 13.707 3.814 1.86-1.86 3.814" />
+      <path d="M16.47214 7.52786 A 5 10 0 1 0 13 21.79796" />
+      <path d="M21.79796 11 A 10 5 0 1 0 19 15.57071" />
+    </svg>
+  </BaseIcon>
+</template>
+
+<script>
+import BaseIcon from './BaseIcon.vue'
+
+export default {
+  name: 'Rotate3d',
+  components: { BaseIcon },
+  inheritAttrs: false,
+  emits: [],
+  computed: {
+    listeners() {
+      return this.$listeners || {}
+    }
+  }
+}
+</script>

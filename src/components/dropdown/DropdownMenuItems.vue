@@ -14,7 +14,10 @@
           v-for="child in item.children || []"
           :key="child.key"
           class="ui-dropdown-items__item"
-          :class="{ 'ui-dropdown-items__item--disabled': child.disabled }"
+          :class="{
+            'ui-dropdown-items__item--disabled': child.disabled,
+            'ui-dropdown-items__item--destructive': child.destructive
+          }"
           :title="child.title || undefined"
           @click="onItemClick(child)"
         >
@@ -28,7 +31,10 @@
       <div v-else-if="item._type === 'submenu'" class="ui-dropdown-items__submenu">
         <div
           class="ui-dropdown-items__submenu-label"
-          :class="{ 'ui-dropdown-items__item--disabled': item.disabled }"
+          :class="{
+            'ui-dropdown-items__item--disabled': item.disabled,
+            'ui-dropdown-items__item--destructive': item.destructive
+          }"
           :title="item.title || undefined"
         >
           <component :is="item.icon" v-if="item.icon && isComponent(item.icon)" class="ui-dropdown-items__icon" />
@@ -38,7 +44,10 @@
           v-for="child in item.children || []"
           :key="child.key"
           class="ui-dropdown-items__item ui-dropdown-items__item--sub"
-          :class="{ 'ui-dropdown-items__item--disabled': child.disabled || item.disabled }"
+          :class="{
+            'ui-dropdown-items__item--disabled': child.disabled || item.disabled,
+            'ui-dropdown-items__item--destructive': child.destructive
+          }"
           :title="child.title || undefined"
           @click="onItemClick(child, item)"
         >
@@ -52,7 +61,10 @@
       <div
         v-else
         class="ui-dropdown-items__item"
-        :class="{ 'ui-dropdown-items__item--disabled': item.disabled }"
+        :class="{
+          'ui-dropdown-items__item--disabled': item.disabled,
+          'ui-dropdown-items__item--destructive': item.destructive
+        }"
         :title="item.title || undefined"
         @click="onItemClick(item)"
       >

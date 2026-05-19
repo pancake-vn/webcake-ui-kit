@@ -1,0 +1,33 @@
+<template>
+  <BaseIcon v-bind="$attrs" v-on="listeners">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M15 11h4.5a1 1 0 0 1 0 5h-4a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h3a1 1 0 0 1 0 5" />
+      <path d="m2 16 4.039-9.69a.5.5 0 0 1 .923 0L11 16" />
+      <path d="M3.304 13h6.392" />
+    </svg>
+  </BaseIcon>
+</template>
+
+<script>
+import BaseIcon from './BaseIcon.vue'
+
+export default {
+  name: 'CaseUpper',
+  components: { BaseIcon },
+  inheritAttrs: false,
+  emits: [],
+  computed: {
+    listeners() {
+      return this.$listeners || {}
+    }
+  }
+}
+</script>

@@ -1,0 +1,33 @@
+<template>
+  <BaseIcon v-bind="$attrs" v-on="listeners">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path
+        d="M18 7V5a1 1 0 0 0-1-1H6.5a.5.5 0 0 0-.4.8l4.5 6a2 2 0 0 1 0 2.4l-4.5 6a.5.5 0 0 0 .4.8H17a1 1 0 0 0 1-1v-2"
+      />
+    </svg>
+  </BaseIcon>
+</template>
+
+<script>
+import BaseIcon from './BaseIcon.vue'
+
+export default {
+  name: 'Sigma',
+  components: { BaseIcon },
+  inheritAttrs: false,
+  emits: [],
+  computed: {
+    listeners() {
+      return this.$listeners || {}
+    }
+  }
+}
+</script>

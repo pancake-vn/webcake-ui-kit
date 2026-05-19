@@ -1,31 +1,32 @@
 <template>
-  <svg
-    class="ui-icon"
-    :width="size"
-    :height="size"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    :aria-hidden="label ? undefined : 'true'"
-    :aria-label="label || undefined"
-  >
-    <circle cx="12" cy="12" r="1" />
-    <circle cx="19" cy="12" r="1" />
-    <circle cx="5" cy="12" r="1" />
-  </svg>
+  <BaseIcon v-bind="$attrs" v-on="listeners">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="1" />
+      <circle cx="19" cy="12" r="1" />
+      <circle cx="5" cy="12" r="1" />
+    </svg>
+  </BaseIcon>
 </template>
 
 <script>
+import BaseIcon from './BaseIcon.vue'
+
 export default {
   name: 'EllipsisIcon',
-  props: {
-    size: { type: Number, default: 20 },
-    label: { type: String, default: '' }
-  },
-  emits: []
+  components: { BaseIcon },
+  inheritAttrs: false,
+  emits: [],
+  computed: {
+    listeners() {
+      return this.$listeners || {}
+    }
+  }
 }
 </script>
-
-<style src="./icon.css" scoped></style>

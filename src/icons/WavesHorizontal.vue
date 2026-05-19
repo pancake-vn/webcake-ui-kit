@@ -1,0 +1,33 @@
+<template>
+  <BaseIcon v-bind="$attrs" v-on="listeners">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M2 12q2.5 2 5 0t5 0 5 0 5 0" />
+      <path d="M2 19q2.5 2 5 0t5 0 5 0 5 0" />
+      <path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" />
+    </svg>
+  </BaseIcon>
+</template>
+
+<script>
+import BaseIcon from './BaseIcon.vue'
+
+export default {
+  name: 'WavesHorizontal',
+  components: { BaseIcon },
+  inheritAttrs: false,
+  emits: [],
+  computed: {
+    listeners() {
+      return this.$listeners || {}
+    }
+  }
+}
+</script>
