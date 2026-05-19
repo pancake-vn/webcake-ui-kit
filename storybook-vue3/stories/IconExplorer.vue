@@ -462,8 +462,8 @@ export default {
       if (t.closest && (t.closest('.ix__popover') || t.closest('.ix__cell'))) return
       this.copyMenu.open = false
     },
-    copyName(icon) {
-      const target = icon || this.copyMenu.icon
+    copyName(iconOrEvent) {
+      const target = iconOrEvent && iconOrEvent.displayName ? iconOrEvent : this.copyMenu.icon
       this.copyToClipboard(target.displayName)
       this.showToast(`Copied — ${target.displayName}`)
       this.copyMenu.open = false
