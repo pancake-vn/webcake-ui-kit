@@ -18,7 +18,11 @@ module.exports = {
     'vue/no-reserved-component-names': 'off',
     // The repo's dual-compat slot detection (`$scopedSlots || $slots`) is mandated by
     // CLAUDE.md / vue-dual-component skill — required for Vue 2.6+ v-slot users.
-    'vue/no-deprecated-dollar-scopedslots-api': 'off'
+    'vue/no-deprecated-dollar-scopedslots-api': 'off',
+    // `this.$listeners || {}` is the Vue 2/3 dual-compat event-forwarding pattern
+    // used in all icon components. Vue 3 merges $listeners into $attrs; the `|| {}`
+    // fallback makes the pattern safe on both targets.
+    'vue/no-deprecated-dollar-listeners-api': 'off'
   },
   overrides: [
     {

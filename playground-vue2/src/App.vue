@@ -370,27 +370,20 @@
 
       <section class="section">
         <h2>Tooltip — color & arrow</h2>
-        <div class="tooltip-examples">
-          <WkTooltip side="top" title="Default color" :open="tooltipsPinned">
-            <span class="tooltip-anchor" tabindex="0">default</span>
-          </WkTooltip>
-          <WkTooltip side="top" title="Brand color" color="brand" :open="tooltipsPinned">
-            <span class="tooltip-anchor" tabindex="0">brand</span>
-          </WkTooltip>
-          <WkTooltip side="top" title="Destructive" color="destructive" :open="tooltipsPinned">
-            <span class="tooltip-anchor" tabindex="0">destructive</span>
-          </WkTooltip>
-          <WkTooltip side="top" title="No arrow" :arrow="false" :open="tooltipsPinned">
-            <span class="tooltip-anchor" tabindex="0">arrow = false</span>
-          </WkTooltip>
-        </div>
+
+        <WkiAArrowDown color="var(--green-500)" fill="var(--green-500)" />
+        <WkiAArrowUp color="var(--blue-500)" :size="64" :stroke-width="1" />
+
+        <WkDropdown :items="dropdownItems">
+          <WkButton>Dropdown</WkButton>
+        </WkDropdown>
       </section>
     </div>
   </div>
 </template>
 
 <script>
-import WkiSection from '../../src/icons/ChevronDownIcon.vue'
+import { WkiAArrowDown, WkiAArrowUp } from '../../src/icons'
 const HOUSE_ICON =
   '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">' +
   '<path d="m1.5 8 6.5-5.5L14.5 8M3 7v6.5h10V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />' +
@@ -409,6 +402,19 @@ export default {
       openDialog: false,
       openDialog2: false,
       selected: '',
+      dropdownItems: [
+        {
+          key: 'edit',
+          label: 'Edit',
+          icon: WkiAArrowDown,
+          destructive: true,
+          children: [
+            { key: 'edit', label: 'Edit', icon: WkiAArrowDown, destructive: true },
+            { key: 'delete', label: 'Delete', icon: WkiAArrowUp }
+          ]
+        },
+        { key: 'delete', label: 'Delete', icon: WkiAArrowUp }
+      ],
       avatarStackItems: [
         { name: 'AB' },
         { name: 'CD' },
@@ -566,7 +572,8 @@ export default {
     }
   },
   components: {
-    WkiSection
+    WkiAArrowDown,
+    WkiAArrowUp
   },
   computed: {
     optionsState() {

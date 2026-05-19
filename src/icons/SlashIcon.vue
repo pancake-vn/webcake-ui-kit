@@ -1,29 +1,30 @@
 <template>
-  <svg
-    class="ui-icon"
-    :width="size"
-    :height="size"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    :aria-hidden="label ? undefined : 'true'"
-    :aria-label="label || undefined"
-  >
-    <path d="M22 2 2 22" />
-  </svg>
+  <BaseIcon v-bind="$attrs" v-on="listeners">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M22 2 2 22" />
+    </svg>
+  </BaseIcon>
 </template>
 
 <script>
+import BaseIcon from './BaseIcon.vue'
+
 export default {
   name: 'SlashIcon',
-  props: {
-    size: { type: Number, default: 20 },
-    label: { type: String, default: '' }
-  },
-  emits: []
+  components: { BaseIcon },
+  inheritAttrs: false,
+  emits: [],
+  computed: {
+    listeners() {
+      return this.$listeners || {}
+    }
+  }
 }
 </script>
-
-<style src="./icon.css" scoped></style>

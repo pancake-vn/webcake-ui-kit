@@ -42,6 +42,10 @@
   pointer-events: none;
 }
 
+.ui-dropdown-items__item--destructive {
+  color: var(--destructive-text);
+}
+
 .ui-dropdown-items__item--sub {
   padding-left: calc(var(--spacing-sm) + var(--spacing-md));
 }

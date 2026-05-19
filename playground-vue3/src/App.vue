@@ -400,11 +400,20 @@
           </WkTooltip>
         </div>
       </section>
+
+      <section class="section">
+        <h2>Tooltip — color & arrow</h2>
+
+        <WkiAArrowDown color="var(--green-500)" fill="var(--green-500)" />
+        <WkiAArrowUp color="var(--blue-500)" :size="64" :stroke-width="1" />
+        <WkiChessBishop color="var(--blue-500)" :size="64" :stroke-width="1" />
+      </section>
     </div>
   </div>
 </template>
 
 <script>
+import { WkiAArrowDown, WkiAArrowUp, WkiChessBishop } from '../../src/icons'
 const HOUSE_ICON =
   '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">' +
   '<path d="m1.5 8 6.5-5.5L14.5 8M3 7v6.5h10V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />' +
@@ -579,6 +588,11 @@ export default {
         }
       ]
     }
+  },
+  components: {
+    WkiAArrowDown,
+    WkiAArrowUp,
+    WkiChessBishop
   },
   computed: {
     optionsState() {
