@@ -30,15 +30,15 @@
       <div class="ix__search">
         <input
           ref="searchInput"
-          v-model="query"
+          v-model="rawQuery"
           type="search"
-          placeholder="Search icons — name, tags, categories (BM25-ranked)"
+          placeholder="Search icons — name, tags, categories"
           autocomplete="off"
           class="ix__search-input"
         />
         <div class="ix__search-hint">
           <span>{{ filteredCount }} / {{ totalIcons }}</span>
-          <button v-if="query" type="button" class="ix__clear" @click="query = ''">clear</button>
+          <button v-if="rawQuery" type="button" class="ix__clear" @click="rawQuery = ''">clear</button>
         </div>
       </div>
 
@@ -70,7 +70,8 @@
               class="ix__cell"
               :data-icon-id="icon.displayName"
               :title="icon.displayName"
-              @click="openCopyMenu($event, icon)"
+              @click.stop="openCopyMenu($event, icon)"
+              @dblclick.stop="copyName(icon)"
             >
               <span class="ix__cell-glyph">
                 <component
@@ -310,7 +311,9 @@ export default {
   name: 'IconExplorer',
   data() {
     return {
+      rawQuery: '',
       query: '',
+      debounceTimer: null,
       activeCategory: '__all__',
       // Chunked-mount cursor: any icon whose _idx <= mountCursor has been
       // materialised. Seeded with the first chunk so the first paint shows
@@ -382,6 +385,12 @@ export default {
     }
   },
   watch: {
+    rawQuery(val) {
+      if (this.debounceTimer) clearTimeout(this.debounceTimer)
+      this.debounceTimer = setTimeout(() => {
+        this.query = val
+      }, 500)
+    },
     bm25Hits(hits) {
       // The chunked mount walks ICONS in order. If the user searches before
       // the cursor has walked to the matching icons, advance the cursor to
@@ -414,6 +423,7 @@ export default {
   },
   beforeUnmount() {
     if (this.mountRaf) cancelAnimationFrame(this.mountRaf)
+    if (this.debounceTimer) clearTimeout(this.debounceTimer)
     document.removeEventListener('click', this.onDocClick, true)
     if (this.toastTimer) clearTimeout(this.toastTimer)
   },
@@ -452,10 +462,10 @@ export default {
       if (t.closest && (t.closest('.ix__popover') || t.closest('.ix__cell'))) return
       this.copyMenu.open = false
     },
-    copyName() {
-      const name = this.copyMenu.icon.displayName
-      this.copyToClipboard(name)
-      this.showToast(`Copied name — ${name}`)
+    copyName(icon) {
+      const target = icon || this.copyMenu.icon
+      this.copyToClipboard(target.displayName)
+      this.showToast(`Copied — ${target.displayName}`)
       this.copyMenu.open = false
     },
     copyImport() {
@@ -552,7 +562,7 @@ export default {
 }
 .ix__sidebar-btn--active {
   background: #e9eefd;
-  color: #1f47e6;
+  color: #13823b;
   font-weight: 600;
 }
 .ix__sidebar-label {
@@ -593,8 +603,8 @@ export default {
     box-shadow 0.12s ease;
 }
 .ix__search-input:focus {
-  border-color: #1f47e6;
-  box-shadow: 0 0 0 3px rgba(31, 71, 230, 0.15);
+  border-color: #13823b;
+  box-shadow: 0 0 0 3px rgba(38, 194, 30, 0.15);
 }
 .ix__search-hint {
   font-size: 12px;
@@ -609,7 +619,7 @@ export default {
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #1f47e6;
+  color: #13823b;
   padding: 2px 6px;
   font: inherit;
   font-size: 12px;
@@ -688,7 +698,7 @@ export default {
 }
 .ix__cell:focus-visible {
   outline: none;
-  border-color: #1f47e6;
+  border-color: #13823b;
   box-shadow: 0 0 0 3px rgba(31, 71, 230, 0.18);
 }
 .ix__cell-glyph {
@@ -769,7 +779,7 @@ export default {
   padding: 6px 10px;
   cursor: pointer;
   font: inherit;
-  color: #1f47e6;
+  color: #13823b;
   margin-bottom: 6px;
 }
 .ix__popover-btn:hover {
