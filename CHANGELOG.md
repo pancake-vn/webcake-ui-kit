@@ -4,6 +4,21 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-05-19
+
+### Added
+
+- 1711 Lucide icon components are now available as `Wki`-prefixed exports (e.g., `WkiArrowDown`, `WkiCheck`, `WkiSearch`); all icons are Vue 2/3 dual-compatible and accept `size`, `color`, `strokeWidth`, and `fill` props via the shared `BaseIcon` wrapper.
+- `WkDropdown` menu items and submenu labels now support a `destructive` boolean property that renders the item in `--destructive-text` color; the property is honored on top-level items, submenu group labels, and submenu children.
+
+### Changed
+
+- The 17 remaining hand-crafted icon components (`WkiSurvey`, `WkiButton`, `WkiTab`, `WkiImageMarquee`, `WkiPadding`, `WkiCreateBom`, `WkiLine`, `WkiRectangleDot`, `WkiSmallDot`, `WkiBottom`, `WkiTop`, `WkiRight`, `WkiLeft`, `WkiTopLeft`, `WkiTopRight`, `WkiBottomRight`, `WkiBottomLeft`) are now built on the shared `BaseIcon` wrapper, giving them consistent `size`, `color`, `strokeWidth`, and `fill` prop support.
+
+### Removed
+
+- `WkiSection` is no longer exported from the icon library.
+
 ## [1.0.30] - 2026-05-18
 
 ### Added
