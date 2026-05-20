@@ -1,15 +1,15 @@
 <template>
   <span class="ui-spinner" :class="[`ui-spinner--${size}`, `ui-spinner--${type}`]" role="status" :aria-label="label">
-    <LoaderCircleIcon class="ui-spinner__svg" />
+    <WkiLoaderCircle class="ui-spinner__svg" />
   </span>
 </template>
 
 <script>
-import LoaderCircleIcon from '../../icons/LoaderCircleIcon.vue'
+import WkiLoaderCircle from '../../icons/LoaderCircle.vue'
 export default {
   name: 'Spinner',
   components: {
-    LoaderCircleIcon
+    WkiLoaderCircle
   },
   props: {
     size: {

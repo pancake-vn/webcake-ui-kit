@@ -1,5 +1,6 @@
 <template>
   <Dialog
+    v-bind="$attrs"
     :open="isOpen"
     :show-header="false"
     :footer="true"

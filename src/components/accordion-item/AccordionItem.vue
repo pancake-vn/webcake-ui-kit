@@ -26,7 +26,7 @@
       </span>
       <span :class="['ui-accordion-item__icon', isOpen && 'ui-accordion-item__icon--open']">
         <slot name="icon">
-          <ChevronDownIcon :size="16" />
+          <WkiChevronDown :size="16" />
         </slot>
       </span>
     </button>
@@ -37,13 +37,13 @@
 </template>
 
 <script>
-import ChevronDownIcon from '../../icons/ChevronDownIcon.vue'
+import WkiChevronDown from '../../icons/ChevronDown.vue'
 
 let uidCounter = 0
 
 export default {
   name: 'AccordionItem',
-  components: { ChevronDownIcon },
+  components: { WkiChevronDown },
   inject: {
     accordion: { default: null }
   },

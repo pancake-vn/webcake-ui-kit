@@ -21,6 +21,5 @@ export const Explorer = () => ({
 
 Explorer.parameters = {
   // No controls / args — this is a docs-style explorer, not a parameterized story.
-  controls: { hideNoControlsWarning: true },
   docs: { source: { code: '' } }
 }

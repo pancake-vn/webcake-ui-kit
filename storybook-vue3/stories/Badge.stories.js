@@ -1,5 +1,5 @@
 import WkBadge from '../../src/components/badge/Badge.vue'
-import CircleXIcon from '../../src/icons/CircleXIcon.vue'
+import { WkiCircleX } from '../../src/icons'
 
 const VARIANTS = ['primary', 'secondary', 'outline', 'ghost', 'destructive', 'info', 'warning']
 const ROUNDNESS = ['default', 'round']
@@ -96,28 +96,28 @@ Matrix.parameters = {
 }
 
 export const WithIcons = () => ({
-  components: { WkBadge, CircleXIcon },
+  components: { WkBadge, WkiCircleX },
   template: `
     <div style="display: flex; gap: 12px; align-items: center;">
       <WkBadge variant="primary">
         <template #icon-left>
-          <CircleXIcon :size="12" />
+          <WkiCircleX :size="12" />
         </template>
         Left icon
       </WkBadge>
       <WkBadge variant="secondary">
         Right icon
         <template #icon-right>
-          <CircleXIcon :size="12" />
+          <WkiCircleX :size="12" />
         </template>
       </WkBadge>
       <WkBadge variant="info">
         <template #icon-left>
-          <CircleXIcon :size="12" />
+          <WkiCircleX :size="12" />
         </template>
         Both
         <template #icon-right>
-          <CircleXIcon :size="12" />
+          <WkiCircleX :size="12" />
         </template>
       </WkBadge>
     </div>

@@ -78,6 +78,7 @@
 
   /* Components */
   --card: var(--color-white-alpha-100);
+  --card-hover: var(--color-neutral-50);
   --card-foreground: var(--color-brand-neutrals-950);
 
   --popover: var(--color-white-alpha-100);
@@ -184,6 +185,7 @@
 
   /* Components */
   --card: var(--color-brand-neutrals-900);
+  --card-hover: var(--color-brand-neutrals-800);
   --card-foreground: var(--color-white-alpha-100);
 
   --popover: var(--color-black-alpha-100);

@@ -1,5 +1,5 @@
 import WkInput from '../../src/components/input/Input.vue'
-import SearchIcon from '../../src/icons/SearchIcon.vue'
+import { WkiSearch } from '../../src/icons'
 
 const SIZES = ['xs', 'sm', 'md', 'lg']
 const ROUNDNESS = ['default', 'round']
@@ -110,12 +110,12 @@ Matrix.parameters = {
 }
 
 export const WithSlots = () => ({
-  components: { WkInput, SearchIcon },
+  components: { WkInput, WkiSearch },
   template: `
     <div style="display: flex; flex-direction: column; gap: 12px; max-width: 320px;">
       <WkInput placeholder="Search...">
         <template #prefix>
-          <SearchIcon :size="16" />
+          <WkiSearch :size="16" />
         </template>
       </WkInput>
       <WkInput placeholder="0.00">

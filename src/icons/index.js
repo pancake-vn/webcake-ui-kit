@@ -1728,4 +1728,6 @@ export { default as WkiZodiacTaurus } from './ZodiacTaurus.vue'
 export { default as WkiZodiacVirgo } from './ZodiacVirgo.vue'
 export { default as WkiZoomIn } from './ZoomIn.vue'
 export { default as WkiZoomOut } from './ZoomOut.vue'
+export { default as WkiClickButton } from './ClickButton.vue'
+export { default as WkiSectionBuilder } from './SectionBuilder.vue'
 // --- AUTO-GENERATED LUCIDE EXPORTS END ---

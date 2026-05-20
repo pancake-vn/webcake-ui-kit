@@ -16,7 +16,7 @@
         ><slot>{{ label }}</slot></span
       >
       <span class="ui-sidebar-group-label__chevron" aria-hidden="true">
-        <ChevronDownIcon :size="16" />
+        <WkiChevronDown :size="16" />
       </span>
     </button>
     <span v-else class="ui-sidebar-group-label__text"
@@ -29,11 +29,11 @@
 </template>
 
 <script>
-import ChevronDownIcon from '../../icons/ChevronDownIcon.vue'
+import WkiChevronDown from '../../icons/ChevronDown.vue'
 export default {
   name: 'SidebarGroupLabel',
   components: {
-    ChevronDownIcon
+    WkiChevronDown
   },
   props: {
     label: {
