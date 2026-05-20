@@ -4,6 +4,22 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-05-20
+
+### Added
+
+- `WkiSectionBuilder` and `WkiClickButton` are two new custom icon components available as `Wki`-prefixed exports, built on the shared `BaseIcon` wrapper.
+- `WkDropdown` menu items now accept `color` and `colorIcon` string properties to apply inline color styling to an item's label and icon respectively; the properties are honored on regular items, group labels, submenu labels, and their children.
+- A new `--card-hover` design token is added to the shared token sheet for both light (`--color-neutral-50`) and dark (`--color-brand-neutrals-800`) themes.
+
+### Changed
+
+- `WkAccordionItem`, `WkBreadcrumb`, `WkCheckbox`, `WkDialog`, `WkPagination`, `WkSelect`, `WkSidebarGroupLabel`, and `WkSpinner` now use the shared Lucide-generated `Wki*` icon components internally instead of the private hand-crafted icon wrappers, which have been removed.
+
+### Fixed
+
+- `WkAlertDialog` now forwards consumer-supplied attributes (`$attrs`) to the underlying `WkDialog`, preventing them from being silently dropped.
+
 ## [1.1.0] - 2026-05-19
 
 ### Added
