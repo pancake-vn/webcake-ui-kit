@@ -2,7 +2,7 @@
   <nav class="ui-pagination" role="navigation" :aria-label="ariaLabel" :class="{ 'ui-pagination--disabled': disabled }">
     <Button variant="ghost" :disabled="isPrevDisabled" @click="goPrev" :label="prevLabel || ''">
       <template v-if="showIcon" #icon-left>
-        <ChevronLeftIcon />
+        <WkiChevronLeft />
       </template>
     </Button>
 
@@ -24,14 +24,14 @@
         @click="onEllipsisClick(item)"
       >
         <template #icon>
-          <EllipsisIcon />
+          <WkiEllipsis />
         </template>
       </Button>
     </template>
 
     <Button variant="ghost" :disabled="isNextDisabled" @click="goNext" :label="nextLabel || ''">
       <template v-if="showIcon" #icon-right>
-        <ChevronRightIcon />
+        <WkiChevronRight />
       </template>
     </Button>
   </nav>
@@ -39,9 +39,9 @@
 
 <script>
 import Button from '../button/Button.vue'
-import ChevronLeftIcon from '../../icons/ChevronLeftIcon.vue'
-import ChevronRightIcon from '../../icons/ChevronRightIcon.vue'
-import EllipsisIcon from '../../icons/EllipsisIcon.vue'
+import WkiChevronLeft from '../../icons/ChevronLeft.vue'
+import WkiChevronRight from '../../icons/ChevronRight.vue'
+import WkiEllipsis from '../../icons/Ellipsis.vue'
 
 function range(start, end) {
   if (end < start) return []
@@ -52,7 +52,7 @@ function range(start, end) {
 
 export default {
   name: 'Pagination',
-  components: { Button, ChevronLeftIcon, ChevronRightIcon, EllipsisIcon },
+  components: { Button, WkiChevronLeft, WkiChevronRight, WkiEllipsis },
 
   model: {
     prop: 'current',

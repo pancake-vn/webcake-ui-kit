@@ -10,17 +10,17 @@
       @change="onChange"
     />
     <span class="ui-checkbox__box" aria-hidden="true">
-      <CheckIcon v-if="isChecked" :size="16" />
+      <WkiCheck v-if="isChecked" :size="16" />
     </span>
   </span>
 </template>
 
 <script>
-import CheckIcon from '../../icons/CheckIcon.vue'
+import WkiCheck from '../../icons/Check.vue'
 
 export default {
   name: 'Checkbox',
-  components: { CheckIcon },
+  components: { WkiCheck },
   inheritAttrs: false,
   model: { prop: 'checked', event: 'change' },
   props: {

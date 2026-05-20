@@ -1,5 +1,5 @@
 import SidebarGroupLabel from '../../src/components/sidebar-group-label/SidebarGroupLabel.vue'
-import PlusIcon from '../../src/icons/PlusIcon.vue'
+import { WkiPlus } from '../../src/icons'
 
 export default {
   title: 'Layout/SidebarGroupLabel',
@@ -72,7 +72,7 @@ Interactive.parameters = {
 }
 
 export const WithActionSlot = () => ({
-  components: { SidebarGroupLabel, PlusIcon },
+  components: { SidebarGroupLabel, WkiPlus },
   template: `
     <div style="width:240px;">
       <SidebarGroupLabel label="Projects">

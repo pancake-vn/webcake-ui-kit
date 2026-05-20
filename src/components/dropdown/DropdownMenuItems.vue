@@ -7,8 +7,13 @@
       <!-- Group: non-clickable label + flat children -->
       <div v-else-if="item._type === 'group'" class="ui-dropdown-items__group">
         <div class="ui-dropdown-items__group-label" :title="item.title || undefined">
-          <component :is="item.icon" v-if="item.icon && isComponent(item.icon)" class="ui-dropdown-items__icon" />
-          <span>{{ item.label }}</span>
+          <component
+            :is="item.icon"
+            v-if="item.icon && isComponent(item.icon)"
+            class="ui-dropdown-items__icon"
+            :style="item.colorIcon ? { color: item.colorIcon } : undefined"
+          />
+          <span :style="item.color ? { color: item.color } : undefined">{{ item.label }}</span>
         </div>
         <div
           v-for="child in item.children || []"
@@ -21,8 +26,15 @@
           :title="child.title || undefined"
           @click="onItemClick(child)"
         >
-          <component :is="child.icon" v-if="child.icon && isComponent(child.icon)" class="ui-dropdown-items__icon" />
-          <span class="ui-dropdown-items__label">{{ child.label }}</span>
+          <component
+            :is="child.icon"
+            v-if="child.icon && isComponent(child.icon)"
+            class="ui-dropdown-items__icon"
+            :style="child.colorIcon ? { color: child.colorIcon } : undefined"
+          />
+          <span class="ui-dropdown-items__label" :style="child.color ? { color: child.color } : undefined">{{
+            child.label
+          }}</span>
           <span v-if="child.extra" class="ui-dropdown-items__extra">{{ child.extra }}</span>
         </div>
       </div>
@@ -37,8 +49,15 @@
           }"
           :title="item.title || undefined"
         >
-          <component :is="item.icon" v-if="item.icon && isComponent(item.icon)" class="ui-dropdown-items__icon" />
-          <span class="ui-dropdown-items__label">{{ item.label }}</span>
+          <component
+            :is="item.icon"
+            v-if="item.icon && isComponent(item.icon)"
+            class="ui-dropdown-items__icon"
+            :style="item.colorIcon ? { color: item.colorIcon } : undefined"
+          />
+          <span class="ui-dropdown-items__label" :style="item.color ? { color: item.color } : undefined">{{
+            item.label
+          }}</span>
         </div>
         <div
           v-for="child in item.children || []"
@@ -51,8 +70,15 @@
           :title="child.title || undefined"
           @click="onItemClick(child, item)"
         >
-          <component :is="child.icon" v-if="child.icon && isComponent(child.icon)" class="ui-dropdown-items__icon" />
-          <span class="ui-dropdown-items__label">{{ child.label }}</span>
+          <component
+            :is="child.icon"
+            v-if="child.icon && isComponent(child.icon)"
+            class="ui-dropdown-items__icon"
+            :style="child.colorIcon ? { color: child.colorIcon } : undefined"
+          />
+          <span class="ui-dropdown-items__label" :style="child.color ? { color: child.color } : undefined">{{
+            child.label
+          }}</span>
           <span v-if="child.extra" class="ui-dropdown-items__extra">{{ child.extra }}</span>
         </div>
       </div>
@@ -68,8 +94,15 @@
         :title="item.title || undefined"
         @click="onItemClick(item)"
       >
-        <component :is="item.icon" v-if="item.icon && isComponent(item.icon)" class="ui-dropdown-items__icon" />
-        <span class="ui-dropdown-items__label">{{ item.label }}</span>
+        <component
+          :is="item.icon"
+          v-if="item.icon && isComponent(item.icon)"
+          class="ui-dropdown-items__icon"
+          :style="item.colorIcon ? { color: item.colorIcon } : undefined"
+        />
+        <span class="ui-dropdown-items__label" :style="item.color ? { color: item.color } : undefined">{{
+          item.label
+        }}</span>
         <span v-if="item.extra" class="ui-dropdown-items__extra">{{ item.extra }}</span>
       </div>
     </div>

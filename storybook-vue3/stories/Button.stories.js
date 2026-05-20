@@ -1,6 +1,5 @@
 import WkButton from '../../src/components/button/Button.vue'
-import ChevronRightIcon from '../../src/icons/ChevronRightIcon.vue'
-import ChevronLeftIcon from '../../src/icons/ChevronLeftIcon.vue'
+import { WkiChevronRight, WkiChevronLeft } from '../../src/icons'
 
 const VARIANTS = ['primary', 'neutral', 'secondary', 'outline', 'ghost', 'destructive', 'link']
 const SIZES = ['xs', 'sm', 'md', 'lg', 'xl']
@@ -116,7 +115,7 @@ Roundness.parameters = {
 }
 
 export const WithIconLeft = () => ({
-  components: { WkButton, ChevronLeftIcon },
+  components: { WkButton, WkiChevronLeft },
   data() {
     return { variants: VARIANTS }
   },
@@ -124,7 +123,7 @@ export const WithIconLeft = () => ({
     <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
       <WkButton v-for="v in variants" :key="v" :variant="v">
         <template #icon-left>
-          <ChevronLeftIcon />
+          <WkiChevronLeft />
         </template>
         Add item
       </WkButton>
@@ -136,7 +135,7 @@ WithIconLeft.parameters = {
 }
 
 export const WithIconRight = () => ({
-  components: { WkButton, ChevronRightIcon },
+  components: { WkButton, WkiChevronRight },
   data() {
     return { variants: VARIANTS }
   },
@@ -145,7 +144,7 @@ export const WithIconRight = () => ({
       <WkButton v-for="v in variants" :key="v" :variant="v">
         Next
         <template #icon-right>
-          <ChevronRightIcon />
+          <WkiChevronRight />
         </template>
       </WkButton>
     </div>
@@ -156,7 +155,7 @@ WithIconRight.parameters = {
 }
 
 export const IconOnly = () => ({
-  components: { WkButton, ChevronRightIcon },
+  components: { WkButton, WkiChevronRight },
   data() {
     return { variants: VARIANTS, sizes: SIZES }
   },
@@ -166,7 +165,7 @@ export const IconOnly = () => ({
         <span style="min-width:32px; color:#6b7280; font-size:12px;">{{ s }}</span>
         <WkButton v-for="v in variants" :key="v" :variant="v" :size="s">
           <template #icon>
-            <ChevronRightIcon />
+            <WkiChevronRight />
           </template>
         </WkButton>
       </div>

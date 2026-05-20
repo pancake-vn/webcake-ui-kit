@@ -39,7 +39,7 @@
         </span>
         <Spinner v-if="loading" type="mirrored" size="sm" />
         <span v-else class="ui-select__chevron">
-          <ChevronDownIcon :size="16" />
+          <WkiChevronDown :size="16" />
         </span>
       </div>
     </template>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import ChevronDownIcon from '../../icons/ChevronDownIcon.vue'
+import WkiChevronDown from '../../icons/ChevronDown.vue'
 import Menu from '../menu/Menu.vue'
 import SelectOption from '../select-option/SelectOption.vue'
 import Spinner from '../spinner/Spinner.vue'
@@ -66,7 +66,7 @@ import Spinner from '../spinner/Spinner.vue'
 export default {
   name: 'Select',
 
-  components: { Menu, SelectOption, Spinner, ChevronDownIcon },
+  components: { Menu, SelectOption, Spinner, WkiChevronDown },
 
   provide() {
     return { select: this }

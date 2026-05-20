@@ -40,8 +40,8 @@
                     :aria-label="minimized ? 'Restore' : 'Minimize'"
                     @click="toggleMinimize"
                   >
-                    <MinusIcon v-if="!minimized" />
-                    <UnfoldVerticalIcon v-else />
+                    <WkiMinus v-if="!minimized" />
+                    <WkiUnfoldVertical v-else />
                   </button>
                   <button
                     v-if="fullscreen"
@@ -50,8 +50,8 @@
                     :aria-label="isFullscreen ? 'Exit fullscreen' : 'Fullscreen'"
                     @click="toggleFullscreen"
                   >
-                    <ExpandIcon v-if="!isFullscreen" />
-                    <ShrinkIcon v-else />
+                    <WkiExpand v-if="!isFullscreen" />
+                    <WkiShrink v-else />
                   </button>
                   <button
                     v-if="closable"
@@ -60,7 +60,7 @@
                     aria-label="Close"
                     @click="handleCancel"
                   >
-                    <XIcon />
+                    <WkiX />
                   </button>
                 </div>
               </div>
@@ -95,15 +95,15 @@
 <script>
 import { acquire, release } from '../../floating/portal-root.js'
 import Button from '../button/Button.vue'
-import MinusIcon from '../../icons/MinusIcon.vue'
-import UnfoldVerticalIcon from '../../icons/UnfoldVerticalIcon.vue'
-import ExpandIcon from '../../icons/ExpandIcon.vue'
-import ShrinkIcon from '../../icons/ShrinkIcon.vue'
-import XIcon from '../../icons/XIcon.vue'
+import WkiMinus from '../../icons/Minus.vue'
+import WkiUnfoldVertical from '../../icons/UnfoldVertical.vue'
+import WkiExpand from '../../icons/Expand.vue'
+import WkiShrink from '../../icons/Shrink.vue'
+import WkiX from '../../icons/X.vue'
 
 export default {
   name: 'Dialog',
-  components: { Button, MinusIcon, UnfoldVerticalIcon, ExpandIcon, ShrinkIcon, XIcon },
+  components: { Button, WkiMinus, WkiUnfoldVertical, WkiExpand, WkiShrink, WkiX },
   model: { prop: 'open', event: 'change' },
   props: {
     open: { type: Boolean, default: false },

@@ -1,5 +1,5 @@
 <template>
-  <div class="ix">
+  <div class="ix" :style="{ '--ix-top-offset': topOffset + 'px' }">
     <aside class="ix__sidebar">
       <h3 class="ix__sidebar-title">Categories</h3>
       <ul class="ix__sidebar-list">
@@ -323,7 +323,8 @@ export default {
       copyMenu: { open: false, icon: null, x: 0, y: 0 },
       toast: '',
       toastTimer: null,
-      mountRaf: null
+      mountRaf: null,
+      topOffset: 203
     }
   },
   computed: {
@@ -411,6 +412,7 @@ export default {
     const total = ICONS.length
     const tick = () => {
       this.mountCursor = Math.min(this.mountCursor + MOUNT_CHUNK, total - 1)
+      this.calculateHeight()
       if (this.mountCursor < total - 1) {
         this.mountRaf = requestAnimationFrame(tick)
       } else {
@@ -419,11 +421,30 @@ export default {
     }
     this.mountRaf = requestAnimationFrame(tick)
 
+    this.$nextTick(() => {
+      this.calculateHeight()
+
+      document.querySelectorAll('.docblock-emptyblock').forEach(el => {
+        el.style.display = 'none'
+      })
+
+      document.querySelectorAll('.sbdocs-wrapper').forEach(el => {
+        el.style.paddingBottom = '0px'
+        el.style.paddingTop = '20px'
+      })
+
+      setTimeout(() => {
+        this.calculateHeight()
+      }, 50)
+    })
+
+    window.addEventListener('resize', this.calculateHeight)
     document.addEventListener('click', this.onDocClick, true)
   },
   beforeUnmount() {
     if (this.mountRaf) cancelAnimationFrame(this.mountRaf)
     if (this.debounceTimer) clearTimeout(this.debounceTimer)
+    window.removeEventListener('resize', this.calculateHeight)
     document.removeEventListener('click', this.onDocClick, true)
     if (this.toastTimer) clearTimeout(this.toastTimer)
   },
@@ -483,6 +504,29 @@ export default {
       this.toastTimer = setTimeout(() => {
         this.toast = ''
       }, TOAST_MS)
+    },
+    calculateHeight() {
+      if (!this.$el) return
+      if (window.innerWidth <= 720) {
+        this.topOffset = 0
+        return
+      }
+      const rect = this.$el.getBoundingClientRect()
+
+      // Calculate bottom spacing from ancestors
+      let bottomSpacing = 0
+      let parent = this.$el.parentElement
+      while (parent) {
+        const style = window.getComputedStyle(parent)
+        const paddingBottom = parseFloat(style.paddingBottom) || 0
+        const marginBottom = parseFloat(style.marginBottom) || 0
+        const borderBottom = parseFloat(style.borderBottomWidth) || 0
+        bottomSpacing += paddingBottom + marginBottom + borderBottom
+        parent = parent.parentElement
+      }
+
+      const topOffset = rect.top + window.scrollY
+      this.topOffset = Math.max(0, topOffset + bottomSpacing)
     }
   }
 }
@@ -494,8 +538,8 @@ export default {
   grid-template-columns: 240px 1fr;
   gap: 0;
   width: 100%;
-  height: calc(100vh - 32px);
-  min-height: 600px;
+  height: calc(100vh - var(--ix-top-offset, 203px));
+  min-height: 0;
   background: #fff;
   color: #111;
   font:
@@ -561,7 +605,6 @@ export default {
   background: #efefef;
 }
 .ix__sidebar-btn--active {
-  background: #e9eefd;
   color: #13823b;
   font-weight: 600;
 }
