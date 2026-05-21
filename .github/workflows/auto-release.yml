@@ -59,7 +59,7 @@ jobs:
           fi
           echo "type=$BUMP" >> "$GITHUB_OUTPUT"
 
-      - name: Bump version (skipping reserved npm versions)
+      - name: Bump version (skipping reserved npm versions and existing git tags)
         id: version
         run: |
           PKG=$(node -p "require('./package.json').name")
@@ -67,16 +67,34 @@ jobs:
           NEW_VERSION=$(npm version ${{ steps.bump.outputs.type }} --no-git-tag-version)
           NEW_VERSION="${NEW_VERSION#v}"
 
+          # Make sure we know about every tag the remote already has so we
+          # don't try to recreate one that exists upstream.
+          git fetch --tags --force origin >/dev/null 2>&1 || true
+
           # Skip versions that are already published OR were unpublished
-          # (npm reserves unpublished version numbers permanently).
+          # (npm reserves unpublished version numbers permanently), and
+          # versions whose git tag already exists locally or on the remote.
           while true; do
             TIME_JSON=$(npm view "$PKG" time --json 2>/dev/null || echo "{}")
-            RESERVED=$(node -e "
+            NPM_RESERVED=$(node -e "
               const t = JSON.parse(process.argv[1] || '{}');
               process.stdout.write(t['${NEW_VERSION}'] ? '1' : '0');
             " "$TIME_JSON")
-            if [ "$RESERVED" = "1" ]; then
-              echo "Version ${NEW_VERSION} is taken or reserved on npm — bumping patch."
+
+            TAG_EXISTS="0"
+            if git rev-parse -q --verify "refs/tags/v${NEW_VERSION}" >/dev/null 2>&1; then
+              TAG_EXISTS="1"
+            elif git ls-remote --tags origin "refs/tags/v${NEW_VERSION}" | grep -q "refs/tags/v${NEW_VERSION}$"; then
+              TAG_EXISTS="1"
+            fi
+
+            if [ "$NPM_RESERVED" = "1" ] || [ "$TAG_EXISTS" = "1" ]; then
+              if [ "$NPM_RESERVED" = "1" ]; then
+                echo "Version ${NEW_VERSION} is taken or reserved on npm — bumping patch."
+              fi
+              if [ "$TAG_EXISTS" = "1" ]; then
+                echo "Git tag v${NEW_VERSION} already exists — bumping patch."
+              fi
               NEW_VERSION=$(npm version patch --no-git-tag-version)
               NEW_VERSION="${NEW_VERSION#v}"
             else
