@@ -11,7 +11,7 @@
             :is="item.icon"
             v-if="item.icon && isComponent(item.icon)"
             class="ui-dropdown-items__icon"
-            :style="item.colorIcon ? { color: item.colorIcon } : undefined"
+            :color="item.colorIcon"
           />
           <span :style="item.color ? { color: item.color } : undefined">{{ item.label }}</span>
         </div>
@@ -30,7 +30,7 @@
             :is="child.icon"
             v-if="child.icon && isComponent(child.icon)"
             class="ui-dropdown-items__icon"
-            :style="child.colorIcon ? { color: child.colorIcon } : undefined"
+            :color="item.colorIcon"
           />
           <span class="ui-dropdown-items__label" :style="child.color ? { color: child.color } : undefined">{{
             child.label
@@ -53,7 +53,7 @@
             :is="item.icon"
             v-if="item.icon && isComponent(item.icon)"
             class="ui-dropdown-items__icon"
-            :style="item.colorIcon ? { color: item.colorIcon } : undefined"
+            :color="item.colorIcon"
           />
           <span class="ui-dropdown-items__label" :style="item.color ? { color: item.color } : undefined">{{
             item.label
@@ -74,7 +74,7 @@
             :is="child.icon"
             v-if="child.icon && isComponent(child.icon)"
             class="ui-dropdown-items__icon"
-            :style="child.colorIcon ? { color: child.colorIcon } : undefined"
+            :color="item.colorIcon"
           />
           <span class="ui-dropdown-items__label" :style="child.color ? { color: child.color } : undefined">{{
             child.label
@@ -98,7 +98,7 @@
           :is="item.icon"
           v-if="item.icon && isComponent(item.icon)"
           class="ui-dropdown-items__icon"
-          :style="item.colorIcon ? { color: item.colorIcon } : undefined"
+          :color="item.colorIcon"
         />
         <span class="ui-dropdown-items__label" :style="item.color ? { color: item.color } : undefined">{{
           item.label
