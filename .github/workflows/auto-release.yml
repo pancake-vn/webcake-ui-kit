@@ -45,8 +45,37 @@ jobs:
           git config user.name "vuluu2k"
           git config user.email "vuluu040320@gmail.com"
 
+      - name: Detect resume mode (tag pushed but never published)
+        id: mode
+        run: |
+          git fetch --tags --force origin >/dev/null 2>&1 || true
+          PKG=$(node -p "require('./package.json').name")
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          CURRENT_TAG="v${CURRENT_VERSION}"
+
+          TAG_ON_ORIGIN="0"
+          if git ls-remote --tags origin "refs/tags/${CURRENT_TAG}" | grep -q "refs/tags/${CURRENT_TAG}$"; then
+            TAG_ON_ORIGIN="1"
+          fi
+
+          PUBLISHED="0"
+          if npm view "${PKG}@${CURRENT_VERSION}" version >/dev/null 2>&1; then
+            PUBLISHED="1"
+          fi
+
+          if [ "$TAG_ON_ORIGIN" = "1" ] && [ "$PUBLISHED" = "0" ]; then
+            echo "Resume mode: tag ${CURRENT_TAG} exists on origin but ${PKG}@${CURRENT_VERSION} is not on npm — skipping bump/commit/tag, going straight to publish + GitHub Release."
+            echo "resume=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Normal release flow (tag_on_origin=${TAG_ON_ORIGIN}, published=${PUBLISHED})."
+            echo "resume=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "version=${CURRENT_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${CURRENT_TAG}" >> "$GITHUB_OUTPUT"
+
       - name: Resolve bump type
         id: bump
+        if: steps.mode.outputs.resume != 'true'
         run: |
           BUMP="${{ github.event.inputs.bump }}"
           if [ -z "$BUMP" ]; then
@@ -61,6 +90,7 @@ jobs:
 
       - name: Bump version (skipping reserved npm versions and existing git tags)
         id: version
+        if: steps.mode.outputs.resume != 'true'
         run: |
           PKG=$(node -p "require('./package.json').name")
           OLD_VERSION=$(node -p "require('./package.json').version")
@@ -109,6 +139,7 @@ jobs:
 
       - name: Resolve prev tag
         id: context
+        if: steps.mode.outputs.resume != 'true'
         run: |
           PREV_TAG=$(git describe --tags --abbrev=0 "HEAD^" 2>/dev/null || git describe --tags --abbrev=0 2>/dev/null || echo "")
           DATE=$(date -u +%Y-%m-%d)
@@ -119,9 +150,11 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Install Claude Code CLI
+        if: steps.mode.outputs.resume != 'true'
         run: npm i -g @anthropic-ai/claude-code
 
       - name: Generate changelog with Claude
+        if: steps.mode.outputs.resume != 'true'
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           NEW_VERSION: ${{ steps.version.outputs.new }}
@@ -180,6 +213,7 @@ jobs:
           cat .release_notes.md
 
       - name: Prepend entry to CHANGELOG.md
+        if: steps.mode.outputs.resume != 'true'
         run: |
           if [ -f CHANGELOG.md ]; then
             awk -v notes_file=".release_notes.md" '
@@ -207,9 +241,11 @@ jobs:
           fi
 
       - name: Sync exports
+        if: steps.mode.outputs.resume != 'true'
         run: npm run sync:exports
 
       - name: Commit, tag and push
+        if: steps.mode.outputs.resume != 'true'
         run: |
           git add package.json CHANGELOG.md
           git diff --cached --quiet || git add -u
@@ -217,6 +253,39 @@ jobs:
           git tag -a "${{ steps.version.outputs.tag }}" -m "Release ${{ steps.version.outputs.tag }}"
           git push origin HEAD:master
           git push origin "${{ steps.version.outputs.tag }}"
+
+      - name: Resolve final tag
+        id: final
+        run: |
+          if [ "${{ steps.mode.outputs.resume }}" = "true" ]; then
+            echo "tag=${{ steps.mode.outputs.tag }}" >> "$GITHUB_OUTPUT"
+            echo "version=${{ steps.mode.outputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${{ steps.version.outputs.tag }}" >> "$GITHUB_OUTPUT"
+            echo "version=${{ steps.version.outputs.new }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Extract release notes from CHANGELOG.md (resume mode)
+        if: steps.mode.outputs.resume == 'true'
+        run: |
+          VERSION="${{ steps.mode.outputs.version }}"
+          awk -v ver="$VERSION" '
+            BEGIN { inSection=0 }
+            /^## \[/ {
+              if (inSection) exit
+              if (index($0, "[" ver "]") > 0) {
+                inSection=1
+                next
+              }
+            }
+            inSection { print }
+          ' CHANGELOG.md > .release_notes.md
+          if [ ! -s .release_notes.md ]; then
+            echo "Could not extract CHANGELOG section for ${VERSION} — using fallback notes." >&2
+            echo "Release of ${VERSION}." > .release_notes.md
+          fi
+          echo "--- Resume-mode release notes ---"
+          cat .release_notes.md
 
       - name: Verify exports map
         run: npm run sync:exports:check
@@ -230,6 +299,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "${{ steps.version.outputs.tag }}" \
-            --title "${{ steps.version.outputs.tag }}" \
-            --notes-file .release_notes.md
+          if gh release view "${{ steps.final.outputs.tag }}" >/dev/null 2>&1; then
+            echo "GitHub Release ${{ steps.final.outputs.tag }} already exists — skipping."
+          else
+            gh release create "${{ steps.final.outputs.tag }}" \
+              --title "${{ steps.final.outputs.tag }}" \
+              --notes-file .release_notes.md
+          fi
