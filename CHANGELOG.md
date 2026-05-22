@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3] - 2026-05-22
+
+### Fixed
+
+- `WkDropdown` menu item list now applies a `--spacing-3xs` gap between entries, restoring the expected vertical spacing between items.
+- `WkSelect` option list now applies a `--spacing-3xs` gap between options, restoring the expected vertical spacing in the dropdown.
+
 ## [1.1.2] - 2026-05-21
 
 ### Fixed
