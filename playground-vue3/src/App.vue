@@ -407,6 +407,10 @@
         <WkiAArrowDown color="var(--green-500)" fill="var(--green-500)" />
         <WkiAArrowUp color="var(--blue-500)" :size="64" :stroke-width="1" />
         <WkiChessBishop color="var(--blue-500)" :size="64" :stroke-width="1" />
+
+        <WkDropdown :items="dropdownOptions">
+          <WkButton>test</WkButton>
+        </WkDropdown>
       </section>
     </div>
   </div>
@@ -475,6 +479,15 @@ export default {
         'warning',
         'circle-check',
         'circle-x'
+      ],
+      dropdownOptions: [
+        { key: 'edit', label: 'test' },
+        {
+          key: 'delete',
+          label: 'deeeeeeee',
+          destructive: true,
+          colorIcon: 'var(--destructive)'
+        }
       ],
       toggleValue: false,
       accordionValue: ['info', 'shipping'],

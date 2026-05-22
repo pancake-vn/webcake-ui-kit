@@ -154,6 +154,7 @@
   overflow-y: auto;
   padding: var(--spacing-2xs);
   scrollbar-width: thin;
+  gap: var(--spacing-3xs);
 }
 
 .ui-select__list::-webkit-scrollbar {
