@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .wki-base-icon {
   display: inline-flex;
   align-items: center;
@@ -54,7 +54,7 @@ export default {
   line-height: 0;
 }
 
-.wki-base-icon ::v-deep svg {
+.wki-base-icon svg {
   width: var(--wki-icon-size);
   height: var(--wki-icon-size);
   color: var(--wki-icon-color);
