@@ -200,7 +200,10 @@ jobs:
 
           claude -p "$PROMPT" \
             --output-format text \
-            --allowedTools "Bash(git log *)" "Bash(git diff *)" "Read" "Write" \
+            --allowedTools "Bash(git log:*)" \
+            --allowedTools "Bash(git diff:*)" \
+            --allowedTools "Read" \
+            --allowedTools "Write" \
             --permission-mode acceptEdits \
             > .claude_output.log
 

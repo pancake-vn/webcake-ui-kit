@@ -3,3 +3,5 @@ node_modules
 dist
 storybook-static
 settings.local.json
+.DS_Store
+
