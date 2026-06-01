@@ -51,7 +51,7 @@
   border-radius: var(--rounded-xl);
 }
 .ui-input--size-xs.ui-input--round-default {
-  border-radius: var(--rounded-lg);
+  border-radius: var(--radius);
 }
 .ui-input--round-round {
   border-radius: var(--rounded-full);

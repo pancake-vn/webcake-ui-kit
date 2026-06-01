@@ -34,7 +34,7 @@
 /* ============================================================
    Sizes
    ============================================================ */
-.ui-btn--xs {
+.ui-btn--mini {
   height: 24px;
   padding: var(--spacing-3) var(--spacing-xs);
   gap: var(--spacing-6);
@@ -42,6 +42,22 @@
   line-height: var(--paragraph-mini-line-height);
   letter-spacing: var(--paragraph-mini-letter-spacing);
 }
+
+.ui-btn--mini .ui-btn__icon,
+.ui-btn--mini ::v-deep svg {
+  width: 16px;
+  height: 16px;
+}
+
+.ui-btn--xs {
+  height: 28px;
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  gap: var(--spacing-6);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+
 .ui-btn--xs .ui-btn__icon,
 .ui-btn--xs ::v-deep svg {
   width: 16px;
@@ -56,6 +72,7 @@
   line-height: var(--paragraph-small-line-height);
   letter-spacing: var(--paragraph-small-letter-spacing);
 }
+
 .ui-btn--sm .ui-btn__icon,
 .ui-btn--sm ::v-deep svg {
   width: 20px;
@@ -70,6 +87,7 @@
   line-height: var(--paragraph-small-line-height);
   letter-spacing: var(--paragraph-small-letter-spacing);
 }
+
 .ui-btn--md .ui-btn__icon,
 .ui-btn--md ::v-deep svg {
   width: 20px;
@@ -84,6 +102,7 @@
   line-height: var(--paragraph-small-line-height);
   letter-spacing: var(--paragraph-small-letter-spacing);
 }
+
 .ui-btn--lg .ui-btn__icon,
 .ui-btn--lg ::v-deep svg {
   width: 20px;
@@ -98,6 +117,7 @@
   line-height: var(--paragraph-regular-line-height);
   letter-spacing: var(--paragraph-regular-letter-spacing);
 }
+
 .ui-btn--xl .ui-btn__icon,
 .ui-btn--xl ::v-deep svg {
   width: 20px;
@@ -112,9 +132,15 @@
 .ui-btn--round-default {
   border-radius: var(--radius-10);
 }
-.ui-btn--xs.ui-btn--round-default {
+
+.ui-btn--mini.ui-btn--round-default {
   border-radius: var(--rounded-lg);
 }
+
+.ui-btn--xs.ui-btn--round-default {
+  border-radius: var(--radius);
+}
+
 .ui-btn--round-round {
   border-radius: var(--rounded-full);
 }
@@ -128,6 +154,7 @@
   background: var(--primary-brand-bg);
   color: var(--inverse-fg);
 }
+
 .ui-btn--primary:hover,
 .ui-btn--primary:active {
   background: var(--primary-brand-hover);
@@ -138,6 +165,7 @@
   background: var(--button-black);
   color: var(--button-black-fg);
 }
+
 .ui-btn--neutral:hover,
 .ui-btn--neutral:active {
   background: var(--button-black-hover);
@@ -148,6 +176,7 @@
   background: var(--secondary-bg);
   color: var(--secondary-fg);
 }
+
 .ui-btn--secondary:hover,
 .ui-btn--secondary:active {
   background: var(--secondary-hover);
@@ -160,6 +189,7 @@
   border: 1px solid var(--border-primary);
   box-shadow: var(--shadow-xs);
 }
+
 .ui-btn--outline:hover,
 .ui-btn--outline:active {
   background: var(--outline-hover);
@@ -171,6 +201,7 @@
   background: var(--ghost);
   color: var(--primary-fg);
 }
+
 .ui-btn--ghost:hover,
 .ui-btn--ghost:active {
   background: var(--ghost-hover);
@@ -181,6 +212,7 @@
   background: var(--destructive);
   color: var(--destructive-inverse-fg);
 }
+
 .ui-btn--destructive:hover,
 .ui-btn--destructive:active {
   background: var(--destructive-hover);
@@ -190,7 +222,10 @@
 .ui-btn--link {
   background: var(--ghost);
   color: var(--primary-brand-fg);
+  height: fit-content;
+  padding: 0;
 }
+
 .ui-btn--link:hover,
 .ui-btn--link:active {
   color: var(--primary-brand-hover);
@@ -202,19 +237,24 @@
 .ui-btn:focus {
   outline: none;
 }
+
 .ui-btn:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px var(--focus-ring);
 }
+
 .ui-btn--secondary:focus-visible {
   background: var(--secondary-hover);
 }
+
 .ui-btn--outline:focus-visible {
   border-color: var(--border-focus);
 }
+
 .ui-btn--destructive:focus-visible {
   box-shadow: 0 0 0 3px var(--focus-ring-error);
 }
+
 /* ============================================================
    Disabled
    ============================================================ */
@@ -234,22 +274,31 @@
   gap: 0;
 }
 
-.ui-btn--icon-only.ui-btn--xs {
+.ui-btn--icon-only.ui-btn--mini {
   width: 24px;
   padding: var(--spacing-3xs);
 }
+
+.ui-btn--icon-only.ui-btn--xs {
+  width: 28px;
+  padding: var(--spacing-6);
+}
+
 .ui-btn--icon-only.ui-btn--sm {
   width: 32px;
   padding: var(--spacing-6);
 }
+
 .ui-btn--icon-only.ui-btn--md {
   width: 36px;
   padding: var(--spacing-xs);
 }
+
 .ui-btn--icon-only.ui-btn--lg {
   width: 40px;
   padding: var(--spacing-10);
 }
+
 .ui-btn--icon-only.ui-btn--xl {
   width: 48px;
   padding: var(--spacing-sm);

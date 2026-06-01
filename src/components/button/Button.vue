@@ -53,7 +53,7 @@ export default {
     size: {
       type: String,
       default: 'md',
-      validator: v => ['xs', 'sm', 'md', 'lg', 'xl'].includes(v)
+      validator: v => ['mini', 'xs', 'sm', 'md', 'lg', 'xl'].includes(v)
     },
     roundness: {
       type: String,
