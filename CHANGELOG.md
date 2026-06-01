@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5] - 2026-06-01
+
+### Added
+
+- `WkButton` accepts a new `mini` size (24px height) in its `size` prop, intended for dense or toolbar contexts.
+
+### Changed
+
+- `WkButton` `xs` size height is updated from 24px to 28px to sit between `mini` and `sm`; existing `size="xs"` usages will appear slightly taller.
+- `WkDialog` header action buttons (minimize, fullscreen, close) now render as `WkButton` with `variant="ghost"` and `size="sm"` instead of bare `<button>` elements, giving them consistent focus rings, hover states, and disabled handling.
+
+### Fixed
+
+- `WkButton` `link` variant no longer carries a fixed height or padding, so it flows inline with surrounding text without unexpected whitespace.
+- `WkInput` `xs` size with `roundness="default"` now uses the `--radius` token for its border radius instead of `--rounded-lg`, matching the intended design spec.
+- Icon base styles are extracted from a scoped inline `<style>` block in `BaseIcon` into the shared `src/styles/icons.css` file, preventing style duplication when multiple icon components are mounted.
+
 ## [1.1.4] - 2026-05-22
 
 ### Fixed
