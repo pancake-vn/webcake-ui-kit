@@ -44,21 +44,4 @@ export default {
 }
 </script>
 
-<style>
-.wki-base-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  vertical-align: middle;
-  line-height: 0;
-}
-
-.wki-base-icon svg {
-  width: var(--wki-icon-size);
-  height: var(--wki-icon-size);
-  color: var(--wki-icon-color);
-  stroke-width: var(--wki-icon-stroke-width);
-  fill: var(--wki-icon-fill);
-}
-</style>
+<style src="../styles/icons.css"></style>

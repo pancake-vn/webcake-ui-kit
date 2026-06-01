@@ -64,7 +64,7 @@
   border-radius: var(--rounded-xl);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
-  max-height: 100%; /* Allow internal scrolling if content is taller than wrapper */
+  max-height: 100%;
 }
 
 .ui-dialog-content {
@@ -157,40 +157,6 @@
   flex-shrink: 0;
 }
 
-.ui-dialog-header__icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  min-width: 32px;
-  min-height: 32px;
-  padding: var(--spacing-6);
-  margin: 0;
-  background: var(--ghost);
-  color: var(--primary-fg);
-  border: 0;
-  border-radius: var(--rounded-xl);
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.ui-dialog-header__icon-btn svg {
-  display: block;
-  width: 20px;
-  height: 20px;
-}
-
-.ui-dialog-header__icon-btn:hover {
-  background: var(--ghost-hover);
-}
-
-.ui-dialog-header__icon-btn:focus-visible {
-  outline: none;
-  box-shadow: var(--shadow-focus-ring);
-}
-
 /* ── body ─────────────────────────────────────────────────────────────── */
 .ui-dialog-body {
   padding: var(--spacing-md);
@@ -238,6 +204,7 @@
 .ui-dialog-fade-leave-active {
   transition: opacity 0.2s ease;
 }
+
 .ui-dialog-fade-enter,
 .ui-dialog-fade-enter-from,
 .ui-dialog-fade-leave-to {
@@ -250,6 +217,7 @@
     opacity 0.2s ease,
     transform 0.2s ease;
 }
+
 .ui-dialog-zoom-enter,
 .ui-dialog-zoom-enter-from,
 .ui-dialog-zoom-leave-to {

@@ -33,35 +33,35 @@
                 </slot>
 
                 <div class="ui-dialog-header__actions">
-                  <button
+                  <Button
                     v-if="minimizable"
-                    type="button"
-                    class="ui-dialog-header__icon-btn"
                     :aria-label="minimized ? 'Restore' : 'Minimize'"
+                    size="sm"
+                    variant="ghost"
                     @click="toggleMinimize"
                   >
-                    <WkiMinus v-if="!minimized" />
-                    <WkiUnfoldVertical v-else />
-                  </button>
-                  <button
+                    <template #icon>
+                      <WkiMinus v-if="!minimized" />
+                      <WkiUnfoldVertical v-else />
+                    </template>
+                  </Button>
+                  <Button
                     v-if="fullscreen"
-                    type="button"
-                    class="ui-dialog-header__icon-btn"
                     :aria-label="isFullscreen ? 'Exit fullscreen' : 'Fullscreen'"
+                    size="sm"
+                    variant="ghost"
                     @click="toggleFullscreen"
                   >
-                    <WkiExpand v-if="!isFullscreen" />
-                    <WkiShrink v-else />
-                  </button>
-                  <button
-                    v-if="closable"
-                    type="button"
-                    class="ui-dialog-header__icon-btn"
-                    aria-label="Close"
-                    @click="handleCancel"
-                  >
-                    <WkiX />
-                  </button>
+                    <template #icon>
+                      <WkiExpand v-if="!isFullscreen" />
+                      <WkiShrink v-else />
+                    </template>
+                  </Button>
+                  <Button v-if="closable" aria-label="Close" size="sm" variant="ghost" @click="handleCancel">
+                    <template #icon>
+                      <WkiX />
+                    </template>
+                  </Button>
                 </div>
               </div>
             </div>
