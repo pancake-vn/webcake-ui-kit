@@ -73,8 +73,8 @@ export default {
 
   methods: {
     select: function (value) {
-      if (!this.allowDeselect && val == this.effectiveValue) return
       let val = value
+      if (!this.allowDeselect && val == this.effectiveValue) return
       if (this.allowDeselect && val == this.effectiveValue) {
         val = undefined
       }
