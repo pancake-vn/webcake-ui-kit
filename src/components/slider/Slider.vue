@@ -6,6 +6,7 @@
       'ui-slider--disabled': disabled,
       'ui-slider--range': range
     }"
+    :style="rootStyle"
   >
     <div class="ui-slider__track" ref="track" @click="onTrackClick">
       <div class="ui-slider__fill" :style="fillStyle" />
@@ -87,7 +88,8 @@ export default {
         return ['horizontal', 'vertical'].indexOf(v) !== -1
       }
     },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
+    width: { type: [String, Number], default: null }
   },
 
   emits: ['change', 'input', 'update:modelValue'],
@@ -131,6 +133,10 @@ export default {
     }
   },
   computed: {
+    rootStyle: function () {
+      if (this.width === null) return {}
+      return { width: typeof this.width === 'number' ? this.width + 'px' : this.width }
+    },
     fillStyle: function () {
       var minPct = (this.localRangeMin - this.min) / (this.max - this.min)
       var maxPct = (this.localRangeMax - this.min) / (this.max - this.min)
