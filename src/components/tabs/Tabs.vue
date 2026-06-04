@@ -6,7 +6,7 @@
       type="button"
       class="ui-tabs__item"
       :class="{
-        'ui-tabs__item--active': tab.value === value,
+        'ui-tabs__item--active': tab.value === effectiveValue,
         'ui-tabs__item--disabled': tab.disabled,
         'ui-tabs__item--stretch': stretchItems
       }"
@@ -31,8 +31,15 @@
 <script>
 export default {
   name: 'Tabs',
+
+  model: {
+    prop: 'value',
+    event: 'input'
+  },
+
   props: {
     value: { type: [String, Number], default: null },
+    modelValue: { default: null },
     tabs: {
       type: Array,
       default: function () {
@@ -51,10 +58,18 @@ export default {
       default: () => false
     }
   },
-  emits: ['input', 'change'],
+  emits: ['input', 'change', 'update:modelValue'],
+
+  computed: {
+    effectiveValue: function () {
+      return this.modelValue !== null ? this.modelValue : this.value
+    }
+  },
+
   methods: {
     select: function (val) {
       this.$emit('input', val)
+      this.$emit('update:modelValue', val)
       this.$emit('change', val)
     }
   }

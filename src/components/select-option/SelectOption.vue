@@ -57,7 +57,7 @@ export default {
 
   computed: {
     isSelected() {
-      return !!(this.select && this.select.value !== undefined && this.select.value === this.value)
+      return !!(this.select && this.select.effectiveValue !== undefined && this.select.effectiveValue === this.value)
     },
     isDisabled() {
       return this.disabled || !!(this.select && this.select.disabled)
