@@ -54,7 +54,6 @@ export default {
   emits: ['input', 'change'],
   methods: {
     select: function (val) {
-      if (val === this.value) return
       this.$emit('input', val)
       this.$emit('change', val)
     }
