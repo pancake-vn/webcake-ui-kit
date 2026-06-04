@@ -89,6 +89,9 @@ export default {
       type: String,
       default: ''
     },
+    modelValue: {
+      default: null
+    },
     options: {
       type: Array,
       default: () => []
@@ -119,7 +122,7 @@ export default {
     }
   },
 
-  emits: ['change'],
+  emits: ['change', 'update:modelValue'],
 
   data() {
     return {
@@ -129,6 +132,9 @@ export default {
   },
 
   computed: {
+    effectiveValue() {
+      return this.modelValue !== null ? this.modelValue : this.value
+    },
     normalizedOptions() {
       return this.options.map(opt =>
         typeof opt === 'string'
@@ -137,10 +143,10 @@ export default {
       )
     },
     selectedLabel() {
-      if (!this.value) return ''
-      if (this.labelCache[this.value]) return this.labelCache[this.value]
-      const opt = this.normalizedOptions.find(o => o.value === this.value)
-      return opt ? opt.label : this.value
+      if (!this.effectiveValue) return ''
+      if (this.labelCache[this.effectiveValue]) return this.labelCache[this.effectiveValue]
+      const opt = this.normalizedOptions.find(o => o.value === this.effectiveValue)
+      return opt ? opt.label : this.effectiveValue
     },
     hasIconSlot() {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
@@ -159,6 +165,7 @@ export default {
     },
     select(val) {
       this.$emit('change', val)
+      this.$emit('update:modelValue', val)
       this.isOpen = false
     },
     registerOption(value, label) {

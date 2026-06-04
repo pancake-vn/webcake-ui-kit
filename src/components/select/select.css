@@ -3,7 +3,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
-  min-height: 36px;
+  height: 36px;
   width: 100%;
   padding: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) var(--spacing-sm);
   border: 1px solid var(--border-primary);
@@ -112,7 +112,7 @@
 
 /* — sizes — */
 .ui-select--lg {
-  min-height: 40px;
+  height: 40px;
   padding: var(--spacing-10) var(--spacing-xs) var(--spacing-10) var(--spacing-md);
   gap: var(--spacing-sm);
 }
@@ -124,7 +124,7 @@
 /* default size is the base — no extra rules needed */
 
 .ui-select--sm {
-  min-height: 32px;
+  height: 32px;
   padding: var(--spacing-6) var(--spacing-xs);
   gap: var(--spacing-6);
 }
@@ -134,7 +134,7 @@
 }
 
 .ui-select--xs {
-  min-height: 28px;
+  height: 28px;
   padding: var(--spacing-2xs) var(--spacing-6);
   gap: var(--spacing-2xs);
   border-radius: var(--rounded-lg);

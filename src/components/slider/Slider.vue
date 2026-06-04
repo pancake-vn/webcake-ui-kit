@@ -61,8 +61,15 @@
 <script>
 export default {
   name: 'Slider',
+
+  model: {
+    prop: 'value',
+    event: 'input'
+  },
+
   props: {
-    value: { type: Number, default: 50 },
+    value: { type: [Number, Array], default: 50 },
+    modelValue: { default: null },
     rangeValue: {
       type: Array,
       default: function () {
@@ -82,12 +89,17 @@ export default {
     },
     disabled: { type: Boolean, default: false }
   },
-  emits: ['change', 'input'],
+
+  emits: ['change', 'input', 'update:modelValue'],
+
   data: function () {
+    var mv = this.modelValue !== null ? this.modelValue : this.value
+    var singleInit = typeof mv === 'number' ? mv : 50
+    var rangeInit = Array.isArray(mv) ? mv : Array.isArray(this.rangeValue) ? this.rangeValue : [25, 75]
     return {
-      localValue: this.value,
-      localRangeMin: Array.isArray(this.rangeValue) ? this.rangeValue[0] : 25,
-      localRangeMax: Array.isArray(this.rangeValue) ? this.rangeValue[1] : 75,
+      localValue: singleInit,
+      localRangeMin: rangeInit[0],
+      localRangeMax: rangeInit[1],
       dragging: null,
       boundMouseMove: null,
       boundMouseUp: null,
@@ -95,9 +107,21 @@ export default {
       boundTouchEnd: null
     }
   },
+
   watch: {
     value: function (v) {
-      this.localValue = v
+      if (typeof v === 'number') this.localValue = v
+      else if (Array.isArray(v)) {
+        this.localRangeMin = v[0]
+        this.localRangeMax = v[1]
+      }
+    },
+    modelValue: function (v) {
+      if (typeof v === 'number') this.localValue = v
+      else if (Array.isArray(v)) {
+        this.localRangeMin = v[0]
+        this.localRangeMax = v[1]
+      }
     },
     rangeValue: function (v) {
       if (Array.isArray(v)) {
@@ -191,19 +215,23 @@ export default {
       document.removeEventListener('touchend', this.boundTouchEnd)
     },
     applyValue: function (which, val) {
+      var arr
       if (which === 'single') {
         this.localValue = val
         this.$emit('input', val)
+        this.$emit('update:modelValue', val)
         this.$emit('change', val)
-      } else if (which === 'min') {
-        var newMin = Math.min(val, this.localRangeMax - this.step)
-        this.localRangeMin = this.snap(newMin)
-        this.$emit('change', [this.localRangeMin, this.localRangeMax])
-      } else if (which === 'max') {
-        var newMax = Math.max(val, this.localRangeMin + this.step)
-        this.localRangeMax = this.snap(newMax)
-        this.$emit('change', [this.localRangeMin, this.localRangeMax])
+        return
       }
+      if (which === 'min') {
+        this.localRangeMin = this.snap(Math.min(val, this.localRangeMax - this.step))
+      } else {
+        this.localRangeMax = this.snap(Math.max(val, this.localRangeMin + this.step))
+      }
+      arr = [this.localRangeMin, this.localRangeMax]
+      this.$emit('input', arr)
+      this.$emit('update:modelValue', arr)
+      this.$emit('change', arr)
     },
     onTrackClick: function (event) {
       if (this.disabled) return

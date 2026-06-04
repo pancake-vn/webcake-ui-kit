@@ -6,9 +6,10 @@
       type="button"
       class="ui-tabs__item"
       :class="{
-        'ui-tabs__item--active': tab.value === value,
+        'ui-tabs__item--active': tab.value === effectiveValue,
         'ui-tabs__item--disabled': tab.disabled,
-        'ui-tabs__item--stretch': stretchItems
+        'ui-tabs__item--stretch': stretchItems,
+        'ui-tabs__item--allow-deselect': allowDeselect
       }"
       :disabled="tab.disabled || undefined"
       @click="select(tab.value)"
@@ -31,8 +32,15 @@
 <script>
 export default {
   name: 'Tabs',
+
+  model: {
+    prop: 'value',
+    event: 'input'
+  },
+
   props: {
     value: { type: [String, Number], default: null },
+    modelValue: { default: null },
     tabs: {
       type: Array,
       default: function () {
@@ -49,13 +57,29 @@ export default {
     stretchItems: {
       type: Boolean,
       default: () => false
+    },
+    allowDeselect: {
+      type: Boolean,
+      default: () => false
     }
   },
-  emits: ['input', 'change'],
+  emits: ['input', 'change', 'update:modelValue'],
+
+  computed: {
+    effectiveValue: function () {
+      return this.modelValue !== null ? this.modelValue : this.value
+    }
+  },
+
   methods: {
-    select: function (val) {
-      if (val === this.value) return
+    select: function (value) {
+      if (!this.allowDeselect && val == this.effectiveValue) return
+      let val = value
+      if (this.allowDeselect && val == this.effectiveValue) {
+        val = undefined
+      }
       this.$emit('input', val)
+      this.$emit('update:modelValue', val)
       this.$emit('change', val)
     }
   }
