@@ -8,7 +8,8 @@
       :class="{
         'ui-tabs__item--active': tab.value === effectiveValue,
         'ui-tabs__item--disabled': tab.disabled,
-        'ui-tabs__item--stretch': stretchItems
+        'ui-tabs__item--stretch': stretchItems,
+        'ui-tabs__item--allow-deselect': allowDeselect
       }"
       :disabled="tab.disabled || undefined"
       @click="select(tab.value)"
@@ -56,6 +57,10 @@ export default {
     stretchItems: {
       type: Boolean,
       default: () => false
+    },
+    allowDeselect: {
+      type: Boolean,
+      default: () => false
     }
   },
   emits: ['input', 'change', 'update:modelValue'],
@@ -67,7 +72,12 @@ export default {
   },
 
   methods: {
-    select: function (val) {
+    select: function (value) {
+      if (!this.allowDeselect && val == this.effectiveValue) return
+      let val = value
+      if (this.allowDeselect && val == this.effectiveValue) {
+        val = undefined
+      }
       this.$emit('input', val)
       this.$emit('update:modelValue', val)
       this.$emit('change', val)

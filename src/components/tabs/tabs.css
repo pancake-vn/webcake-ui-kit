@@ -67,6 +67,9 @@
   box-shadow: var(--shadow-sm);
   cursor: default;
 }
+.ui-tabs__item--active.ui-tabs__item--allow-deselect {
+  cursor: pointer;
+}
 
 .ui-tabs__item--disabled {
   opacity: 0.4;
