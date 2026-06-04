@@ -4,6 +4,21 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.7] - 2026-06-04
+
+### Added
+
+- `WkTabs` accepts a new `allowDeselect` boolean prop; when `true`, clicking the active tab deselects it and emits `undefined`.
+
+### Changed
+
+- `WkSelect`, `WkSlider`, and `WkTabs` now accept a `modelValue` prop and emit `update:modelValue`, enabling Vue 3 `v-model` syntax alongside the existing `value`/`change` pattern used for Vue 2.
+- `WkSlider` `value` prop now accepts an `Array` in addition to `Number`, allowing the range variant to be initialized and driven via `v-model`.
+
+### Fixed
+
+- `WkInput` and `WkSelect` size heights are now fixed (`height`) rather than minimum (`min-height`), ensuring all size variants (xs: 28px, sm: 32px, md: 36px, lg: 40px) render at their intended exact height.
+
 ## [1.1.6] - 2026-06-04
 
 ### Added
