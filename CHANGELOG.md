@@ -4,6 +4,17 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.6] - 2026-06-04
+
+### Added
+
+- `WkiGenerateImage` is a new custom icon component available as a `Wki`-prefixed export, built on the shared `BaseIcon` wrapper.
+
+### Changed
+
+- `WkSelect` chevron icon color is updated from `--muted-fg` to `--primary-fg`, making the dropdown arrow more visually prominent.
+- `WkDialog` content area padding is adjusted to asymmetric vertical/horizontal spacing (`--spacing-sm` top/bottom, `--spacing-md` left/right) instead of uniform `--spacing-md`.
+
 ## [1.1.5] - 2026-06-01
 
 ### Added
