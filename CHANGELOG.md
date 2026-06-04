@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.8] - 2026-06-04
+
+### Fixed
+
+- `WkTabs` `select` method now declares the `val` variable before using it, fixing a ReferenceError that prevented any tab from being selected when `allowDeselect` is `false` (the default).
+
 ## [1.1.7] - 2026-06-04
 
 ### Added
