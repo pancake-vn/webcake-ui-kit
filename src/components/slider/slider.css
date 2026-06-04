@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   width: 100%;
-  min-width: 120px;
   padding: var(--spacing-xs) 0;
   user-select: none;
   -webkit-user-select: none;
