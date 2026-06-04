@@ -89,7 +89,18 @@ export default {
       }
     },
     disabled: { type: Boolean, default: false },
-    width: { type: [String, Number], default: null }
+    width: { type: [String, Number], default: null },
+    stepRanges: {
+      type: Array,
+      default: function () {
+        return []
+      },
+      validator: function (v) {
+        return v.every(function (seg) {
+          return typeof seg.step === 'number' && seg.step > 0
+        })
+      }
+    }
   },
 
   emits: ['change', 'input', 'update:modelValue'],
@@ -103,6 +114,10 @@ export default {
       localRangeMin: rangeInit[0],
       localRangeMax: rangeInit[1],
       dragging: null,
+      dragAccum: 0,
+      dragLastX: 0,
+      dragLastY: 0,
+      dragTrackRect: null,
       boundMouseMove: null,
       boundMouseUp: null,
       boundTouchMove: null,
@@ -137,10 +152,24 @@ export default {
       if (this.width === null) return {}
       return { width: typeof this.width === 'number' ? this.width + 'px' : this.width }
     },
+    totalSteps: function () {
+      if (!this.stepRanges || this.stepRanges.length === 0) {
+        return (this.max - this.min) / this.step
+      }
+      var total = 0
+      var from = this.min
+      for (var i = 0; i < this.stepRanges.length; i++) {
+        var seg = this.stepRanges[i]
+        var to = seg.to !== undefined ? seg.to : this.max
+        total += (to - from) / seg.step
+        from = to
+      }
+      return total
+    },
     fillStyle: function () {
-      var minPct = (this.localRangeMin - this.min) / (this.max - this.min)
-      var maxPct = (this.localRangeMax - this.min) / (this.max - this.min)
-      var valPct = (this.localValue - this.min) / (this.max - this.min)
+      var minPct = this.valueToRatio(this.localRangeMin)
+      var maxPct = this.valueToRatio(this.localRangeMax)
+      var valPct = this.valueToRatio(this.localValue)
       if (this.orientation === 'vertical') {
         if (this.range) {
           return { bottom: minPct * 100 + '%', height: (maxPct - minPct) * 100 + '%' }
@@ -170,14 +199,67 @@ export default {
       document.removeEventListener('touchend', this.boundTouchEnd)
     },
     thumbStyle: function (val) {
-      var p = (val - this.min) / (this.max - this.min)
+      var p = this.valueToRatio(val)
       if (this.orientation === 'vertical') {
         return { bottom: p * 100 + '%' }
       }
       return { left: p * 100 + '%' }
     },
+    valueToRatio: function (val) {
+      if (!this.stepRanges || this.stepRanges.length === 0) {
+        return (val - this.min) / (this.max - this.min)
+      }
+      var stepIndex = 0
+      var from = this.min
+      for (var i = 0; i < this.stepRanges.length; i++) {
+        var seg = this.stepRanges[i]
+        var to = seg.to !== undefined ? seg.to : this.max
+        if (val <= to || i === this.stepRanges.length - 1) {
+          stepIndex += (val - from) / seg.step
+          break
+        }
+        stepIndex += (to - from) / seg.step
+        from = to
+      }
+      return stepIndex / this.totalSteps
+    },
+    ratioToValue: function (ratio) {
+      if (!this.stepRanges || this.stepRanges.length === 0) {
+        return this.snap(this.min + ratio * (this.max - this.min))
+      }
+      var targetStep = ratio * this.totalSteps
+      var accSteps = 0
+      var from = this.min
+      for (var i = 0; i < this.stepRanges.length; i++) {
+        var seg = this.stepRanges[i]
+        var to = seg.to !== undefined ? seg.to : this.max
+        var segSteps = (to - from) / seg.step
+        if (targetStep <= accSteps + segSteps || i === this.stepRanges.length - 1) {
+          return this.snap(from + (targetStep - accSteps) * seg.step)
+        }
+        accSteps += segSteps
+        from = to
+      }
+      return this.max
+    },
+    getSegmentAt: function (val) {
+      if (!this.stepRanges || this.stepRanges.length === 0) {
+        return { from: this.min, to: this.max, step: this.step }
+      }
+      var from = this.min
+      for (var i = 0; i < this.stepRanges.length; i++) {
+        var seg = this.stepRanges[i]
+        var to = seg.to !== undefined ? seg.to : this.max
+        if (val <= to || i === this.stepRanges.length - 1) {
+          return { from: from, to: to, step: seg.step }
+        }
+        from = to
+      }
+      return { from: this.min, to: this.max, step: this.step }
+    },
     snap: function (val) {
-      var stepped = Math.round((val - this.min) / this.step) * this.step + this.min
+      var seg = this.getSegmentAt(val)
+      var stepped = Math.round((val - seg.from) / seg.step) * seg.step + seg.from
       return Math.max(this.min, Math.min(this.max, parseFloat(stepped.toFixed(10))))
     },
     valueFromPointer: function (clientX, clientY) {
@@ -189,32 +271,72 @@ export default {
         ratio = (clientX - rect.left) / rect.width
       }
       ratio = Math.max(0, Math.min(1, ratio))
-      return this.snap(this.min + ratio * (this.max - this.min))
+      return this.ratioToValue(ratio)
     },
-    startDrag: function (which) {
+    valueAtStepOffset: function (baseVal, stepDelta) {
+      var baseStep = Math.round(this.valueToRatio(baseVal) * this.totalSteps)
+      var targetStep = Math.max(0, Math.min(this.totalSteps, baseStep + stepDelta))
+      return this.ratioToValue(targetStep / this.totalSteps)
+    },
+    startDrag: function (which, event) {
       if (this.disabled) return
       this.dragging = which
+      this.dragLastX = event.clientX
+      this.dragLastY = event.clientY
+      this.dragAccum = 0
+      this.dragTrackRect = this.$refs.track.getBoundingClientRect()
       document.addEventListener('mousemove', this.boundMouseMove)
       document.addEventListener('mouseup', this.boundMouseUp)
     },
-    startDragTouch: function (which) {
+    startDragTouch: function (which, event) {
       if (this.disabled) return
       this.dragging = which
+      var t = event.touches[0]
+      this.dragLastX = t.clientX
+      this.dragLastY = t.clientY
+      this.dragAccum = 0
+      this.dragTrackRect = this.$refs.track.getBoundingClientRect()
       document.addEventListener('touchmove', this.boundTouchMove, { passive: false })
       document.addEventListener('touchend', this.boundTouchEnd)
     },
     onMouseMove: function (event) {
       if (!this.dragging) return
-      this.applyValue(this.dragging, this.valueFromPointer(event.clientX, event.clientY))
+      this.processDragDelta(this.dragging, event.clientX - this.dragLastX, event.clientY - this.dragLastY)
+      this.dragLastX = event.clientX
+      this.dragLastY = event.clientY
     },
     onTouchMove: function (event) {
       if (!this.dragging) return
       event.preventDefault()
       var t = event.touches[0]
-      this.applyValue(this.dragging, this.valueFromPointer(t.clientX, t.clientY))
+      this.processDragDelta(this.dragging, t.clientX - this.dragLastX, t.clientY - this.dragLastY)
+      this.dragLastX = t.clientX
+      this.dragLastY = t.clientY
+    },
+    processDragDelta: function (which, deltaX, deltaY) {
+      var pixelsPerStep =
+        this.orientation === 'vertical'
+          ? this.dragTrackRect.height / this.totalSteps
+          : this.dragTrackRect.width / this.totalSteps
+      this.dragAccum += (this.orientation === 'vertical' ? -deltaY : deltaX) / pixelsPerStep
+
+      var steps =
+        this.dragAccum >= 1 ? Math.floor(this.dragAccum) : this.dragAccum <= -1 ? Math.ceil(this.dragAccum) : 0
+      if (steps === 0) return
+      this.dragAccum -= steps
+
+      var currentVal = which === 'single' ? this.localValue : which === 'min' ? this.localRangeMin : this.localRangeMax
+      var newVal = this.valueAtStepOffset(currentVal, steps)
+      if (newVal === currentVal) {
+        this.dragAccum = 0
+        return
+      }
+      this.applyValue(which, newVal)
     },
     stopDrag: function () {
       this.dragging = null
+      this.dragAccum = 0
+      this.dragTrackRect = null
       document.removeEventListener('mousemove', this.boundMouseMove)
       document.removeEventListener('mouseup', this.boundMouseUp)
       document.removeEventListener('touchmove', this.boundTouchMove)
@@ -230,9 +352,9 @@ export default {
         return
       }
       if (which === 'min') {
-        this.localRangeMin = this.snap(Math.min(val, this.localRangeMax - this.step))
+        this.localRangeMin = this.snap(Math.min(val, this.localRangeMax - this.getSegmentAt(val).step))
       } else {
-        this.localRangeMax = this.snap(Math.max(val, this.localRangeMin + this.step))
+        this.localRangeMax = this.snap(Math.max(val, this.localRangeMin + this.getSegmentAt(val).step))
       }
       arr = [this.localRangeMin, this.localRangeMax]
       this.$emit('input', arr)
@@ -259,26 +381,29 @@ export default {
       var isEnd = key === 'End'
       if (!isIncrease && !isDecrease && !isHome && !isEnd) return
       event.preventDefault()
-      var current, newVal
+      var current, newVal, stepSize
       if (which === 'single') {
         current = this.localValue
-        newVal = isHome ? this.min : isEnd ? this.max : current + (isIncrease ? this.step : -this.step)
+        stepSize = this.getSegmentAt(current).step
+        newVal = isHome ? this.min : isEnd ? this.max : current + (isIncrease ? stepSize : -stepSize)
         this.applyValue('single', this.snap(newVal))
       } else if (which === 'min') {
         current = this.localRangeMin
+        stepSize = this.getSegmentAt(current).step
         newVal = isHome
           ? this.min
           : isEnd
-            ? this.localRangeMax - this.step
-            : current + (isIncrease ? this.step : -this.step)
+            ? this.localRangeMax - stepSize
+            : current + (isIncrease ? stepSize : -stepSize)
         this.applyValue('min', this.snap(newVal))
       } else if (which === 'max') {
         current = this.localRangeMax
+        stepSize = this.getSegmentAt(current).step
         newVal = isHome
-          ? this.localRangeMin + this.step
+          ? this.localRangeMin + stepSize
           : isEnd
             ? this.max
-            : current + (isIncrease ? this.step : -this.step)
+            : current + (isIncrease ? stepSize : -stepSize)
         this.applyValue('max', this.snap(newVal))
       }
     }
