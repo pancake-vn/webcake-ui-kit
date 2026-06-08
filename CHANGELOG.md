@@ -4,6 +4,21 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.9] - 2026-06-08
+
+### Added
+
+- `WkSlider` accepts a new `width` prop (String or Number) to explicitly set the slider's width as an inline style on the root element.
+- `WkSlider` accepts a new `stepRanges` prop (Array of `{ step, to }` objects) enabling variable step sizes across different segments of the value range; thumb dragging, track clicks, and keyboard navigation all respect each segment's step size.
+
+### Changed
+
+- `WkSlider` thumb dragging now uses delta-based pixel accumulation with sub-step carry-over instead of absolute pointer-to-value mapping, producing more accurate and smooth positioning when dragging slowly or across segments with varying step densities.
+
+### Fixed
+
+- `WkSlider` removes the `min-width: 120px` CSS constraint, allowing the component to be placed in narrower containers without overflowing.
+
 ## [1.1.8] - 2026-06-04
 
 ### Fixed
