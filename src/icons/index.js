@@ -1730,4 +1730,5 @@ export { default as WkiZoomIn } from './ZoomIn.vue'
 export { default as WkiZoomOut } from './ZoomOut.vue'
 export { default as WkiClickButton } from './ClickButton.vue'
 export { default as WkiSectionBuilder } from './SectionBuilder.vue'
+export { default as WkiGenerateImage } from './GenerateImage.vue'
 // --- AUTO-GENERATED LUCIDE EXPORTS END ---

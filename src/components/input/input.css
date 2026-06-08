@@ -21,6 +21,7 @@
   line-height: var(--paragraph-small-line-height);
   letter-spacing: var(--paragraph-small-letter-spacing);
 }
+
 .ui-input--size-lg {
   height: 40px;
   gap: var(--spacing-sm);
@@ -29,6 +30,7 @@
   line-height: var(--paragraph-small-line-height);
   letter-spacing: var(--paragraph-small-letter-spacing);
 }
+
 .ui-input--size-sm {
   height: 32px;
   gap: var(--spacing-6);
@@ -37,6 +39,7 @@
   line-height: var(--paragraph-small-line-height);
   letter-spacing: var(--paragraph-small-letter-spacing);
 }
+
 .ui-input--size-xs {
   height: 28px;
   gap: var(--spacing-2xs);
@@ -50,9 +53,11 @@
 .ui-input--round-default {
   border-radius: var(--rounded-xl);
 }
+
 .ui-input--size-xs.ui-input--round-default {
   border-radius: var(--radius);
 }
+
 .ui-input--round-round {
   border-radius: var(--rounded-full);
 }
@@ -68,6 +73,7 @@
   border-color: var(--destructive-border);
   box-shadow: none;
 }
+
 .ui-input--error:focus-within {
   border-color: var(--destructive-border);
   box-shadow: 0 0 0 3px var(--focus-ring-error);
@@ -77,6 +83,7 @@
 .ui-input--disabled {
   opacity: 0.5;
 }
+
 .ui-input--disabled:focus-within {
   border-color: var(--border-primary);
   box-shadow: var(--shadow-xs);
@@ -96,10 +103,12 @@
   font: inherit;
   letter-spacing: inherit;
 }
+
 .ui-input__field::placeholder {
   color: var(--muted-fg);
   opacity: 1;
 }
+
 .ui-input__field:disabled {
   cursor: not-allowed;
 }
@@ -114,6 +123,7 @@
   height: 20px;
   color: var(--muted-fg);
 }
+
 .ui-input--size-xs .ui-input__decoration {
   width: 16px;
   height: 16px;

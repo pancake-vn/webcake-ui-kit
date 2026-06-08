@@ -4,6 +4,38 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.8] - 2026-06-04
+
+### Fixed
+
+- `WkTabs` `select` method now declares the `val` variable before using it, fixing a ReferenceError that prevented any tab from being selected when `allowDeselect` is `false` (the default).
+
+## [1.1.7] - 2026-06-04
+
+### Added
+
+- `WkTabs` accepts a new `allowDeselect` boolean prop; when `true`, clicking the active tab deselects it and emits `undefined`.
+
+### Changed
+
+- `WkSelect`, `WkSlider`, and `WkTabs` now accept a `modelValue` prop and emit `update:modelValue`, enabling Vue 3 `v-model` syntax alongside the existing `value`/`change` pattern used for Vue 2.
+- `WkSlider` `value` prop now accepts an `Array` in addition to `Number`, allowing the range variant to be initialized and driven via `v-model`.
+
+### Fixed
+
+- `WkInput` and `WkSelect` size heights are now fixed (`height`) rather than minimum (`min-height`), ensuring all size variants (xs: 28px, sm: 32px, md: 36px, lg: 40px) render at their intended exact height.
+
+## [1.1.6] - 2026-06-04
+
+### Added
+
+- `WkiGenerateImage` is a new custom icon component available as a `Wki`-prefixed export, built on the shared `BaseIcon` wrapper.
+
+### Changed
+
+- `WkSelect` chevron icon color is updated from `--muted-fg` to `--primary-fg`, making the dropdown arrow more visually prominent.
+- `WkDialog` content area padding is adjusted to asymmetric vertical/horizontal spacing (`--spacing-sm` top/bottom, `--spacing-md` left/right) instead of uniform `--spacing-md`.
+
 ## [1.1.5] - 2026-06-01
 
 ### Added
