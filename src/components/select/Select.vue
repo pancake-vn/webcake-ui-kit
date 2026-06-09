@@ -184,6 +184,14 @@ export default {
     }
   },
 
+  mounted() {
+    this._syncSlotLabels()
+  },
+
+  updated() {
+    this._syncSlotLabels()
+  },
+
   computed: {
     effectiveValue() {
       return this.modelValue !== null ? this.modelValue : this.value
@@ -220,8 +228,9 @@ export default {
       if (this.isMultiMode) return ''
       if (!this.effectiveValue) return ''
       if (this.labelCache[this.effectiveValue]) return this.labelCache[this.effectiveValue]
-      var opt = this.normalizedOptions.find(o => o.value === this.effectiveValue)
-      return opt ? opt.label : this.effectiveValue
+      const opt = this.normalizedOptions.find(o => o.value === this.effectiveValue)
+      if (opt) return opt.label
+      return this._findLabelInSlot(this.effectiveValue) || this.effectiveValue
     },
     selectedItems() {
       if (!this.isMultiMode) return []
@@ -354,6 +363,42 @@ export default {
     },
     registerOption(value, label) {
       this.labelCache = Object.assign({}, this.labelCache, { [value]: label })
+    },
+    _slotNodes() {
+      // Vue 3: $slots.default is a function; Vue 2: it's an array
+      return typeof this.$slots.default === 'function' ? this.$slots.default() : this.$slots.default || []
+    },
+    _syncSlotLabels() {
+      const collect = nodes => {
+        if (!Array.isArray(nodes)) return
+        nodes.forEach(vnode => {
+          if (!vnode) return
+          const props = vnode.props || (vnode.componentOptions && vnode.componentOptions.propsData)
+          if (props && props.value != null && props.label) {
+            this.registerOption(String(props.value), String(props.label))
+          }
+          if (Array.isArray(vnode.children)) collect(vnode.children)
+        })
+      }
+      collect(this._slotNodes())
+    },
+    _findLabelInSlot(value) {
+      const scan = nodes => {
+        if (!Array.isArray(nodes)) return null
+        for (const vnode of nodes) {
+          if (!vnode) continue
+          const props = vnode.props || (vnode.componentOptions && vnode.componentOptions.propsData)
+          if (props && String(props.value) === String(value) && props.label) {
+            return String(props.label)
+          }
+          if (Array.isArray(vnode.children)) {
+            const found = scan(vnode.children)
+            if (found) return found
+          }
+        }
+        return null
+      }
+      return scan(this._slotNodes())
     }
   }
 }
