@@ -14,7 +14,7 @@ describe('WkInput', () => {
     expect(w.find('input').element.value).toBe('b')
   })
 
-  const sizes = ['xs', 'sm', 'md', 'lg']
+  const sizes = ['tiny', 'xs', 'sm', 'md', 'lg']
   sizes.forEach(size => {
     it(`applies size class for "${size}"`, () => {
       const w = mount(WkInput, { props: { size } })

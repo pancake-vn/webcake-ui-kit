@@ -32,6 +32,12 @@
   --destructive-subtle: var(--color-red-50);
   --destructive-border: var(--color-red-500);
   --destructive-text: var(--color-red-600);
+  --warning-subtle: var(--color-orange-50);
+  --warning-border: var(--color-orange-400);
+  --warning-text: var(--color-orange-500);
+  --info-subtle: var(--color-indigo-50);
+  --info-border: var(--color-indigo-500);
+  --info-text: var(--color-indigo-600);
   --ghost: var(--color-white-alpha-001);
   --ghost-foreground: var(--color-brand-neutrals-700);
   --ghost-hover: var(--color-black-alpha-5);
@@ -138,6 +144,12 @@
   --destructive-subtle: var(--color-red-950);
   --destructive-border: var(--color-red-500);
   --destructive-text: var(--color-red-400);
+  --warning-subtle: var(--color-yellow-950);
+  --warning-border: var(--color-orange-600);
+  --warning-text: var(--color-orange-500);
+  --info-subtle: var(--color-indigo-950);
+  --info-border: var(--color-indigo-500);
+  --info-text: var(--color-indigo-600);
   --ghost: var(--color-white-alpha-001);
   --ghost-foreground: var(--color-brand-neutrals-200);
   --ghost-hover: var(--color-black-alpha-10);
