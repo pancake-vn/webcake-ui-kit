@@ -49,6 +49,15 @@
   letter-spacing: var(--paragraph-mini-letter-spacing);
 }
 
+.ui-input--size-tiny {
+  height: 24px;
+  gap: var(--spacing-2xs);
+  padding: var(--spacing-2xs) var(--spacing-6);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+
 /* Roundness — Mini uses smaller default radius per Figma. */
 .ui-input--round-default {
   border-radius: var(--rounded-xl);
@@ -56,6 +65,10 @@
 
 .ui-input--size-xs.ui-input--round-default {
   border-radius: var(--radius);
+}
+
+.ui-input--size-tiny.ui-input--round-default {
+  border-radius: var(--rounded-lg);
 }
 
 .ui-input--round-round {
@@ -124,7 +137,8 @@
   color: var(--muted-fg);
 }
 
-.ui-input--size-xs .ui-input__decoration {
+.ui-input--size-xs .ui-input__decoration,
+.ui-input--size-tiny .ui-input__decoration {
   width: 16px;
   height: 16px;
 }

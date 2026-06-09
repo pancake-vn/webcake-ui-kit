@@ -1731,4 +1731,8 @@ export { default as WkiZoomOut } from './ZoomOut.vue'
 export { default as WkiClickButton } from './ClickButton.vue'
 export { default as WkiSectionBuilder } from './SectionBuilder.vue'
 export { default as WkiGenerateImage } from './GenerateImage.vue'
+export { default as WkiLayersUp } from './LayersUp.vue'
+export { default as WkiLayersDown } from './LayersDown.vue'
+export { default as WkiLayersUpToTop } from './LayersUpToTop.vue'
+export { default as WkiLayersDownToBottom } from './LayersDownToBottom.vue'
 // --- AUTO-GENERATED LUCIDE EXPORTS END ---

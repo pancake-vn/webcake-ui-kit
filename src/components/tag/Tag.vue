@@ -6,16 +6,16 @@
     >
     <span v-if="counter > 0" class="ui-tag__counter">{{ counter }}</span>
     <button v-if="closable" class="ui-tag__close" type="button" @click.stop="$emit('close')">
-      <svg class="ui-tag__close-icon" viewBox="0 0 12 12" fill="none">
-        <path d="M2.5 2.5L9.5 9.5M9.5 2.5L2.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-      </svg>
+      <WkiX :size="12" class="ui-tag__close-icon" />
     </button>
   </span>
 </template>
 
 <script>
+import { WkiX } from '../../icons'
 export default {
   name: 'Tag',
+  components: { WkiX },
   props: {
     type: {
       type: String,
