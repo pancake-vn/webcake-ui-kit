@@ -1,7 +1,7 @@
 import WkInput from '../../src/components/input/Input.vue'
 import { WkiSearch } from '../../src/icons'
 
-const SIZES = ['xs', 'sm', 'md', 'lg']
+const SIZES = ['tiny', 'xs', 'sm', 'md', 'lg']
 const ROUNDNESS = ['default', 'round']
 
 export default {

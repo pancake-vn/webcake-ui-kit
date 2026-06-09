@@ -57,7 +57,12 @@ export default {
 
   computed: {
     isSelected() {
-      return !!(this.select && this.select.effectiveValue !== undefined && this.select.effectiveValue === this.value)
+      if (!this.select) return false
+      var val = this.select.effectiveValue
+      if (this.select.isMultiMode) {
+        return Array.isArray(val) && val.indexOf(this.value) !== -1
+      }
+      return val !== undefined && val === this.value
     },
     isDisabled() {
       return this.disabled || !!(this.select && this.select.disabled)

@@ -412,6 +412,69 @@
           <WkButton>test</WkButton>
         </WkDropdown>
       </section>
+
+      <section class="section" style="margin-bottom: 300px">
+        <h2>Select — new features</h2>
+        <div style="display: flex; flex-direction: column; gap: 16px; max-width: 320px">
+          <div>
+            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">Single (default)</p>
+            <WkSelect
+              :value="selectSingle"
+              :options="selectOptions"
+              placeholder="Pick one"
+              @change="selectSingle = $event"
+            />
+            <code style="font-size: 11px">{{ selectSingle }}</code>
+          </div>
+          <div>
+            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">Searchable</p>
+            <WkSelect
+              :value="selectSearchable"
+              :options="selectOptions"
+              searchable
+              placeholder="Type to search"
+              @change="selectSearchable = $event"
+            />
+            <code style="font-size: 11px">{{ selectSearchable }}</code>
+          </div>
+          <div>
+            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">Multiple</p>
+            <WkSelect
+              :value="selectMultiple"
+              :options="selectOptions"
+              mode="multiple"
+              placeholder="Pick many"
+              @change="selectMultiple = $event"
+            />
+            <code style="font-size: 11px">{{ JSON.stringify(selectMultiple) }}</code>
+          </div>
+          <div>
+            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">
+              Tags mode (gõ + Enter tạo tag mới)
+            </p>
+            <WkSelect
+              :value="selectMultiSearch"
+              :options="selectOptions"
+              mode="tags"
+              size="sm"
+              placeholder="Gõ rồi Enter…"
+              @change="selectMultiSearch = $event"
+            />
+            <code style="font-size: 11px">{{ JSON.stringify(selectMultiSearch) }}</code>
+          </div>
+          <div>
+            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">filterOption (tìm theo name)</p>
+            <WkSelect
+              :value="selectFilter"
+              :options="selectOptionsNamed"
+              :filter-option="customFilterOption"
+              placeholder="Search by name"
+              @change="selectFilter = $event"
+            />
+            <code style="font-size: 11px">{{ selectFilter }}</code>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -457,6 +520,26 @@ export default {
         { label: 'Option 1', value: 'a' },
         { label: 'Option 2', value: 'b' },
         { label: 'Option 3', value: 'c' }
+      ],
+      selectSingle: '',
+      selectSearchable: '',
+      selectMultiple: [],
+      selectMultiSearch: [],
+      selectFilter: '',
+      selectOptions: [
+        { label: 'Apple', value: 'apple' },
+        { label: 'Banana', value: 'banana' },
+        { label: 'Cherry', value: 'cherry' },
+        { label: 'Durian', value: 'durian' },
+        { label: 'Elderberry', value: 'elderberry' },
+        { label: 'Fig', value: 'fig' },
+        { label: 'Grape', value: 'grape' }
+      ],
+      selectOptionsNamed: [
+        { label: 'Alice', value: 'alice', name: 'Alice Nguyen' },
+        { label: 'Bob', value: 'bob', name: 'Bob Tran' },
+        { label: 'Charlie', value: 'charlie', name: 'Charlie Le' },
+        { label: 'Diana', value: 'diana', name: 'Diana Pham' }
       ],
       tooltipSides: ['top', 'bottom', 'left', 'right'],
       tooltipsPinned: true,
@@ -618,6 +701,10 @@ export default {
     }
   },
   methods: {
+    customFilterOption(input, option) {
+      var q = input.toLowerCase()
+      return (option.label + ' ' + (option.name || '')).toLowerCase().indexOf(q) !== -1
+    },
     async handleOk() {
       this.loading = true
       await new Promise(resolve => setTimeout(resolve, 5000))
