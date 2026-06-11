@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.13] - 2026-06-11
+
+### Added
+
+- `WkInputNumber` accepts `prefix` and `suffix` named slots for rendering decorative content (icons, units, labels) at either end of the input field; slots are conditionally rendered and sized to 20px (16px for `tiny` and `xs` sizes) using `--muted-fg` for color.
+
 ## [1.1.12] - 2026-06-11
 
 ### Added
