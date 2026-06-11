@@ -4,6 +4,20 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.12] - 2026-06-11
+
+### Added
+
+- New `WkInputNumber` component for numeric text input with configurable `min`, `max`, `step`, and `precision` props that clamp and round the committed value automatically.
+- `WkInputNumber` accepts a `size` prop (`'tiny'` | `'xs'` | `'sm'` | `'md'` | `'lg'`) and a `roundness` prop (`'default'` | `'round'`) matching the sizing and shape conventions of `WkInput`.
+- `WkInputNumber` supports `error`, `disabled`, and `readonly` states via boolean props of the same name.
+- `WkInputNumber` increments or decrements the value by `step` when the user presses Arrow Up or Arrow Down, and emits a `pressEnter` event when Enter is pressed.
+- `WkInputNumber` supports dual v-model: `value` / `input` for Vue 2 and `modelValue` / `update:modelValue` for Vue 3.
+
+### Fixed
+
+- `WkTabs` `value` prop type constraint relaxed from `[String, Number]` to untyped, preventing spurious prop validator warnings when the active tab key is a value that does not strictly match either type.
+
 ## [1.1.11] - 2026-06-09
 
 ### Fixed
