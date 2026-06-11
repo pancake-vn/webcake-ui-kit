@@ -17,6 +17,7 @@
       class="ui-input-number__field"
       type="text"
       inputmode="decimal"
+      :style="centered ? { textAlign: 'center' } : {}"
       :value="displayValue"
       :placeholder="placeholder"
       :disabled="disabled"
@@ -59,7 +60,8 @@ export default {
       default: 'default',
       validator: v => ['default', 'round'].includes(v)
     },
-    error: { type: Boolean, default: false }
+    error: { type: Boolean, default: false },
+    centered: { type: Boolean, default: false }
   },
   emits: ['input', 'update:modelValue', 'change', 'focus', 'blur', 'pressEnter'],
   data() {
