@@ -9,6 +9,9 @@
       $attrs.class
     ]"
   >
+    <span v-if="hasPrefix" class="ui-input-number__decoration ui-input-number__prefix" aria-hidden="true">
+      <slot name="prefix"></slot>
+    </span>
     <input
       ref="input"
       class="ui-input-number__field"
@@ -25,6 +28,9 @@
       @blur="onBlur"
       @keydown="onKeydown"
     />
+    <span v-if="hasSuffix" class="ui-input-number__decoration ui-input-number__suffix" aria-hidden="true">
+      <slot name="suffix"></slot>
+    </span>
   </span>
 </template>
 
@@ -65,6 +71,12 @@ export default {
   computed: {
     currentValue() {
       return this.modelValue !== undefined ? this.modelValue : this.value
+    },
+    hasPrefix() {
+      return !!((this.$scopedSlots && this.$scopedSlots['prefix']) || this.$slots['prefix'])
+    },
+    hasSuffix() {
+      return !!((this.$scopedSlots && this.$scopedSlots['suffix']) || this.$slots['suffix'])
     },
     effectivePrecision() {
       if (this.precision !== null) return this.precision

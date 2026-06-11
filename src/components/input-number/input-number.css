@@ -128,3 +128,19 @@
 .ui-input-number__field:disabled {
   cursor: not-allowed;
 }
+
+.ui-input-number__decoration {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--muted-fg);
+}
+
+.ui-input-number--size-xs .ui-input-number__decoration,
+.ui-input-number--size-tiny .ui-input-number__decoration {
+  width: 16px;
+  height: 16px;
+}
