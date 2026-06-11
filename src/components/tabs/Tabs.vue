@@ -39,7 +39,7 @@ export default {
   },
 
   props: {
-    value: { type: [String, Number], default: null },
+    value: { default: null },
     modelValue: { default: null },
     tabs: {
       type: Array,
