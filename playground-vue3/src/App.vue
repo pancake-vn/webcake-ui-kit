@@ -462,7 +462,7 @@
             </p>
             <WkSelect
               :value="selectMultiSearch"
-              :options="selectOptions"
+              :options="[]"
               mode="tags"
               size="sm"
               placeholder="Gõ rồi Enter…"
