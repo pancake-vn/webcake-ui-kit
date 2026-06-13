@@ -32,6 +32,7 @@
 
 <script>
 import { acquire, release } from '../../floating/portal-root.js'
+import { nextZIndex } from '../../floating/layer-manager.js'
 
 const GAP = 4
 
@@ -137,7 +138,7 @@ export default {
         position: 'fixed',
         top: top + 'px',
         left: left + 'px',
-        zIndex: 1050
+        zIndex: nextZIndex()
       }
     },
     cleanup() {

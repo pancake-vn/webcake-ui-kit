@@ -58,3 +58,11 @@
   background: transparent;
   box-shadow: 0 0 0 3px var(--ring);
 }
+
+.ui-select-option--label {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

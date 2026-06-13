@@ -55,6 +55,10 @@
         >
           <div>
             <WkButton @click="openDialog2 = true">Open Dialog 2</WkButton>
+            <div>Dialog 22222</div>
+            <WkDropdown :items="dropdownOptions">
+              <WkButton>test</WkButton>
+            </WkDropdown>
           </div>
         </WkDialog>
         <WkDialog :open="openDialog2" @cancel="openDialog2 = false" @ok="openDialog2 = false" :zIndex="2000">
@@ -62,6 +66,9 @@
             <div>Dialog 22222</div>
           </template>
           <p>abcccc</p>
+          <WkDropdown :items="dropdownOptions">
+            <WkTooltip :title="'12312dssdfsdf'" side="bottom"> sadfsafssadfsdf </WkTooltip>
+          </WkDropdown>
         </WkDialog>
       </section>
 
@@ -423,6 +430,7 @@
               :options="selectOptions"
               placeholder="Pick one"
               @change="selectSingle = $event"
+              size="sm"
             />
             <code style="font-size: 11px">{{ selectSingle }}</code>
           </div>
@@ -466,15 +474,29 @@
             <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">filterOption (tìm theo name)</p>
             <WkSelect
               :value="selectFilter"
-              :options="selectOptionsNamed"
               :filter-option="customFilterOption"
               placeholder="Search by name"
               @change="selectFilter = $event"
-            />
+            >
+              <WkSelectOption v-for="option in selectOptionsNamed" :key="option.value" :value="option.value">
+                <WkDropdown :items="dropdownOptions">
+                  <WkTooltip :title="option.name" side="top">
+                    {{ option.name }}
+                  </WkTooltip>
+                </WkDropdown>
+              </WkSelectOption>
+            </WkSelect>
             <code style="font-size: 11px">{{ selectFilter }}</code>
           </div>
         </div>
       </section>
+
+      <WkSidebarItem>
+        sfhmvsjfjsda
+        <template #icon>
+          <WkiChessBishop :size="20" color="var(--primary-fg)" />
+        </template>
+      </WkSidebarItem>
     </div>
   </div>
 </template>

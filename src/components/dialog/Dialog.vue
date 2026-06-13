@@ -94,6 +94,7 @@
 
 <script>
 import { acquire, release } from '../../floating/portal-root.js'
+import { bumpTo } from '../../floating/layer-manager.js'
 import Button from '../button/Button.vue'
 import WkiMinus from '../../icons/Minus.vue'
 import WkiUnfoldVertical from '../../icons/UnfoldVertical.vue'
@@ -257,6 +258,7 @@ export default {
     },
     onOpen() {
       this.hasOpened = true
+      bumpTo(this.zIndex)
       this.lockBody()
       if (typeof document !== 'undefined') {
         this._prevFocus = document.activeElement
