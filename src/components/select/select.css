@@ -209,6 +209,7 @@
 
 .ui-select__search::placeholder {
   color: var(--muted-fg);
+  font-size: 14px;
 }
 
 .ui-select__search--single {
