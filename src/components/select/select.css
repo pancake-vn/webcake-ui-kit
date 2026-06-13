@@ -204,6 +204,7 @@
   margin: 0;
   min-width: 60px;
   flex: 1;
+  font-size: 12px;
 }
 
 .ui-select__search::placeholder {

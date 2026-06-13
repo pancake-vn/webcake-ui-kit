@@ -56,6 +56,9 @@
               @click.stop="openIfClosed"
               @keydown.stop="onSearchKeydown"
             />
+            <span v-else-if="!selectedItems.length" class="ui-select__value ui-select__value--placeholder">{{
+              placeholder
+            }}</span>
           </span>
           <input
             v-else-if="isSearchable"
@@ -252,6 +255,7 @@ export default {
         var vals = Object.keys(this.slotOptionVisible)
         if (vals.length > 0 && vals.every(v => !this.slotOptionVisible[v])) return true
       }
+      if (this.normalizedOptions.length === 0 && Object.keys(this.slotOptionVisible).length === 0) return true
       return false
     },
     hasIconSlot() {
