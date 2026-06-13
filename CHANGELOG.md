@@ -4,6 +4,27 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.15] - 2026-06-13
+
+### Added
+
+- New `WkiGeneratePrompt` icon component is available.
+- `WkSelectOption` now renders a checkmark icon next to the currently selected option.
+- `WkSidebarItem` supports an icon-only mode: when no label text or default slot content is provided, the item collapses to a compact square (32 × 32 px, 36 × 36 px for `large`) and hides the label span.
+- `WkSelect` displays a "No data" empty state via `WkEmpty` when all options are filtered out by the active search query.
+
+### Changed
+
+- `WkEmpty` title and description are now rendered with `WkTypography` instead of raw `<p>` tags, delegating typographic styling to the shared typography system.
+- `WkSelectOption` label text is now truncated with an ellipsis when it overflows the available option width.
+- `WkTooltip` z-index is now managed by the shared layer manager (`nextZIndex()`) instead of a hardcoded `1050`, ensuring tooltips stack correctly above other floating layers.
+- `WkDialog` bumps the shared layer-manager counter to its own z-index on open, so tooltips and dropdowns rendered inside a dialog always land above it.
+
+### Fixed
+
+- `WkSelect` in `tags` mode no longer creates a new tag when Enter is pressed during IME composition (e.g. CJK input methods).
+- `WkSelectOption` now registers its rendered slot text as the searchable label, fixing search filtering for options that use the default slot instead of the `label` prop.
+
 ## [1.1.14] - 2026-06-11
 
 ### Added
