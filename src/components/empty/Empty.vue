@@ -5,12 +5,12 @@
         <slot name="media"></slot>
       </div>
       <div v-if="hasTextBlock" class="ui-empty__text">
-        <p v-if="hasTitle" class="ui-empty__title">
+        <Typography v-if="hasTitle" variant="paragraph" weight="medium">
           <slot name="title">{{ title }}</slot>
-        </p>
-        <p v-if="hasDescription" class="ui-empty__description">
+        </Typography>
+        <Typography v-if="hasDescription" variant="paragraph-small" weight="regular">
           <slot name="description">{{ description }}</slot>
-        </p>
+        </Typography>
       </div>
       <div v-if="hasFooter" class="ui-empty__footer">
         <slot></slot>
@@ -20,8 +20,11 @@
 </template>
 
 <script>
+import Typography from '../typography/Typography.vue'
+
 export default {
   name: 'Empty',
+  components: { Typography },
   props: {
     variant: {
       type: String,

@@ -53,6 +53,19 @@
   font-size: 15px;
 }
 
+.ui-sidebar-item--icon-only {
+  width: 32px;
+  height: 32px;
+  padding: var(--spacing-2xs);
+  justify-content: center;
+}
+
+.ui-sidebar-item--large.ui-sidebar-item--icon-only {
+  width: 36px;
+  height: 36px;
+  padding: var(--spacing-xs);
+}
+
 /* Level 2 — nested, indented */
 .ui-sidebar-item--level-2 {
   padding-left: var(--spacing-lg);

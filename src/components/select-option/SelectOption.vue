@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="!isHidden"
     class="ui-select-option"
     :class="[
       size === 'large' ? 'ui-select-option--large' : null,
@@ -12,13 +13,21 @@
     :aria-disabled="isDisabled ? 'true' : null"
     @click="handleClick"
   >
-    <slot>{{ label || value }}</slot>
+    <span class="ui-select-option--label">
+      <slot>{{ label || value }}</slot>
+    </span>
+    <WkiCheck v-if="isSelected" :size="16" color="var(--muted-fg)" />
   </div>
 </template>
 
 <script>
+import { WkiCheck } from '../../icons'
 export default {
   name: 'SelectOption',
+
+  components: {
+    WkiCheck
+  },
 
   inject: {
     select: { default: null }
@@ -55,7 +64,35 @@ export default {
 
   emits: [],
 
+  mounted() {
+    this._registerLabel()
+    if (this.select) this.select.setSlotOptionVisible(this.value, !this.isHidden)
+  },
+
+  updated() {
+    this._registerLabel()
+  },
+
+  beforeUnmount() {
+    if (this.select) this.select.removeSlotOption(this.value)
+  },
+
+  watch: {
+    isHidden(val) {
+      if (this.select) this.select.setSlotOptionVisible(this.value, !val)
+    }
+  },
+
   computed: {
+    isHidden() {
+      if (!this.select || !this.select.filterText) return false
+      var q = this.select.filterText.toLowerCase()
+      var label = (this.select.labelCache && this.select.labelCache[this.value]) || this.label || String(this.value)
+      if (typeof this.select.filterOption === 'function') {
+        return !this.select.filterOption(this.select.filterText, { label: label, value: this.value })
+      }
+      return label.toLowerCase().indexOf(q) === -1
+    },
     isSelected() {
       if (!this.select) return false
       var val = this.select.effectiveValue
@@ -70,6 +107,13 @@ export default {
   },
 
   methods: {
+    _registerLabel() {
+      if (!this.select) return
+      var labelEl = this.$el && this.$el.querySelector('.ui-select-option--label')
+      var slotText = labelEl ? labelEl.textContent.trim() : ''
+      var labelText = slotText || this.label || String(this.value)
+      this.select.registerOption(this.value, labelText)
+    },
     handleClick() {
       if (this.isDisabled) return
       if (this.select && typeof this.select.select === 'function') {

@@ -8,7 +8,8 @@
       'ui-sidebar-item--level-2': level === 2,
       'ui-sidebar-item--has-children': hasChildren,
       'ui-sidebar-item--expanded': hasChildren && expanded,
-      'ui-sidebar-item--collapsed': collapsed
+      'ui-sidebar-item--collapsed': collapsed,
+      'ui-sidebar-item--icon-only': isIconOnly
     }"
     :tabindex="disabled ? -1 : 0"
     :aria-current="active ? 'page' : undefined"
@@ -19,7 +20,7 @@
     <span v-if="hasIconSlot" class="ui-sidebar-item__icon" aria-hidden="true">
       <slot name="icon" />
     </span>
-    <span class="ui-sidebar-item__label">
+    <span class="ui-sidebar-item__label" v-if="hasDefaultSlot || label">
       <slot>{{ label }}</slot>
     </span>
     <span v-if="badge" class="ui-sidebar-item__badge">{{ badge }}</span>
@@ -96,6 +97,12 @@ export default {
     },
     hasIconRightSlot() {
       return !!((this.$scopedSlots && this.$scopedSlots['icon-right']) || this.$slots['icon-right'])
+    },
+    hasDefaultSlot() {
+      return !!this.$slots['default']
+    },
+    isIconOnly() {
+      return !this.label && !this.hasDefaultSlot && this.hasIconSlot
     }
   },
 

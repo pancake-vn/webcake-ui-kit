@@ -1735,4 +1735,5 @@ export { default as WkiLayersUp } from './LayersUp.vue'
 export { default as WkiLayersDown } from './LayersDown.vue'
 export { default as WkiLayersUpToTop } from './LayersUpToTop.vue'
 export { default as WkiLayersDownToBottom } from './LayersDownToBottom.vue'
+export { default as WkiGeneratePrompt } from './GeneratePrompt.vue'
 // --- AUTO-GENERATED LUCIDE EXPORTS END ---

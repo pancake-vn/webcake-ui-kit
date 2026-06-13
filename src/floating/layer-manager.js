@@ -16,6 +16,14 @@ export function currentZIndex() {
   return _counter
 }
 
+// Ensure subsequent nextZIndex() calls return values above `n`.
+// Call this when a layer (e.g. Dialog) opens with an explicit z-index so that
+// floating panels inside it always land on top.
+export function bumpTo(n) {
+  const v = Number(n)
+  if (!isNaN(v) && v > _counter) _counter = v
+}
+
 // Test helper — reset between specs.
 export function _reset() {
   _counter = BASE

@@ -88,6 +88,7 @@
           :disabled="opt.disabled"
         />
       </slot>
+      <Empty v-if="showEmpty" description="No data" />
     </div>
   </Menu>
 </template>
@@ -98,11 +99,12 @@ import Menu from '../menu/Menu.vue'
 import SelectOption from '../select-option/SelectOption.vue'
 import Spinner from '../spinner/Spinner.vue'
 import Tag from '../tag/Tag.vue'
+import Empty from '../empty/Empty.vue'
 
 export default {
   name: 'Select',
 
-  components: { Menu, SelectOption, Spinner, WkiChevronDown, Tag },
+  components: { Menu, SelectOption, Spinner, WkiChevronDown, Tag, Empty },
 
   provide() {
     return { select: this }
@@ -180,7 +182,8 @@ export default {
       isOpen: false,
       labelCache: {},
       filterText: '',
-      tagOptions: []
+      tagOptions: [],
+      slotOptionVisible: {}
     }
   },
 
@@ -243,6 +246,14 @@ export default {
         return { value: v, label: opt ? opt.label : self.labelCache[v] || v }
       })
     },
+    showEmpty() {
+      if (this.normalizedOptions.length > 0 && this.filteredOptions.length === 0) return true
+      if (this.filterText) {
+        var vals = Object.keys(this.slotOptionVisible)
+        if (vals.length > 0 && vals.every(v => !this.slotOptionVisible[v])) return true
+      }
+      return false
+    },
     hasIconSlot() {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
     },
@@ -287,6 +298,7 @@ export default {
     onSearchKeydown(e) {
       if (e.key === 'Enter') {
         e.preventDefault()
+        if (e.isComposing) return
         if (this.mode === 'tags' && this.filterText.trim()) {
           const text = this.filterText.trim()
           const existing = this.normalizedOptions.find(function (o) {
@@ -363,6 +375,14 @@ export default {
     },
     registerOption(value, label) {
       this.labelCache = Object.assign({}, this.labelCache, { [value]: label })
+    },
+    setSlotOptionVisible(value, visible) {
+      this.slotOptionVisible = Object.assign({}, this.slotOptionVisible, { [value]: visible })
+    },
+    removeSlotOption(value) {
+      var next = Object.assign({}, this.slotOptionVisible)
+      delete next[value]
+      this.slotOptionVisible = next
     },
     _slotNodes() {
       // Vue 3: $slots.default is a function; Vue 2: it's an array
