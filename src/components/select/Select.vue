@@ -91,7 +91,9 @@
           :disabled="opt.disabled"
         />
       </slot>
-      <Empty v-if="showEmpty" description="No data" />
+      <slot v-if="showEmpty" name="empty">
+        <Empty description="No data" />
+      </slot>
     </div>
   </Menu>
 </template>
