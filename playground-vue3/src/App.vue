@@ -466,8 +466,30 @@
               mode="tags"
               size="sm"
               placeholder="Gõ rồi Enter…"
+              :list-height="384"
               @change="selectMultiSearch = $event"
-            />
+            >
+              <template #empty>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4px;
+                    height: 100%;
+                    width: 100%;
+                    justify-content: center;
+                  "
+                >
+                  <img
+                    style="width: 56px; height: 56px"
+                    src="https://content.pancake.vn/web-media-262/2e/2a/0c/96/c2b58ae9f06c4dc2a3b83016e56d5b4132ff40637862ba23435e43a0-w:224-h:224-l:3927-t:image/png.png"
+                    alt=""
+                  />
+                  <span style="font-size: 12px; color: var(--muted-fg)">Không có dữ liệu</span>
+                </div>
+              </template>
+            </WkSelect>
             <code style="font-size: 11px">{{ JSON.stringify(selectMultiSearch) }}</code>
           </div>
           <div>
