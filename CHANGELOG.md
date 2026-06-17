@@ -4,6 +4,25 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.19] - 2026-06-17
+
+### Added
+
+- New `WkTable` component for rendering data tables with columns defined via a `columns` prop array; supports client-side sorting (ascending / descending / none) by clicking any column whose descriptor includes a `sorter`, optional row selection via a leading `WkCheckbox` column controlled by `selectedRowKeys`, a `bordered` prop for outer border and column dividers, vertical scroll with a sticky header via `height` or `scroll.y`, horizontal scroll via `scroll.x`, `headerCell` and `bodyCell` named slots for custom cell rendering, and a built-in `WkEmpty` empty state.
+- New `WkiClippingMask` icon component is available.
+- `WkDropdown` accepts a new `value` prop (String or Array) that marks the matching item(s) as active in the dropdown menu with a checkmark indicator and highlighted background.
+
+### Changed
+
+- `WkTypography` `color` prop now accepts any raw CSS color value in addition to design-token names; previously, only recognized token names passed the validator.
+
+### Fixed
+
+- `WkButton` link variant no longer renders a visible border.
+- `WkCheckbox` indicator box is now correctly positioned using `inset: 0`.
+- `WkEmpty` title now uses the `paragraph-regular` typography variant, aligning with the current design-token set.
+- Floating panels (dropdowns, menus) no longer steal focus back to the trigger when the user has already focused a different element while the close animation was running.
+
 ## [1.1.18] - 2026-06-15
 
 ### Added
