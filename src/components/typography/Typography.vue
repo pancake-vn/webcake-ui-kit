@@ -75,8 +75,7 @@ export default {
     },
     color: {
       type: String,
-      default: '',
-      validator: v => COLORS.indexOf(v) !== -1
+      default: ''
     },
     align: {
       type: String,
@@ -95,7 +94,10 @@ export default {
     },
     rootStyle() {
       if (!this.color) return null
-      return { '--ui-typography-color': 'var(--' + this.color + ')' }
+      if (COLORS.includes(this.color)) {
+        return { '--ui-typography-color': 'var(--' + this.color + ')' }
+      }
+      return { '--ui-typography-color': this.color }
     }
   }
 }

@@ -1,0 +1,197 @@
+.ui-table {
+  width: 100%;
+  font-family: var(--font-family-body);
+  color: var(--primary-fg);
+}
+
+.ui-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.ui-table__col--selection {
+  width: 1%;
+}
+
+/* ---------- Cells ---------- */
+.ui-table__cell {
+  padding: var(--spacing-xs);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.ui-table__cell--right {
+  text-align: right;
+}
+
+.ui-table__cell--center {
+  text-align: center;
+}
+
+.ui-table__cell--ellipsis {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ui-table__cell--selection {
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ---------- Header ---------- */
+.ui-table__th {
+  background: var(--secondary-bg);
+  font-weight: var(--paragraph-medium-font-weight);
+  white-space: nowrap;
+}
+
+.ui-table__th-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  max-width: 100%;
+}
+
+.ui-table__th--sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.ui-table__th--sortable:hover {
+  background: var(--accent-2);
+}
+
+.ui-table__th--sortable:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--focus-ring);
+}
+
+.ui-table__sort {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--muted-fg);
+}
+
+.ui-table__sort--inactive {
+  opacity: 0.5;
+}
+
+.ui-table__sort--active {
+  opacity: 1;
+  color: var(--primary-fg);
+}
+
+/* ---------- Body ---------- */
+.ui-table__td {
+  background: var(--primary-bg);
+  font-weight: var(--paragraph-font-weight);
+}
+
+.ui-table__row--body {
+  transition: background-color 0.12s ease;
+}
+
+.ui-table__row--body:hover .ui-table__td {
+  background: var(--accent-bg);
+}
+
+.ui-table__row--selected .ui-table__td {
+  background: var(--secondary-bg);
+}
+
+/* ---------- Empty ---------- */
+.ui-table__empty-cell {
+  padding: var(--spacing-3xl) var(--spacing-xs);
+  text-align: center;
+}
+
+/* ---------- Bordered ---------- */
+.ui-table--bordered {
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-xl);
+  overflow: hidden;
+}
+
+.ui-table--bordered .ui-table__cell {
+  border-right: 1px solid var(--border-primary);
+}
+
+.ui-table--bordered .ui-table__cell:last-child {
+  border-right: none;
+}
+
+/* With a scrollbar spacer present, the last real header column is second-to-last. */
+.ui-table--bordered .ui-table__row--has-scrollbar .ui-table__cell:nth-last-child(2) {
+  border-right: none;
+}
+
+.ui-table--bordered .ui-table__row--body:last-child .ui-table__td {
+  border-bottom: none;
+}
+
+/* ---------- Scroll viewport (fixed header, scrollable body) ---------- */
+.ui-table--scroll-y .ui-table__table,
+.ui-table--scroll-y .ui-table__head,
+.ui-table--scroll-y .ui-table__body {
+  display: block;
+}
+
+/*
+ * Switch to separate borders in scroll mode so each cell owns its border width precisely.
+ * border-collapse: collapse splits shared borders by 0.5px, which causes the scrollbar
+ * spacer <th> to be off by 1px. separate + border-spacing: 0 is visually identical
+ * (cells only have border-bottom and border-right, never border-top/left) but width-exact.
+ */
+.ui-table--scroll-y .ui-table__table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Each row becomes its own fixed-layout table so header and body columns line up. */
+.ui-table--scroll-y .ui-table__row {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* The body is the actual scroll area; the header above it stays put. */
+.ui-table--scroll-y .ui-table__body {
+  overflow-y: auto;
+}
+
+.ui-table__body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ui-table__body::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+  border-radius: 3px;
+}
+
+.ui-table--scroll-y .ui-table__head {
+  overflow: hidden;
+}
+
+.ui-table__th--scrollbar {
+  padding: 0;
+  border: none;
+  background: var(--secondary-bg);
+  border-bottom: 1px solid var(--border-primary);
+  box-sizing: border-box;
+}
+
+.ui-table--scroll-y .ui-table__cell--selection {
+  width: 44px;
+}

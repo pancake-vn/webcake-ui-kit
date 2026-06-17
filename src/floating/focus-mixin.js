@@ -28,6 +28,11 @@ export default {
         document.contains &&
         document.contains(t)
       ) {
+        // Skip restore if the user has already focused another element (e.g. clicked a different input
+        // while the close animation was running). Only restore when focus fell back to body/html,
+        // which happens when the floating panel itself held focus and then disappeared.
+        const active = document.activeElement
+        if (active && active !== document.body && active !== document.documentElement) return
         t.focus()
       }
     }

@@ -224,6 +224,7 @@
   color: var(--primary-brand-fg);
   height: fit-content;
   padding: 0;
+  border: none;
 }
 
 .ui-btn--link:hover,

@@ -21,7 +21,7 @@
         <slot></slot>
       </span>
     </template>
-    <DropdownMenuItems v-if="hasItems" :items="items" @select="onItemSelect" />
+    <DropdownMenuItems v-if="hasItems" :items="items" :value="value" @select="onItemSelect" />
     <slot v-else name="overlay"></slot>
   </Menu>
 </template>
@@ -71,6 +71,10 @@ export default {
       default: function () {
         return []
       }
+    },
+    value: {
+      type: [String, Array],
+      default: null
     }
   },
   emits: ['change', 'update:modelValue', 'open', 'close', 'select'],

@@ -40,6 +40,7 @@
   transition:
     background-color 0.12s ease,
     border-color 0.12s ease;
+  inset: 0;
 }
 
 .ui-checkbox__input:checked + .ui-checkbox__box,

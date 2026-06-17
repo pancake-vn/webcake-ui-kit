@@ -378,6 +378,38 @@
           <WkButton>Dropdown</WkButton>
         </WkDropdown>
       </section>
+
+      <section class="section">
+        <h2>Table — data-driven, bordered, sortable</h2>
+        <WkTable :columns="tableColumns" :data-source="tableData" bordered>
+          <template #bodyCell="{ column, text }">
+            <WkButton v-if="column.dataIndex === 'operation'" size="xs" variant="ghost">Edit</WkButton>
+            <template v-else>{{ text }}</template>
+          </template>
+        </WkTable>
+
+        <h2 style="margin-top: 24px">Table — row selection</h2>
+        <WkTable
+          :columns="tableColumns"
+          :data-source="tableData"
+          row-selection
+          :selected-row-keys="tableSelectedKeys"
+          @update:selectedRowKeys="tableSelectedKeys = $event"
+        />
+        <p>Selected keys: {{ tableSelectedKeys.join(', ') || '(none)' }}</p>
+
+        <h2 style="margin-top: 24px">Table — empty</h2>
+        <WkTable :columns="tableColumns" :data-source="[]" bordered />
+
+        <h2 style="margin-top: 24px">Table — fixed scroll (x: 600, y: 494) + height 524</h2>
+        <WkTable
+          :columns="tableColumns"
+          :data-source="tableScrollData"
+          bordered
+          :scroll="{ y: 494, x: 600 }"
+          :height="524"
+        />
+      </section>
     </div>
   </div>
 </template>
@@ -402,6 +434,24 @@ export default {
       openDialog: false,
       openDialog2: false,
       selected: '',
+      tableColumns: [
+        { title: 'Name', dataIndex: 'name', width: '30%' },
+        { title: 'Age', dataIndex: 'age', align: 'right', sorter: true },
+        { title: 'Address', dataIndex: 'address' },
+        { title: 'Action', dataIndex: 'operation', align: 'right' }
+      ],
+      tableData: [
+        { key: '1', name: 'Edward King', age: 32, address: 'London, Park Lane no. 0' },
+        { key: '2', name: 'Jim Green', age: 42, address: 'London, Park Lane no. 1' },
+        { key: '3', name: 'Joe Black', age: 28, address: 'Sydney No. 1 Lake Park' }
+      ],
+      tableSelectedKeys: ['2'],
+      tableScrollData: Array.from({ length: 20 }, (_, i) => ({
+        key: 'r' + i,
+        name: 'User ' + (i + 1),
+        age: 20 + (i % 30),
+        address: 'Street No. ' + (i + 1) + ', Some City'
+      })),
       dropdownItems: [
         {
           key: 'edit',
