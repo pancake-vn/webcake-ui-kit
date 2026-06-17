@@ -5,10 +5,10 @@
         <slot name="media"></slot>
       </div>
       <div v-if="hasTextBlock" class="ui-empty__text">
-        <Typography v-if="hasTitle" variant="paragraph" weight="medium">
+        <Typography v-if="hasTitle" class="ui-empty__title" variant="paragraph-regular" weight="medium">
           <slot name="title">{{ title }}</slot>
         </Typography>
-        <Typography v-if="hasDescription" variant="paragraph-small" weight="regular">
+        <Typography v-if="hasDescription" class="ui-empty__description" variant="paragraph-small" weight="regular">
           <slot name="description">{{ description }}</slot>
         </Typography>
       </div>

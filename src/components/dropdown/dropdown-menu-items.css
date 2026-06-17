@@ -37,6 +37,11 @@
   background: var(--accent-bg);
 }
 
+.ui-dropdown-items__item--active {
+  background: var(--accent-2);
+  font-weight: var(--paragraph-medium-font-weight);
+}
+
 .ui-dropdown-items__item--disabled {
   opacity: 0.4;
   cursor: not-allowed;

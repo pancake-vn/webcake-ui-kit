@@ -7,12 +7,7 @@
       <!-- Group: non-clickable label + flat children -->
       <div v-else-if="item._type === 'group'" class="ui-dropdown-items__group">
         <div class="ui-dropdown-items__group-label" :title="item.title || undefined">
-          <component
-            :is="item.icon"
-            v-if="item.icon && isComponent(item.icon)"
-            class="ui-dropdown-items__icon"
-            :color="item.colorIcon"
-          />
+          <component :is="item.icon" v-if="item.icon && isComponent(item.icon)" :size="20" :color="item.colorIcon" />
           <span :style="item.color ? { color: item.color } : undefined">{{ item.label }}</span>
         </div>
         <div
@@ -21,21 +16,18 @@
           class="ui-dropdown-items__item"
           :class="{
             'ui-dropdown-items__item--disabled': child.disabled,
-            'ui-dropdown-items__item--destructive': child.destructive
+            'ui-dropdown-items__item--destructive': child.destructive,
+            'ui-dropdown-items__item--active': isActive(child.key)
           }"
           :title="child.title || undefined"
           @click="onItemClick(child)"
         >
-          <component
-            :is="child.icon"
-            v-if="child.icon && isComponent(child.icon)"
-            class="ui-dropdown-items__icon"
-            :color="item.colorIcon"
-          />
+          <component :is="child.icon" v-if="child.icon && isComponent(child.icon)" :size="20" :color="item.colorIcon" />
           <span class="ui-dropdown-items__label" :style="child.color ? { color: child.color } : undefined">{{
             child.label
           }}</span>
           <span v-if="child.extra" class="ui-dropdown-items__extra">{{ child.extra }}</span>
+          <WkiCheck v-if="isActive(child.key)" :size="16" color="var(--muted-fg)" />
         </div>
       </div>
 
@@ -49,12 +41,7 @@
           }"
           :title="item.title || undefined"
         >
-          <component
-            :is="item.icon"
-            v-if="item.icon && isComponent(item.icon)"
-            class="ui-dropdown-items__icon"
-            :color="item.colorIcon"
-          />
+          <component :is="item.icon" v-if="item.icon && isComponent(item.icon)" :size="20" :color="item.colorIcon" />
           <span class="ui-dropdown-items__label" :style="item.color ? { color: item.color } : undefined">{{
             item.label
           }}</span>
@@ -65,21 +52,18 @@
           class="ui-dropdown-items__item ui-dropdown-items__item--sub"
           :class="{
             'ui-dropdown-items__item--disabled': child.disabled || item.disabled,
-            'ui-dropdown-items__item--destructive': child.destructive
+            'ui-dropdown-items__item--destructive': child.destructive,
+            'ui-dropdown-items__item--active': isActive(child.key)
           }"
           :title="child.title || undefined"
           @click="onItemClick(child, item)"
         >
-          <component
-            :is="child.icon"
-            v-if="child.icon && isComponent(child.icon)"
-            class="ui-dropdown-items__icon"
-            :color="item.colorIcon"
-          />
+          <component :is="child.icon" v-if="child.icon && isComponent(child.icon)" :size="20" :color="item.colorIcon" />
           <span class="ui-dropdown-items__label" :style="child.color ? { color: child.color } : undefined">{{
             child.label
           }}</span>
           <span v-if="child.extra" class="ui-dropdown-items__extra">{{ child.extra }}</span>
+          <WkiCheck v-if="isActive(child.key)" :size="16" color="var(--muted-fg)" />
         </div>
       </div>
 
@@ -89,27 +73,26 @@
         class="ui-dropdown-items__item"
         :class="{
           'ui-dropdown-items__item--disabled': item.disabled,
-          'ui-dropdown-items__item--destructive': item.destructive
+          'ui-dropdown-items__item--destructive': item.destructive,
+          'ui-dropdown-items__item--active': isActive(item.key)
         }"
         :title="item.title || undefined"
         @click="onItemClick(item)"
       >
-        <component
-          :is="item.icon"
-          v-if="item.icon && isComponent(item.icon)"
-          class="ui-dropdown-items__icon"
-          :color="item.colorIcon"
-        />
+        <component :is="item.icon" v-if="item.icon && isComponent(item.icon)" :size="20" :color="item.colorIcon" />
         <span class="ui-dropdown-items__label" :style="item.color ? { color: item.color } : undefined">{{
           item.label
         }}</span>
         <span v-if="item.extra" class="ui-dropdown-items__extra">{{ item.extra }}</span>
+        <WkiCheck v-if="isActive(item.key)" :size="16" color="var(--muted-fg)" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import WkiCheck from '../../icons/Check.vue'
+
 function skipReactive(val) {
   if (val && typeof val === 'object' && !val.__v_skip) {
     val.__v_skip = true
@@ -119,12 +102,18 @@ function skipReactive(val) {
 export default {
   name: 'DropdownMenuItems',
 
+  components: { WkiCheck },
+
   props: {
     items: {
       type: Array,
       default: function () {
         return []
       }
+    },
+    value: {
+      type: [String, Array],
+      default: null
     }
   },
 
@@ -161,6 +150,11 @@ export default {
   methods: {
     isComponent(val) {
       return val !== null && typeof val === 'object'
+    },
+    isActive(key) {
+      if (this.value === null || this.value === undefined) return false
+      if (Array.isArray(this.value)) return this.value.indexOf(key) !== -1
+      return this.value === key
     },
     onItemClick(item, parentItem) {
       if (item.disabled || (parentItem && parentItem.disabled)) return
