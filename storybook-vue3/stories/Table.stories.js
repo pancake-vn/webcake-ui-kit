@@ -321,3 +321,51 @@ FocusVisible.parameters = {
     }
   }
 }
+
+const COLUMNS_HUGE = [
+  { title: 'Name', dataIndex: 'name', key: 'name' },
+  { title: 'Age', dataIndex: 'age', key: 'age', align: 'right' },
+  { title: 'Role', dataIndex: 'role', key: 'role' }
+]
+const DATA_HUGE = Array.from({ length: 10000 }, (_, i) => ({
+  key: 'v' + i,
+  name: 'User ' + (i + 1),
+  age: 20 + (i % 30),
+  role: 'Role ' + (i % 5)
+}))
+
+export const Virtualized = () => ({
+  components: { WkTable },
+  data() {
+    return { columns: COLUMNS_HUGE, data: DATA_HUGE, selected: ['v500'] }
+  },
+  template: `
+    <div style="padding: 24px;">
+      <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
+        10,000 rows — only the rows in the viewport (plus overscan) are in the DOM.
+      </p>
+      <WkTable
+        :columns="columns"
+        :data-source="data"
+        bordered
+        virtual
+        :height="500"
+        :row-height="39"
+        row-selection
+        :selected-row-keys="selected"
+        @update:selectedRowKeys="selected = $event"
+      />
+    </div>
+  `
+})
+Virtualized.parameters = {
+  docs: {
+    description: {
+      story:
+        'Virtualized body via the `virtual` prop. Renders only the visible window over a 10,000-row ' +
+        'dataset while preserving full native scroll height, sticky header, and selection state ' +
+        '(e.g. `v500`) for rows outside the window. Requires a vertical-scroll viewport (`height` or ' +
+        '`scroll.y`) and a fixed numeric `row-height`. `overscan` (default 8) tunes the buffer.'
+    }
+  }
+}

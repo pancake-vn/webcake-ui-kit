@@ -409,6 +409,53 @@
           :scroll="{ y: 494, x: 600 }"
           :height="524"
         />
+
+        <h2 style="margin-top: 24px">Table — virtual scrolling (10,000 rows)</h2>
+        <WkTable
+          :columns="tableColumns"
+          :data-source="tableHugeData"
+          bordered
+          virtual
+          :height="500"
+          :row-height="39"
+          row-selection
+          :selected-row-keys="tableHugeSelectedKeys"
+          @update:selectedRowKeys="tableHugeSelectedKeys = $event"
+        />
+        <p>Selected keys: {{ tableHugeSelectedKeys.join(', ') || '(none)' }}</p>
+
+        <WkTag> </WkTag>
+      </section>
+
+      <section class="section">
+        <h2>Textarea — size × roundness, states</h2>
+        <div style="display: flex; gap: 64px; align-items: flex-start">
+          <div style="display: flex; flex-direction: column; gap: 16px; width: 320px">
+            <span style="font-size: 12px; color: #9747ff">Roundness: Default</span>
+            <WkTextarea placeholder="Type your message here." />
+            <WkTextarea value="Value" />
+            <WkTextarea error value="Value" />
+            <WkTextarea disabled value="Value" />
+            <WkTextarea size="mini" placeholder="Mini · type your message here." />
+            <WkTextarea size="mini" value="Mini value" />
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 16px; width: 320px">
+            <span style="font-size: 12px; color: #9747ff">Roundness: Round</span>
+            <WkTextarea roundness="round" placeholder="Type your message here." />
+            <WkTextarea roundness="round" value="Value" />
+            <WkTextarea roundness="round" error value="Value" />
+            <WkTextarea roundness="round" disabled value="Value" />
+            <WkTextarea roundness="round" size="mini" placeholder="Mini · type your message here." />
+            <WkTextarea roundness="round" size="mini" value="Mini value" />
+          </div>
+        </div>
+
+        <h2 style="margin-top: 24px">Textarea — v-model + non-resizable</h2>
+        <div style="display: flex; flex-direction: column; gap: 12px; width: 320px">
+          <WkTextarea v-model="textareaModel" placeholder="Edit me" />
+          <p>Model: {{ textareaModel }}</p>
+          <WkTextarea :resizable="false" value="Resize handle disabled" />
+        </div>
       </section>
     </div>
   </div>
@@ -430,6 +477,7 @@ const ELLIPSIS_ICON =
 export default {
   data() {
     return {
+      textareaModel: 'Editable value',
       loading: false,
       openDialog: false,
       openDialog2: false,
@@ -448,6 +496,13 @@ export default {
       tableSelectedKeys: ['2'],
       tableScrollData: Array.from({ length: 20 }, (_, i) => ({
         key: 'r' + i,
+        name: 'User ' + (i + 1),
+        age: 20 + (i % 30),
+        address: 'Street No. ' + (i + 1) + ', Some City'
+      })),
+      tableHugeSelectedKeys: ['v500'],
+      tableHugeData: Array.from({ length: 10000 }, (_, i) => ({
+        key: 'v' + i,
         name: 'User ' + (i + 1),
         age: 20 + (i % 30),
         address: 'Street No. ' + (i + 1) + ', Some City'

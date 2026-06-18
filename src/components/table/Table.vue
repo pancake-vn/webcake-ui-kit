@@ -35,6 +35,7 @@
             @click="onHeaderClick(col)"
             @keydown.enter.prevent="onHeaderClick(col)"
             @keydown.space.prevent="onHeaderClick(col)"
+            v-bind="customHeader ? customHeader(col, i) : {}"
           >
             <span class="ui-table__th-inner">
               <slot name="headerCell" :column="col">{{ col.title }}</slot>
@@ -57,7 +58,7 @@
           />
         </tr>
       </thead>
-      <tbody class="ui-table__body" :style="bodyStyle">
+      <tbody class="ui-table__body" :style="bodyStyle" @scroll="onBodyScroll">
         <tr v-if="!rows.length" class="ui-table__row ui-table__row--empty">
           <td class="ui-table__cell ui-table__empty-cell" :colspan="totalColumns">
             <slot name="emptyText">
@@ -65,33 +66,56 @@
             </slot>
           </td>
         </tr>
-        <tr
-          v-for="(record, index) in rows"
-          v-else
-          :key="getRowKey(record, index)"
-          :class="['ui-table__row', 'ui-table__row--body', isSelected(record, index) && 'ui-table__row--selected']"
-          :style="{ height: toCssSize(rowHeight) }"
-          @click="onRowClick(record, index, $event)"
-        >
-          <td v-if="hasSelection" class="ui-table__cell ui-table__td ui-table__cell--selection">
-            <WkCheckbox :checked="isSelected(record, index)" @change="checked => onToggleRow(record, index, checked)" />
-          </td>
-          <td
-            v-for="col in columns"
-            :key="colKey(col)"
+        <template v-else>
+          <!-- Top spacer reserves the height of the rows scrolled out above the window. -->
+          <tr v-if="isVirtual" class="ui-table__spacer" :style="{ height: topSpacerHeight + 'px' }" aria-hidden="true">
+            <td class="ui-table__spacer-cell" :colspan="totalColumns" />
+          </tr>
+          <tr
+            v-for="(record, i) in renderRows"
+            :key="getRowKey(record, rowIndex(i))"
             :class="[
-              'ui-table__cell',
-              'ui-table__td',
-              `ui-table__cell--${alignOf(col)}`,
-              col.ellipsis && 'ui-table__cell--ellipsis'
+              'ui-table__row',
+              'ui-table__row--body',
+              isSelected(record, rowIndex(i)) && 'ui-table__row--selected'
             ]"
-            :style="colStyle(col)"
+            :style="{ height: toCssSize(rowHeight) }"
+            v-bind="customRow ? customRow(record, rowIndex(i)) : {}"
+            @click="hasSelection ? onRowClick(record, rowIndex(i), $event) : undefined"
           >
-            <slot name="bodyCell" :column="col" :record="record" :text="cellText(col, record)" :index="index">{{
-              cellText(col, record)
-            }}</slot>
-          </td>
-        </tr>
+            <td
+              v-if="hasSelection"
+              class="ui-table__cell ui-table__td ui-table__cell--selection"
+              @click.stop="onSelectionCellClick(record, rowIndex(i), $event)"
+            >
+              <WkCheckbox :checked="isSelected(record, rowIndex(i))" />
+            </td>
+            <td
+              v-for="col in columns"
+              :key="colKey(col)"
+              :class="[
+                'ui-table__cell',
+                'ui-table__td',
+                `ui-table__cell--${alignOf(col)}`,
+                col.ellipsis && 'ui-table__cell--ellipsis'
+              ]"
+              :style="colStyle(col)"
+            >
+              <slot name="bodyCell" :column="col" :record="record" :text="cellText(col, record)" :index="rowIndex(i)">{{
+                cellText(col, record)
+              }}</slot>
+            </td>
+          </tr>
+          <!-- Bottom spacer reserves the height of the rows below the window. -->
+          <tr
+            v-if="isVirtual"
+            class="ui-table__spacer"
+            :style="{ height: bottomSpacerHeight + 'px' }"
+            aria-hidden="true"
+          >
+            <td class="ui-table__spacer-cell" :colspan="totalColumns" />
+          </tr>
+        </template>
       </tbody>
     </table>
   </div>
@@ -104,6 +128,7 @@ import WkiArrowUp from '../../icons/ArrowUp.vue'
 import WkiArrowDown from '../../icons/ArrowDown.vue'
 import WkiArrowDownUp from '../../icons/ArrowDownUp.vue'
 import { toCssSize } from '../../utils/common'
+import { computeVirtualWindow } from '../../utils/virtualScroll'
 
 function defaultCompare(a, b) {
   if (a == null && b == null) return 0
@@ -137,9 +162,16 @@ export default {
     // Fixed overall height of the table viewport (px number or CSS size). Enables vertical scroll + sticky header.
     height: { type: [Number, String], default: null },
     rowHeight: { type: [Number, String], default: 39 },
-    headerHeight: { type: [Number, String], default: 39 }
+    headerHeight: { type: [Number, String], default: 39 },
+    customRow: { type: Function, default: null },
+    customHeader: { type: Function, default: null },
+    // Virtualize the body: render only the rows visible in the viewport (+ overscan).
+    // Requires a vertical-scroll viewport (height or scroll.y) and a numeric rowHeight.
+    virtual: { type: Boolean, default: false },
+    // Extra rows rendered above and below the viewport to cushion fast scrolling.
+    overscan: { type: Number, default: 8 }
   },
-  emits: ['change', 'sort-change', 'update:selectedRowKeys', 'selection-change', 'row-click'],
+  emits: ['change', 'sort-change', 'update:selectedRowKeys', 'selection-change'],
   data() {
     return {
       sortField: null,
@@ -147,6 +179,10 @@ export default {
       internalSelected: this.selectedRowKeys.slice(),
       scrollbarWidth: 0,
       colWidths: [],
+      lastClickedIndex: null,
+      scrollTop: 0,
+      containerHeight: 0,
+      rafId: null,
       toCssSize
     }
   },
@@ -188,6 +224,39 @@ export default {
     tableStyle() {
       const scroll = this.scroll || {}
       return scroll.x != null ? { minWidth: toCssSize(scroll.x) } : {}
+    },
+    // Numeric row height — virtualization needs a fixed px value. String sizes are
+    // parsed (e.g. '40px' -> 40); anything unparseable falls back to the prop default.
+    rowHeightPx() {
+      if (typeof this.rowHeight === 'number') return this.rowHeight
+      const parsed = parseFloat(this.rowHeight)
+      return Number.isFinite(parsed) ? parsed : 39
+    },
+    // Virtualization is only meaningful inside a bounded, scrollable viewport.
+    isVirtual() {
+      return this.virtual && this.hasVerticalScroll && this.rows.length > 0
+    },
+    virtualWindow() {
+      return computeVirtualWindow({
+        scrollTop: this.scrollTop,
+        rowHeight: this.rowHeightPx,
+        containerHeight: this.containerHeight,
+        total: this.rows.length,
+        overscan: this.overscan
+      })
+    },
+    // Rows actually committed to the DOM: a slice when virtual, otherwise everything.
+    renderRows() {
+      if (!this.isVirtual) return this.rows
+      return this.rows.slice(this.virtualWindow.startIndex, this.virtualWindow.endIndex)
+    },
+    topSpacerHeight() {
+      return this.isVirtual ? this.virtualWindow.offsetY : 0
+    },
+    bottomSpacerHeight() {
+      if (!this.isVirtual) return 0
+      const rendered = this.renderRows.length * this.rowHeightPx
+      return Math.max(0, this.virtualWindow.totalHeight - this.virtualWindow.offsetY - rendered)
     }
   },
   watch: {
@@ -197,15 +266,48 @@ export default {
   },
   mounted() {
     this.$nextTick(this.syncScrollbarGutter)
+    window.addEventListener('resize', this.onResize)
   },
   updated() {
     this.$nextTick(this.syncScrollbarGutter)
   },
+  // Declare both teardown hooks: Vue 2.7 fires beforeDestroy, Vue 3.4 fires beforeUnmount.
+  // The runtime that doesn't recognize a hook simply ignores it.
+  beforeUnmount() {
+    this.teardown()
+  },
   methods: {
+    teardown() {
+      window.removeEventListener('resize', this.onResize)
+      if (this.rafId != null) {
+        cancelAnimationFrame(this.rafId)
+        this.rafId = null
+      }
+    },
+    onResize() {
+      this.syncScrollbarGutter()
+    },
+    onBodyScroll(e) {
+      const top = e.target.scrollTop
+      // Coalesce bursts of scroll events into a single state update per frame so we
+      // re-slice at most once per repaint — keeps 10k+ rows smooth.
+      if (this.rafId != null) return
+      this.rafId = requestAnimationFrame(() => {
+        this.rafId = null
+        this.scrollTop = top
+      })
+    },
+    // Absolute index of a rendered row within the full (sorted) dataset.
+    rowIndex(i) {
+      return this.isVirtual ? this.virtualWindow.startIndex + i : i
+    },
     syncScrollbarGutter() {
       if (!this.$el) return
       const body = this.$el.querySelector('.ui-table__body')
       this.scrollbarWidth = body && this.hasVerticalScroll ? body.offsetWidth - body.clientWidth : 0
+      if (body && this.hasVerticalScroll) {
+        this.containerHeight = body.clientHeight
+      }
 
       if (this.hasVerticalScroll) {
         const firstRow = this.$el.querySelector('.ui-table__row--body')
@@ -289,19 +391,48 @@ export default {
       this.$emit('update:selectedRowKeys', keys)
       this.$emit('selection-change', keys, selectedRows)
     },
-    onToggleRow(record, index, checked) {
-      const key = this.getRowKey(record, index)
-      const set = this.internalSelected.filter(k => k !== key)
-      if (checked) set.push(key)
-      this.internalSelected = set
+    handleSelection(record, index, checked, e) {
+      const isShiftKey = e && e.shiftKey
+
+      if (isShiftKey && this.lastClickedIndex != null) {
+        // Shift+click: select range from lastClickedIndex to current index
+        const start = Math.min(this.lastClickedIndex, index)
+        const end = Math.max(this.lastClickedIndex, index)
+        const rangeKeys = []
+        for (let i = start; i <= end; i++) {
+          rangeKeys.push(this.getRowKey(this.rows[i], i))
+        }
+        // Merge with existing selection (union)
+        const set = new Set(this.internalSelected)
+        rangeKeys.forEach(k => set.add(k))
+        this.internalSelected = Array.from(set)
+      } else {
+        // Normal click / Cmd+click: toggle individual row
+        const key = this.getRowKey(record, index)
+        const set = this.internalSelected.filter(k => k !== key)
+        if (checked) set.push(key)
+        this.internalSelected = set
+      }
+      this.lastClickedIndex = index
       this.emitSelection()
+    },
+    onSelectionCellClick(record, index, e) {
+      // Click on the checkbox <td> — MouseEvent has modifier keys
+      const currentlySelected = this.isSelected(record, index)
+      this.handleSelection(record, index, !currentlySelected, e)
+    },
+    onRowClick(record, index, e) {
+      // Click on the row body — handle Shift/Cmd selection
+      const isMetaKey = e.metaKey || e.ctrlKey
+      const isShiftKey = e.shiftKey
+      if (!isMetaKey && !isShiftKey) return
+      const key = this.getRowKey(record, index)
+      const currentlySelected = this.internalSelected.includes(key)
+      this.handleSelection(record, index, !currentlySelected, e)
     },
     onToggleAll(checked) {
       this.internalSelected = checked ? this.rows.map((record, index) => this.getRowKey(record, index)) : []
       this.emitSelection()
-    },
-    onRowClick(record, index, event) {
-      this.$emit('row-click', record, index, event)
     }
   }
 }

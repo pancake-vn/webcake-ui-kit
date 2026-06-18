@@ -1,7 +1,7 @@
 .ui-tag {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--spacing-6);
   padding: var(--spacing-3xs) var(--spacing-xs);
   border-radius: var(--rounded-lg);
   font-family: var(--font-family-body);
@@ -34,6 +34,10 @@
 
 /* — sizes — */
 /* sm: mini font, 6px radius, 2px 8px padding — same as base */
+
+.ui-tag--sm {
+  gap: var(--spacing-2xs);
+}
 
 .ui-tag--md {
   border-radius: var(--radius);
