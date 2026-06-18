@@ -6,11 +6,7 @@ const app = express()
 const PORT = 9000
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const storybookPath = path.join(
-  __dirname,
-  'storybook-vue3',
-  'storybook-static'
-)
+const storybookPath = path.join(__dirname, 'storybook-vue3', 'storybook-static')
 
 app.use(express.static(storybookPath))
 

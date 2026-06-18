@@ -195,3 +195,22 @@
 .ui-table--scroll-y .ui-table__cell--selection {
   width: 44px;
 }
+
+/* ---------- Virtual scroll spacers ---------- */
+/*
+ * Spacer rows reserve the scroll height of the off-window rows. They must paint
+ * nothing (no border/padding/background) so the row-height math stays exact, and
+ * are display:block so their inline height is honored verbatim inside the
+ * block-level scrolling tbody (the real rows are display:table; table-layout:fixed).
+ */
+.ui-table__spacer {
+  display: block;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.ui-table__spacer-cell {
+  padding: 0;
+  border: none;
+}

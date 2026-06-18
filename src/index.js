@@ -34,6 +34,7 @@ export { default as WkSwitchGroup } from './components/switch-group/SwitchGroup.
 export { default as WkTable } from './components/table/Table.vue'
 export { default as WkTabs } from './components/tabs/Tabs.vue'
 export { default as WkTag } from './components/tag/Tag.vue'
+export { default as WkTextarea } from './components/textarea/Textarea.vue'
 export { default as WkToggle } from './components/toggle/Toggle.vue'
 export { default as WkToggleGroup } from './components/toggle-group/ToggleGroup.vue'
 export { default as WkTooltip } from './components/tooltip/Tooltip.vue'

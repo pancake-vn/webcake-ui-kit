@@ -512,7 +512,13 @@
       <section>
         <WkTypography variant="paragraph-regular" align="right" color="primary-fg">Aligned right</WkTypography>
         <h2>Table — data-driven, bordered, sortable</h2>
-        <WkTable :columns="tableColumns" :data-source="tableData" bordered>
+        <WkTable
+          :columns="tableColumns"
+          :data-source="tableData"
+          bordered
+          :customRow="customRowExample"
+          :customHeader="customHeaderExample"
+        >
           <template #bodyCell="{ column, record }">
             <WkButton v-if="column.dataIndex === 'operation'" size="xs" variant="ghost">Edit</WkButton>
             <template v-else>{{ record.name + 'aaaa' }}</template>
@@ -520,14 +526,11 @@
         </WkTable>
 
         <h2 style="margin-top: 24px">Table — row selection</h2>
-        <WkTable
-          :columns="tableColumns"
-          :data-source="tableData"
-          row-selection
-          :selected-row-keys="tableSelectedKeys"
-          @update:selectedRowKeys="tableSelectedKeys = $event"
-        >
+        <WkTable :columns="tableColumns" :data-source="tableData">
           <template #bodyCell="{ column, record }">
+            <WkTypography variant="heading-3" as="div" @dblclick="handleClickTypo"
+              >heading-3 rendered as &lt;div&gt; via as prop</WkTypography
+            >
             <WkButton v-if="column.dataIndex === 'operation'" size="xs" variant="ghost">Edit</WkButton>
             <template v-else>{{ record.name + 'aaaa' }}. 123123fds;k</template>
           </template>
@@ -544,7 +547,24 @@
           bordered
           :scroll="{ y: 1000, x: 600 }"
           :height="524"
+          row-selection
+          :selected-row-keys="tableSelectedKeys"
+          @update:selectedRowKeys="tableSelectedKeys = $event"
         />
+
+        <h2 style="margin-top: 24px">Table — virtual scrolling (10,000 rows)</h2>
+        <WkTable
+          :columns="tableColumns"
+          :data-source="tableHugeData"
+          bordered
+          virtual
+          :height="500"
+          :row-height="39"
+          row-selection
+          :selected-row-keys="tableHugeSelectedKeys"
+          @update:selectedRowKeys="tableHugeSelectedKeys = $event"
+        />
+        <p>Selected keys: {{ tableHugeSelectedKeys.join(', ') || '(none)' }}</p>
       </section>
 
       <WkSidebarItem>
@@ -558,6 +578,47 @@
         <WkButton>test</WkButton>
       </WkDropdown>
       {{ dropdownActive }}
+      <WkTypography variant="heading-3" as="div" @dblclick="handleClickTypo"
+        >heading-3 rendered as &lt;div&gt; via as prop</WkTypography
+      >
+
+      <WkTag size="sm">
+        <template #icon>
+          <wki-chess-bishop :size="12" />
+        </template>
+        sjfjsdkjlfjfds
+      </WkTag>
+
+      <section class="section">
+        <h2>Textarea — size × roundness, states</h2>
+        <div style="display: flex; gap: 64px; align-items: flex-start">
+          <div style="display: flex; flex-direction: column; gap: 16px; width: 320px">
+            <span style="font-size: 12px; color: #9747ff">Roundness: Default</span>
+            <WkTextarea placeholder="Type your message here." :autosize="true" />
+            <WkTextarea value="Value" v-model="textareaModel" :rows="10" />
+            <WkTextarea error value="Value" />
+            <WkTextarea disabled value="Value" />
+            <WkTextarea size="mini" placeholder="Mini · type your message here." />
+            <WkTextarea size="mini" value="Mini value" />
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 16px; width: 320px">
+            <span style="font-size: 12px; color: #9747ff">Roundness: Round</span>
+            <WkTextarea roundness="round" placeholder="Type your message here." />
+            <WkTextarea roundness="round" value="Value" />
+            <WkTextarea roundness="round" error value="Value" />
+            <WkTextarea roundness="round" disabled value="Value" />
+            <WkTextarea roundness="round" size="mini" placeholder="Mini · type your message here." />
+            <WkTextarea roundness="round" size="mini" value="Mini value" />
+          </div>
+        </div>
+
+        <h2 style="margin-top: 24px">Textarea — v-model + non-resizable</h2>
+        <div style="display: flex; flex-direction: column; gap: 12px; width: 320px">
+          <WkTextarea v-model="textareaModel" placeholder="Edit me" />
+          <p>Model: {{ textareaModel }}</p>
+          <WkTextarea :resizable="true" value="Resize handle disabled" />
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -578,6 +639,7 @@ const ELLIPSIS_ICON =
 export default {
   data() {
     return {
+      textareaModel: 'Editable value',
       dropdownActive: [],
       loading: false,
       openDialog: false,
@@ -597,6 +659,13 @@ export default {
       tableSelectedKeys: ['2'],
       tableScrollData: Array.from({ length: 30 }, (_, i) => ({
         key: 'r' + i,
+        name: 'User ' + (i + 1),
+        age: 20 + (i % 30),
+        address: 'Street No. ' + (i + 1) + ', Some City'
+      })),
+      tableHugeSelectedKeys: ['v500'],
+      tableHugeData: Array.from({ length: 10000 }, (_, i) => ({
+        key: 'v' + i,
         name: 'User ' + (i + 1),
         age: 20 + (i % 30),
         address: 'Street No. ' + (i + 1) + ', Some City'
@@ -803,6 +872,30 @@ export default {
     }
   },
   methods: {
+    customRowExample(record, index) {
+      return {
+        onClick: event => {
+          console.log('Row clicked:', record, index, event)
+        },
+        onDblclick: event => {
+          console.log('Row double-clicked:', record, index, event)
+        },
+        onContextmenu: event => {
+          console.log('Row right-clicked:', record, index, event)
+          event.preventDefault()
+        }
+      }
+    },
+    customHeaderExample(columns, index) {
+      return {
+        onClick: event => {
+          console.log('Header row clicked:', columns, index, event)
+        }
+      }
+    },
+    handleClickTypo() {
+      console.log('click typo')
+    },
     handleDropdownActive(value) {
       const isExist = this.dropdownActive.includes(value)
       if (isExist) {

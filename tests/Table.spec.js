@@ -273,4 +273,85 @@ describe('WkTable', () => {
     expect(boldNames[0].text()).toBe('Alice')
     w.unmount && w.unmount()
   })
+
+  // ── Virtual scrolling ──────────────────────────────────────────────────────────
+
+  const BIG = Array.from({ length: 1000 }, (_, i) => ({
+    key: 'r' + i,
+    name: 'User ' + i,
+    age: 20 + (i % 30),
+    role: 'Role ' + i
+  }))
+
+  // jsdom has no layout (clientHeight === 0), and the component re-measures
+  // containerHeight from body.clientHeight in its updated() hook. Pin a real
+  // clientHeight on the scroll body so the window is deterministic across re-renders.
+  async function mountVirtual(extra = {}) {
+    const w = mount(WkTable, {
+      props: { columns: COLUMNS, dataSource: BIG, height: 400, rowHeight: 40, virtual: true, ...extra }
+    })
+    const body = w.vm.$el.querySelector('.ui-table__body')
+    Object.defineProperty(body, 'clientHeight', { configurable: true, get: () => 400 })
+    w.vm.syncScrollbarGutter()
+    await w.vm.$nextTick()
+    return w
+  }
+
+  it('renders only the visible window, not all 1000 rows', async () => {
+    const w = await mountVirtual()
+    const bodyRows = w.findAll('.ui-table__row--body')
+    // visibleCount=10 + overscan*2=16 → 26 rows at the top.
+    expect(bodyRows.length).toBe(26)
+    expect(bodyRows.length).toBeLessThan(BIG.length)
+    w.unmount && w.unmount()
+  })
+
+  it('renders top and bottom spacer rows summing to the full scroll height', async () => {
+    const w = await mountVirtual()
+    const spacers = w.findAll('.ui-table__spacer')
+    expect(spacers.length).toBe(2)
+    expect(w.vm.topSpacerHeight).toBe(0)
+    // total 1000*40=40000; rendered 26*40=1040; bottom = 40000-0-1040
+    expect(w.vm.bottomSpacerHeight).toBe(40000 - 26 * 40)
+    w.unmount && w.unmount()
+  })
+
+  it('shifts the window on scroll and shows the right records', async () => {
+    const w = await mountVirtual()
+    w.vm.scrollTop = 4000 // row 100 at top
+    await w.vm.$nextTick()
+    expect(w.vm.virtualWindow.startIndex).toBe(92)
+    expect(w.vm.topSpacerHeight).toBe(92 * 40)
+    const first = w.findAll('.ui-table__row--body')[0]
+    expect(first.text()).toContain('User 92')
+    w.unmount && w.unmount()
+  })
+
+  it('preserves selection of a row outside the visible window', async () => {
+    const w = await mountVirtual({ rowSelection: true, selectedRowKeys: ['r900'] })
+    // r900 is far below the initial window — its key is still tracked.
+    expect(w.vm.internalSelected).toContain('r900')
+    // Scroll it into view and confirm it renders selected.
+    w.vm.scrollTop = 900 * 40 - 200
+    await w.vm.$nextTick()
+    const selected = w.findAll('.ui-table__row--selected')
+    expect(selected.length).toBe(1)
+    expect(selected[0].text()).toContain('User 900')
+    w.unmount && w.unmount()
+  })
+
+  it('does not virtualize (no spacers) without a scroll viewport', () => {
+    const w = mount(WkTable, { props: { columns: COLUMNS, dataSource: ROWS, virtual: true } })
+    // virtual=true but no height/scroll.y → isVirtual false, all rows render.
+    expect(w.find('.ui-table__spacer').exists()).toBe(false)
+    expect(w.findAll('.ui-table__row--body').length).toBe(3)
+    w.unmount && w.unmount()
+  })
+
+  it('renders all rows and no spacers when virtual is off', () => {
+    const w = mount(WkTable, { props: { columns: COLUMNS, dataSource: ROWS } })
+    expect(w.find('.ui-table__spacer').exists()).toBe(false)
+    expect(w.findAll('.ui-table__row--body').length).toBe(3)
+    w.unmount && w.unmount()
+  })
 })
