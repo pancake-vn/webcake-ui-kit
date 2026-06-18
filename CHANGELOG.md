@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.21] - 2026-06-18
+
+### Fixed
+
+- `WkTable` `customRow` and `customHeader` callbacks now correctly wire `onXxx`-style keys as DOM event listeners on both Vue 2 and Vue 3; previously, those keys were spread via `v-bind` and treated as raw attributes in Vue 2, so click, dblclick, and similar handlers had no effect.
+
 ## [1.1.20] - 2026-06-18
 
 ### Added
