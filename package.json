@@ -1,6 +1,6 @@
 {
   "name": "webcake-ui-kit",
-  "version": "1.1.19",
+  "version": "1.1.20",
   "description": "UI Kit for Vue 2 && 3 - Pure Options API",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -51,6 +51,7 @@
     "./WkTable": "./src/components/table/Table.vue",
     "./WkTabs": "./src/components/tabs/Tabs.vue",
     "./WkTag": "./src/components/tag/Tag.vue",
+    "./WkTextarea": "./src/components/textarea/Textarea.vue",
     "./WkToggle": "./src/components/toggle/Toggle.vue",
     "./WkToggleGroup": "./src/components/toggle-group/ToggleGroup.vue",
     "./WkTooltip": "./src/components/tooltip/Tooltip.vue",

@@ -4,6 +4,20 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.20] - 2026-06-18
+
+### Added
+
+- New `WkTextarea` component for multi-line text input with `size` (`default`, `mini`), `roundness` (`default`, `round`), `error`, `disabled`, `readonly`, `resizable`, `autosize`, `showCount`, and `maxLength` props; emits `input`, `change`, `focus`, and `blur` and supports `v-model` on both Vue 2 and Vue 3.
+- `WkTable` adds a `virtual` boolean prop that enables virtual scrolling, rendering only the visible rows plus a configurable `overscan` buffer to keep large datasets smooth.
+- `WkTable` adds `customRow` and `customHeader` function props for injecting arbitrary HTML attributes onto each body `<tr>` or header `<th>` element at render time.
+- `WkTable` row selection now supports Shift+click to extend the selection by a contiguous range, and Cmd/Ctrl+click on a row body to toggle a single row without opening the row.
+
+### Changed
+
+- `WkTable` no longer emits a `row-click` event; row-body clicks now only participate in Shift/Cmd modifier-key multi-select.
+- `WkTag` base gap now uses the `--spacing-6` design token instead of a hardcoded value, and the `sm` size variant gains an explicit `--spacing-2xs` gap.
+
 ## [1.1.19] - 2026-06-17
 
 ### Added
