@@ -35,7 +35,8 @@
             @click="onHeaderClick(col)"
             @keydown.enter.prevent="onHeaderClick(col)"
             @keydown.space.prevent="onHeaderClick(col)"
-            v-bind="customHeader ? customHeader(col, i) : {}"
+            v-bind="customHeaderAttrs(col, i)"
+            v-on="customHeaderListeners(col, i)"
           >
             <span class="ui-table__th-inner">
               <slot name="headerCell" :column="col">{{ col.title }}</slot>
@@ -80,7 +81,8 @@
               isSelected(record, rowIndex(i)) && 'ui-table__row--selected'
             ]"
             :style="{ height: toCssSize(rowHeight) }"
-            v-bind="customRow ? customRow(record, rowIndex(i)) : {}"
+            v-bind="customRowAttrs(record, rowIndex(i))"
+            v-on="customRowListeners(record, rowIndex(i))"
             @click="hasSelection ? onRowClick(record, rowIndex(i), $event) : undefined"
           >
             <td
@@ -277,6 +279,38 @@ export default {
     this.teardown()
   },
   methods: {
+    // Split a customRow/customHeader result into plain attributes and event listeners.
+    // The public API mirrors ant-design-vue's `onClick`/`onDblclick`/... convention, which
+    // Vue 3 auto-resolves to listeners when spread via v-bind — but Vue 2 would bind them as
+    // raw DOM attributes. So we strip the `onXxx` keys into a v-on map (event name lower-cased)
+    // and leave the rest for v-bind, which works identically on both runtimes.
+    splitBindings(raw) {
+      const attrs = {}
+      const on = {}
+      if (raw) {
+        Object.keys(raw).forEach(key => {
+          const match = /^on([A-Z].*)$/.exec(key)
+          if (match) {
+            on[match[1].charAt(0).toLowerCase() + match[1].slice(1)] = raw[key]
+          } else {
+            attrs[key] = raw[key]
+          }
+        })
+      }
+      return { attrs, on }
+    },
+    customRowAttrs(record, index) {
+      return this.customRow ? this.splitBindings(this.customRow(record, index)).attrs : {}
+    },
+    customRowListeners(record, index) {
+      return this.customRow ? this.splitBindings(this.customRow(record, index)).on : {}
+    },
+    customHeaderAttrs(col, index) {
+      return this.customHeader ? this.splitBindings(this.customHeader(col, index)).attrs : {}
+    },
+    customHeaderListeners(col, index) {
+      return this.customHeader ? this.splitBindings(this.customHeader(col, index)).on : {}
+    },
     teardown() {
       window.removeEventListener('resize', this.onResize)
       if (this.rafId != null) {

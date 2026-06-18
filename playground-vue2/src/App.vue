@@ -411,20 +411,19 @@
         />
 
         <h2 style="margin-top: 24px">Table — virtual scrolling (10,000 rows)</h2>
+        <h2>sdfkjaskjfkjldskjlfsklaj</h2>
         <WkTable
           :columns="tableColumns"
-          :data-source="tableHugeData"
+          :data-source="tableData"
           bordered
-          virtual
-          :height="500"
-          :row-height="39"
-          row-selection
-          :selected-row-keys="tableHugeSelectedKeys"
-          @update:selectedRowKeys="tableHugeSelectedKeys = $event"
-        />
-        <p>Selected keys: {{ tableHugeSelectedKeys.join(', ') || '(none)' }}</p>
-
-        <WkTag> </WkTag>
+          :customRow="customRowExample"
+          :customHeader="customHeaderExample"
+        >
+          <template #bodyCell="{ column, record }">
+            <WkButton v-if="column.dataIndex === 'operation'" size="xs" variant="ghost">Edit</WkButton>
+            <template v-else>{{ record.name + 'aaaa' }}</template>
+          </template>
+        </WkTable>
       </section>
 
       <section class="section">
@@ -691,6 +690,29 @@ export default {
     }
   },
   methods: {
+    customRowExample(record, index) {
+      return {
+        onClick: event => {
+          console.log('Row clicked:', record)
+          console.log(index)
+        },
+        onDblclick: event => {
+          console.log('Row double-clicked:', record)
+          console.log(index)
+        },
+        onContextmenu: event => {
+          console.log('Row right-clicked:', record)
+          event.preventDefault()
+        }
+      }
+    },
+    customHeaderExample(columns, index) {
+      return {
+        onClick: event => {
+          console.log('Header row clicked:', columns)
+        }
+      }
+    },
     async handleOk() {
       this.loading = true
       await new Promise(resolve => setTimeout(resolve, 5000))
