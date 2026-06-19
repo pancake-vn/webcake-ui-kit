@@ -426,7 +426,7 @@
               :options="selectOptions"
               placeholder="Pick one"
               @change="selectSingle = $event"
-              size="sm"
+              size="xs"
             />
             <code style="font-size: 11px">{{ selectSingle }}</code>
           </div>
