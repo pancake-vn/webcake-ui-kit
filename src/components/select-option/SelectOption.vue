@@ -16,7 +16,7 @@
     <span class="ui-select-option--label">
       <slot>{{ label || value }}</slot>
     </span>
-    <WkiCheck v-if="isSelected" :size="16" color="var(--muted-fg)" />
+    <WkiCheck v-if="isSelected && isMultiMode" :size="16" color="var(--muted-fg)" />
   </div>
 </template>
 
@@ -103,6 +103,9 @@ export default {
     },
     isDisabled() {
       return this.disabled || !!(this.select && this.select.disabled)
+    },
+    isMultiMode() {
+      return !!(this.select && this.select.isMultiMode)
     }
   },
 
