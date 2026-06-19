@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.22] - 2026-06-19
+
+### Fixed
+
+- `WkSelectOption` checkmark icon is now only rendered in `multiple` and `tags` mode; in single-select mode the checkmark was incorrectly displayed next to the chosen option.
+- `WkSelect` `xs` size variant trigger now uses the `--radius` border-radius token instead of `--rounded-lg`, matching the intended design.
+- `WkSelect` search input no longer applies a hardcoded `font-size: 12px`; the size now inherits correctly from the component's typography context.
+
 ## [1.1.21] - 2026-06-18
 
 ### Fixed
