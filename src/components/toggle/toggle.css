@@ -157,7 +157,7 @@
 }
 .ui-toggle--icon-only.ui-toggle--xs {
   min-height: 28px;
-  min-width: 24px;
+  min-width: 28px;
   padding: var(--spacing-3xs);
 }
 .ui-toggle--icon-only.ui-toggle--sm {
