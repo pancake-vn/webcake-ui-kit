@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.24] - 2026-06-26
+
+### Fixed
+
+- `WkToggle` icon-only `xs` size variant now renders as a square; `min-width` was incorrectly set to `24px` instead of matching the `28px` `min-height`.
+
 ## [1.1.23] - 2026-06-26
 
 ### Fixed
