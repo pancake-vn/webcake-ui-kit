@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.26] - 2026-06-27
+
+### Fixed
+
+- `WkDropdown` menu items no longer render an empty icon wrapper element when no `icon` is provided; the icon `<span>` is now conditionally omitted for all item types (flat, grouped, and nested).
+
 ## [1.1.25] - 2026-06-27
 
 ### Added
