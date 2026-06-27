@@ -21,7 +21,7 @@
         <slot></slot>
       </span>
     </template>
-    <DropdownMenuItems v-if="hasItems" :items="items" :value="value" @select="onItemSelect" />
+    <DropdownMenuItems v-if="hasItems" :items="items" :value="value" @select="onItemSelect" :size="size" />
     <slot v-else name="overlay"></slot>
   </Menu>
 </template>
@@ -75,6 +75,11 @@ export default {
     value: {
       type: [String, Array],
       default: null
+    },
+    size: {
+      type: String,
+      default: 'md',
+      validator: v => ['sm', 'md', 'lg'].includes(v)
     }
   },
   emits: ['change', 'update:modelValue', 'open', 'close', 'select'],

@@ -48,10 +48,8 @@
           @ok="handleOk"
           :confirmLoading="loading"
           width="1000"
-          fullscreen
           :title="'Sửa sản phẩm'"
-          :subText="'Sản phẩm abc'"
-          back
+          :subText="'Sản phẩm abcsdcjasoihcoasdhcouasidhclkjsdhklcsalkjflsdafhasdjfhasjdfhasdfjhsajdkchasjch qươ. cqwc qưohic. coqwoch ưq c. coáhcosd.  oidsfoasfyosa.   ódahfo sa.  oacosa c.  oácyoasc qư. ócaocy ó cdo.  cqwcoo'"
         >
           <div>
             <WkButton @click="openDialog2 = true">Open Dialog 2</WkButton>
@@ -70,6 +68,13 @@
             <WkTooltip :title="'12312dssdfsdf'" side="bottom"> sadfsafssadfsdf </WkTooltip>
           </WkDropdown>
         </WkDialog>
+
+        <WkTag size="sm">
+          alooo
+          <template #icon>
+            <WkiChessBishop :size="12" />
+          </template>
+        </WkTag>
       </section>
 
       <section class="section">
@@ -88,6 +93,60 @@
           />
           <span class="row__item">current = {{ paginationPage }} (click `…` to jump ±5 pages)</span>
         </div>
+      </section>
+
+      <section class="section">
+        <h2>Toggle Group — all sizes</h2>
+        <div class="stack">
+          <div v-for="s in tgSizes" :key="s" class="row">
+            <span class="row__item" style="width: 28px">{{ s }}</span>
+            <WkToggleGroup :value="tgSizeValue[s]" :size="s" label="Text alignment" @change="tgSizeValue[s] = $event">
+              <WkToggle value="left">
+                <template #icon>
+                  <WkiChessBishop :size="['mini', 'xs'].includes(s) ? 16 : 20" />
+                </template>
+              </WkToggle>
+              <WkToggle value="center">
+                <template #icon>
+                  <WkiChessBishop :size="['mini', 'xs'].includes(s) ? 16 : 20" />
+                </template>
+              </WkToggle>
+              <WkToggle value="right">
+                <template #icon>
+                  <WkiChessBishop :size="['mini', 'xs'].includes(s) ? 16 : 20" />
+                </template>
+              </WkToggle>
+            </WkToggleGroup>
+            <code style="font-size: 11px">{{ tgSizeValue[s] }}</code>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 16px; align-items: flex-start">
+            <WkButtonGroup>
+              <WkButton variant="outline" size="sm">Bold</WkButton>
+              <WkButton variant="outline" size="sm">Italic</WkButton>
+              <WkButton variant="outline" size="sm">Underline</WkButton>
+            </WkButtonGroup>
+            <WkButtonGroup>
+              <WkButton variant="outline" size="xs">Left</WkButton>
+              <WkButton variant="outline" size="xs">Center</WkButton>
+              <WkButton variant="outline" size="xs">Right</WkButton>
+            </WkButtonGroup>
+          </div>
+        </div>
+
+        <h2 style="margin-top: 24px">Toggle Group — multiple select (ghost variant)</h2>
+        <div class="row">
+          <WkToggleGroup :value="tgFormat" multiple size="md" @change="tgFormat = $event">
+            <WkToggle value="bold" variant="ghost">Bold</WkToggle>
+            <WkToggle value="italic" variant="ghost">Italic</WkToggle>
+            <WkToggle value="underline" variant="ghost">Underline</WkToggle>
+          </WkToggleGroup>
+          <code style="font-size: 11px">{{ JSON.stringify(tgFormat) }}</code>
+        </div>
+      </section>
+
+      <section>
+        <WkBreadcrumb :items="breadcrumbSlash" />
       </section>
 
       <section class="section">
@@ -427,6 +486,7 @@
               placeholder="Pick one"
               @change="selectSingle = $event"
               size="xs"
+              option-size="sm"
             />
             <code style="font-size: 11px">{{ selectSingle }}</code>
           </div>
@@ -464,6 +524,7 @@
               placeholder="Gõ rồi Enter…"
               :list-height="384"
               @change="selectMultiSearch = $event"
+              option-size="lg"
             >
               <template #empty>
                 <div
@@ -574,7 +635,7 @@
         </template>
       </WkSidebarItem>
 
-      <WkDropdown :items="dropdownOptions" @select="handleDropdownActive">
+      <WkDropdown :items="dropdownOptions" @select="handleDropdownActive" size="lg">
         <WkButton>test</WkButton>
       </WkDropdown>
       {{ dropdownActive }}
@@ -764,6 +825,8 @@ export default {
       tgAlign: 'left',
       tgFormat: ['bold'],
       tgView: 'grid',
+      tgSizes: ['mini', 'xs', 'sm', 'md', 'lg'],
+      tgSizeValue: { mini: 'left', xs: 'center', sm: 'right', md: 'left', lg: 'left' },
       inputValue: 'dsfdssd',
       inputSizes: ['regular', 'large', 'small', 'xs'],
       inputRoundness: ['default', 'round'],

@@ -1,5 +1,6 @@
 import WkDropdown from '../../src/components/dropdown/Dropdown.vue'
 import WkButton from '../../src/components/button/Button.vue'
+import { WkiSquareNumber } from '../../src/icons'
 
 const ITEMS_BASIC = [
   { key: 'edit', label: 'Edit' },
@@ -9,8 +10,8 @@ const ITEMS_BASIC = [
 ]
 
 const ITEMS_RICH = [
-  { key: 'copy', label: 'Copy', extra: '⌘C' },
-  { key: 'paste', label: 'Paste', extra: '⌘V' },
+  { key: 'copy', label: 'Copy', extra: '⌘C', icon: WkiSquareNumber },
+  { key: 'paste', label: 'Paste', extra: '⌘V', icon: WkiSquareNumber },
   { key: 'divider-1', type: 'divider' },
   {
     key: 'export',
@@ -36,6 +37,7 @@ export default {
       control: { type: 'inline-radio' },
       options: [['click'], ['hover']]
     },
+    size: { control: { type: 'inline-radio' }, options: ['sm', 'md', 'lg'] },
     disabled: { control: 'boolean' }
   },
   parameters: {
@@ -264,3 +266,29 @@ export const AllVariants = () => ({
     </div>
   `
 })
+
+export const Sizes = () => ({
+  components: { WkDropdown, WkButton },
+  data() {
+    return { items: ITEMS_RICH, sizes: ['sm', 'md', 'lg'] }
+  },
+  template: `
+    <div style="padding: 40px; display:flex; gap:16px; align-items:flex-start;">
+      <div v-for="s in sizes" :key="s" style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;">
+        <span style="color:var(--muted-fg);font-size:12px;">size = {{ s }}</span>
+        <WkDropdown :items="items" :size="s">
+          <WkButton variant="outline" :size="s">{{ s }}</WkButton>
+        </WkDropdown>
+      </div>
+    </div>
+  `
+})
+Sizes.parameters = {
+  docs: {
+    description: {
+      story:
+        '`size` (`sm` · `md` · `lg`) controls the density of the menu items (via `DropdownMenuItems`). ' +
+        'Click a trigger to open the menu and compare row heights.'
+    }
+  }
+}

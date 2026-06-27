@@ -8,10 +8,13 @@ const alignCenterIcon =
 const alignRightIcon =
   '<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true"><path d="M4 6h12M8 10h8M6 14h10" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg>'
 
+const SIZES = ['mini', 'xs', 'sm', 'md', 'lg']
+
 export default {
   title: 'Forms/ToggleGroup',
   component: WkToggleGroup,
   argTypes: {
+    size: { control: { type: 'inline-radio' }, options: SIZES },
     multiple: { control: 'boolean' }
   },
   parameters: {
@@ -205,4 +208,54 @@ export const FocusVisible = () => ({
 })
 FocusVisible.parameters = {
   docs: { description: { story: 'Tab through the toggles to verify focus rings and z-index lift.' } }
+}
+
+export const Sizes = () => ({
+  components: { WkToggleGroup, WkToggle },
+  data() {
+    return { sizes: SIZES, selected: 'center' }
+  },
+  template: `
+    <div style="display:flex; flex-direction:column; gap:16px; align-items:flex-start;">
+      <div v-for="s in sizes" :key="s" style="display:flex; align-items:center; gap:12px;">
+        <span style="color:var(--muted-fg); font-size:12px; width:32px;">{{ s }}</span>
+        <WkToggleGroup :size="s" v-model="selected">
+          <WkToggle value="left">Left</WkToggle>
+          <WkToggle value="center">Center</WkToggle>
+          <WkToggle value="right">Right</WkToggle>
+        </WkToggleGroup>
+      </div>
+    </div>
+  `
+})
+Sizes.parameters = {
+  docs: {
+    description: {
+      story:
+        '`size` (`xs` · `sm` · `md` · `lg`) is set on the group and inherited by every child WkToggle via ' +
+        '`groupSize` — a per-toggle `size` is ignored inside a group.'
+    }
+  }
+}
+
+export const GhostAllSizes = () => ({
+  components: { WkToggleGroup, WkToggle },
+  data() {
+    return { sizes: SIZES, selected: 'b' }
+  },
+  template: `
+    <div style="display:flex; flex-direction:column; gap:16px; align-items:flex-start;">
+      <div v-for="s in sizes" :key="s" style="display:flex; align-items:center; gap:12px;">
+        <span style="color:var(--muted-fg); font-size:12px; width:32px;">{{ s }}</span>
+        <WkToggleGroup :size="s" v-model="selected">
+          <WkToggle variant="ghost" value="a">Left</WkToggle>
+          <WkToggle variant="ghost" value="b">Middle</WkToggle>
+          <WkToggle variant="ghost" value="c">Right</WkToggle>
+        </WkToggleGroup>
+      </div>
+    </div>
+  `
+})
+GhostAllSizes.parameters = {
+  docs: { description: { story: 'Ghost-variant groups across all four sizes.' } }
 }

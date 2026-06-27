@@ -25,9 +25,6 @@
                     <div class="ui-dialog-header__title">
                       <slot name="title">{{ title }}</slot>
                     </div>
-                    <div v-if="hasSubText" class="ui-dialog-header__sub-text">
-                      <slot name="sub-text">{{ subText }}</slot>
-                    </div>
                   </div>
                   <div v-else class="ui-dialog-header__content ui-dialog-header__content--empty"></div>
                 </slot>
@@ -63,6 +60,10 @@
                     </template>
                   </Button>
                 </div>
+              </div>
+
+              <div v-if="hasSubText" class="ui-dialog-header__sub-text">
+                <slot name="sub-text">{{ subText }}</slot>
               </div>
             </div>
 

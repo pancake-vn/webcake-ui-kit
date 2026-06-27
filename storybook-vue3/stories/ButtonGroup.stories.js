@@ -1,6 +1,8 @@
 import WkButtonGroup from '../../src/components/button-group/ButtonGroup.vue'
 import WkButton from '../../src/components/button/Button.vue'
 
+const SIZES = ['mini', 'xs', 'sm', 'md', 'lg', 'xl']
+
 export default {
   title: 'Forms/ButtonGroup',
   component: WkButtonGroup,
@@ -85,6 +87,34 @@ export const AllVariants = () => ({
     </div>
   `
 })
+
+export const Sizes = () => ({
+  components: { WkButtonGroup, WkButton },
+  data() {
+    return { sizes: SIZES }
+  },
+  template: `
+    <div style="display:flex; flex-direction:column; gap:16px; align-items:flex-start;">
+      <div v-for="s in sizes" :key="s" style="display:flex; align-items:center; gap:12px;">
+        <span style="color:var(--muted-fg); font-size:12px; width:32px;">{{ s }}</span>
+        <WkButtonGroup>
+          <WkButton variant="outline" :size="s">Left</WkButton>
+          <WkButton variant="outline" :size="s">Middle</WkButton>
+          <WkButton variant="outline" :size="s">Right</WkButton>
+        </WkButtonGroup>
+      </div>
+    </div>
+  `
+})
+Sizes.parameters = {
+  docs: {
+    description: {
+      story:
+        'Set `size` on each child WkButton (`mini` · `xs` · `sm` · `md` · `lg` · `xl`). ' +
+        'The group keeps inner corners square and rounds only the outer corners at every size.'
+    }
+  }
+}
 
 export const FocusVisible = () => ({
   components: { WkButtonGroup, WkButton },

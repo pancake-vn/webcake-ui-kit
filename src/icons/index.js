@@ -1737,4 +1737,9 @@ export { default as WkiLayersUpToTop } from './LayersUpToTop.vue'
 export { default as WkiLayersDownToBottom } from './LayersDownToBottom.vue'
 export { default as WkiGeneratePrompt } from './GeneratePrompt.vue'
 export { default as WkiClippingMask } from './ClippingMask.vue'
+export { default as WkiSlash2 } from './Slash2.vue'
+export { default as WkiSquareNumber } from './SquareNumber.vue'
+export { default as WkiRows3Add } from './Rows3Add.vue'
+export { default as WkiColumns3Add } from './Columns3Add.vue'
+
 // --- AUTO-GENERATED LUCIDE EXPORTS END ---
