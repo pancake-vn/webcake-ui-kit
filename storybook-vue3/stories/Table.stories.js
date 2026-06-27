@@ -1,10 +1,10 @@
 import WkTable from '../../src/components/table/Table.vue'
 
 const COLUMNS_BASIC = [
-  { title: 'Name', dataIndex: 'name', key: 'name' },
-  { title: 'Age', dataIndex: 'age', key: 'age', align: 'right' },
-  { title: 'Role', dataIndex: 'role', key: 'role' },
-  { title: 'Status', dataIndex: 'status', key: 'status' }
+  { title: 'Name', dataIndex: 'name', key: 'name', width: 200 },
+  { title: 'Age', dataIndex: 'age', key: 'age', align: 'right', width: 100 },
+  { title: 'Role', dataIndex: 'role', key: 'role', width: 150 },
+  { title: 'Status', dataIndex: 'status', key: 'status', width: 120 }
 ]
 
 const DATA_BASIC = [
@@ -37,7 +37,7 @@ export const Primary = () => ({
     return { columns: COLUMNS_BASIC, data: DATA_BASIC }
   },
   template: `
-    <div style="padding: 24px;">
+    <div style="padding: 24px; max-width: 960px;">
       <WkTable :columns="columns" :data-source="data" />
     </div>
   `
@@ -52,7 +52,7 @@ export const Bordered = () => ({
     return { columns: COLUMNS_BASIC, data: DATA_BASIC }
   },
   template: `
-    <div style="padding: 24px;">
+    <div style="padding: 24px; max-width: 960px;">
       <WkTable :columns="columns" :data-source="data" bordered />
     </div>
   `
@@ -67,7 +67,7 @@ export const AllVariants = () => ({
     return { columns: COLUMNS_BASIC, data: DATA_BASIC }
   },
   template: `
-    <div style="padding: 24px; display: flex; flex-direction: column; gap: 40px;">
+    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 40px;">
       <div>
         <p style="margin: 0 0 12px; font-size: 13px; font-weight: 500; color: #6b7280;">Default</p>
         <WkTable :columns="columns" :data-source="data" />
@@ -98,7 +98,7 @@ export const WithRowSelection = () => ({
     }
   },
   template: `
-    <div style="padding: 24px;">
+    <div style="padding: 24px; max-width: 960px;">
       <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
         Selected: {{ selectedKeys.join(', ') || 'none' }}
       </p>
@@ -142,7 +142,7 @@ export const WithSorting = () => ({
     }
   },
   template: `
-    <div style="padding: 24px;">
+    <div style="padding: 24px; max-width: 960px;">
       <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
         Sort: {{ lastSort || 'none' }}
       </p>
@@ -167,7 +167,7 @@ export const WithEmptyState = () => ({
     return { columns: COLUMNS_BASIC, data: [] }
   },
   template: `
-    <div style="padding: 24px; display: flex; flex-direction: column; gap: 32px;">
+    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 32px;">
       <div>
         <p style="margin: 0 0 12px; font-size: 13px; font-weight: 500; color: #6b7280;">Default empty text</p>
         <WkTable :columns="columns" :data-source="data" />
@@ -212,7 +212,7 @@ export const ScrollableY = () => ({
     }
   },
   template: `
-    <div style="padding: 24px;">
+    <div style="padding: 24px; max-width: 960px;">
       <WkTable :columns="columns" :data-source="data" :height="280" />
     </div>
   `
@@ -233,7 +233,7 @@ export const WithCustomCellRenderers = () => ({
     return { columns: COLUMNS_BASIC, data: DATA_BASIC }
   },
   template: `
-    <div style="padding: 24px;">
+    <div style="padding: 24px; max-width: 960px;">
       <WkTable :columns="columns" :data-source="data">
         <template #headerCell="{ column }">
           <span style="font-style: italic;">{{ column.title }}</span>
@@ -280,7 +280,7 @@ export const Matrix = () => ({
     }
   },
   template: `
-    <div style="padding: 24px; display: flex; flex-direction: column; gap: 40px;">
+    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 40px;">
       <div>
         <p style="margin: 0 0 8px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #9ca3af;">Selection + Sort + Bordered</p>
         <WkTable :columns="colsNoKey" :data-source="data" row-selection bordered />
@@ -308,7 +308,7 @@ export const FocusVisible = () => ({
     }
   },
   template: `
-    <div style="padding: 24px;">
+    <div style="padding: 24px; max-width: 960px;">
       <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">Tab to sortable headers and press Enter/Space to sort.</p>
       <WkTable :columns="columns" :data-source="data" />
     </div>
@@ -340,7 +340,7 @@ export const Virtualized = () => ({
     return { columns: COLUMNS_HUGE, data: DATA_HUGE, selected: ['v500'] }
   },
   template: `
-    <div style="padding: 24px;">
+    <div style="padding: 24px; max-width: 960px;">
       <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
         10,000 rows — only the rows in the viewport (plus overscan) are in the DOM.
       </p>

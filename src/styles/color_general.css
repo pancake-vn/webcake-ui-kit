@@ -44,7 +44,7 @@
   --outline: var(--color-white-alpha-10);
   --outline-hover: var(--color-black-alpha-333);
   --outline-active: var(--color-black-alpha-5);
-  --accent-0: rgba(245, 245, 245, 0.5);
+  --accent-0: #fafafa;
   --accent-1: var(--color-brand-neutrals-100);
   --accent-2: var(--color-brand-neutrals-200);
   --border-0: var(--color-brand-neutrals-50);
@@ -156,7 +156,7 @@
   --outline: var(--color-white-alpha-5);
   --outline-hover: var(--color-black-alpha-10);
   --outline-active: var(--color-white-alpha-15);
-  --accent-0: rgba(38, 38, 38, 0.5);
+  --accent-0: var(--color-neutral-900);
   --accent-1: var(--color-brand-neutrals-800);
   --accent-2: var(--color-brand-neutrals-800);
   --border-0: var(--color-brand-neutrals-950);

@@ -3,7 +3,9 @@
     v-show="!isHidden"
     class="ui-select-option"
     :class="[
-      size === 'large' ? 'ui-select-option--large' : null,
+      effectiveSize === 'sm' ? 'ui-select-option--sm' : null,
+      effectiveSize === 'md' ? 'ui-select-option--md' : null,
+      effectiveSize === 'lg' ? 'ui-select-option--lg' : null,
       variant === 'destructive' ? 'ui-select-option--destructive' : null,
       isDisabled ? 'ui-select-option--disabled' : null,
       isSelected ? 'ui-select-option--selected' : null
@@ -48,9 +50,9 @@ export default {
     },
     size: {
       type: String,
-      default: 'regular',
+      default: null,
       validator: function (v) {
-        return ['regular', 'large'].indexOf(v) !== -1
+        return v === null || ['sm', 'md', 'lg'].indexOf(v) !== -1
       }
     },
     variant: {
@@ -84,6 +86,10 @@ export default {
   },
 
   computed: {
+    effectiveSize() {
+      // explicit prop wins; otherwise inherit from parent Select; else regular
+      return this.size || (this.select && (this.select.optionSize || this.select.size)) || 'md'
+    },
     isHidden() {
       if (!this.select || !this.select.filterText) return false
       var q = this.select.filterText.toLowerCase()

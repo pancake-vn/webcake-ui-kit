@@ -24,7 +24,7 @@ describe('WkSelectOption (standalone, no WkSelect context)', () => {
 
   it('applies large class for size large', () => {
     const w = mount(WkSelectOption, { props: { value: 'x', size: 'large' } })
-    expect(w.classes()).toContain('ui-select-option--large')
+    expect(w.classes()).toContain('ui-select-option--lg')
   })
 
   it('applies destructive class for variant destructive', () => {

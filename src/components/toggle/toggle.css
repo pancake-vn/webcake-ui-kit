@@ -37,13 +37,26 @@
 /* ============================================================
    Sizes  (Mini → xs, Small → sm, Default → md, Large → lg)
    ============================================================ */
-.ui-toggle--xs {
+.ui-toggle--mini {
   height: 24px;
   padding: var(--spacing-3) var(--spacing-2xs);
   gap: var(--spacing-6);
   font-size: var(--paragraph-mini-font-size);
   line-height: var(--paragraph-mini-line-height);
   letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+.ui-toggle--mini .ui-toggle__icon {
+  width: 16px;
+  height: 16px;
+}
+
+.ui-toggle--xs {
+  height: 28px;
+  padding: var(--spacing-6);
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  font-size: var(--paragraph-mini-font-size);
 }
 .ui-toggle--xs .ui-toggle__icon {
   width: 16px;
@@ -95,8 +108,11 @@
 .ui-toggle--round-default {
   border-radius: var(--radius-10);
 }
-.ui-toggle--xs.ui-toggle--round-default {
+.ui-toggle--mini.ui-toggle--round-default {
   border-radius: var(--rounded-lg);
+}
+.ui-toggle--xs.ui-toggle--round-default {
+  border-radius: var(--radius);
 }
 .ui-toggle--lg.ui-toggle--round-default {
   border-radius: var(--rounded-2xl);
@@ -155,20 +171,28 @@
 .ui-toggle--icon-only {
   gap: 0;
 }
-.ui-toggle--icon-only.ui-toggle--xs {
-  min-height: 28px;
-  min-width: 28px;
+.ui-toggle--icon-only.ui-toggle--mini {
+  height: 24px;
+  min-width: 24px;
   padding: var(--spacing-3xs);
+}
+.ui-toggle--icon-only.ui-toggle--xs {
+  min-width: 28px;
+  height: 28px;
+  padding: var(--spacing-6) var(--spacing-6) var(--spacing-6) var(--spacing-xs);
 }
 .ui-toggle--icon-only.ui-toggle--sm {
   min-width: 32px;
+  height: 32px;
   padding: var(--spacing-6);
 }
 .ui-toggle--icon-only.ui-toggle--md {
   min-width: 36px;
+  height: 36px;
   padding: var(--spacing-xs);
 }
 .ui-toggle--icon-only.ui-toggle--lg {
   min-width: 40px;
+  height: 40px;
   padding: var(--spacing-10);
 }

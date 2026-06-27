@@ -3,19 +3,22 @@
   align-items: stretch;
 }
 
-/* Reset radius on all children, re-apply corners to first/last */
-.ui-button-group .ui-btn {
+/* Reset radius on all children, re-apply corners to first/last.
+   Class doubled (.ui-btn.ui-btn) to outrank the per-size radius rules
+   in button.css (e.g. .ui-btn--xs.ui-btn--round-default), which tie at
+   the same specificity and would otherwise win on source order. */
+.ui-button-group .ui-btn.ui-btn {
   border-radius: 0;
 }
-.ui-button-group .ui-btn:first-child {
+.ui-button-group .ui-btn.ui-btn:first-child {
   border-top-left-radius: var(--rounded-xl);
   border-bottom-left-radius: var(--rounded-xl);
 }
-.ui-button-group .ui-btn:last-child {
+.ui-button-group .ui-btn.ui-btn:last-child {
   border-top-right-radius: var(--rounded-xl);
   border-bottom-right-radius: var(--rounded-xl);
 }
-.ui-button-group .ui-btn:first-child:last-child {
+.ui-button-group .ui-btn.ui-btn:first-child:last-child {
   border-radius: var(--rounded-xl);
 }
 

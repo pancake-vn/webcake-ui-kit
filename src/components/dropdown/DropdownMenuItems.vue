@@ -17,12 +17,20 @@
           :class="{
             'ui-dropdown-items__item--disabled': child.disabled,
             'ui-dropdown-items__item--destructive': child.destructive,
-            'ui-dropdown-items__item--active': isActive(child.key)
+            'ui-dropdown-items__item--active': isActive(child.key),
+            [`ui-dropdown-items__item--${size}`]: size
           }"
           :title="child.title || undefined"
           @click="onItemClick(child)"
         >
-          <component :is="child.icon" v-if="child.icon && isComponent(child.icon)" :size="20" :color="item.colorIcon" />
+          <span class="ui-dropdown-items__icon">
+            <component
+              :is="child.icon"
+              v-if="child.icon && isComponent(child.icon)"
+              :size="['sm', 'md'].includes(size) ? 16 : 20"
+              :color="item.colorIcon"
+            />
+          </span>
           <span class="ui-dropdown-items__label" :style="child.color ? { color: child.color } : undefined">{{
             child.label
           }}</span>
@@ -37,11 +45,19 @@
           class="ui-dropdown-items__submenu-label"
           :class="{
             'ui-dropdown-items__item--disabled': item.disabled,
-            'ui-dropdown-items__item--destructive': item.destructive
+            'ui-dropdown-items__item--destructive': item.destructive,
+            [`ui-dropdown-items__item--${size}`]: size
           }"
           :title="item.title || undefined"
         >
-          <component :is="item.icon" v-if="item.icon && isComponent(item.icon)" :size="20" :color="item.colorIcon" />
+          <span class="ui-dropdown-items__icon">
+            <component
+              :is="item.icon"
+              v-if="item.icon && isComponent(item.icon)"
+              :size="['sm', 'md'].includes(size) ? 16 : 20"
+              :color="item.colorIcon"
+            />
+          </span>
           <span class="ui-dropdown-items__label" :style="item.color ? { color: item.color } : undefined">{{
             item.label
           }}</span>
@@ -53,12 +69,20 @@
           :class="{
             'ui-dropdown-items__item--disabled': child.disabled || item.disabled,
             'ui-dropdown-items__item--destructive': child.destructive,
-            'ui-dropdown-items__item--active': isActive(child.key)
+            'ui-dropdown-items__item--active': isActive(child.key),
+            [`ui-dropdown-items__item--${size}`]: size
           }"
           :title="child.title || undefined"
           @click="onItemClick(child, item)"
         >
-          <component :is="child.icon" v-if="child.icon && isComponent(child.icon)" :size="20" :color="item.colorIcon" />
+          <span class="ui-dropdown-items__icon">
+            <component
+              :is="child.icon"
+              v-if="child.icon && isComponent(child.icon)"
+              :size="['sm', 'md'].includes(size) ? 16 : 20"
+              :color="item.colorIcon"
+            />
+          </span>
           <span class="ui-dropdown-items__label" :style="child.color ? { color: child.color } : undefined">{{
             child.label
           }}</span>
@@ -74,12 +98,20 @@
         :class="{
           'ui-dropdown-items__item--disabled': item.disabled,
           'ui-dropdown-items__item--destructive': item.destructive,
-          'ui-dropdown-items__item--active': isActive(item.key)
+          'ui-dropdown-items__item--active': isActive(item.key),
+          [`ui-dropdown-items__item--${size}`]: size
         }"
         :title="item.title || undefined"
         @click="onItemClick(item)"
       >
-        <component :is="item.icon" v-if="item.icon && isComponent(item.icon)" :size="20" :color="item.colorIcon" />
+        <span class="ui-dropdown-items__icon">
+          <component
+            :is="item.icon"
+            v-if="item.icon && isComponent(item.icon)"
+            :size="['sm', 'md'].includes(size) ? 16 : 20"
+            :color="item.colorIcon"
+          />
+        </span>
         <span class="ui-dropdown-items__label" :style="item.color ? { color: item.color } : undefined">{{
           item.label
         }}</span>
@@ -114,6 +146,10 @@ export default {
     value: {
       type: [String, Array],
       default: null
+    },
+    size: {
+      type: String,
+      default: 'md'
     }
   },
 

@@ -16,7 +16,7 @@ export default {
     size: {
       type: String,
       default: 'md',
-      validator: v => ['xs', 'sm', 'md', 'lg'].includes(v)
+      validator: v => ['mini', 'xs', 'sm', 'md', 'lg'].includes(v)
     }
   },
   emits: ['change', 'update:modelValue'],

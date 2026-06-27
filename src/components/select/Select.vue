@@ -128,6 +128,11 @@ export default {
         return ['xs', 'sm', 'md', 'lg'].indexOf(v) !== -1
       }
     },
+    optionSize: {
+      type: String,
+      default: 'md',
+      validator: v => ['xs', 'md', 'lg'].indexOf(v) !== -1
+    },
     value: {
       type: [String, Array],
       default: null
@@ -211,8 +216,8 @@ export default {
       return this.mode === 'tags' || this.searchable || !!this.filterOption
     },
     tagSize() {
-      if (this.size === 'sm' || this.size === 'md') return this.size
-      return 'sm'
+      if (['xs', 'sm'].includes(this.size)) return 'sm'
+      return 'md'
     },
     normalizedOptions() {
       var base = this.mode === 'tags' ? this.options.concat(this.tagOptions) : this.options

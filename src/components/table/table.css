@@ -172,12 +172,19 @@
 }
 
 .ui-table__body::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
+}
+
+.ui-table__body::-webkit-scrollbar-track {
+  border-left: 1px solid var(--border-primary);
 }
 
 .ui-table__body::-webkit-scrollbar-thumb {
   background: var(--border-primary);
   border-radius: 3px;
+  border-left: 2px solid transparent;
+  border-right: 1px solid transparent;
+  background-clip: content-box;
 }
 
 .ui-table--scroll-y .ui-table__head {

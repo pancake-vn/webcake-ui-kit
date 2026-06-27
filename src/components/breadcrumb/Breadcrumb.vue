@@ -5,8 +5,8 @@
         <li v-for="(item, index) in items" :key="index" class="ui-breadcrumb__row">
           <span v-if="index > 0" class="ui-breadcrumb__separator" aria-hidden="true">
             <slot name="separator" :type="separator">
-              <WkiSlash v-if="separator === 'slash'" :size="16" />
-              <WkiChevronRight v-else :size="16" />
+              <WkiSlash2 v-if="separator === 'slash'" :size="14" color="var(--mid-alt)" />
+              <WkiChevronRight v-else :size="14" color="var(--mid-alt)" />
             </slot>
           </span>
           <component
@@ -30,13 +30,13 @@
 </template>
 
 <script>
-import WkiSlash from '../../icons/Slash.vue'
+import WkiSlash2 from '../../icons/Slash2.vue'
 import WkiChevronRight from '../../icons/ChevronRight.vue'
 
 export default {
   name: 'Breadcrumb',
   components: {
-    WkiSlash,
+    WkiSlash2,
     WkiChevronRight
   },
   props: {

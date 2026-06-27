@@ -2,6 +2,7 @@ import WkSelect from '../../src/components/select/Select.vue'
 import WkSelectOption from '../../src/components/select-option/SelectOption.vue'
 
 const SIZES = ['xs', 'sm', 'md', 'lg']
+const OPTION_SIZES = ['sm', 'md', 'lg']
 const MODES = ['single', 'multiple', 'tags']
 const FRUITS = ['Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry', 'Fig', 'Grape']
 const FRUIT_OBJS = [
@@ -17,6 +18,7 @@ export default {
   component: WkSelect,
   argTypes: {
     size: { control: { type: 'inline-radio' }, options: SIZES },
+    optionSize: { control: { type: 'inline-radio' }, options: OPTION_SIZES },
     mode: { control: { type: 'inline-radio' }, options: MODES },
     disabled: { control: 'boolean' },
     error: { control: 'boolean' },
@@ -371,4 +373,28 @@ export const FocusVisible = () => ({
 })
 FocusVisible.parameters = {
   docs: { description: { story: 'Keyboard-accessible: Tab to focus, Space/Enter to open.' } }
+}
+
+export const OptionSizes = () => ({
+  components: { WkSelect },
+  data() {
+    return { fruits: FRUITS, optionSizes: OPTION_SIZES }
+  },
+  template: `
+    <div style="display:flex;gap:16px;align-items:flex-start;">
+      <div v-for="os in optionSizes" :key="os" style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;width: 200px">
+        <span style="color:#6b7280;font-size:12px;">optionSize = {{ os }}</span>
+        <WkSelect value="Apple" :option-size="os" :options="fruits" style="width:180px;" />
+      </div>
+    </div>
+  `
+})
+OptionSizes.parameters = {
+  docs: {
+    description: {
+      story:
+        '`optionSize` (`xs` · `md` · `lg`) sets the density of the option rows in the open dropdown — ' +
+        'independent of the trigger `size`. Open each select to compare row heights.'
+    }
+  }
 }

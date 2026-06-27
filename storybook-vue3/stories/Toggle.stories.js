@@ -1,7 +1,7 @@
 import WkToggle from '../../src/components/toggle/Toggle.vue'
 
 const VARIANTS = ['outlined', 'ghost']
-const SIZES = ['xs', 'sm', 'md', 'lg']
+const SIZES = ['mini', 'xs', 'sm', 'md', 'lg']
 const ROUNDNESS = ['default', 'round']
 
 const boldIcon =
