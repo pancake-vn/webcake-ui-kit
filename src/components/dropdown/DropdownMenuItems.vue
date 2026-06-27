@@ -23,7 +23,7 @@
           :title="child.title || undefined"
           @click="onItemClick(child)"
         >
-          <span class="ui-dropdown-items__icon">
+          <span class="ui-dropdown-items__icon" v-if="child.icon">
             <component
               :is="child.icon"
               v-if="child.icon && isComponent(child.icon)"
@@ -50,7 +50,7 @@
           }"
           :title="item.title || undefined"
         >
-          <span class="ui-dropdown-items__icon">
+          <span class="ui-dropdown-items__icon" v-if="item.icon">
             <component
               :is="item.icon"
               v-if="item.icon && isComponent(item.icon)"
@@ -75,7 +75,7 @@
           :title="child.title || undefined"
           @click="onItemClick(child, item)"
         >
-          <span class="ui-dropdown-items__icon">
+          <span class="ui-dropdown-items__icon" v-if="child.icon">
             <component
               :is="child.icon"
               v-if="child.icon && isComponent(child.icon)"
@@ -104,7 +104,7 @@
         :title="item.title || undefined"
         @click="onItemClick(item)"
       >
-        <span class="ui-dropdown-items__icon">
+        <span class="ui-dropdown-items__icon" v-if="item.icon">
           <component
             :is="item.icon"
             v-if="item.icon && isComponent(item.icon)"
