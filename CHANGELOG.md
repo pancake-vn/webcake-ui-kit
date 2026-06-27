@@ -4,6 +4,30 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.25] - 2026-06-27
+
+### Added
+
+- `WkDropdown` accepts a new `size` prop (`sm`, `md`, `lg`, default `md`) that controls item height, padding, gap, and font size in the dropdown menu; icon size scales automatically with the chosen size.
+- `WkSelect` accepts a new `optionSize` prop (`xs`, `md`, `lg`, default `md`) for controlling the size of dropdown option items independently from the trigger size.
+- `WkToggle` and `WkToggleGroup` add a `mini` size variant (24px height), the smallest available toggle size.
+- `WkToggle` and `WkToggleGroup` add a new `xs` size variant (28px height) that now sits between `mini` and `sm`; the previous `xs` slot is renamed to `mini`.
+- Four new icon components: `WkiSlash2`, `WkiSquareNumber`, `WkiRows3Add`, and `WkiColumns3Add`.
+
+### Changed
+
+- `WkSelectOption` size prop values changed from `regular`/`large` to `sm`/`md`/`lg`; when `size` is not set explicitly, the option inherits the parent `WkSelect` size automatically.
+- `WkSelect` `tagSize` mapping updated so `xs` and `sm` trigger sizes produce `sm` tags, and `md` and `lg` trigger sizes produce `md` tags.
+- `WkSelect` multiple-mode trigger uses a fixed `height` instead of `min-height`, keeping multi-value triggers at a consistent height.
+- `WkBreadcrumb` separator icon updated from `WkiSlash` to `WkiSlash2` (14px, `--mid-alt` color) for a more refined visual weight.
+- `--accent-0` design token uses solid opaque colors in both light (`#fafafa`) and dark (`--color-neutral-900`) themes instead of semi-transparent rgba values.
+
+### Fixed
+
+- `WkButtonGroup` border-radius override now uses a doubled class selector to correctly outrank per-size radius rules from `button.css`, ensuring grouped buttons have squared inner edges at all sizes.
+- `WkDialog` `sub-text` slot now renders below the header action row instead of inside the title column, matching the intended layout.
+- `WkTable` vertical scrollbar is wider (10px) with a track border and content-box-clipped thumb, matching the intended scrollbar design.
+
 ## [1.1.24] - 2026-06-26
 
 ### Fixed
