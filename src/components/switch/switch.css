@@ -13,6 +13,7 @@
   transition: background 0.15s ease;
   box-shadow: var(--shadow-xs);
   outline: none;
+  background: var(--color-neutral-300);
 }
 
 .ui-switch--on {

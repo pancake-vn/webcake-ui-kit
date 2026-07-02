@@ -22,8 +22,8 @@ describe('WkSelectOption (standalone, no WkSelect context)', () => {
     expect(w.classes()).toContain('ui-select-option--disabled')
   })
 
-  it('applies large class for size large', () => {
-    const w = mount(WkSelectOption, { props: { value: 'x', size: 'large' } })
+  it('applies large class for size lg', () => {
+    const w = mount(WkSelectOption, { props: { value: 'x', size: 'lg' } })
     expect(w.classes()).toContain('ui-select-option--lg')
   })
 

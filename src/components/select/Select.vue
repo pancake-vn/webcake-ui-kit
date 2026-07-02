@@ -75,6 +75,7 @@
             {{ selectedLabel || placeholder }}
           </span>
         </span>
+        <span v-if="append" class="ui-select__append">{{ append }}</span>
         <Spinner v-if="loading" type="mirrored" size="sm" />
         <span v-else class="ui-select__chevron">
           <WkiChevronDown :size="16" />
@@ -149,6 +150,10 @@ export default {
       default: 'Select an item'
     },
     prepend: {
+      type: String,
+      default: ''
+    },
+    append: {
       type: String,
       default: ''
     },

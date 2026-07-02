@@ -456,6 +456,61 @@
           <WkTextarea :resizable="false" value="Resize handle disabled" />
         </div>
       </section>
+
+      <section class="section">
+        <h2>Alert — types</h2>
+        <div class="alert-examples">
+          <WkAlert
+            v-for="t in alertTypes"
+            :key="t"
+            :type="t"
+            title="Item added successfully"
+            description="This is an alert with icon, title and description."
+          />
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Alert — action &amp; closable</h2>
+        <div class="alert-examples">
+          <WkAlert type="neutral" title="Item added successfully" description="Line 2" closable @close="onAlertClose" />
+          <WkAlert type="neutral" title="Item added successfully">
+            <template #action>
+              <WkButton variant="ghost" size="xs">Label</WkButton>
+            </template>
+          </WkAlert>
+          <WkAlert
+            type="error"
+            title="Error! API call failed"
+            description="This is an alert with icon, title and description."
+            closable
+            @close="onAlertClose"
+          >
+            <template #action>
+              <WkButton variant="ghost" size="xs">Support</WkButton>
+            </template>
+          </WkAlert>
+          <WkAlert type="info" title="Custom icon" description="Icon slot overrides the default.">
+            <template #icon>
+              <svg
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                <path
+                  d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"
+                />
+              </svg>
+            </template>
+          </WkAlert>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -476,6 +531,7 @@ const ELLIPSIS_ICON =
 export default {
   data() {
     return {
+      alertTypes: ['neutral', 'error', 'warning', 'info'],
       textareaModel: 'Editable value',
       loading: false,
       openDialog: false,
@@ -690,6 +746,9 @@ export default {
     }
   },
   methods: {
+    onAlertClose() {
+      console.log('alert closed')
+    },
     customRowExample(record, index) {
       return {
         onClick: event => {
@@ -790,6 +849,14 @@ export default {
 </script>
 
 <style scoped>
+.alert-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 440px;
+  padding: 24px 0;
+}
+
 .app {
   min-height: 100vh;
   background: var(--body-background);

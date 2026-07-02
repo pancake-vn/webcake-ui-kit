@@ -201,12 +201,18 @@ describe('WkTable', () => {
 
   // ── row-click ────────────────────────────────────────────────────────────────
 
-  it('emits row-click when a body row is clicked', async () => {
-    const w = mount(WkTable, { props: { columns: COLUMNS, dataSource: ROWS } })
+  it('calls customRow onClick when a body row is clicked', async () => {
+    const clicked = []
+    const w = mount(WkTable, {
+      props: {
+        columns: COLUMNS,
+        dataSource: ROWS,
+        customRow: record => ({ onClick: () => clicked.push(record) })
+      }
+    })
     await w.findAll('.ui-table__row--body')[0].trigger('click')
-    const emitted = w.emitted('row-click')
-    expect(emitted).toBeTruthy()
-    expect(emitted[0][0]).toMatchObject({ key: '1', name: 'Alice' })
+    expect(clicked.length).toBe(1)
+    expect(clicked[0]).toMatchObject({ key: '1', name: 'Alice' })
     w.unmount && w.unmount()
   })
 

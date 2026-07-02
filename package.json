@@ -17,6 +17,7 @@
     "./styles/*": "./src/styles/*",
     "./WkAccordion": "./src/components/accordion/Accordion.vue",
     "./WkAccordionItem": "./src/components/accordion-item/AccordionItem.vue",
+    "./WkAlert": "./src/components/alert/Alert.vue",
     "./WkAlertDialog": "./src/components/alert-dialog/AlertDialog.vue",
     "./WkAvatar": "./src/components/avatar/Avatar.vue",
     "./WkAvatarStack": "./src/components/avatar-stack/AvatarStack.vue",
