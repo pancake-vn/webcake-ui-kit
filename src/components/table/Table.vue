@@ -6,7 +6,7 @@
     <table class="ui-table__table" :style="tableStyle">
       <colgroup>
         <col v-if="hasSelection" class="ui-table__col ui-table__col--selection" />
-        <col v-for="col in columns" :key="colKey(col)" :style="colStyle(col)" />
+        <col v-for="col in normalizedColumns" :key="col._key" :style="col._style" />
       </colgroup>
       <thead class="ui-table__head">
         <tr
@@ -21,17 +21,17 @@
             <WkCheckbox :checked="allSelected" :disabled="!rows.length" @change="onToggleAll" />
           </th>
           <th
-            v-for="(col, i) in columns"
-            :key="colKey(col)"
+            v-for="(col, i) in normalizedColumns"
+            :key="col._key"
             :class="[
               'ui-table__cell',
               'ui-table__th',
-              `ui-table__cell--${alignOf(col)}`,
-              isSortable(col) && 'ui-table__th--sortable'
+              `ui-table__cell--${col._align}`,
+              col._isSortable && 'ui-table__th--sortable'
             ]"
             :style="headCellStyle(hasSelection ? i + 1 : i, col)"
-            :tabindex="isSortable(col) ? 0 : undefined"
-            :aria-sort="ariaSort(col)"
+            :tabindex="col._isSortable ? 0 : undefined"
+            :aria-sort="col._ariaSort"
             @click="onHeaderClick(col)"
             @keydown.enter.prevent="onHeaderClick(col)"
             @keydown.space.prevent="onHeaderClick(col)"
@@ -41,12 +41,12 @@
             <span class="ui-table__th-inner">
               <slot name="headerCell" :column="col">{{ col.title }}</slot>
               <span
-                v-if="isSortable(col)"
-                :class="['ui-table__sort', sortStateOf(col) ? 'ui-table__sort--active' : 'ui-table__sort--inactive']"
+                v-if="col._isSortable"
+                :class="['ui-table__sort', col._sortState ? 'ui-table__sort--active' : 'ui-table__sort--inactive']"
                 aria-hidden="true"
               >
-                <WkiArrowUp v-if="sortStateOf(col) === 'ascend'" :size="16" />
-                <WkiArrowDown v-else-if="sortStateOf(col) === 'descend'" :size="16" />
+                <WkiArrowUp v-if="col._sortState === 'ascend'" :size="16" />
+                <WkiArrowDown v-else-if="col._sortState === 'descend'" :size="16" />
                 <WkiArrowDownUp v-else :size="16" />
               </span>
             </span>
@@ -93,15 +93,15 @@
               <WkCheckbox :checked="isSelected(record, rowIndex(i))" />
             </td>
             <td
-              v-for="col in columns"
-              :key="colKey(col)"
+              v-for="col in normalizedColumns"
+              :key="col._key"
               :class="[
                 'ui-table__cell',
                 'ui-table__td',
-                `ui-table__cell--${alignOf(col)}`,
+                `ui-table__cell--${col._align}`,
                 col.ellipsis && 'ui-table__cell--ellipsis'
               ]"
-              :style="colStyle(col)"
+              :style="col._style"
             >
               <slot name="bodyCell" :column="col" :record="record" :text="cellText(col, record)" :index="rowIndex(i)">{{
                 cellText(col, record)
@@ -189,6 +189,41 @@ export default {
     }
   },
   computed: {
+    selectedKeysSet() {
+      return new Set(this.internalSelected)
+    },
+    normalizedColumns() {
+      return this.columns.map(col => {
+        const _key = col.key != null ? col.key : col.dataIndex
+        const _align = ['left', 'right', 'center'].includes(col.align) ? col.align : 'left'
+        let _style = {}
+        if (col.width != null) {
+          _style = { width: typeof col.width === 'number' ? `${col.width}px` : col.width }
+        }
+        const _isSortable = !!col.sorter
+        const _field = col.dataIndex != null ? col.dataIndex : col.key
+
+        let _sortState = null
+        if (this.sortField === _field) {
+          _sortState = this.sortOrder
+        }
+
+        let _ariaSort = undefined
+        if (_sortState === 'ascend') _ariaSort = 'ascending'
+        else if (_sortState === 'descend') _ariaSort = 'descending'
+
+        return {
+          ...col,
+          _key,
+          _align,
+          _style,
+          _isSortable,
+          _field,
+          _sortState,
+          _ariaSort
+        }
+      })
+    },
     hasSelection() {
       return !!this.rowSelection
     },
@@ -198,7 +233,7 @@ export default {
     rows() {
       const data = this.dataSource.slice()
       if (!this.sortField || !this.sortOrder) return data
-      const col = this.columns.find(c => this.fieldOf(c) === this.sortField)
+      const col = this.normalizedColumns.find(c => c._field === this.sortField)
       if (!col || !col.sorter) return data
       const cmp =
         typeof col.sorter === 'function' ? col.sorter : (a, b) => defaultCompare(a[this.sortField], b[this.sortField])
@@ -208,7 +243,7 @@ export default {
     },
     allSelected() {
       if (!this.rows.length) return false
-      return this.rows.every((record, index) => this.internalSelected.includes(this.getRowKey(record, index)))
+      return this.rows.every((record, index) => this.selectedKeysSet.has(this.getRowKey(record, index)))
     },
     hasVerticalScroll() {
       return this.height != null || !!(this.scroll && this.scroll.y != null)
@@ -365,40 +400,15 @@ export default {
       if (this.hasVerticalScroll && this.colWidths[index] !== undefined) {
         return { width: `${this.colWidths[index]}px` }
       }
-      return col ? this.colStyle(col) : {}
-    },
-    fieldOf(col) {
-      return col.dataIndex != null ? col.dataIndex : col.key
-    },
-    colKey(col) {
-      return col.key != null ? col.key : col.dataIndex
-    },
-    colStyle(col) {
-      if (col.width == null) return {}
-      return { width: typeof col.width === 'number' ? `${col.width}px` : col.width }
-    },
-    alignOf(col) {
-      return ['left', 'right', 'center'].includes(col.align) ? col.align : 'left'
+      return col ? col._style : {}
     },
     cellText(col, record) {
-      const field = this.fieldOf(col)
+      const field = col._field
       return field != null ? record[field] : ''
     },
-    isSortable(col) {
-      return !!col.sorter
-    },
-    sortStateOf(col) {
-      return this.sortField === this.fieldOf(col) ? this.sortOrder : null
-    },
-    ariaSort(col) {
-      const state = this.sortStateOf(col)
-      if (state === 'ascend') return 'ascending'
-      if (state === 'descend') return 'descending'
-      return undefined
-    },
     onHeaderClick(col) {
-      if (!this.isSortable(col)) return
-      const field = this.fieldOf(col)
+      if (!col._isSortable) return
+      const field = col._field
       let order
       if (this.sortField !== field) {
         order = 'ascend'
@@ -417,7 +427,7 @@ export default {
       return key != null ? key : index
     },
     isSelected(record, index) {
-      return this.internalSelected.includes(this.getRowKey(record, index))
+      return this.selectedKeysSet.has(this.getRowKey(record, index))
     },
     emitSelection() {
       const keys = this.internalSelected.slice()

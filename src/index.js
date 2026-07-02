@@ -1,5 +1,6 @@
 export { default as WkAccordion } from './components/accordion/Accordion.vue'
 export { default as WkAccordionItem } from './components/accordion-item/AccordionItem.vue'
+export { default as WkAlert } from './components/alert/Alert.vue'
 export { default as WkAlertDialog } from './components/alert-dialog/AlertDialog.vue'
 export { default as WkAvatar } from './components/avatar/Avatar.vue'
 export { default as WkAvatarStack } from './components/avatar-stack/AvatarStack.vue'

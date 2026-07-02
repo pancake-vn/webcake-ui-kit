@@ -6,7 +6,7 @@
   box-shadow: var(--shadow-xs);
   font-family: var(--font-family-body);
   color: var(--primary-fg);
-  box-sizing: border-box;
+  overflow: hidden;
   transition:
     border-color 0.12s ease,
     box-shadow 0.12s ease;
@@ -118,4 +118,20 @@
 
 .ui-textarea__field:disabled {
   cursor: not-allowed;
+}
+
+.ui-textarea__field::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ui-textarea__field::-webkit-scrollbar-track {
+  border-left: 1px solid var(--border-primary);
+}
+
+.ui-textarea__field::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+  border-radius: 3px;
+  border-left: 2px solid transparent;
+  border-right: 1px solid transparent;
+  background-clip: content-box;
 }
