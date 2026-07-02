@@ -404,14 +404,41 @@ export default {
       // Vue 3: $slots.default is a function; Vue 2: it's an array
       return typeof this.$slots.default === 'function' ? this.$slots.default() : this.$slots.default || []
     },
+    _slotText(vnode) {
+      // Vue 2: text lives in componentOptions.children as text-vnodes
+      if (vnode.componentOptions && Array.isArray(vnode.componentOptions.children)) {
+        return vnode.componentOptions.children
+          .map(function (c) {
+            return c.text || ''
+          })
+          .join('')
+          .trim()
+      }
+      // Vue 3: text lives in children.default() as vnodes with string .children
+      if (vnode.children && typeof vnode.children.default === 'function') {
+        try {
+          return vnode.children
+            .default()
+            .map(function (c) {
+              return typeof c.children === 'string' ? c.children : ''
+            })
+            .join('')
+            .trim()
+        } catch (e) {
+          return ''
+        }
+      }
+      return ''
+    },
     _syncSlotLabels() {
       const collect = nodes => {
         if (!Array.isArray(nodes)) return
         nodes.forEach(vnode => {
           if (!vnode) return
           const props = vnode.props || (vnode.componentOptions && vnode.componentOptions.propsData)
-          if (props && props.value != null && props.label) {
-            this.registerOption(String(props.value), String(props.label))
+          if (props && props.value != null) {
+            const label = props.label || this._slotText(vnode)
+            if (label) this.registerOption(String(props.value), String(label))
           }
           if (Array.isArray(vnode.children)) collect(vnode.children)
         })
@@ -424,8 +451,9 @@ export default {
         for (const vnode of nodes) {
           if (!vnode) continue
           const props = vnode.props || (vnode.componentOptions && vnode.componentOptions.propsData)
-          if (props && String(props.value) === String(value) && props.label) {
-            return String(props.label)
+          if (props && String(props.value) === String(value)) {
+            const label = props.label || this._slotText(vnode)
+            if (label) return String(label)
           }
           if (Array.isArray(vnode.children)) {
             const found = scan(vnode.children)
