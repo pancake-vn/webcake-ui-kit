@@ -4,6 +4,18 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.27] - 2026-07-02
+
+### Added
+- New `WkAlert` component with `neutral`, `error`, `warning`, and `info` types, optional `title`/`description` props, `closable` button, and `icon`/`description`/`action` slots.
+- `WkSelect` accepts a new `append` prop to render trailing text inside the trigger, alongside the existing `prepend`.
+
+### Changed
+- Color tokens: `--info-subtle`/`--info-border`/`--info-text` are renamed to `--infor-subtle`/`--infor-border`/`--infor-text`, and new `--destructive-border-subtle`, `--warning-border-subtle`, and `--infor-border-subtle` tokens are added; warning and info text colors are adjusted for better contrast in both light and dark themes.
+- `WkSwitch` off-state track background changes from `--border-primary` to `--color-neutral-300`.
+- `WkDropdown` destructive menu items now show a subtle red hover background.
+- `WkTextarea` field now hides overflow and adds a custom scrollbar (track border, content-box-clipped thumb) instead of relying on the default browser scrollbar.
+
 ## [1.1.26] - 2026-06-27
 
 ### Fixed
