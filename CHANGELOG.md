@@ -4,6 +4,11 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.28] - 2026-07-02
+
+### Fixed
+- `WkSelect` now derives an option's label from its slot text content when no explicit `label` prop is provided, fixing labels for options rendered via slots on both Vue 2 and Vue 3.
+
 ## [1.1.27] - 2026-07-02
 
 ### Added
