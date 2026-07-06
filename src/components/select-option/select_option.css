@@ -78,3 +78,23 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.ui-select-option__prefix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  min-width: 20px;
+  height: 20px;
+}
+
+.ui-select-option--sm .ui-select-option__prefix {
+  min-width: 16px;
+  height: 16px;
+}
+
+.ui-select-option__suffix {
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+}

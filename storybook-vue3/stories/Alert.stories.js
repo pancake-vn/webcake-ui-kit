@@ -2,7 +2,7 @@ import WkAlert from '../../src/components/alert/Alert.vue'
 import WkButton from '../../src/components/button/Button.vue'
 import { WkiRocket } from '../../src/icons'
 
-const TYPES = ['neutral', 'error', 'warning', 'info']
+const TYPES = ['neutral', 'error', 'warning', 'info', 'success']
 
 export default {
   title: 'Feedback/Alert',

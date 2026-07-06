@@ -8,6 +8,9 @@
   --shadow-lg: 0px 10px 15px -3px var(--color-black-alpha-10), 0px 4px 6px -4px var(--color-black-alpha-10);
   --shadow-xl: 0px 20px 25px -5px var(--color-black-alpha-10), 0px 8px 10px -6px var(--color-black-alpha-10);
   --shadow-2xl: 0px 25px 50px -12px var(--color-black-alpha-10);
+  --shadow-sonner: 0px 4px 12px 0px var(--color-black-alpha-10);
+  --shadow-fixed-column-left: 6px 0 6px -4px var(--color-black-alpha-10);
+  --shadow-fixed-column-right: -6px 0 6px -4px var(--color-black-alpha-10);
 
   --shadow-focus-ring: 0 0 0 3px var(--focus-ring);
   --shadow-focus-ring-error: 0 0 0 3px var(--focus-ring-error);

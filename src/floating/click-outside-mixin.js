@@ -12,6 +12,24 @@ export default {
       this._coTriggerEl = trigger
       this._coFloatEl = floating
     },
+    // Returns true if `target` is inside a portal-hosted floating panel whose
+    // trigger element lives inside `myFloat`. This covers the case where a nested
+    // component (e.g. WkSelect inside a WkDropdown overlay) portals its own menu
+    // to #wk-portal-root — the nested panel is a sibling in the DOM, not a
+    // descendant of myFloat, so a plain `contains()` check misses it.
+    _coIsInsideDescendantPortal(target, myFloat) {
+      if (!myFloat || typeof document === 'undefined') return false
+      const portalRoot = document.querySelector('[data-wk-portal-root]')
+      if (!portalRoot || !portalRoot.contains(target)) return false
+      const floatingEls = portalRoot.querySelectorAll('[id^="wk-menu-"]')
+      for (let i = 0; i < floatingEls.length; i++) {
+        const fp = floatingEls[i]
+        if (!fp.contains(target)) continue
+        const trig = fp._wkTrigger
+        if (trig && myFloat.contains(trig)) return true
+      }
+      return false
+    },
     _coAttach() {
       if (typeof document === 'undefined' || this.coAttached) return
       this._coHandler = e => {
@@ -23,7 +41,9 @@ export default {
           trigger && (path.indexOf(trigger) !== -1 || (trigger.contains && trigger.contains(target)))
         const insideFloat =
           floating && (path.indexOf(floating) !== -1 || (floating.contains && floating.contains(target)))
-        if (!insideTrigger && !insideFloat) this._coOnOutside(e)
+        if (!insideTrigger && !insideFloat && !this._coIsInsideDescendantPortal(target, floating)) {
+          this._coOnOutside(e)
+        }
       }
       document.addEventListener('pointerdown', this._coHandler, true)
       this.coAttached = true

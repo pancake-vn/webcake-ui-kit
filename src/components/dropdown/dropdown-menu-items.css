@@ -54,6 +54,10 @@
   background: var(--destructive-subtle) !important;
 }
 
+.ui-dropdown-items__item--destructive.ui-dropdown-items__item--active {
+  background: var(--destructive-subtle) !important;
+}
+
 .ui-dropdown-items__item--sub {
   padding-left: calc(var(--spacing-sm) + var(--spacing-md));
 }
@@ -137,17 +141,6 @@
   color: var(--muted-fg);
   cursor: default;
   user-select: none;
-}
-
-/* 20px container — icon SVG inside is typically 16px, centred */
-.ui-dropdown-items__icon {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: inherit;
 }
 
 .ui-dropdown-items__label {

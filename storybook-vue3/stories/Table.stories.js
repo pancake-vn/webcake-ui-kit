@@ -369,3 +369,263 @@ Virtualized.parameters = {
     }
   }
 }
+
+export const ResizableColumns = () => ({
+  components: { WkTable },
+  data() {
+    return {
+      columns: [
+        { title: 'Name', dataIndex: 'name', key: 'name', width: 180, resizable: true, minWidth: 80 },
+        { title: 'Age', dataIndex: 'age', key: 'age', width: 80, resizable: true, minWidth: 60, align: 'right' },
+        { title: 'Role', dataIndex: 'role', key: 'role', width: 140, resizable: true, minWidth: 80 },
+        { title: 'Department', dataIndex: 'dept', key: 'dept', width: 160, resizable: true, minWidth: 100 },
+        { title: 'Status', dataIndex: 'status', key: 'status', width: 120, resizable: false }
+      ],
+      data: [
+        { key: '1', name: 'Alice Johnson', age: 30, role: 'Admin', dept: 'Engineering', status: 'Active' },
+        { key: '2', name: 'Bob Smith', age: 25, role: 'Editor', dept: 'Product', status: 'Active' },
+        { key: '3', name: 'Carol White', age: 28, role: 'Viewer', dept: 'Design', status: 'Inactive' },
+        { key: '4', name: 'David Lee', age: 34, role: 'Editor', dept: 'Engineering', status: 'Active' },
+        { key: '5', name: 'Eva Brown', age: 22, role: 'Viewer', dept: 'Marketing', status: 'Pending' }
+      ]
+    }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 900px;">
+      <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
+        Drag the resize handle (right edge of a column header) to change its width.
+        The last column has <code>resizable: false</code>.
+      </p>
+      <WkTable :columns="columns" :data-source="data" bordered />
+    </div>
+  `
+})
+ResizableColumns.parameters = {
+  docs: {
+    description: {
+      story:
+        'Add `resizable: true` to a column descriptor to show a drag handle on its right edge. ' +
+        'Optionally set `minWidth` (px, default 40) to clamp the minimum. ' +
+        'Columns with `fixed: "right"` resize leftward automatically.'
+    }
+  }
+}
+
+export const DragAndDropRows = () => ({
+  components: { WkTable },
+  data() {
+    return {
+      columns: [
+        { title: 'Name', dataIndex: 'name', key: 'name', width: 200 },
+        { title: 'Role', dataIndex: 'role', key: 'role', width: 140 },
+        { title: 'Status', dataIndex: 'status', key: 'status', width: 120 }
+      ],
+      data: [
+        { key: '1', name: 'Alice Johnson', role: 'Admin', status: 'Active' },
+        { key: '2', name: 'Bob Smith', role: 'Editor', status: 'Active' },
+        { key: '3', name: 'Carol White', role: 'Viewer', status: 'Inactive' },
+        { key: '4', name: 'David Lee', role: 'Editor', status: 'Active' },
+        { key: '5', name: 'Eva Brown', role: 'Viewer', status: 'Pending' }
+      ],
+      lastMove: null
+    }
+  },
+  methods: {
+    onDragRecord({ record, fromIndex, toIndex }) {
+      const next = this.data.slice()
+      const [moved] = next.splice(fromIndex, 1)
+      next.splice(toIndex, 0, moved)
+      this.data = next
+      this.lastMove = record.name + ': ' + fromIndex + ' → ' + toIndex
+    }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 600px;">
+      <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
+        Drag the grip handle on the left to reorder rows.
+        <span v-if="lastMove" style="margin-left:8px; color:#6366f1; font-weight:500;">{{ lastMove }}</span>
+      </p>
+      <WkTable
+        :columns="columns"
+        :data-source="data"
+        is-drag
+        bordered
+        @drag-record="onDragRecord"
+      />
+    </div>
+  `
+})
+DragAndDropRows.parameters = {
+  docs: {
+    description: {
+      story:
+        'Enable row drag-and-drop with `is-drag`. ' +
+        'A grip handle column is prepended automatically. ' +
+        'On drop the component emits `drag-record` with `{ record, fromIndex, toIndex }` plus the native `DragEvent`. ' +
+        'The parent is responsible for updating `data-source` — splice `fromIndex` out and insert at `toIndex`. ' +
+        'Rows animate with a FLIP transition after each reorder.'
+    }
+  }
+}
+
+export const FixedColumns = () => ({
+  components: { WkTable },
+  data() {
+    return {
+      columns: [
+        { title: 'Name', dataIndex: 'name', key: 'name', width: 160, fixed: 'left' },
+        { title: 'Age', dataIndex: 'age', key: 'age', width: 80, align: 'right' },
+        { title: 'Role', dataIndex: 'role', key: 'role', width: 140 },
+        { title: 'Department', dataIndex: 'dept', key: 'dept', width: 160 },
+        { title: 'Location', dataIndex: 'loc', key: 'loc', width: 160 },
+        { title: 'Joined', dataIndex: 'joined', key: 'joined', width: 140 },
+        { title: 'Manager', dataIndex: 'manager', key: 'manager', width: 160 },
+        { title: 'Status', dataIndex: 'status', key: 'status', width: 120, fixed: 'right' }
+      ],
+      data: [
+        {
+          key: '1',
+          name: 'Alice Johnson',
+          age: 30,
+          role: 'Admin',
+          dept: 'Engineering',
+          loc: 'Hanoi',
+          joined: '2020-03-01',
+          manager: 'Charlie',
+          status: 'Active'
+        },
+        {
+          key: '2',
+          name: 'Bob Smith',
+          age: 25,
+          role: 'Editor',
+          dept: 'Product',
+          loc: 'Ho Chi Minh',
+          joined: '2021-07-15',
+          manager: 'Alice',
+          status: 'Active'
+        },
+        {
+          key: '3',
+          name: 'Carol White',
+          age: 28,
+          role: 'Viewer',
+          dept: 'Design',
+          loc: 'Da Nang',
+          joined: '2019-11-20',
+          manager: 'Alice',
+          status: 'Inactive'
+        },
+        {
+          key: '4',
+          name: 'David Lee',
+          age: 34,
+          role: 'Editor',
+          dept: 'Engineering',
+          loc: 'Hanoi',
+          joined: '2018-05-10',
+          manager: 'Charlie',
+          status: 'Active'
+        },
+        {
+          key: '5',
+          name: 'Eva Brown',
+          age: 22,
+          role: 'Viewer',
+          dept: 'Marketing',
+          loc: 'Hanoi',
+          joined: '2022-01-08',
+          manager: 'Bob',
+          status: 'Pending'
+        }
+      ]
+    }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 600px;">
+      <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
+        <strong>Name</strong> is fixed left, <strong>Status</strong> is fixed right. Scroll horizontally to see both stay in place.
+      </p>
+      <WkTable
+        :columns="columns"
+        :data-source="data"
+        bordered
+        :scroll="{ x: 1200 }"
+      />
+    </div>
+  `
+})
+FixedColumns.parameters = {
+  docs: {
+    description: {
+      story:
+        'Set `fixed: "left"` or `fixed: "right"` on a column to pin it during horizontal scroll. ' +
+        'Combine with `scroll: { x: <totalWidth> }` to enable the horizontal scrollbar. ' +
+        'Shadow lines appear automatically on the last fixed-left and first fixed-right columns.'
+    }
+  }
+}
+
+export const ColumnSchema = () => ({
+  components: { WkTable },
+  data() {
+    return {
+      columns: [
+        { title: 'Name', dataIndex: 'name', key: 'name', width: 180, fixed: 'left', resizable: true, minWidth: 80 },
+        { title: 'Age', dataIndex: 'age', key: 'age', width: 80, align: 'right', sorter: (a, b) => a.age - b.age },
+        { title: 'Role', dataIndex: 'role', key: 'role', width: 140, sorter: true },
+        { title: 'Note', dataIndex: 'note', key: 'note', width: 200, ellipsis: true },
+        { title: 'Status', dataIndex: 'status', key: 'status', width: 120, fixed: 'right' }
+      ],
+      data: [
+        {
+          key: '1',
+          name: 'Alice Johnson',
+          age: 30,
+          role: 'Admin',
+          note: 'Long note that gets truncated with ellipsis when it overflows the cell width',
+          status: 'Active'
+        },
+        { key: '2', name: 'Bob Smith', age: 25, role: 'Editor', note: 'Short note', status: 'Active' },
+        {
+          key: '3',
+          name: 'Carol White',
+          age: 28,
+          role: 'Viewer',
+          note: 'Another long description that demonstrates the ellipsis truncation feature',
+          status: 'Inactive'
+        }
+      ]
+    }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 860px;">
+      <WkTable :columns="columns" :data-source="data" bordered :scroll="{ x: 900 }" />
+    </div>
+  `
+})
+ColumnSchema.parameters = {
+  docs: {
+    description: {
+      story: `
+All fields accepted by a column descriptor object:
+
+\`\`\`js
+{
+  title:      'Name',              // header label (also accepts #headerCell slot)
+  dataIndex:  'name',             // record field to render (also used as fallback key)
+  key:        'name',             // unique column key — defaults to dataIndex
+  width:      180,                // number (px) or CSS string e.g. '20%'
+  align:      'left',             // 'left' (default) | 'center' | 'right'
+  fixed:      'left',             // 'left' | 'right' — pin column during horizontal scroll
+  resizable:  true,               // show drag handle on column edge
+  minWidth:   80,                 // minimum px width during resize (default 40)
+  ellipsis:   true,               // truncate cell text with text-overflow: ellipsis
+  sorter:     true,               // true → default locale/numeric sort
+  sorter:     (a, b) => a.age - b.age  // or a custom comparator function
+}
+\`\`\`
+      `.trim()
+    }
+  }
+}

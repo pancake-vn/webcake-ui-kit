@@ -17,9 +17,10 @@
         'ui-tooltip__content',
         `ui-tooltip__content--${color}`,
         `ui-tooltip__content--${side}`,
-        hasMaxWidth && 'ui-tooltip__content--wrap'
+        hasMaxWidth && 'ui-tooltip__content--wrap',
+        overlayClassName
       ]"
-      :style="tooltipStyle"
+      :style="overlayStyle ? [tooltipStyle, overlayStyle] : tooltipStyle"
       role="tooltip"
     >
       <span class="ui-tooltip__text">
@@ -52,7 +53,9 @@ export default {
       default: 'default',
       validator: v => ['default', 'brand', 'destructive'].includes(v)
     },
-    arrow: { type: Boolean, default: true }
+    arrow: { type: Boolean, default: true },
+    overlayClassName: { type: [String, Array, Object], default: null },
+    overlayStyle: { type: [Object, Array], default: null }
   },
   emits: [],
   data() {

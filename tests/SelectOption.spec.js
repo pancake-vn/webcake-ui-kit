@@ -36,4 +36,26 @@ describe('WkSelectOption (standalone, no WkSelect context)', () => {
     const w = mount(WkSelectOption, { props: { value: 'x' } })
     expect(w.classes()).not.toContain('ui-select-option--selected')
   })
+
+  it('renders prefix slot inside .ui-select-option__prefix', () => {
+    const w = mount(WkSelectOption, { props: { value: 'x' }, slots: { prefix: '<span class="icon">★</span>' } })
+    expect(w.find('.ui-select-option__prefix').exists()).toBe(true)
+    expect(w.find('.ui-select-option__prefix').text()).toContain('★')
+  })
+
+  it('renders suffix slot inside .ui-select-option__suffix', () => {
+    const w = mount(WkSelectOption, { props: { value: 'x' }, slots: { suffix: '<span>Ctrl+K</span>' } })
+    expect(w.find('.ui-select-option__suffix').exists()).toBe(true)
+    expect(w.find('.ui-select-option__suffix').text()).toContain('Ctrl+K')
+  })
+
+  it('does not render prefix wrapper when prefix slot is absent', () => {
+    const w = mount(WkSelectOption, { props: { value: 'x' } })
+    expect(w.find('.ui-select-option__prefix').exists()).toBe(false)
+  })
+
+  it('does not render suffix wrapper when suffix slot is absent', () => {
+    const w = mount(WkSelectOption, { props: { value: 'x' } })
+    expect(w.find('.ui-select-option__suffix').exists()).toBe(false)
+  })
 })
