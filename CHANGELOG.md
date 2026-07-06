@@ -4,6 +4,26 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.29] - 2026-07-06
+
+### Added
+- `WkAlert` gains a new `success` type alongside the existing `neutral`, `error`, `warning`, and `info` types.
+- `WkSelectOption` supports new `prefix` and `suffix` slots for leading and trailing content inside an option.
+- `WkDropdown`, `WkSelect`, and `WkTooltip` accept new `overlayClassName` and `overlayStyle` props for customizing their floating overlay panel.
+- `WkDropdown` accepts a new `showChecked` prop to control whether a checkmark is shown next to the active menu item; it now defaults to hidden.
+- `WkTable` supports row drag-and-drop reordering via a new `isDrag` prop, a drag handle column, and a `drag-record` event with an animated reorder transition.
+- `WkTable` columns can be pinned to the left or right edge via `fixed` and made user-resizable via `resizable`, with sticky-column shadows on scroll.
+
+### Changed
+- `WkTable` now renders with a rounded, bordered container and switches to `ResizeObserver`-based layout syncing for smoother horizontal scrolling and header/body alignment.
+- `WkSelect` multiple-mode trigger height switches from a fixed height to `min-height` so it grows naturally as tags wrap.
+- `WkInput` decoration icon wrapper uses `min-width` instead of a fixed `width` so wider custom decorations are no longer clipped.
+- Color tokens: warning colors now derive from amber instead of yellow/orange, new `positive` color tokens support the `WkAlert` success state, and the unused `--warning-text`/`--infor-text` tokens are removed in favor of `--warning`/`--infor`.
+
+### Fixed
+- Click-outside detection now correctly ignores clicks inside nested portal-hosted overlays, such as a `WkSelect` menu opened inside a `WkDropdown`, preventing the parent overlay from closing prematurely.
+- `WkDropdown` destructive menu items keep their subtle red background when also active, instead of losing it.
+
 ## [1.1.28] - 2026-07-02
 
 ### Fixed
