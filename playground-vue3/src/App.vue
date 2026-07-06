@@ -326,7 +326,17 @@
             <WkInput v-model="fieldText" placeholder="Value" />
           </WkField>
           <WkField label="Label">
-            <WkSelect :value="fieldSelect" :options="fieldOptions" @change="fieldSelect = $event" />
+            <WkSelect :value="fieldSelect" @change="fieldSelect = $event">
+              <WkSelectOption v-for="opt in fieldOptions" :key="opt.value" :value="opt.value" size="lg">
+                <template #prefix>
+                  <WkiChessBishop :size="16" />
+                </template>
+                {{ opt.label }}
+                <template #suffix>
+                  <span>USD</span>
+                </template>
+              </WkSelectOption>
+            </WkSelect>
           </WkField>
           <WkField label="Label" align="start">
             <WkRadioGroup :value="fieldRadio" :options="fieldOptions" @change="fieldRadio = $event" />
@@ -522,7 +532,7 @@
               :value="selectMultiSearch"
               :options="[]"
               mode="tags"
-              size="sm"
+              size="xs"
               placeholder="Gõ rồi Enter…"
               :list-height="384"
               @change="selectMultiSearch = $event"
@@ -576,7 +586,7 @@
       </section>
 
       <section>
-        <WkTypography variant="paragraph-regular" align="right" color="primary-fg">Aligned right</WkTypography>
+        <!-- <WkTypography variant="paragraph-regular" align="right" color="primary-fg">Aligned right</WkTypography>
         <h2>Table — data-driven, bordered, sortable</h2>
         <WkTable
           :columns="tableColumns"
@@ -589,9 +599,9 @@
             <WkButton v-if="column.dataIndex === 'operation'" size="xs" variant="ghost">Edit</WkButton>
             <template v-else>{{ record.name + 'aaaa' }}</template>
           </template>
-        </WkTable>
+        </WkTable> -->
 
-        <h2 style="margin-top: 24px">Table — row selection</h2>
+        <!-- <h2 style="margin-top: 24px">Table — row selection</h2>
         <WkTable :columns="tableColumns" :data-source="tableData">
           <template #bodyCell="{ column, record }">
             <WkTypography variant="heading-3" as="div" @dblclick="handleClickTypo"
@@ -604,21 +614,26 @@
         <p>Selected keys: {{ tableSelectedKeys.join(', ') || '(none)' }}</p>
 
         <h2 style="margin-top: 24px">Table — empty</h2>
-        <WkTable :columns="tableColumns" :data-source="[]" bordered />
+        <WkTable :columns="tableColumns" :data-source="[]" bordered /> -->
 
         <h2 style="margin-top: 24px">Table — fixed scroll (x: 600, y: 494) + height 524</h2>
         <WkTable
           :columns="tableColumns"
           :data-source="tableScrollData"
-          bordered
-          :scroll="{ y: 1000, x: 600 }"
-          :height="524"
+          :scroll="{ y: 400, x: 1200 }"
           row-selection
           :selected-row-keys="tableSelectedKeys"
           @update:selectedRowKeys="tableSelectedKeys = $event"
+          isDrag
         />
 
-        <h2 style="margin-top: 24px">Table — virtual scrolling (10,000 rows)</h2>
+        <h2 style="margin-top: 24px">Table — drag &amp; drop rows</h2>
+        <WkTable :columns="tableColumns" :data-source="tableDragData" isDrag @drag-record="onTableDragRecord" />
+        <p style="margin-top: 8px; font-size: 12px; color: var(--muted-fg)">
+          Order: {{ tableDragData.map(r => r.name).join(' → ') }}
+        </p>
+
+        <!-- <h2 style="margin-top: 24px">Table — virtual scrolling (10,000 rows)</h2>
         <WkTable
           :columns="tableColumns"
           :data-source="tableHugeData"
@@ -630,7 +645,7 @@
           :selected-row-keys="tableHugeSelectedKeys"
           @update:selectedRowKeys="tableHugeSelectedKeys = $event"
         />
-        <p>Selected keys: {{ tableHugeSelectedKeys.join(', ') || '(none)' }}</p>
+        <p>Selected keys: {{ tableHugeSelectedKeys.join(', ') || '(none)' }}</p> -->
       </section>
 
       <WkSidebarItem>
@@ -640,7 +655,7 @@
         </template>
       </WkSidebarItem>
 
-      <WkDropdown :items="dropdownOptions" @select="handleDropdownActive" size="lg">
+      <WkDropdown :items="dropdownOptions" :value="dropdownActive" @select="handleDropdownActive" size="lg">
         <WkButton>test</WkButton>
       </WkDropdown>
       {{ dropdownActive }}
@@ -768,15 +783,21 @@ export default {
       openDialog2: false,
       selected: '',
       tableColumns: [
-        { title: 'Name', dataIndex: 'name', width: '30%' },
-        { title: 'Age', dataIndex: 'age', align: 'center', sorter: true },
+        { title: 'Name', dataIndex: 'name', width: '20%', resizable: true, fixed: 'left' },
+        { title: 'Age', dataIndex: 'age', sorter: true, resizable: true },
         { title: 'Address', dataIndex: 'address' },
-        { title: 'Action', dataIndex: 'operation', align: 'right' }
+        { title: 'Action', dataIndex: 'operation', fixed: 'right', resizable: true }
       ],
       tableData: [
         { key: '1', name: 'Edward King', age: 32, address: 'London, Park Lane no. 0' },
         { key: '2', name: 'Jim Green', age: 42, address: 'London, Park Lane no. 1' },
         { key: '3', name: 'Joe Black', age: 28, address: 'Sydney No. 1 Lake Park' }
+      ],
+      tableDragData: [
+        { key: 'd1', name: 'Alice', age: 24, address: 'New York' },
+        { key: 'd2', name: 'Bob', age: 31, address: 'London' },
+        { key: 'd3', name: 'Carol', age: 28, address: 'Tokyo' },
+        { key: 'd4', name: 'Dave', age: 35, address: 'Paris' }
       ],
       tableSelectedKeys: ['2'],
       tableScrollData: Array.from({ length: 30 }, (_, i) => ({
@@ -996,6 +1017,14 @@ export default {
     }
   },
   methods: {
+    onTableDragRecord({ fromIndex, toIndex }) {
+      const data = [...this.tableDragData]
+
+      const [moved] = data.splice(fromIndex, 1)
+      data.splice(toIndex, 0, moved)
+
+      this.tableDragData = data
+    },
     onAlertClose() {
       console.log('alert closed')
     },

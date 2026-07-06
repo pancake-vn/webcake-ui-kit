@@ -18,6 +18,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     include: [path.resolve(__dirname, '../tests/**/*.spec.js')],
+    setupFiles: [path.resolve(__dirname, '../tests/_setup.js')],
     globals: true
   }
 })

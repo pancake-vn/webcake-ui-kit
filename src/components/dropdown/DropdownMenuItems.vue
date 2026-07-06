@@ -35,7 +35,7 @@
             child.label
           }}</span>
           <span v-if="child.extra" class="ui-dropdown-items__extra">{{ child.extra }}</span>
-          <WkiCheck v-if="isActive(child.key)" :size="16" color="var(--muted-fg)" />
+          <WkiCheck v-if="isActive(child.key) && showChecked" :size="16" color="var(--muted-fg)" />
         </div>
       </div>
 
@@ -87,7 +87,7 @@
             child.label
           }}</span>
           <span v-if="child.extra" class="ui-dropdown-items__extra">{{ child.extra }}</span>
-          <WkiCheck v-if="isActive(child.key)" :size="16" color="var(--muted-fg)" />
+          <WkiCheck v-if="isActive(child.key) && showChecked" :size="16" color="var(--muted-fg)" />
         </div>
       </div>
 
@@ -116,7 +116,7 @@
           item.label
         }}</span>
         <span v-if="item.extra" class="ui-dropdown-items__extra">{{ item.extra }}</span>
-        <WkiCheck v-if="isActive(item.key)" :size="16" color="var(--muted-fg)" />
+        <WkiCheck v-if="isActive(item.key) && showChecked" :size="16" color="var(--muted-fg)" />
       </div>
     </div>
   </div>
@@ -150,6 +150,10 @@ export default {
     size: {
       type: String,
       default: 'md'
+    },
+    showChecked: {
+      type: Boolean,
+      default: false
     }
   },
 

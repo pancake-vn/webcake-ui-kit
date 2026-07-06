@@ -29,7 +29,8 @@ const ICON_BY_TYPE = {
   neutral: 'WkiCircleCheck',
   error: 'WkiCircleAlert',
   warning: 'WkiTriangleAlert',
-  info: 'WkiInfo'
+  info: 'WkiInfo',
+  success: 'WkiCircleCheck'
 }
 
 export default {
@@ -40,7 +41,7 @@ export default {
       type: String,
       default: 'neutral',
       validator: function (v) {
-        return ['neutral', 'error', 'warning', 'info'].includes(v)
+        return ['neutral', 'error', 'warning', 'info', 'success'].includes(v)
       }
     },
     title: {

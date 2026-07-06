@@ -14,7 +14,7 @@
           role="menu"
           @keydown="_kmOnKeydown"
         >
-          <div class="ui-menu__content">
+          <div :class="['ui-menu__content', overlayClassName]" :style="overlayStyle">
             <slot></slot>
           </div>
         </div>
@@ -67,7 +67,9 @@ export default {
     closeOnEsc: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false },
     anchorWidth: { type: Boolean, default: false },
-    width: { type: [String, Number], default: null }
+    width: { type: [String, Number], default: null },
+    overlayClassName: { type: [String, Array, Object], default: null },
+    overlayStyle: { type: [Object, Array], default: null }
   },
   emits: ['change', 'update:modelValue', 'open', 'close', 'select'],
   data() {
@@ -182,6 +184,9 @@ export default {
       this.$nextTick(() => {
         const float = this.$refs.floating
         if (!float) return
+        // Tag the floating panel with its trigger so click-outside-mixin can
+        // detect nested portals opened from within this panel.
+        float._wkTrigger = this._triggerEl
         this._coSetElements(this._triggerEl, float)
         this._kmSetFloatEl(float)
         this._pmAttach(this._triggerEl, float)

@@ -15,8 +15,14 @@
     :aria-disabled="isDisabled ? 'true' : null"
     @click="handleClick"
   >
+    <span v-if="$slots.prefix" class="ui-select-option__prefix">
+      <slot name="prefix" />
+    </span>
     <span class="ui-select-option--label">
       <slot>{{ label || value }}</slot>
+    </span>
+    <span v-if="$slots.suffix" class="ui-select-option__suffix">
+      <slot name="suffix" />
     </span>
     <WkiCheck v-if="isSelected && isMultiMode" :size="16" color="var(--muted-fg)" />
   </div>

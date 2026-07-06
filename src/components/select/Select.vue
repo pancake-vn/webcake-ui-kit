@@ -8,6 +8,8 @@
     :close-on-select="false"
     @change="onMenuChange"
     @close="onMenuClose"
+    :overlay-class-name="overlayClassName"
+    :overlay-style="overlayStyle"
   >
     <template #trigger="{ toggle, isOpen: open, attrs, triggerRef }">
       <div
@@ -187,7 +189,9 @@ export default {
     filterOption: {
       type: Function,
       default: null
-    }
+    },
+    overlayClassName: { type: [String, Array, Object], default: null },
+    overlayStyle: { type: [Object, Array], default: null }
   },
 
   emits: ['change', 'update:modelValue'],

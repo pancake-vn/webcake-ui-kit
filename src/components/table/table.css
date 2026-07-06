@@ -2,12 +2,20 @@
   width: 100%;
   font-family: var(--font-family-body);
   color: var(--primary-fg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-2xl);
+  overflow: hidden;
 }
 
 .ui-table__table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+/* drag col is always 36px — the header cell is empty so it has no content to size it */
+.ui-table__col--drag {
+  width: 1%;
 }
 
 .ui-table__col--selection {
@@ -40,10 +48,94 @@
   text-overflow: ellipsis;
 }
 
+.ui-table__cell--drag {
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.ui-table__td.ui-table__cell--drag {
+  cursor: grab;
+  color: var(--muted-fg);
+}
+
+.ui-table__td.ui-table__cell--drag:active {
+  cursor: grabbing;
+}
+
 .ui-table__cell--selection {
   width: 1%;
   white-space: nowrap;
   text-align: center;
+}
+
+.ui-table__cell--fixed-left,
+.ui-table__cell--fixed-right {
+  position: sticky;
+  z-index: 1;
+}
+
+@keyframes ui-table-sticky-shadow {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ui-table-sticky-shadow-right {
+  to {
+    opacity: 0;
+  }
+}
+
+.ui-table__cell--fixed-left-last::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -6px;
+  bottom: 0;
+  width: 6px;
+  box-shadow: inset var(--shadow-fixed-column-left);
+  pointer-events: none;
+  opacity: 0;
+  animation: ui-table-sticky-shadow linear both;
+  animation-timeline: scroll(nearest x);
+  animation-range: 0px 1px;
+}
+
+.ui-table__cell--fixed-right-first::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -6px;
+  bottom: 0;
+  width: 6px;
+  box-shadow: inset var(--shadow-fixed-column-right);
+  pointer-events: none;
+  animation: ui-table-sticky-shadow-right linear both;
+  animation-timeline: scroll(nearest x);
+  animation-range: calc(100% - 2px) 100%;
+}
+
+/* Sticky cells need an opaque background so content doesn't bleed through. */
+.ui-table__th.ui-table__cell--fixed-left,
+.ui-table__th.ui-table__cell--fixed-right {
+  background: var(--secondary-bg);
+}
+
+.ui-table__td.ui-table__cell--fixed-left,
+.ui-table__td.ui-table__cell--fixed-right {
+  background: var(--primary-bg);
+  transition: background-color 0.12s ease;
+}
+
+.ui-table__row--body:hover .ui-table__td.ui-table__cell--fixed-left,
+.ui-table__row--body:hover .ui-table__td.ui-table__cell--fixed-right {
+  background: var(--accent-bg);
+}
+
+.ui-table__row--selected .ui-table__td.ui-table__cell--fixed-left,
+.ui-table__row--selected .ui-table__td.ui-table__cell--fixed-right {
+  background: var(--secondary-bg);
 }
 
 /* ---------- Header ---------- */
@@ -51,6 +143,44 @@
   background: var(--secondary-bg);
   font-weight: var(--paragraph-medium-font-weight);
   white-space: nowrap;
+  padding: 0;
+}
+
+.ui-table__th-inner-wrap {
+  padding: var(--spacing-xs);
+  position: relative;
+}
+
+.ui-table__resize-handle {
+  position: absolute;
+  top: 50%;
+  right: -4px;
+  width: 8px;
+  height: 50%;
+  transform: translateY(-50%);
+  cursor: col-resize;
+}
+
+.ui-table__resize-handle--left {
+  right: auto;
+  left: -4px;
+}
+
+.ui-table__resize-handle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: var(--border-focus);
+}
+
+.ui-table__resize-handle:hover::before,
+.ui-table__resize-handle.resizing::before {
+  width: 2px;
+  background: var(--border-focus);
 }
 
 .ui-table__th-inner {
@@ -65,7 +195,8 @@
   user-select: none;
 }
 
-.ui-table__th--sortable:hover {
+.ui-table__th--sortable:hover,
+.ui-table__th:has(:is(.ui-table__resize-handle, .ui-table__resize-handle--left)):hover {
   background: var(--accent-2);
 }
 
@@ -101,6 +232,18 @@
 
 .ui-table__row--body {
   transition: background-color 0.12s ease;
+}
+
+.ui-table__row--dragging .ui-table__td {
+  opacity: 0.35;
+}
+
+.ui-table__row--drag-over .ui-table__td {
+  border-top: 2px solid var(--border-focus);
+}
+
+.ui-table__row--drag-preview .ui-table__td {
+  background: var(--accent-bg);
 }
 
 .ui-table__row--body:hover .ui-table__td {
@@ -173,17 +316,31 @@
 
 .ui-table__body::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
 }
 
-.ui-table__body::-webkit-scrollbar-track {
+.ui-table__body::-webkit-scrollbar-track:vertical {
   border-left: 1px solid var(--border-primary);
+}
+
+.ui-table__body::-webkit-scrollbar-track:horizontal {
+  border-top: 1px solid var(--border-primary);
 }
 
 .ui-table__body::-webkit-scrollbar-thumb {
   background: var(--border-primary);
   border-radius: 3px;
+}
+
+.ui-table__body::-webkit-scrollbar-thumb:vertical {
   border-left: 2px solid transparent;
   border-right: 1px solid transparent;
+  background-clip: content-box;
+}
+
+.ui-table__body::-webkit-scrollbar-thumb:horizontal {
+  border-top: 2px solid transparent;
+  border-bottom: 1px solid transparent;
   background-clip: content-box;
 }
 
@@ -196,11 +353,11 @@
   border: none;
   background: var(--secondary-bg);
   border-bottom: 1px solid var(--border-primary);
-  box-sizing: border-box;
 }
 
-.ui-table--scroll-y .ui-table__cell--selection {
-  width: 44px;
+.ui-table--scroll-y .ui-table__cell--selection,
+.ui-table--scroll-y .ui-table__cell--drag {
+  width: 36px;
 }
 
 /* ---------- Virtual scroll spacers ---------- */

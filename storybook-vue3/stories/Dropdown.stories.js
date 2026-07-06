@@ -1,6 +1,15 @@
 import WkDropdown from '../../src/components/dropdown/Dropdown.vue'
 import WkButton from '../../src/components/button/Button.vue'
-import { WkiSquareNumber } from '../../src/icons'
+import {
+  WkiSquareNumber,
+  WkiCopy,
+  WkiDownload,
+  WkiPencil,
+  WkiFile,
+  WkiTrash,
+  WkiUser,
+  WkiSettings
+} from '../../src/icons'
 
 const ITEMS_BASIC = [
   { key: 'edit', label: 'Edit' },
@@ -266,6 +275,126 @@ export const AllVariants = () => ({
     </div>
   `
 })
+
+export const ItemSchema = () => ({
+  components: { WkDropdown, WkButton },
+  data() {
+    return {
+      selected: null,
+      items: [
+        {
+          key: 'copy-action',
+          type: 'item',
+          label: 'Copy',
+          title: 'Copy item to clipboard',
+          icon: WkiCopy,
+          colorIcon: 'var(--primary-fg)',
+          extra: '⌘C'
+        },
+        {
+          key: 'download-action',
+          type: 'item',
+          label: 'Download',
+          title: 'Download file',
+          icon: WkiDownload,
+          colorIcon: '#6366f1',
+          color: '#6366f1',
+          extra: '⌘S'
+        },
+        {
+          key: 'edit-action',
+          type: 'item',
+          label: 'Edit (disabled)',
+          icon: WkiPencil,
+          colorIcon: 'var(--muted-fg)',
+          disabled: true
+        },
+        { key: 'divider-1', type: 'divider' },
+        {
+          key: 'export-group',
+          type: 'group',
+          label: 'Export as',
+          children: [
+            { key: 'export-png', label: 'PNG', extra: '.png', icon: WkiFile, colorIcon: 'var(--muted-fg)' },
+            { key: 'export-svg', label: 'SVG', extra: '.svg', icon: WkiFile, colorIcon: 'var(--muted-fg)' },
+            {
+              key: 'export-pdf',
+              label: 'PDF (disabled)',
+              extra: '.pdf',
+              icon: WkiFile,
+              colorIcon: 'var(--muted-fg)',
+              disabled: true
+            }
+          ]
+        },
+        { key: 'divider-2', type: 'divider' },
+        {
+          key: 'share-submenu',
+          label: 'Share with',
+          icon: WkiUser,
+          colorIcon: 'var(--muted-fg)',
+          children: [
+            { key: 'share-link', label: 'Copy link', extra: '⌘L' },
+            { key: 'share-settings', label: 'Manage access', icon: WkiSettings, colorIcon: 'var(--muted-fg)' }
+          ]
+        },
+        { key: 'divider-3', type: 'divider' },
+        {
+          key: 'delete-action',
+          type: 'item',
+          label: 'Xóa dữ liệu',
+          title: 'Xóa dữ liệu khỏi hệ thống',
+          icon: WkiTrash,
+          colorIcon: '#ff0000',
+          color: '#ff0000',
+          destructive: true,
+          disabled: false,
+          extra: '⌘D'
+        }
+      ]
+    }
+  },
+  methods: {
+    onSelect(key) {
+      this.selected = key
+    }
+  },
+  template: `
+    <div style="padding: 40px;">
+      <WkDropdown :items="items" @select="onSelect">
+        <WkButton variant="outline">
+          Item schema {{ selected ? '→ ' + selected : '' }}
+        </WkButton>
+      </WkDropdown>
+    </div>
+  `
+})
+ItemSchema.parameters = {
+  docs: {
+    description: {
+      story: `
+Every field accepted by an item object:
+
+\`\`\`js
+{
+  key: 'delete-action',   // unique identifier, emitted on @select
+  type: 'item',           // 'item' (default) | 'divider' | 'group'
+  label: 'Xóa dữ liệu',  // display text
+  title: 'Tooltip text',  // native title attribute (hover tooltip)
+  icon: TrashIcon,        // Vue component — rendered via <component :is>
+  colorIcon: '#ff0000',   // color prop forwarded to the icon component
+  color: '#ff0000',       // CSS color applied to the label text
+  destructive: true,      // adds --destructive modifier (red theme)
+  disabled: false,        // prevents click + grays out the row
+  extra: '⌘ + D',         // right-aligned shortcut / badge text
+  children: []            // type 'group' → flat labeled section;
+                          // no type → indented submenu block
+}
+\`\`\`
+      `.trim()
+    }
+  }
+}
 
 export const Sizes = () => ({
   components: { WkDropdown, WkButton },

@@ -9,6 +9,8 @@
     @open="$emit('open')"
     @close="$emit('close')"
     :width="width"
+    :overlay-class-name="overlayClassName"
+    :overlay-style="overlayStyle"
   >
     <template #trigger="{ triggerRef }">
       <span
@@ -21,7 +23,14 @@
         <slot></slot>
       </span>
     </template>
-    <DropdownMenuItems v-if="hasItems" :items="items" :value="value" @select="onItemSelect" :size="size" />
+    <DropdownMenuItems
+      v-if="hasItems"
+      :items="items"
+      :value="value"
+      @select="onItemSelect"
+      :size="size"
+      :showChecked="showChecked"
+    />
     <slot v-else name="overlay"></slot>
   </Menu>
 </template>
@@ -80,7 +89,10 @@ export default {
       type: String,
       default: 'md',
       validator: v => ['sm', 'md', 'lg'].includes(v)
-    }
+    },
+    overlayClassName: { type: [String, Array, Object], default: null },
+    overlayStyle: { type: [Object, Array], default: null },
+    showChecked: { type: Boolean, default: false }
   },
   emits: ['change', 'update:modelValue', 'open', 'close', 'select'],
   data() {

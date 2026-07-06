@@ -42,6 +42,7 @@
   letter-spacing: var(--paragraph-small-letter-spacing);
   font-weight: var(--paragraph-medium-font-weight);
   word-break: break-word;
+  color: var(--primary-fg);
 }
 
 .ui-alert__description {
@@ -69,7 +70,7 @@
   padding: 0;
   border: none;
   background: none;
-  color: inherit;
+  color: var(--primary-fg);
   cursor: pointer;
   border-radius: var(--rounded-md);
   outline: none;
@@ -95,6 +96,9 @@
 .ui-alert--neutral {
   background: var(--card);
   border-color: var(--border-primary);
+}
+
+.ui-alert--neutral .ui-alert__icon {
   color: var(--primary-fg);
 }
 
@@ -104,14 +108,36 @@
   color: var(--destructive-text);
 }
 
+.ui-alert--error .ui-alert__icon {
+  color: var(--destructive);
+}
+
 .ui-alert--warning {
   background: var(--warning-subtle);
   border-color: var(--warning-border-subtle);
-  color: var(--warning-text);
+  color: var(--warning);
+}
+
+.ui-alert--warning .ui-alert__icon {
+  color: var(--warning);
 }
 
 .ui-alert--info {
   background: var(--infor-subtle);
   border-color: var(--infor-border-subtle);
-  color: var(--infor-text);
+  color: var(--infor);
+}
+
+.ui-alert--info .ui-alert__icon {
+  color: var(--infor);
+}
+
+.ui-alert--success {
+  background: var(--positive-subtle);
+  border-color: var(--positive-border-subtle);
+  color: var(--positive);
+}
+
+.ui-alert--success .ui-alert__icon {
+  color: var(--positive);
 }
