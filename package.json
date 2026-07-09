@@ -1,6 +1,6 @@
 {
   "name": "webcake-ui-kit",
-  "version": "1.1.29",
+  "version": "1.1.30",
   "description": "UI Kit for Vue 2 && 3 - Pure Options API",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -27,6 +27,7 @@
     "./WkButtonGroup": "./src/components/button-group/ButtonGroup.vue",
     "./WkCheckbox": "./src/components/checkbox/Checkbox.vue",
     "./WkCheckboxGroup": "./src/components/checkbox-group/CheckboxGroup.vue",
+    "./WkDatePicker": "./src/components/date-picker/DatePicker.vue",
     "./WkDialog": "./src/components/dialog/Dialog.vue",
     "./WkDivider": "./src/components/divider/Divider.vue",
     "./WkDropdown": "./src/components/dropdown/Dropdown.vue",
@@ -37,6 +38,7 @@
     "./WkInputNumber": "./src/components/input-number/InputNumber.vue",
     "./WkMenu": "./src/components/menu/Menu.vue",
     "./WkPagination": "./src/components/pagination/Pagination.vue",
+    "./WkProgress": "./src/components/progress/Progress.vue",
     "./WkRadio": "./src/components/radio/Radio.vue",
     "./WkRadioGroup": "./src/components/radio-group/RadioGroup.vue",
     "./WkRichCheckboxGroup": "./src/components/rich-checkbox-group/RichCheckboxGroup.vue",

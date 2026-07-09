@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.30] - 2026-07-09
+
+### Added
+- New `WkDatePicker` component with calendar and time panels for selecting a single date.
+- New `wkMessage` imperative service for showing global toast-style messages (`success`, `error`, `info`, `warning`, `loading`), with configurable placement, duration, and max count.
+- New `WkProgress` component with a `value`/`max`-driven progress bar.
+
+### Changed
+- `WkRadio` and `WkRadioGroup` now accept `String`, `Number`, or `Boolean` values, not just strings.
+- `WkTable` row drag-and-drop now reorders rows live as you drag over them, instead of only on drop.
+- `WkTable` column resize handle grows to full height on hover, and the resize indicator line is thicker with an updated accent color.
+- `WkTable` shows an animated sticky-border reveal on the last fixed-left column while scrolling horizontally.
+- `WkMenu` no longer caps its width at 320px.
+
+### Fixed
+- `WkInput` no longer shows the native calendar picker indicator on date-typed fields.
+
 ## [1.1.29] - 2026-07-06
 
 ### Added
