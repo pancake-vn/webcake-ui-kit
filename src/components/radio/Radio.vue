@@ -36,7 +36,7 @@ export default {
       default: ''
     },
     value: {
-      type: String,
+      type: [String, Number, Boolean],
       required: true
     },
     checked: {

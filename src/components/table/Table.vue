@@ -113,12 +113,7 @@
               'ui-table__row',
               'ui-table__row--body',
               row._selected && 'ui-table__row--selected',
-              hasDrag && dragState && row._index === dragState.fromIndex && 'ui-table__row--dragging',
-              hasDrag &&
-                row._index === dragOverIndex &&
-                dragState &&
-                row._index !== dragState.fromIndex &&
-                'ui-table__row--drag-over'
+              hasDrag && dragState && row._index === dragState.currentIndex && 'ui-table__row--dragging'
             ]"
             :style="[{ height: toCssSize(rowHeight) }, rowScrollStyle]"
             v-bind="row._attrs"
@@ -263,7 +258,8 @@ export default {
       resizeState: null,
       columnWidths: {},
       dragState: null,
-      dragOverIndex: null
+      dragOverIndex: null,
+      internalData: this.dataSource.slice()
     }
   },
   computed: {
@@ -380,7 +376,7 @@ export default {
       return this.columns.length + (this.hasDrag ? 1 : 0) + (this.hasSelection ? 1 : 0)
     },
     rows() {
-      const data = this.dataSource.slice()
+      const data = this.internalData.slice()
       if (!this.sortField || !this.sortOrder) return data
       const col = this.normalizedColumns.find(c => c._field === this.sortField)
       if (!col || !col.sorter) return data
@@ -485,6 +481,11 @@ export default {
   watch: {
     selectedRowKeys(next) {
       this.internalSelected = (next || []).slice()
+    },
+    dataSource(next) {
+      if (!this.dragState) {
+        this.internalData = (next || []).slice()
+      }
     }
   },
   mounted() {
@@ -665,7 +666,7 @@ export default {
       this.emitSelection()
     },
     onDragStart(e, row) {
-      this.dragState = { fromIndex: row._index, record: row._record }
+      this.dragState = { fromIndex: row._index, currentIndex: row._index, record: row._record }
       e.dataTransfer.effectAllowed = 'move'
 
       const tr = e.currentTarget.closest('tr')
@@ -704,7 +705,20 @@ export default {
     },
     onDragOver(e, index) {
       if (!this.dragState) return
-      this.dragOverIndex = index
+      if (index === this.dragState.currentIndex) return
+      // Only reorder once the pointer crosses the row's midpoint to prevent oscillation.
+      const rect = e.currentTarget.getBoundingClientRect()
+      const midY = rect.top + rect.height / 1.5
+      if (index > this.dragState.currentIndex && e.clientY < midY) return
+      if (index < this.dragState.currentIndex && e.clientY > midY) return
+      // FLIP — snapshot "First" positions before the data changes.
+      const firstRects = this.snapshotRowRects()
+      const data = this.internalData.slice()
+      const [moved] = data.splice(this.dragState.currentIndex, 1)
+      data.splice(index, 0, moved)
+      this.internalData = data
+      this.dragState = { ...this.dragState, currentIndex: index }
+      this.$nextTick(() => this.flipAnimateRows(firstRects))
     },
     onDragLeave(e) {
       if (!e.currentTarget.contains(e.relatedTarget)) {
@@ -713,21 +727,16 @@ export default {
     },
     onDrop(e, toIndex) {
       if (!this.dragState) return
-      const { fromIndex, record } = this.dragState
-      if (fromIndex === toIndex) {
-        this.dragState = null
-        this.dragOverIndex = null
-        return
-      }
-      // FLIP — snapshot "First" positions before the data changes.
-      const firstRects = this.snapshotRowRects()
-      this.$emit('drag-record', { record, fromIndex, toIndex }, e)
+      const { fromIndex, record, currentIndex } = this.dragState
+      this.$emit('drag-record', { record, fromIndex, toIndex: currentIndex }, e)
       this.dragState = null
       this.dragOverIndex = null
-      // After Vue re-renders with the new order, run the Invert+Play phase.
-      this.$nextTick(() => this.flipAnimateRows(firstRects))
     },
     onDragEnd() {
+      if (this.dragState) {
+        // Drag cancelled (no drop) — revert live reorder.
+        this.internalData = this.dataSource.slice()
+      }
       this.dragState = null
       this.dragOverIndex = null
     },

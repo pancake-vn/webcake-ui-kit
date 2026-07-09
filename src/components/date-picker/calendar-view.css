@@ -1,0 +1,134 @@
+.ui-cal-view {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+  font-family: var(--font-family-body);
+}
+
+/* Weekday header row — 7 fixed 36px tracks, muted labels. */
+.ui-cal-view__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 32px);
+}
+
+.ui-cal-view__weekday {
+  height: 32px;
+  width: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-fg);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+}
+
+/*
+ * Day grid — 7 columns, cells butt together horizontally (column-gap 0) so the
+ * range band reads as one continuous strip; a small row-gap keeps weeks legible.
+ */
+.ui-cal-view__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 32px);
+  row-gap: 1px;
+  column-gap: 0;
+}
+
+.ui-cal-cell {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--primary-fg);
+}
+
+/*
+ * Range band layer (::before) sits behind the number. Full-width for interior
+ * days so neighbours connect; half-width toward the range on the endpoints.
+ */
+.ui-cal-cell::before {
+  content: '';
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  background: transparent;
+  z-index: 0;
+}
+
+.ui-cal-cell.is-in-range::before {
+  background: var(--accent-1);
+}
+
+.ui-cal-cell.is-range-left::before {
+  left: 50%;
+  right: 0;
+  background: var(--brand-100);
+}
+
+.ui-cal-cell.is-range-right::before {
+  left: 0;
+  right: 50%;
+  background: var(--brand-100);
+}
+
+/* The visible day chip — rounded, holds hover / selected fills and the number. */
+.ui-cal-cell__inner {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-lg);
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.ui-cal-cell:hover:not(.is-disabled):not(.is-selected) .ui-cal-cell__inner {
+  background: var(--accent-1);
+}
+
+.ui-cal-cell.is-outside {
+  color: var(--muted-fg);
+}
+
+.ui-cal-cell.is-today .ui-cal-cell__inner {
+  box-shadow: inset 0 0 0 1px var(--border-brand);
+}
+
+.ui-cal-cell.is-selected .ui-cal-cell__inner {
+  background: var(--primary-brand-bg);
+  color: var(--inverse-fg);
+}
+
+/* Selected endpoint wins over the today ring. */
+.ui-cal-cell.is-selected.is-today .ui-cal-cell__inner {
+  box-shadow: none;
+}
+
+.ui-cal-cell.is-disabled {
+  color: var(--muted-fg);
+  cursor: not-allowed;
+}
+
+.ui-cal-cell.is-disabled .ui-cal-cell__inner {
+  background: transparent;
+}
+
+.ui-cal-cell.is-focus:focus-visible {
+  outline: none;
+}
+
+.ui-cal-cell.is-focus:focus-visible .ui-cal-cell__inner {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}

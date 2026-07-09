@@ -20,7 +20,6 @@
   display: flex;
   flex-direction: column;
   min-width: 176px;
-  max-width: 320px;
   outline: none;
   pointer-events: auto;
   box-sizing: border-box;

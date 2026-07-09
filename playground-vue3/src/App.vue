@@ -88,9 +88,8 @@
             :page-size="10"
             :siblings="1"
             :boundary="1"
-            showIcon
-            :prevLabel="null"
-            :nextLabel="null"
+            :prevLabel="'ssss'"
+            :nextLabel="'ssss'"
             @change="paginationPage = $event"
           />
           <span class="row__item">current = {{ paginationPage }} (click `…` to jump ±5 pages)</span>
@@ -323,7 +322,11 @@
         <h2>Field — Vertical layout (wraps existing inputs)</h2>
         <div class="field-grid">
           <WkField label="Label">
-            <WkInput v-model="fieldText" placeholder="Value" />
+            <WkInput v-model="fieldText" type="time" step="1" placeholder="Value">
+              <template #prefix>
+                <WkiChessBishop :size="16" />
+              </template>
+            </WkInput>
           </WkField>
           <WkField label="Label">
             <WkSelect :value="fieldSelect" @change="fieldSelect = $event">
@@ -621,14 +624,22 @@
           :columns="tableColumns"
           :data-source="tableScrollData"
           :scroll="{ y: 400, x: 1200 }"
+          bordered
           row-selection
           :selected-row-keys="tableSelectedKeys"
           @update:selectedRowKeys="tableSelectedKeys = $event"
           isDrag
+          :rowHeight="50"
         />
 
         <h2 style="margin-top: 24px">Table — drag &amp; drop rows</h2>
-        <WkTable :columns="tableColumns" :data-source="tableDragData" isDrag @drag-record="onTableDragRecord" />
+        <WkTable
+          :columns="tableColumns"
+          :data-source="tableDragData"
+          isDrag
+          @drag-record="onTableDragRecord"
+          :rowHeight="50"
+        />
         <p style="margin-top: 8px; font-size: 12px; color: var(--muted-fg)">
           Order: {{ tableDragData.map(r => r.name).join(' → ') }}
         </p>
@@ -755,12 +766,68 @@
           </WkAlert>
         </div>
       </section>
+
+      <section class="section">
+        <h2>Progress</h2>
+        <div style="display: flex; flex-direction: column; gap: 24px; max-width: 342px">
+          <div
+            v-for="v in [0, 10, 25, 33, 50, 66, 75, 90, 100]"
+            :key="v"
+            style="display: flex; align-items: center; gap: 16px"
+          >
+            <span style="width: 48px; font-size: 12px; color: var(--secondary-fg)">{{ v }}</span>
+            <WkProgress :value="v" />
+          </div>
+          <div style="display: flex; align-items: center; gap: 16px">
+            <span style="width: 48px; font-size: 12px; color: var(--secondary-fg)">3 / 4</span>
+            <WkProgress :value="3" :max="4" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Message (wkMessage service)</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px">
+          <WkButton @click="msgSuccess">Success</WkButton>
+          <WkButton variant="outline" @click="msgError">Error</WkButton>
+          <WkButton variant="outline" @click="msgInfo">Info</WkButton>
+          <WkButton variant="outline" @click="msgWarning">Warning</WkButton>
+          <WkButton variant="outline" @click="msgLoading">Loading (2.5s)</WkButton>
+          <WkButton variant="outline" @click="msgUpdate">Loading → success</WkButton>
+          <WkButton variant="outline" @click="msgBottom">Bottom placement</WkButton>
+          <WkButton variant="outline" @click="msgCorner">Top-right (overlap)</WkButton>
+          <WkButton variant="outline" @click="msgMaxCount">Spam (maxCount 3)</WkButton>
+          <WkButton variant="ghost" @click="msgDestroyAll">Destroy all</WkButton>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Date Picker</h2>
+        <div class="dp-grid">
+          <label>Single<WkDatePicker v-model="dpSingle" /></label>
+          <label>Range<WkDatePicker v-model="dpRange" mode="range" :months="2" placement="center" /></label>
+          <label>Multiple<WkDatePicker v-model="dpMultiple" mode="multiple" :max-count="2" /></label>
+          <label>Date + time<WkDatePicker v-model="dpDateTime" show-time /></label>
+          <label>Min/Max (this month)<WkDatePicker v-model="dpMinMax" :min-date="dpMin" :max-date="dpMax" /></label>
+          <label>Disabled weekends<WkDatePicker v-model="dpNoWeekend" :disabled-date="disableWeekends" /></label>
+          <label>Custom format<WkDatePicker v-model="dpFormat" format="MMM DD, YYYY" /></label>
+          <label>Month/Year selects<WkDatePicker v-model="dpSelects" show-select-year show-select-month /></label>
+          <label>Disabled<WkDatePicker disabled /></label>
+        </div>
+        <div class="dp-values">
+          <div>single: {{ dpSingle }}</div>
+          <div>range: {{ dpRange }}</div>
+          <div>multiple: {{ dpMultiple }}</div>
+          <div>date+time: {{ dpDateTime }}</div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
 import { WkiAArrowDown, WkiAArrowUp, WkiChessBishop } from '../../src/icons'
+import { wkMessage } from '../../src/index.js'
 const HOUSE_ICON =
   '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">' +
   '<path d="m1.5 8 6.5-5.5L14.5 8M3 7v6.5h10V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />' +
@@ -774,7 +841,18 @@ const ELLIPSIS_ICON =
 
 export default {
   data() {
+    const _now = new Date()
     return {
+      dpSingle: null,
+      dpRange: [],
+      dpMultiple: [],
+      dpDateTime: null,
+      dpMinMax: null,
+      dpNoWeekend: null,
+      dpFormat: null,
+      dpSelects: null,
+      dpMin: new Date(_now.getFullYear(), _now.getMonth(), 1),
+      dpMax: new Date(_now.getFullYear(), _now.getMonth() + 1, 0),
       alertTypes: ['neutral', 'error', 'warning', 'info'],
       textareaModel: 'Editable value',
       dropdownActive: [],
@@ -784,7 +862,7 @@ export default {
       selected: '',
       tableColumns: [
         { title: 'Name', dataIndex: 'name', width: '20%', resizable: true, fixed: 'left' },
-        { title: 'Age', dataIndex: 'age', sorter: true, resizable: true },
+        { title: 'Age', dataIndex: 'age', resizable: true },
         { title: 'Address', dataIndex: 'address' },
         { title: 'Action', dataIndex: 'operation', fixed: 'right', resizable: true }
       ],
@@ -1017,6 +1095,10 @@ export default {
     }
   },
   methods: {
+    disableWeekends(date) {
+      const d = date.getDay()
+      return d === 0 || d === 6
+    },
     onTableDragRecord({ fromIndex, toIndex }) {
       const data = [...this.tableDragData]
 
@@ -1024,6 +1106,49 @@ export default {
       data.splice(toIndex, 0, moved)
 
       this.tableDragData = data
+    },
+    msgSuccess() {
+      wkMessage.success('Event has been created', {
+        description: 'Sunday, December 03, 2023 at 9:00 AM',
+        placement: 'top-right'
+      })
+    },
+    msgError() {
+      wkMessage.error('Something went wrong')
+    },
+    msgInfo() {
+      wkMessage.info('Heads up — this is an info message')
+    },
+    msgWarning() {
+      wkMessage.warning('Please double-check your input')
+    },
+    msgLoading() {
+      wkMessage.loading('Loading...', 2500)
+    },
+    msgUpdate() {
+      const key = 'updatable'
+      wkMessage.loading({ content: 'Uploading...', key, duration: 0 })
+      setTimeout(() => wkMessage.success({ content: 'Uploaded!', key, duration: 2000 }), 1500)
+    },
+    msgBottom() {
+      wkMessage.config({ placement: 'bottom-left' })
+      wkMessage.info('Now anchored to the bottom')
+      // setTimeout(() => wkMessage.config({ placement: 'top' }), 2500)
+    },
+    msgCorner() {
+      // Corner placements overlap: each new message paints over the earlier one.
+      wkMessage.config({ placement: 'top-right' })
+      wkMessage.info('First — will be covered')
+      setTimeout(() => wkMessage.success('Second — on top'), 400)
+      setTimeout(() => wkMessage.warning('Third — newest overwrites'), 800)
+      setTimeout(() => wkMessage.config({ placement: 'top' }), 4500)
+    },
+    msgMaxCount() {
+      wkMessage.config({ maxCount: 5 })
+      for (let i = 1; i <= 6; i++) wkMessage.info('Message #' + i)
+    },
+    msgDestroyAll() {
+      wkMessage.destroy()
     },
     onAlertClose() {
       console.log('alert closed')
@@ -1141,6 +1266,27 @@ export default {
 </script>
 
 <style scoped>
+.dp-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.dp-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--secondary-fg);
+}
+.dp-values {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--muted-fg);
+}
 .alert-examples {
   display: flex;
   flex-direction: column;

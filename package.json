@@ -135,5 +135,8 @@
   "bugs": {
     "url": "https://github.com/pancake-vn/webcake-ui-kit/issues"
   },
-  "homepage": "https://ui.webcake.io"
+  "homepage": "https://ui.webcake.io",
+  "dependencies": {
+    "dayjs": "^1.11.21"
+  }
 }

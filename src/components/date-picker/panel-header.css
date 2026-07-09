@@ -1,0 +1,71 @@
+.ui-cal-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: 32px;
+  font-family: var(--font-family-body);
+}
+
+.ui-cal-header__nav {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-3xs);
+  flex-shrink: 0;
+}
+
+/* One label/select group per visible month, centered over its grid. */
+.ui-cal-header__labels {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.ui-cal-header__group {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2xs);
+}
+
+/* Clickable month/year text label (default when selects are disabled). */
+.ui-cal-header__label {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  font-weight: 400;
+  color: var(--primary-fg);
+  border-radius: var(--rounded-md);
+}
+
+/* .ui-select fills its container (width:100%), so size via these wrappers. */
+.ui-cal-header__select {
+  display: block;
+}
+
+.ui-cal-header__select--month {
+  flex: 1 1 auto;
+  max-width: 98px;
+}
+
+.ui-cal-header__select--year {
+  flex: 0 0 88px;
+  width: 88px;
+}
+
+.ui-cal-header__label_month_not_select,
+.ui-cal-header__label_year_not_select {
+  font-weight: 500;
+}
+
+.ui-cal-header__label_year_not_select {
+  margin-left: 4px;
+}
+
+.ui-cal-header__label_month_not_select {
+  margin-right: 4px;
+}

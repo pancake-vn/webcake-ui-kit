@@ -161,6 +161,10 @@
   cursor: col-resize;
 }
 
+.ui-table__resize-handle:hover {
+  height: 100%;
+}
+
 .ui-table__resize-handle--left {
   right: auto;
   left: -4px;
@@ -179,8 +183,8 @@
 
 .ui-table__resize-handle:hover::before,
 .ui-table__resize-handle.resizing::before {
-  width: 2px;
-  background: var(--border-focus);
+  width: 3px;
+  background: #3f8dff;
 }
 
 .ui-table__th-inner {
@@ -273,6 +277,18 @@
 
 .ui-table--bordered .ui-table__cell:last-child {
   border-right: none;
+}
+
+@keyframes ui-table-sticky-border-hide {
+  to {
+    border-right-width: 0;
+  }
+}
+
+.ui-table--bordered .ui-table__cell--fixed-left-last {
+  animation: ui-table-sticky-border-hide linear both;
+  animation-timeline: scroll(nearest x);
+  animation-range: 0px 1px;
 }
 
 /* With a scrollbar spacer present, the last real header column is second-to-last. */

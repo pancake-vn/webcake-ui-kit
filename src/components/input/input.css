@@ -126,6 +126,11 @@
   cursor: not-allowed;
 }
 
+.ui-input__field::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
 /* Decoration slot wrappers — fixed-size icon containers. */
 .ui-input__decoration {
   display: inline-flex;
