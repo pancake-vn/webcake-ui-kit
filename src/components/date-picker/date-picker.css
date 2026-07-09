@@ -1,0 +1,95 @@
+.ui-date-picker {
+  display: inline-block;
+}
+
+.ui-date-picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  width: 100%;
+  min-width: 200px;
+  box-sizing: border-box;
+  height: 36px;
+  padding: 0 var(--spacing-sm);
+  background: var(--input);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius);
+  color: var(--primary-fg);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  cursor: pointer;
+  transition:
+    border-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.ui-date-picker__trigger--sm {
+  height: 28px;
+  padding: 0 var(--spacing-xs);
+}
+
+.ui-date-picker__trigger--lg {
+  height: 44px;
+  padding: 0 var(--spacing-md);
+}
+
+.ui-date-picker__trigger:hover:not(.is-disabled) {
+  border-color: var(--border-focus);
+}
+
+.ui-date-picker__trigger.is-focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.ui-date-picker__trigger:focus-visible {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.ui-date-picker__trigger.is-disabled {
+  background: var(--muted-bg);
+  color: var(--muted-fg);
+  cursor: not-allowed;
+}
+
+.ui-date-picker__icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted-fg);
+  flex-shrink: 0;
+}
+
+.ui-date-picker__text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ui-date-picker__text.is-placeholder {
+  color: var(--muted-fg);
+}
+
+.ui-date-picker__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--rounded-full);
+  background: transparent;
+  color: var(--muted-fg);
+  cursor: pointer;
+}
+
+.ui-date-picker__clear:hover {
+  background: var(--accent-1);
+  color: var(--primary-fg);
+}

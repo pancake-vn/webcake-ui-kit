@@ -1,0 +1,108 @@
+.ui-message-container {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.ui-message-list {
+  display: grid;
+  pointer-events: auto;
+  --step: 44px;
+}
+
+/* All items share one grid cell; DOM order sets z — last in DOM = newest = on top */
+.ui-message-item {
+  grid-area: 1 / 1;
+  pointer-events: auto;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Collapsed stack peek ──────────────────────────────────── */
+
+.ui-message-item:nth-last-child(1) {
+  z-index: 3;
+}
+
+.ui-message-item:nth-last-child(2) {
+  z-index: 2;
+  transform: translateY(8px) scaleX(0.95);
+}
+
+.ui-message-item:nth-last-child(n + 3) {
+  z-index: 1;
+  transform: translateY(16px) scaleX(0.9);
+}
+
+.ui-message-item:nth-last-child(n + 5) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Bottom placements: peek cards appear above the top card */
+.ui-message-container--bottom .ui-message-item:nth-last-child(2),
+.ui-message-container--bottom-left .ui-message-item:nth-last-child(2),
+.ui-message-container--bottom-right .ui-message-item:nth-last-child(2) {
+  transform: translateY(-8px) scaleX(0.95);
+}
+
+.ui-message-container--bottom .ui-message-item:nth-last-child(n + 3),
+.ui-message-container--bottom-left .ui-message-item:nth-last-child(n + 3),
+.ui-message-container--bottom-right .ui-message-item:nth-last-child(n + 3) {
+  transform: translateY(-16px) scaleX(0.9);
+}
+
+/* ── Alignment ─────────────────────────────────────────────── */
+
+.ui-message-container--top .ui-message-item,
+.ui-message-container--bottom .ui-message-item {
+  justify-self: center;
+}
+
+.ui-message-container--top-left .ui-message-item,
+.ui-message-container--bottom-left .ui-message-item {
+  justify-self: start;
+}
+
+.ui-message-container--top-right .ui-message-item,
+.ui-message-container--bottom-right .ui-message-item {
+  justify-self: end;
+}
+
+/* ── Enter/leave animation ─────────────────────────────────── */
+/*
+ * Vue 2 applies `-enter` / `-leave` for the start frame;
+ * Vue 3 applies `-enter-from` / `-leave-from`. Both listed for dual compat.
+ */
+.ui-message-anim-enter-active,
+.ui-message-anim-leave-active {
+  transition:
+    opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ui-message-anim-enter-from,
+.ui-message-anim-enter,
+.ui-message-anim-leave-to {
+  opacity: 0;
+  transform: translateY(-16px);
+}
+
+.ui-message-container--bottom .ui-message-anim-enter-from,
+.ui-message-container--bottom .ui-message-anim-enter,
+.ui-message-container--bottom .ui-message-anim-leave-to,
+.ui-message-container--bottom-left .ui-message-anim-enter-from,
+.ui-message-container--bottom-left .ui-message-anim-enter,
+.ui-message-container--bottom-left .ui-message-anim-leave-to,
+.ui-message-container--bottom-right .ui-message-anim-enter-from,
+.ui-message-container--bottom-right .ui-message-anim-enter,
+.ui-message-container--bottom-right .ui-message-anim-leave-to {
+  transform: translateY(16px);
+}
+
+.ui-message-anim-move {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}

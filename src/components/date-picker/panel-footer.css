@@ -1,0 +1,42 @@
+.ui-cal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--border-primary);
+  font-family: var(--font-family-body);
+}
+
+.ui-cal-footer__left {
+  display: inline-flex;
+  align-items: center;
+}
+
+.ui-cal-footer__right {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.ui-cal-footer__link {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+  color: var(--primary-brand-fg);
+}
+
+.ui-cal-footer__link:hover:not(:disabled) {
+  color: var(--primary-brand-hover);
+  text-decoration: underline;
+}
+
+.ui-cal-footer__link:disabled {
+  color: var(--muted-fg);
+  cursor: not-allowed;
+}

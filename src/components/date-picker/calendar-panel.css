@@ -1,0 +1,36 @@
+.ui-cal-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--card);
+  font-family: var(--font-family-body);
+  border-radius: var(--rounded-xl);
+}
+
+.ui-cal-panel__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.ui-cal-panel__body {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+/* Months sit side by side; each grid is 7×36px wide. */
+.ui-cal-panel__months {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.ui-cal-panel__month {
+  flex-shrink: 0;
+}
+
+/* Time column divided from the calendar. */
+.ui-cal-panel__time {
+  padding-left: var(--spacing-xs);
+  border-left: 1px solid var(--border-primary);
+}

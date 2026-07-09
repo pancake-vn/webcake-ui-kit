@@ -1,0 +1,63 @@
+.ui-time-panel {
+  display: flex;
+  gap: var(--spacing-3xs);
+  height: 200px;
+  font-family: var(--font-family-body);
+}
+
+/* Each part (hour/minute/second) scrolls independently. */
+.ui-time-panel__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3xs);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 var(--spacing-3xs);
+}
+
+.ui-time-panel__col + .ui-time-panel__col {
+  border-left: 1px solid var(--border-primary);
+}
+
+.ui-time-panel__col::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.ui-time-panel__col::-webkit-scrollbar-thumb {
+  background: var(--accent-2);
+  border-radius: 999px;
+
+  border: 0 solid transparent;
+  background-clip: padding-box;
+}
+
+.ui-time-panel__opt {
+  flex-shrink: 0;
+  width: 44px;
+  height: 30px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--rounded-md);
+  font-family: inherit;
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--primary-fg);
+  text-align: center;
+}
+
+.ui-time-panel__opt:hover:not(.is-disabled):not(.is-active) {
+  background: var(--accent-1);
+}
+
+.ui-time-panel__opt.is-active {
+  background: var(--primary-brand-bg);
+  color: var(--inverse-fg);
+  font-weight: 600;
+}
+
+.ui-time-panel__opt.is-disabled {
+  color: var(--muted-fg);
+  cursor: not-allowed;
+}
