@@ -11,15 +11,15 @@
 // (Vue 3) and webpack (Vue 2) bundlers.
 import dayjs from 'dayjs'
 
-import customParseFormat from 'dayjs/plugin/customParseFormat'
-import localeData from 'dayjs/plugin/localeData'
-import weekday from 'dayjs/plugin/weekday'
-import weekOfYear from 'dayjs/plugin/weekOfYear'
-import isoWeek from 'dayjs/plugin/isoWeek'
-import advancedFormat from 'dayjs/plugin/advancedFormat'
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
-import quarterOfYear from 'dayjs/plugin/quarterOfYear'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
+import localeData from 'dayjs/plugin/localeData.js'
+import weekday from 'dayjs/plugin/weekday.js'
+import weekOfYear from 'dayjs/plugin/weekOfYear.js'
+import isoWeek from 'dayjs/plugin/isoWeek.js'
+import advancedFormat from 'dayjs/plugin/advancedFormat.js'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
+import quarterOfYear from 'dayjs/plugin/quarterOfYear.js'
 
 dayjs.extend(customParseFormat)
 dayjs.extend(localeData)
