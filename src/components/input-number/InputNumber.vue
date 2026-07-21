@@ -8,6 +8,8 @@
       disabled && 'ui-input-number--disabled',
       $attrs.class
     ]"
+    :style="draggable && !focused && !disabled ? { cursor: 'ew-resize' } : {}"
+    @mousedown="onDragStart"
   >
     <span v-if="hasPrefix" class="ui-input-number__decoration ui-input-number__prefix" aria-hidden="true">
       <slot name="prefix"></slot>
@@ -17,13 +19,17 @@
       class="ui-input-number__field"
       type="text"
       inputmode="decimal"
-      :style="centered ? { textAlign: 'center' } : {}"
+      :style="{
+        ...(centered ? { textAlign: 'center' } : {}),
+        cursor: draggable && !focused && !disabled ? 'ew-resize' : ''
+      }"
       :value="displayValue"
       :placeholder="placeholder"
       :disabled="disabled"
       :readonly="readonly"
       :name="name"
       v-bind="{ ...$attrs, class: undefined }"
+      v-on="nativeListeners"
       @input="onInput"
       @focus="onFocus"
       @blur="onBlur"
@@ -61,13 +67,17 @@ export default {
       validator: v => ['default', 'round'].includes(v)
     },
     error: { type: Boolean, default: false },
-    centered: { type: Boolean, default: false }
+    centered: { type: Boolean, default: false },
+    draggable: { type: Boolean, default: false }
   },
   emits: ['input', 'update:modelValue', 'change', 'focus', 'blur', 'pressEnter'],
   data() {
     return {
       focused: false,
-      inputText: ''
+      inputText: '',
+      dragActive: false,
+      dragStartX: 0,
+      dragStartValue: 0
     }
   },
   computed: {
@@ -85,6 +95,11 @@ export default {
       const s = String(this.step)
       const dot = s.indexOf('.')
       return dot >= 0 ? s.length - dot - 1 : 0
+    },
+    nativeListeners() {
+      const excluded = new Set(['input', 'change', 'focus', 'blur', 'update:modelValue', 'pressEnter'])
+      const listeners = this.$listeners || {}
+      return Object.fromEntries(Object.entries(listeners).filter(([k]) => !excluded.has(k)))
     },
     displayValue() {
       if (this.focused) return this.inputText
@@ -174,6 +189,38 @@ export default {
       this.commitInput()
       this.$emit('blur', this.currentValue, e)
     },
+    onDragStart(e) {
+      if (!this.draggable || this.disabled || this.readonly) return
+      this.dragStartX = e.clientX
+      this.dragStartValue =
+        this.currentValue !== null && this.currentValue !== undefined ? Number(this.currentValue) : 0
+      this.dragActive = false
+      document.addEventListener('mousemove', this.onDragMove)
+      document.addEventListener('mouseup', this.onDragEnd)
+    },
+    onDragMove(e) {
+      const delta = e.clientX - this.dragStartX
+      if (!this.dragActive && Math.abs(delta) < 3) return
+      if (!this.dragActive) {
+        this.dragActive = true
+        document.body.style.cursor = 'ew-resize'
+        if (this.$refs.input) this.$refs.input.blur()
+      }
+      const newVal = this.clamp(this.toPrecision(this.dragStartValue + delta * this.step))
+      this.$emit('input', newVal)
+      this.$emit('update:modelValue', newVal)
+    },
+    onDragEnd(e) {
+      document.removeEventListener('mousemove', this.onDragMove)
+      document.removeEventListener('mouseup', this.onDragEnd)
+      if (this.dragActive) {
+        const delta = e.clientX - this.dragStartX
+        const newVal = this.clamp(this.toPrecision(this.dragStartValue + delta * this.step))
+        this.$emit('change', newVal)
+        document.body.style.cursor = ''
+      }
+      this.dragActive = false
+    },
     onKeydown(e) {
       if (e.key === 'ArrowUp') {
         e.preventDefault()
@@ -196,6 +243,11 @@ export default {
         this.$emit('pressEnter', this.currentValue, e)
       }
     }
+  },
+  beforeUnmount() {
+    document.removeEventListener('mousemove', this.onDragMove)
+    document.removeEventListener('mouseup', this.onDragEnd)
+    if (this.dragActive) document.body.style.cursor = ''
   }
 }
 </script>

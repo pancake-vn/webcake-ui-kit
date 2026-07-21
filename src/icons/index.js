@@ -1741,5 +1741,6 @@ export { default as WkiSlash2 } from './Slash2.vue'
 export { default as WkiSquareNumber } from './SquareNumber.vue'
 export { default as WkiRows3Add } from './Rows3Add.vue'
 export { default as WkiColumns3Add } from './Columns3Add.vue'
+export { default as WkiFrameCorners } from './FrameCorners.vue'
 
 // --- AUTO-GENERATED LUCIDE EXPORTS END ---
