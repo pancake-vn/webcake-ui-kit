@@ -4,6 +4,25 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.33] - 2026-07-23
+
+### Added
+- `WkDropdown` and `WkMenu` accept a new `persistent` prop to keep the overlay open when clicking outside.
+- `WkTag` emits a new `click` event.
+- New `WkiFrameCornersDash` and `WkiOpacity` icons.
+
+### Changed
+- `WkDropdown`'s overlay now defaults to a 280px width instead of auto-sizing to its trigger.
+- `WkMenu` sizes its overlay to an exact `width` instead of a `min-width`, so custom widths no longer expand with content.
+- `WkDatePicker` calendar weekday and day cells grow from 32px to 36px, with updated mini-size typography tokens.
+- Heading 2 typography scales up from 30px/30px to 32px/40px font-size/line-height.
+
+### Fixed
+- `WkButton` label now stretches to fill the available space, fixing icon/label alignment.
+- `WkDialog` fixes z-index stacking across multiple open dialogs and now cleans up correctly when unmounted under Vue 2.
+- `WkDropdown`, `WkMenu`, `WkSlider`, and `WkTooltip` now clean up their event listeners and timers correctly when unmounted under Vue 2.
+- `WkSelect` now forwards external `class` and `style` bindings to its root element consistently on both Vue 2 and Vue 3.
+
 ## [1.1.32] - 2026-07-21
 
 ### Added
