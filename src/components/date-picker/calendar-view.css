@@ -8,18 +8,19 @@
 /* Weekday header row — 7 fixed 36px tracks, muted labels. */
 .ui-cal-view__weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 32px);
+  grid-template-columns: repeat(7, 36px);
 }
 
 .ui-cal-view__weekday {
   height: 32px;
-  width: 32px;
+  width: 36px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--muted-fg);
-  font-size: var(--paragraph-small-font-size);
-  line-height: var(--paragraph-small-line-height);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
 }
 
 /*
@@ -28,15 +29,15 @@
  */
 .ui-cal-view__grid {
   display: grid;
-  grid-template-columns: repeat(7, 32px);
+  grid-template-columns: repeat(7, 36px);
   row-gap: 1px;
   column-gap: 0;
 }
 
 .ui-cal-cell {
   position: relative;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -85,8 +86,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--rounded-lg);
   transition:
     background-color 0.12s ease,

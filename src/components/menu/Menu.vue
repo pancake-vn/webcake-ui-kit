@@ -66,6 +66,7 @@ export default {
     closeOnSelect: { type: Boolean, default: true },
     closeOnEsc: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false },
+    persistent: { type: Boolean, default: false },
     anchorWidth: { type: Boolean, default: false },
     width: { type: [String, Number], default: null },
     overlayClassName: { type: [String, Array, Object], default: null },
@@ -110,9 +111,9 @@ export default {
         zIndex: this.zIndex || null
       }
       if (this.anchorWidth && this.pmAnchorWidth) {
-        style.minWidth = this.pmAnchorWidth + 'px'
+        style.width = this.pmAnchorWidth + 'px'
       } else if (this.width) {
-        style.minWidth = typeof this.width === 'number' ? `${this.width}px` : this.width
+        style.width = typeof this.width === 'number' ? `${this.width}px` : this.width
       }
       return style
     }
@@ -144,6 +145,10 @@ export default {
     if (this.isOpen) this.handleOpen()
   },
   beforeUnmount() {
+    this._cleanupAll()
+  },
+  // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle, vue/no-dupe-keys
+  beforeDestroy() {
     this._cleanupAll()
   },
   methods: {
@@ -210,6 +215,7 @@ export default {
       this.closeMenu()
     },
     _coOnOutside() {
+      if (this.persistent) return
       this.closeMenu()
     },
     _cleanupAll() {
