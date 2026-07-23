@@ -1,5 +1,8 @@
 <template>
-  <span class="ui-tag" :class="[`ui-tag--type-${type}`, `ui-tag--${size}`, { 'ui-tag--with-icon': hasIcon }]">
+  <span
+    :class="['ui-tag', `ui-tag--type-${type}`, `ui-tag--${size}`, { 'ui-tag--with-icon': hasIcon }]"
+    @click="handleClick"
+  >
     <span v-if="hasIcon" class="ui-tag__icon"><slot name="icon" /></span>
     <span class="ui-tag__label"
       ><slot>{{ label }}</slot></span
@@ -35,10 +38,15 @@ export default {
     closable: { type: Boolean, default: false },
     label: { type: String, default: '' }
   },
-  emits: ['close'],
+  emits: ['close', 'click'],
   computed: {
     hasIcon: function () {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
+    }
+  },
+  methods: {
+    handleClick(e) {
+      this.$emit('click', e)
     }
   }
 }

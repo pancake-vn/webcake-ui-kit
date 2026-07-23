@@ -4,7 +4,6 @@
 .ui-btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   border: 1px solid transparent;
   margin: 0;
   cursor: pointer;
@@ -21,6 +20,7 @@
 
 .ui-btn__label {
   display: inline-flex;
+  flex: 1;
 }
 
 .ui-btn__icon {

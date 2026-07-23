@@ -5,6 +5,7 @@
     :offset="4"
     :close-on-esc="closeOnEsc"
     :disabled="disabled"
+    :persistent="persistent"
     @change="onMenuChange"
     @open="$emit('open')"
     @close="$emit('close')"
@@ -68,7 +69,7 @@ export default {
     },
     closeOnEsc: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false },
-    width: { type: [String, Number], default: null },
+    width: { type: [String, Number], default: 280 },
     trigger: {
       type: Array,
       default: function () {
@@ -92,7 +93,8 @@ export default {
     },
     overlayClassName: { type: [String, Array, Object], default: null },
     overlayStyle: { type: [Object, Array], default: null },
-    showChecked: { type: Boolean, default: false }
+    showChecked: { type: Boolean, default: false },
+    persistent: { type: Boolean, default: false }
   },
   emits: ['change', 'update:modelValue', 'open', 'close', 'select'],
   data() {
@@ -148,6 +150,10 @@ export default {
     }
   },
   beforeUnmount() {
+    if (this._hoverTimer) clearTimeout(this._hoverTimer)
+  },
+  // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle, vue/no-dupe-keys
+  beforeDestroy() {
     if (this._hoverTimer) clearTimeout(this._hoverTimer)
   }
 }

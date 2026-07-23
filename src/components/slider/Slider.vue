@@ -191,6 +191,10 @@ export default {
   beforeUnmount: function () {
     this.cleanup()
   },
+  // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle, vue/no-dupe-keys
+  beforeDestroy() {
+    this.cleanup()
+  },
   methods: {
     cleanup: function () {
       document.removeEventListener('mousemove', this.boundMouseMove)

@@ -105,6 +105,10 @@ export default {
   beforeUnmount() {
     this.cleanup()
   },
+  // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle, vue/no-dupe-keys
+  beforeDestroy() {
+    this.cleanup()
+  },
   methods: {
     onShow() {
       this.hovered = true

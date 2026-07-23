@@ -24,8 +24,10 @@
             'ui-select--loading': loading,
             'ui-select--multiple': isMultiMode,
             'ui-select--searchable': isSearchable
-          }
+          },
+          externalClass
         ]"
+        :style="externalStyle"
         :tabindex="isSearchable ? -1 : 0"
         v-bind="attrs"
         @click="isSearchable ? openIfClosed() : toggle()"
@@ -117,6 +119,8 @@ export default {
   provide() {
     return { select: this }
   },
+
+  inheritAttrs: false,
 
   model: {
     prop: 'value',
@@ -279,6 +283,31 @@ export default {
     },
     listStyle() {
       return { maxHeight: this.listHeight + 'px' }
+    },
+    externalClass() {
+      // Vue 3: class is in $attrs (inheritAttrs:false keeps it off the root)
+      if (this.$attrs && Object.prototype.hasOwnProperty.call(this.$attrs, 'class')) {
+        return this.$attrs.class
+      }
+      // Vue 2: class always lands on root regardless of inheritAttrs; also bind here
+      if (this.$vnode && this.$vnode.data) {
+        var parts = []
+        if (this.$vnode.data.staticClass) parts.push(this.$vnode.data.staticClass)
+        if (this.$vnode.data.class) parts.push(this.$vnode.data.class)
+        return parts.length ? parts : null
+      }
+      return null
+    },
+    externalStyle() {
+      // Vue 3: style is in $attrs
+      if (this.$attrs && Object.prototype.hasOwnProperty.call(this.$attrs, 'style')) {
+        return this.$attrs.style
+      }
+      // Vue 2: style always lands on root; also bind here for consistency
+      if (this.$vnode && this.$vnode.data) {
+        return this.$vnode.data.staticStyle || this.$vnode.data.style || null
+      }
+      return null
     }
   },
 

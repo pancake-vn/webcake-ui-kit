@@ -95,7 +95,7 @@
 
 <script>
 import { acquire, release } from '../../floating/portal-root.js'
-import { bumpTo } from '../../floating/layer-manager.js'
+import { bumpTo, nextZIndex } from '../../floating/layer-manager.js'
 import Button from '../button/Button.vue'
 import WkiMinus from '../../icons/Minus.vue'
 import WkiUnfoldVertical from '../../icons/UnfoldVertical.vue'
@@ -143,7 +143,8 @@ export default {
       hasOpened: false,
       isVisible: false,
       minimized: false,
-      isFullscreen: false
+      isFullscreen: false,
+      activeZIndex: 0
     }
   },
   computed: {
@@ -151,7 +152,7 @@ export default {
       return this.modelValue !== undefined ? this.modelValue : this.open
     },
     rootStyle() {
-      return { zIndex: this.zIndex }
+      return { zIndex: this.activeZIndex || this.zIndex }
     },
     maskStyle() {
       if (!this.blur) return {}
@@ -225,6 +226,10 @@ export default {
   beforeUnmount() {
     this.cleanup()
   },
+  // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle, vue/no-dupe-keys
+  beforeDestroy() {
+    this.cleanup()
+  },
   methods: {
     setOpen(v) {
       this.$emit('change', v)
@@ -260,6 +265,7 @@ export default {
     onOpen() {
       this.hasOpened = true
       bumpTo(this.zIndex)
+      this.activeZIndex = nextZIndex()
       this.lockBody()
       if (typeof document !== 'undefined') {
         this._prevFocus = document.activeElement
