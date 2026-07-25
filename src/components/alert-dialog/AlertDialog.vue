@@ -25,10 +25,17 @@
     </div>
     <template #footer>
       <slot name="footer">
-        <Button :variant="cancelVariant" class="ui-alert-dialog-btn" @click="handleCancel">{{ cancelText }}</Button>
-        <Button :variant="okVariant" :loading="confirmLoading" class="ui-alert-dialog-btn" @click="handleOk">{{
-          okText
+        <Button size="sm" :variant="cancelVariant" class="ui-alert-dialog-btn" @click="handleCancel">{{
+          cancelText
         }}</Button>
+        <Button
+          size="sm"
+          :variant="okVariant"
+          :loading="confirmLoading"
+          class="ui-alert-dialog-btn"
+          @click="handleOk"
+          >{{ okText }}</Button
+        >
       </slot>
     </template>
   </Dialog>

@@ -13,6 +13,8 @@
           :content="item.content"
           :description="item.description"
           :action="item.action"
+          :progress="item.progress"
+          :img-src="item.imgSrc"
           @close="remove(item.key)"
         />
       </div>
@@ -145,7 +147,9 @@ export default {
         existing.content = config.content != null ? config.content : ''
         existing.description = config.description || null
         existing.action = config.action || null
-        existing.onClose = config.onClose || null
+        ;((existing.progress = config.progress != null ? config.progress : null),
+          (existing.imgSrc = config.imgSrc),
+          (existing.onClose = config.onClose || null))
         this.scheduleRemoval(key, config.duration)
         return key
       }
@@ -155,6 +159,8 @@ export default {
         content: config.content != null ? config.content : '',
         description: config.description || null,
         action: config.action || null,
+        progress: config.progress != null ? config.progress : null,
+        imgSrc: config.imgSrc,
         onClose: config.onClose || null
       })
       // Enforce maxCount by evicting the oldest entries.

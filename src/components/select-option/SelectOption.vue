@@ -85,6 +85,10 @@ export default {
     if (this.select) this.select.removeSlotOption(this.value)
   },
 
+  // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle, vue/no-dupe-keys
+  beforeDestroy() {
+    if (this.select) this.select.removeSlotOption(this.value)
+  },
   watch: {
     isHidden(val) {
       if (this.select) this.select.setSlotOptionVisible(this.value, !val)

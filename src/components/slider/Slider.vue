@@ -4,7 +4,8 @@
     :class="{
       'ui-slider--vertical': orientation === 'vertical',
       'ui-slider--disabled': disabled,
-      'ui-slider--range': range
+      'ui-slider--range': range,
+      [`ui-slider--${variant}`]: variant
     }"
     :style="rootStyle"
   >
@@ -86,6 +87,13 @@ export default {
       default: 'horizontal',
       validator: function (v) {
         return ['horizontal', 'vertical'].indexOf(v) !== -1
+      }
+    },
+    variant: {
+      type: String,
+      default: 'neutral',
+      validator: function (v) {
+        return ['neutral', 'primary'].indexOf(v) !== -1
       }
     },
     disabled: { type: Boolean, default: false },

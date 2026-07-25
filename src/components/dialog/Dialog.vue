@@ -81,8 +81,10 @@
             >
               <div class="ui-dialog-footer__inner">
                 <slot name="footer">
-                  <Button :variant="cancelVariant" @click="handleCancel">{{ cancelText }}</Button>
-                  <Button :variant="okVariant" :loading="confirmLoading" @click="handleOk">{{ okText }}</Button>
+                  <Button size="sm" :variant="cancelVariant" @click="handleCancel">{{ cancelText }}</Button>
+                  <Button size="sm" :variant="okVariant" :loading="confirmLoading" @click="handleOk">{{
+                    okText
+                  }}</Button>
                 </slot>
               </div>
             </div>
