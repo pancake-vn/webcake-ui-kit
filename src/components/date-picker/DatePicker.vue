@@ -127,7 +127,16 @@
  */
 import Menu from '../menu/Menu.vue'
 import CalendarPanel from './CalendarPanel.vue'
-import dayjs from './dayjs.js'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import localeData from 'dayjs/plugin/localeData'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+
+dayjs.extend(customParseFormat)
+dayjs.extend(localeData)
+dayjs.extend(isSameOrBefore)
+dayjs.extend(isSameOrAfter)
 import { ISO, toDayjs, toISO, isDateDisabled, weekdayLabels, buildDayMatrix, orderISO } from './calendar.js'
 import { WkiCalendar, WkiX } from '../../icons'
 
