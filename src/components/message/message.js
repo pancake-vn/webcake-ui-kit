@@ -87,6 +87,8 @@ function open(config) {
     content: config.content,
     description: config.description,
     action: config.action,
+    progress: config.progress != null ? config.progress : null,
+    imgSrc: config.imgSrc,
     duration,
     onClose: config.onClose
   })

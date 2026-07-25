@@ -132,7 +132,6 @@
 }
 .ui-toggle--variant-outlined.ui-toggle--active {
   background: var(--outline-active);
-  color: var(--primary-fg);
 }
 
 /* ============================================================
@@ -163,6 +162,14 @@
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+.ui-toggle--variant-outlined:disabled {
+  background: var(--secondary-bg);
+}
+
+.ui-toggle--variant-outlined.ui-toggle--active:disabled {
+  background: var(--tertiary-bg);
 }
 
 /* ============================================================

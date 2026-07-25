@@ -195,3 +195,282 @@ WithAction.parameters = {
     }
   }
 }
+
+export const WithProgress = () => ({
+  components: { WkMessage },
+  data() {
+    return {
+      pauseAction: { label: 'Pause', onClick: function () {} }
+    }
+  },
+  template: `
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;min-width:360px;">
+      <WkMessage type="loading" content="report-q4-2025.pdf" description="Uploading... 10%" :progress="10" :action="pauseAction" />
+      <WkMessage type="loading" content="photo-album.zip" description="Uploading... 60%" :progress="60" :action="pauseAction" />
+      <WkMessage type="success" content="presentation.pptx" description="Upload complete!" :progress="100" />
+      <WkMessage type="error" content="large-video.mp4" description="File upload error." :progress="45" />
+    </div>
+  `
+})
+WithProgress.storyName = 'With progress bar'
+WithProgress.parameters = {
+  docs: {
+    description: {
+      story:
+        'Pass `progress` (0–100) to render a `WkProgress` bar below the message content. ' +
+        'Update via `wkMessage.open({ key, progress: n })` — the same-key update path re-renders the bar reactively.'
+    }
+  }
+}
+
+// ─── File-upload message ─────────────────────────────────────────────────────
+
+export const FileUploadStatic = () => ({
+  components: { WkMessage },
+  data() {
+    return {
+      pauseAction: { label: 'Pause', onClick: function () {} },
+      cancelAction: { label: 'Cancel', onClick: function () {} }
+    }
+  },
+  template: `
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;min-width:380px;">
+      <WkMessage
+        type="loading"
+        content="report-q4-2025.pdf"
+        description="Uploading... 30%"
+        :progress="30"
+        img-src="https://content.pancake.vn/web-media-262/s300x300/fwebp80/63/f3/da/9a/ac502d0e2d8b5ba2620f7775f13064a54b0bf90f3424f7225c1bc849-w:120-h:120-l:7705-t:image/png.png"
+        :action="pauseAction"
+      />
+      <WkMessage
+        type="loading"
+        content="photo-album.zip"
+        description="Uploading... 70%"
+        :progress="70"
+        :action="pauseAction"
+      />
+      <WkMessage
+        type="success"
+        content="presentation.pptx"
+        description="Upload complete!"
+        :progress="100"
+        img-src="https://content.pancake.vn/web-media-262/s300x300/fwebp80/63/f3/da/9a/ac502d0e2d8b5ba2620f7775f13064a54b0bf90f3424f7225c1bc849-w:120-h:120-l:7705-t:image/png.png"
+      />
+      <WkMessage
+        type="error"
+        content="large-video.mp4"
+        description="Upload failed — file exceeds the 50 MB limit."
+        :progress="45"
+        :action="cancelAction"
+      />
+    </div>
+  `
+})
+FileUploadStatic.storyName = 'File upload — static states'
+FileUploadStatic.parameters = {
+  docs: {
+    description: {
+      story:
+        'Visual reference for all four file-upload states: **uploading with thumbnail**, ' +
+        '**uploading without thumbnail**, **complete**, and **error**. ' +
+        'Pass `imgSrc` to display a thumbnail preview in place of the type icon — ' +
+        'it stays visible at every progress value. ' +
+        'Omit `imgSrc` and the standard spinner/icon appears instead.'
+    }
+  }
+}
+
+export const FileUploadDemo = () => ({
+  data() {
+    return {
+      files: [
+        {
+          key: 'upload-pdf',
+          name: 'report-q4-2025.pdf',
+          imgSrc:
+            'https://content.pancake.vn/web-media-262/s300x300/fwebp80/63/f3/da/9a/ac502d0e2d8b5ba2620f7775f13064a54b0bf90f3424f7225c1bc849-w:120-h:120-l:7705-t:image/png.png'
+        },
+        { key: 'upload-zip', name: 'photo-album.zip', imgSrc: '' },
+        { key: 'upload-pptx', name: 'presentation.pptx', imgSrc: '' }
+      ]
+    }
+  },
+  beforeUnmount() {
+    wkMessage.destroy()
+  },
+  beforeDestroy() {
+    wkMessage.destroy()
+  },
+  methods: {
+    startUpload: function (file) {
+      var self = this
+      var progress = 0
+      // Cancel any previous upload for the same file
+      if (file._iv) {
+        clearInterval(file._iv)
+        file._iv = null
+      }
+
+      function pushUpdate(p) {
+        wkMessage.open({
+          key: file.key,
+          type: 'file-upload',
+          content: file.name,
+          description: 'Uploading... ' + p + '%',
+          progress: p,
+          duration: 0,
+          placement: 'bottom-right',
+          imgSrc: file.imgSrc,
+          action: {
+            label: 'Cancel',
+            variant: 'ghost',
+            onClick: function () {
+              if (file._iv) {
+                clearInterval(file._iv)
+                file._iv = null
+              }
+              wkMessage.destroy(file.key)
+            }
+          }
+        })
+      }
+
+      pushUpdate(0)
+
+      file._iv = setInterval(function () {
+        progress += 10
+        if (progress >= 100) {
+          clearInterval(file._iv)
+          file._iv = null
+          wkMessage.open({
+            key: file.key,
+            type: 'success',
+            content: file.name,
+            description: 'Upload complete!',
+            progress: 100,
+            duration: 3000
+          })
+        } else {
+          pushUpdate(progress)
+        }
+      }, 400)
+    }
+  },
+  template: `
+    <div style="display:flex;flex-direction:column;gap:10px;min-width:240px;">
+      <p style="margin:0 0 4px;font-size:12px;color:#6b7280;font-weight:500;">Click a file to simulate upload</p>
+      <button
+        v-for="f in files"
+        :key="f.key"
+        style="padding:8px 14px;border-radius:6px;border:1px solid #e5e7eb;background:#f9fafb;color:#374151;cursor:pointer;font-size:13px;text-align:left;"
+        @click="startUpload(f)"
+      >{{ f.name }}</button>
+      <p style="margin:8px 0 0;font-size:11px;color:#9ca3af;">
+        Messages appear bottom-right. Click the same file again to restart its upload.
+      </p>
+    </div>
+  `
+})
+FileUploadDemo.storyName = 'File upload — interactive demo'
+FileUploadDemo.parameters = {
+  docs: {
+    description: {
+      story: `
+Live simulation of the file-upload message flow. Click any filename to start a
+mock upload — the toast appears in the bottom-right, progress increments every
+400 ms, and the message resolves to a \`success\` state at 100%. The **Cancel**
+button inside the toast dismisses it at any point.
+
+---
+
+### How to implement file-upload messages
+
+The file-upload variant uses \`wkMessage.open()\` with a shared \`key\` so that
+every progress tick **updates the same toast** instead of stacking new ones.
+
+**1. Open the initial toast**
+
+\`\`\`js
+wkMessage.open({
+  key: 'my-upload',           // unique per file — reuse to update
+  type: 'file-upload',        // arbitrary string; drives ui-message--file-upload CSS class
+  content: 'report.pdf',      // filename shown in bold
+  description: 'Uploading… 0%',
+  progress: 0,                // 0–100 — renders a WkProgress bar
+  duration: 0,                // 0 = stays open until manually closed
+  placement: 'bottom-right',
+  imgSrc: 'https://…/thumb.png', // optional thumbnail; omit for plain icon
+  action: {
+    label: 'Cancel',
+    onClick: () => wkMessage.destroy('my-upload')
+  }
+})
+\`\`\`
+
+**2. Update progress (same key, same type)**
+
+\`\`\`js
+wkMessage.open({
+  key: 'my-upload',
+  type: 'file-upload',
+  content: 'report.pdf',
+  description: 'Uploading… 60%',
+  progress: 60,
+  duration: 0,
+  placement: 'bottom-right',
+  imgSrc: 'https://…/thumb.png',
+  action: { label: 'Cancel', onClick: () => wkMessage.destroy('my-upload') }
+})
+\`\`\`
+
+**3. Resolve to success (or error)**
+
+\`\`\`js
+// success
+wkMessage.open({
+  key: 'my-upload',
+  type: 'success',
+  content: 'report.pdf',
+  description: 'Upload complete!',
+  progress: 100,
+  duration: 3000   // auto-dismiss after 3 s
+})
+
+// error
+wkMessage.open({
+  key: 'my-upload',
+  type: 'error',
+  content: 'report.pdf',
+  description: 'Upload failed — file too large.',
+  progress: currentProgress,
+  duration: 0,
+  action: { label: 'Dismiss', onClick: () => wkMessage.destroy('my-upload') }
+})
+\`\`\`
+
+**4. Cancel / dismiss early**
+
+\`\`\`js
+wkMessage.destroy('my-upload')
+\`\`\`
+
+---
+
+### Props reference
+
+| Prop | Type | Description |
+|---|---|---|
+| \`key\` | \`string\` | Unique ID — calling \`open()\` with the same key replaces the existing toast in-place |
+| \`type\` | \`string\` | \`'file-upload'\` while uploading; switch to \`'success'\` / \`'error'\` on completion |
+| \`content\` | \`string\` | Primary text — typically the filename |
+| \`description\` | \`string\` | Secondary line — status text such as \`"Uploading… 60%"\` |
+| \`progress\` | \`number\` | 0–100; renders a \`WkProgress\` bar below the row |
+| \`imgSrc\` | \`string\` | URL of a thumbnail image; replaces the type icon with an \`<img>\` preview |
+| \`action\` | \`{ label, onClick }\` | Inline action button (Pause / Cancel) |
+| \`duration\` | \`number\` | \`0\` = sticky; pass a positive ms value to auto-dismiss |
+| \`placement\` | \`string\` | Override global placement — \`'bottom-right'\` is conventional for upload toasts |
+      `
+    }
+  }
+}

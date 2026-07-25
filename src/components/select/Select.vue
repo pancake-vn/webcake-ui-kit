@@ -176,7 +176,7 @@ export default {
       default: false
     },
     listHeight: {
-      type: Number,
+      type: [Number, String],
       default: 256
     },
     mode: {
@@ -282,7 +282,8 @@ export default {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
     },
     listStyle() {
-      return { maxHeight: this.listHeight + 'px' }
+      if (typeof this.listHeight === 'number') return { maxHeight: this.listHeight + 'px' }
+      return { maxHeight: this.listHeight }
     },
     externalClass() {
       // Vue 3: class is in $attrs (inheritAttrs:false keeps it off the root)
@@ -423,9 +424,16 @@ export default {
       }
     },
     registerOption(value, label) {
+      // Guard: SelectOption.updated() calls this on every re-render. Reassigning
+      // labelCache to a new object each time invalidates dependent computeds
+      // (selectedLabel, option.isHidden), forcing another render → updated() →
+      // registerOption → … an infinite loop that lags typing in searchable mode.
+      // Skip when the label is unchanged so the reference stays stable.
+      if (this.labelCache[value] === label) return
       this.labelCache = Object.assign({}, this.labelCache, { [value]: label })
     },
     setSlotOptionVisible(value, visible) {
+      if (this.slotOptionVisible[value] === visible) return
       this.slotOptionVisible = Object.assign({}, this.slotOptionVisible, { [value]: visible })
     },
     removeSlotOption(value) {

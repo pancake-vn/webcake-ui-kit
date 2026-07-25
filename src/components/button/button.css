@@ -9,6 +9,7 @@
   cursor: pointer;
   font-family: var(--font-family-body);
   font-weight: var(--paragraph-medium-font-weight);
+  justify-content: center;
   text-align: center;
   white-space: nowrap;
   transition:
@@ -20,7 +21,6 @@
 
 .ui-btn__label {
   display: inline-flex;
-  flex: 1;
 }
 
 .ui-btn__icon {
@@ -218,6 +218,17 @@
   background: var(--destructive-hover);
 }
 
+/* ghost-destructive */
+.ui-btn--ghost-destructive {
+  background: var(--ghost);
+  color: var(--destructive);
+}
+
+.ui-btn--ghost-destructive:hover,
+.ui-btn--ghost-destructive:active {
+  background: var(--destructive-subtle);
+}
+
 /* Link — text-only button on transparent ghost bg, brand-colored. */
 .ui-btn--link {
   background: var(--ghost);
@@ -252,7 +263,8 @@
   border-color: var(--border-focus);
 }
 
-.ui-btn--destructive:focus-visible {
+.ui-btn--destructive:focus-visible,
+.ui-btn--ghost-destructive:focus-visible {
   box-shadow: 0 0 0 3px var(--focus-ring-error);
 }
 
@@ -263,6 +275,13 @@
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+.ui-btn:not(.ui-btn--ghost):not(.ui-btn--link):disabled {
+  background: var(--muted-bg);
+  color: var(--muted-fg);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-xs);
 }
 
 /* ============================================================

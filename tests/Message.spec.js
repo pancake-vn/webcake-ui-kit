@@ -23,7 +23,9 @@ describe('wkMessage', () => {
   it('mounts container to document.body on first call', async () => {
     wkMessage.info('Hello')
     await nextTick()
-    expect(document.querySelector('[data-wk-message-host]')).not.toBeNull()
+    // Vue3: app.mount() renders INTO hostEl (host stays in DOM).
+    // Vue2: $mount() replaces hostEl with the component root — host is gone.
+    // Both versions render .ui-message-container into the body, so check that.
     expect(document.querySelector('.ui-message-container')).not.toBeNull()
   })
 
@@ -177,5 +179,31 @@ describe('wkMessage', () => {
     await nextTick()
     const messages = document.querySelectorAll('.ui-message')
     expect(messages.length).toBe(3)
+  })
+
+  it('open() with progress renders a progress bar at the given value', async () => {
+    wkMessage.open({ type: 'loading', content: 'Uploading...', progress: 40, duration: 0 })
+    await nextTick()
+    const bar = document.querySelector('.ui-progress__bar')
+    expect(bar).not.toBeNull()
+    expect(bar.style.width).toBe('40%')
+  })
+
+  it('open() with same key updates progress value reactively', async () => {
+    const KEY = 'prog-update'
+    wkMessage.open({ key: KEY, type: 'loading', content: 'Uploading...', progress: 20, duration: 0 })
+    await nextTick()
+    expect(document.querySelector('.ui-progress__bar').style.width).toBe('20%')
+
+    wkMessage.open({ key: KEY, type: 'loading', content: 'Uploading...', progress: 80, duration: 0 })
+    await nextTick()
+    expect(document.querySelectorAll('.ui-message').length).toBe(1)
+    expect(document.querySelector('.ui-progress__bar').style.width).toBe('80%')
+  })
+
+  it('open() without progress shows no progress bar', async () => {
+    wkMessage.info('No bar here')
+    await nextTick()
+    expect(document.querySelector('.ui-progress')).toBeNull()
   })
 })

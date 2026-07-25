@@ -1,7 +1,7 @@
 .ui-time-panel {
   display: flex;
   gap: var(--spacing-3xs);
-  height: 200px;
+  height: 220px;
   font-family: var(--font-family-body);
 }
 

@@ -45,6 +45,10 @@
   pointer-events: none;
 }
 
+.ui-slider--neutral .ui-slider__fill {
+  background: var(--primary-fg);
+}
+
 .ui-slider--vertical .ui-slider__fill {
   top: auto;
   left: 0;
@@ -67,6 +71,10 @@
   transition: box-shadow 0.1s ease;
 }
 
+.ui-slider--neutral .ui-slider__thumb {
+  background: var(--primary-fg);
+}
+
 .ui-slider--vertical .ui-slider__thumb {
   top: auto;
   left: 50%;
@@ -77,6 +85,12 @@
   box-shadow:
     var(--shadow-xs),
     0 0 0 5px color-mix(in srgb, var(--primary-brand-bg) 20%, transparent);
+}
+
+.ui-slider--neutral .ui-slider__thumb:hover {
+  box-shadow:
+    var(--shadow-xs),
+    0 0 0 5px color-mix(in srgb, var(--primary-fg) 20%, transparent);
 }
 
 .ui-slider__thumb:focus-visible {

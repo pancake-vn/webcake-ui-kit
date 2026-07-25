@@ -48,7 +48,8 @@ export default {
     variant: {
       type: String,
       default: 'primary',
-      validator: v => ['primary', 'neutral', 'secondary', 'outline', 'ghost', 'destructive', 'link'].includes(v)
+      validator: v =>
+        ['primary', 'neutral', 'secondary', 'outline', 'ghost', 'destructive', 'link', 'ghost-destructive'].includes(v)
     },
     size: {
       type: String,

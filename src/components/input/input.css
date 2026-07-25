@@ -95,6 +95,7 @@
 /* Disabled — visual only; cursor handled by inner field. */
 .ui-input--disabled {
   opacity: 0.5;
+  background: var(--secondary-bg);
 }
 
 .ui-input--disabled:focus-within {

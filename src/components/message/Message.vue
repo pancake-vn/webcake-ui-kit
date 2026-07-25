@@ -1,25 +1,40 @@
 <template>
   <div class="ui-message" :class="`ui-message--${type}`" role="status" aria-live="polite">
-    <span class="ui-message__icon">
-      <WkSpinner v-if="type === 'loading'" size="sm" />
-      <component :is="iconComponent" v-else :size="18" />
-    </span>
-    <div class="ui-message__wrapper">
-      <span class="ui-message__content">
-        <slot>{{ content }}</slot>
+    <div class="ui-message__row">
+      <div v-if="imgSrc" class="ui-message__file-upload__preview">
+        <img :src="imgSrc" alt="" />
+      </div>
+      <span v-else class="ui-message__icon">
+        <WkSpinner v-if="type === 'loading'" size="sm" />
+        <component :is="iconComponent" v-else :size="18" />
       </span>
-      <span v-if="description" class="ui-message__description">{{ description }}</span>
+      <div class="ui-message__wrapper">
+        <span class="ui-message__content">
+          <slot>{{ content }}</slot>
+        </span>
+        <span v-if="description" class="ui-message__description">{{ description }}</span>
+      </div>
+      <WkButton
+        v-if="action"
+        size="mini"
+        :variant="progress ? 'ghost' : action.variant || 'primary'"
+        @click="handleAction"
+        :label="action.label"
+      >
+        <template #icon>
+          <WkiPause />
+        </template>
+      </WkButton>
     </div>
-    <WkButton v-if="action" size="mini" :variant="action.variant || 'primary'" @click="handleAction">{{
-      action.label
-    }}</WkButton>
+    <WkProgress v-if="progress !== null" :value="progress" />
   </div>
 </template>
 
 <script>
 import WkSpinner from '../spinner/Spinner.vue'
 import WkButton from '../button/Button.vue'
-import { WkiCircleCheck, WkiCircleX, WkiTriangleAlert, WkiInfo } from '../../icons'
+import WkProgress from '../progress/Progress.vue'
+import { WkiCircleCheck, WkiCircleX, WkiTriangleAlert, WkiInfo, WkiPause } from '../../icons'
 
 const ICON_BY_TYPE = {
   success: 'WkiCircleCheck',
@@ -30,7 +45,7 @@ const ICON_BY_TYPE = {
 
 export default {
   name: 'Message',
-  components: { WkSpinner, WkButton, WkiCircleCheck, WkiCircleX, WkiTriangleAlert, WkiInfo },
+  components: { WkSpinner, WkButton, WkProgress, WkiCircleCheck, WkiCircleX, WkiTriangleAlert, WkiInfo, WkiPause },
   props: {
     type: {
       type: String,
@@ -50,6 +65,14 @@ export default {
     action: {
       type: Object,
       default: null
+    },
+    progress: {
+      type: Number,
+      default: null
+    },
+    imgSrc: {
+      type: String,
+      default: ''
     }
   },
   emits: ['close'],
