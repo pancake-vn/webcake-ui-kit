@@ -6,12 +6,7 @@
 // its selection as ISO strings internally (stable identity, no deep-reactive
 // Day.js objects in `data`) and only converts to Date/formatted output at the
 // component boundary.
-import dayjs from 'dayjs'
-import * as _customParseFormat from 'dayjs/plugin/customParseFormat'
-import * as _localeData from 'dayjs/plugin/localeData'
-
-dayjs.extend(_customParseFormat.default || _customParseFormat)
-dayjs.extend(_localeData.default || _localeData)
+import dayjs from './dayjs.js'
 
 export const ISO = 'YYYY-MM-DD'
 
