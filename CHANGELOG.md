@@ -4,6 +4,29 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.34] - 2026-07-25
+
+### Added
+- `WkButton` gains a new `ghost-destructive` variant.
+- `WkSlider` accepts a new `variant` prop (`neutral` default, `primary`) to control its fill and thumb color.
+- `wkMessage` supports a new `progress` value to render an embedded progress bar and an `imgSrc` value to show a file-upload style image preview instead of the status icon.
+
+### Changed
+- `WkBadge`'s `primary`, `destructive`, `info`, and `warning` variants now use a subtle background with a colored border and text instead of a solid fill.
+- `WkAlertDialog` and `WkDialog` default footer action buttons render at `sm` size instead of the default size.
+- `WkMenu` no longer enforces a minimum overlay width.
+- `WkToggle`'s outlined active state gains dedicated disabled-state backgrounds instead of relying on a fixed text color override.
+- `WkTooltip` now clamps its position to stay within the viewport, adjusts its arrow to keep pointing at the trigger, and hides automatically while its trigger is scrolled out of view.
+- `WkSelect`'s `listHeight` prop now accepts a CSS size string (e.g. a percentage) in addition to a pixel number.
+
+### Fixed
+- `WkButton` disabled state now shows a consistent muted background and border across all variants except `ghost` and `link`.
+- `WkButtonGroup` keeps the correct disabled background on grouped outline buttons.
+- `WkInput` disabled state adds a muted background instead of relying on opacity alone.
+- `WkSelect` fixes an infinite update loop in searchable mode that caused typing lag when options re-registered unchanged labels or visibility.
+- `WkSelectOption` cleans up correctly when destroyed under Vue 2, preventing stale options from lingering in `WkSelect`.
+- `WkDatePicker` time panel is taller to avoid clipping its scrollable columns, and its dayjs plugin imports are adjusted for more reliable resolution across bundlers.
+
 ## [1.1.33] - 2026-07-23
 
 ### Added
