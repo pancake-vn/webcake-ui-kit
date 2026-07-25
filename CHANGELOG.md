@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.35] - 2026-07-25
+
+### Fixed
+- `WkAlertDialog` footer buttons pass their text through the `label` prop instead of default slot content, fixing label alignment and loading-state consistency with other buttons.
+- `WkDatePicker` inlines its dayjs plugin registration in each consuming file instead of a shared singleton module, for more reliable resolution across bundlers.
+
 ## [1.1.34] - 2026-07-25
 
 ### Added
