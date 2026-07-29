@@ -134,13 +134,13 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 20px;
+  min-width: 20px;
   height: 20px;
   color: var(--muted-fg);
 }
 
 .ui-input-number--size-xs .ui-input-number__decoration,
 .ui-input-number--size-tiny .ui-input-number__decoration {
-  width: 16px;
+  min-width: 16px;
   height: 16px;
 }

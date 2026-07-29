@@ -69,20 +69,12 @@ export const AllVariants = () => ({
       
       <div style="display:flex;flex-direction:column;gap:8px;">
         <span style="color:#6b7280;font-size:13px;font-weight:500;">Icon Only</span>
-        <WkTabs size="sm" value="activity" :tabs="iconOnly">
-          <template #icon="{ tab }">
-            <component :is="tab.icon" :size="20" />
-          </template>
-        </WkTabs>
+        <WkTabs size="sm" value="activity" :tabs="iconOnly" />
       </div>
 
       <div style="display:flex;flex-direction:column;gap:8px;">
         <span style="color:#6b7280;font-size:13px;font-weight:500;">Label + Icon</span>
-        <WkTabs size="sm" value="settings" :tabs="labelAndIcon">
-          <template #icon="{ tab }">
-            <component :is="tab.icon" :size="20" />
-          </template>
-        </WkTabs>
+        <WkTabs size="sm" value="settings" :tabs="labelAndIcon" />
       </div>
     </div>
   `

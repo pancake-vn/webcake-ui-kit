@@ -18,7 +18,7 @@
         <slot name="label" :tab="tab">
           <span v-if="tab.icon" class="ui-tabs__icon">
             <slot name="icon" :tab="tab">
-              <component :is="tab.icon" />
+              <component :is="tab.icon" :size="iconSize[size]" />
             </slot>
           </span>
           <span v-if="tab.label" class="ui-tabs__label">{{ tab.label }}</span>
@@ -36,6 +36,17 @@ export default {
   model: {
     prop: 'value',
     event: 'input'
+  },
+
+  data() {
+    return {
+      iconSize: {
+        xs: 14,
+        sm: 16,
+        md: 16,
+        lg: 20
+      }
+    }
   },
 
   props: {

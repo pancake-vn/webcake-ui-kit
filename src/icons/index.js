@@ -1744,5 +1744,9 @@ export { default as WkiColumns3Add } from './Columns3Add.vue'
 export { default as WkiFrameCorners } from './FrameCorners.vue'
 export { default as WkiFrameCornersDash } from './FrameCornersDash.vue'
 export { default as WkiOpacity } from './Opacity.vue'
+export { default as WkiDistanceLeft } from './DistanceLeft.vue'
+export { default as WkiDistanceBottom } from './DistanceBottom.vue'
+export { default as WkiLineHeight } from './LineHeight.vue'
+export { default as WkiStrokeWeight } from './StrokeWeight.vue'
 
 // --- AUTO-GENERATED LUCIDE EXPORTS END ---
