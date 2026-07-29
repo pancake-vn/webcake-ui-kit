@@ -4,6 +4,20 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.38] - 2026-07-29
+
+### Added
+- `WkSelect` accepts a new `dropdownMatchSelectWidth` prop to control whether its dropdown overlay matches the trigger width.
+- `WkDatePicker` accepts a new `showYearJump` prop to control the year navigation in its calendar panel header.
+- New `WkiDistanceLeft`, `WkiDistanceBottom`, `WkiLineHeight`, and `WkiStrokeWeight` icons.
+
+### Fixed
+- `WkDatePicker` applies its root class to the trigger element instead of the underlying `WkMenu`, fixing trigger styling, and its calendar body is now centered.
+- `WkDatePicker`'s month dropdown in the panel header no longer stretches to match the select's width, preventing overflow in the calendar header.
+- `WkInputNumber`'s prefix/suffix decoration no longer clips wider icon content.
+- `WkTabs` icons now scale with the `size` prop instead of rendering at a fixed size.
+- `WkTooltip` fixes an incorrect width/height measurement on first open.
+
 ## [1.1.37] - 2026-07-25
 
 ### Fixed
