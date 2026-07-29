@@ -17,6 +17,7 @@
             size="xs"
             :value="String(panel.month)"
             :options="monthOptions"
+            :dropdown-match-select-width="false"
             @change="m => $emit('set-month', { index: i, month: Number(m) })"
           />
         </span>

@@ -1,6 +1,5 @@
 <template>
   <Menu
-    class="ui-date-picker"
     :open="isOpen"
     :placement="placement"
     :offset="6"
@@ -14,8 +13,13 @@
     <template #trigger="{ triggerRef, attrs }">
       <div
         :ref="triggerRef"
-        class="ui-date-picker__trigger"
-        :class="[`ui-date-picker__trigger--${size}`, disabled && 'is-disabled', isOpen && 'is-focus']"
+        :class="[
+          'ui-date-picker',
+          'ui-date-picker__trigger',
+          `ui-date-picker__trigger--${size}`,
+          disabled && 'is-disabled',
+          isOpen && 'is-focus'
+        ]"
         v-bind="attrs"
         :tabindex="disabled ? -1 : 0"
         role="combobox"
@@ -76,6 +80,7 @@
       :today-text="todayText"
       :clear-text="clearText"
       :confirm-text="confirmText"
+      :show-year-jump="showYearJump"
       @prev="shiftMonth(-1)"
       @next="shiftMonth(1)"
       @prev-year="shiftYear(-1)"
@@ -181,7 +186,8 @@ export default {
     },
     todayText: { type: String, default: 'Today' },
     clearText: { type: String, default: 'Clear' },
-    confirmText: { type: String, default: 'OK' }
+    confirmText: { type: String, default: 'OK' },
+    showYearJump: { type: Boolean, default: true }
   },
   emits: [
     'change',

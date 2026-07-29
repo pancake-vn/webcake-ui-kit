@@ -4,7 +4,7 @@
     :disabled="disabled || loading"
     placement="bottom-start"
     :offset="4"
-    :anchor-width="true"
+    :anchor-width="dropdownMatchSelectWidth"
     :close-on-select="false"
     @change="onMenuChange"
     @close="onMenuClose"
@@ -195,7 +195,8 @@ export default {
       default: null
     },
     overlayClassName: { type: [String, Array, Object], default: null },
-    overlayStyle: { type: [Object, Array], default: null }
+    overlayStyle: { type: [Object, Array], default: null },
+    dropdownMatchSelectWidth: { type: Boolean, default: true }
   },
 
   emits: ['change', 'update:modelValue'],

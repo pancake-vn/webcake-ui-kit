@@ -109,9 +109,20 @@
   }
 }
 
+.ui-tabs--lg .ui-tabs__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.ui-tabs--sm .ui-tabs__icon,
+.ui-tabs--md .ui-tabs__icon {
+  width: 16px;
+  height: 16px;
+}
+
 .ui-tabs--xs .ui-tabs__icon {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
 }
 
 .ui-tabs__label {

@@ -17,6 +17,7 @@
 .ui-cal-panel__body {
   display: flex;
   gap: var(--spacing-lg);
+  justify-content: center;
 }
 
 /* Months sit side by side; each grid is 7×36px wide. */

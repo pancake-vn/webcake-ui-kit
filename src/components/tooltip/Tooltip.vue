@@ -151,6 +151,11 @@ export default {
       const trigger = this.$refs.trigger
       const tip = this.$refs.tooltip
       if (!trigger || !tip) return
+      // On first open positionStyle is {} so the element has CSS position:relative
+      // inside the portal root (width:0). That makes inline-flex shrink to
+      // min-content width instead of maxWidth, giving wrong offsetWidth/offsetHeight.
+      // Force fixed here so the viewport is the containing block before we measure.
+      tip.style.position = 'fixed'
       const t = trigger.getBoundingClientRect()
       const tw = tip.offsetWidth
       const th = tip.offsetHeight
