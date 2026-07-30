@@ -1,6 +1,6 @@
 <template>
   <nav class="ui-pagination" role="navigation" :aria-label="ariaLabel" :class="{ 'ui-pagination--disabled': disabled }">
-    <Button variant="ghost" :disabled="isPrevDisabled" @click="goPrev" :label="prevLabel || ''">
+    <Button variant="ghost" :size="size" :disabled="isPrevDisabled" @click="goPrev" :label="prevLabel || ''">
       <template v-if="showIcon" #icon-left>
         <WkiChevronLeft />
       </template>
@@ -11,6 +11,7 @@
         v-if="typeof item === 'number'"
         :key="'page-' + item"
         :variant="currentPage === item ? 'outline' : 'ghost'"
+        :size="size"
         :disabled="disabled"
         @click="select(item)"
       >
@@ -20,6 +21,7 @@
         v-else
         :key="`ellipsis-${idx}-${item}`"
         variant="ghost"
+        :size="size"
         :disabled="disabled"
         @click="onEllipsisClick(item)"
       >
@@ -29,7 +31,7 @@
       </Button>
     </template>
 
-    <Button variant="ghost" :disabled="isNextDisabled" @click="goNext" :label="nextLabel || ''">
+    <Button variant="ghost" :size="size" :disabled="isNextDisabled" @click="goNext" :label="nextLabel || ''">
       <template v-if="showIcon" #icon-right>
         <WkiChevronRight />
       </template>
@@ -71,7 +73,14 @@ export default {
     ariaLabel: { type: String, default: 'Pagination' },
     pageAriaLabel: { type: Function, default: null },
     disabled: { type: Boolean, default: false },
-    jumpStep: { type: Number, default: 4 }
+    jumpStep: { type: Number, default: 4 },
+    size: {
+      type: String,
+      default: 'sm',
+      validator: function (v) {
+        return ['mini', 'xs', 'sm', 'md', 'lg', 'xl'].includes(v)
+      }
+    }
   },
 
   emits: ['change', 'update:modelValue'],
