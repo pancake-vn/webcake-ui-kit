@@ -4,6 +4,11 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-07-30
+
+### Added
+- `WkPagination` accepts a new `size` prop to control its navigation button size, accepting the same values as `WkButton` (`mini`, `xs`, `sm`, `md`, `lg`, `xl`) and defaulting to `sm`.
+
 ## [1.1.38] - 2026-07-29
 
 ### Added
