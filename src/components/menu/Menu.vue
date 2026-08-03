@@ -65,6 +65,8 @@ export default {
     offset: { type: Number, default: 4 },
     closeOnSelect: { type: Boolean, default: true },
     closeOnEsc: { type: Boolean, default: true },
+    closeOnTab: { type: Boolean, default: true },
+    autoFocus: { type: Boolean, default: true },
     disabled: { type: Boolean, default: false },
     persistent: { type: Boolean, default: false },
     anchorWidth: { type: Boolean, default: false },
@@ -196,7 +198,7 @@ export default {
         this._kmSetFloatEl(float)
         this._pmAttach(this._triggerEl, float)
         this._coAttach()
-        this._fmFocus(float)
+        if (this.autoFocus) this._fmFocus(float)
       })
     },
     handleClose() {
@@ -212,7 +214,7 @@ export default {
       if (this.closeOnEsc) this.closeMenu()
     },
     _kmOnTab() {
-      this.closeMenu()
+      if (this.closeOnTab) this.closeMenu()
     },
     _coOnOutside() {
       if (this.persistent) return

@@ -139,6 +139,7 @@
   },
   "homepage": "https://ui.webcake.io",
   "dependencies": {
-    "dayjs": "^1.11.21"
+    "dayjs": "^1.11.21",
+    "vuedraggable": "^2.24.3"
   }
 }

@@ -10,7 +10,7 @@
       @change="onChange"
     />
     <span class="ui-checkbox__box" aria-hidden="true">
-      <WkiCheck v-if="isChecked" :size="16" />
+      <WkiCheck v-if="isChecked" :size="14" />
     </span>
   </span>
 </template>

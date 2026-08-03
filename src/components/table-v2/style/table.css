@@ -1,0 +1,5 @@
+.ui-table-v2 {
+  width: 100%;
+  font-family: var(--font-family-body);
+  color: var(--primary-fg);
+}

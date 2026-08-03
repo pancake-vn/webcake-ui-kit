@@ -2,26 +2,28 @@
   <Menu
     :open="isOpen"
     :placement="placement"
-    :offset="4"
+    :offset="offset"
     :close-on-esc="closeOnEsc"
+    :close-on-tab="false"
     :disabled="disabled"
     :persistent="persistent"
-    @change="onMenuChange"
-    @open="$emit('open')"
-    @close="$emit('close')"
+    :anchor-width="anchorWidth"
     :width="width"
     :overlay-class-name="overlayClassName"
     :overlay-style="overlayStyle"
+    @change="onOpenChange"
+    @open="$emit('open')"
+    @close="$emit('close')"
   >
     <template #trigger="{ triggerRef }">
       <span
         :ref="triggerRef"
-        class="ui-dropdown__anchor"
-        @click="triggerHasClick && handleClick()"
+        class="ui-popover__anchor"
+        @click="triggerHasClick && toggle()"
         @mouseenter="triggerHasHover && handleMouseEnter()"
         @mouseleave="triggerHasHover && handleMouseLeave()"
       >
-        <slot></slot>
+        <slot name="trigger" :is-open="isOpen"></slot>
       </span>
     </template>
     <div
@@ -29,22 +31,13 @@
       @mouseenter="triggerHasHover && handleMouseEnter()"
       @mouseleave="triggerHasHover && handleMouseLeave()"
     >
-      <DropdownMenuItems
-        v-if="hasItems"
-        :items="items"
-        :value="value"
-        @select="onItemSelect"
-        :size="size"
-        :showChecked="showChecked"
-      />
-      <slot v-else name="overlay"></slot>
+      <slot :close="close" :is-open="isOpen"></slot>
     </div>
   </Menu>
 </template>
 
 <script>
 import Menu from '../menu/Menu.vue'
-import DropdownMenuItems from './DropdownMenuItems.vue'
 
 const PLACEMENTS = [
   'top',
@@ -62,8 +55,8 @@ const PLACEMENTS = [
 ]
 
 export default {
-  name: 'Dropdown',
-  components: { Menu, DropdownMenuItems },
+  name: 'Popover',
+  components: { Menu },
   model: { prop: 'open', event: 'change' },
   props: {
     open: { type: Boolean, default: false },
@@ -73,36 +66,23 @@ export default {
       default: 'bottom-start',
       validator: v => PLACEMENTS.indexOf(v) !== -1
     },
-    closeOnEsc: { type: Boolean, default: true },
-    disabled: { type: Boolean, default: false },
-    width: { type: [String, Number], default: 280 },
+    offset: { type: Number, default: 8 },
+    // 'click', 'hover', or both
     trigger: {
       type: Array,
       default: function () {
         return ['click']
       }
     },
-    items: {
-      type: Array,
-      default: function () {
-        return []
-      }
-    },
-    value: {
-      type: [String, Array],
-      default: null
-    },
-    size: {
-      type: String,
-      default: 'md',
-      validator: v => ['sm', 'md', 'lg'].includes(v)
-    },
+    closeOnEsc: { type: Boolean, default: true },
+    disabled: { type: Boolean, default: false },
+    persistent: { type: Boolean, default: false },
+    anchorWidth: { type: Boolean, default: false },
+    width: { type: [String, Number], default: null },
     overlayClassName: { type: [String, Array, Object], default: null },
-    overlayStyle: { type: [Object, Array], default: null },
-    showChecked: { type: Boolean, default: false },
-    persistent: { type: Boolean, default: false }
+    overlayStyle: { type: [Object, Array], default: null }
   },
-  emits: ['change', 'update:modelValue', 'open', 'close', 'select'],
+  emits: ['change', 'update:modelValue', 'open', 'close'],
   data() {
     return {
       isOpen: this.modelValue !== undefined ? this.modelValue : this.open
@@ -114,9 +94,6 @@ export default {
     },
     triggerHasHover() {
       return this.trigger.indexOf('hover') !== -1
-    },
-    hasItems() {
-      return Array.isArray(this.items) && this.items.length > 0
     }
   },
   watch: {
@@ -128,14 +105,17 @@ export default {
     }
   },
   methods: {
-    onMenuChange(v) {
+    onOpenChange(v) {
       this.isOpen = v
       this.$emit('change', v)
       this.$emit('update:modelValue', v)
     },
-    handleClick() {
+    toggle() {
       if (this.disabled) return
-      this.onMenuChange(!this.isOpen)
+      this.onOpenChange(!this.isOpen)
+    },
+    close() {
+      this.onOpenChange(false)
     },
     handleMouseEnter() {
       if (this.disabled) return
@@ -143,16 +123,12 @@ export default {
         clearTimeout(this._hoverTimer)
         this._hoverTimer = null
       }
-      this.onMenuChange(true)
+      this.onOpenChange(true)
     },
     handleMouseLeave() {
       this._hoverTimer = setTimeout(() => {
-        this.onMenuChange(false)
+        this.onOpenChange(false)
       }, 80)
-    },
-    onItemSelect(key) {
-      this.$emit('select', key)
-      this.onMenuChange(false)
     }
   },
   beforeUnmount() {
@@ -165,4 +141,4 @@ export default {
 }
 </script>
 
-<style src="./dropdown.css" scoped></style>
+<style src="./popover.css" scoped></style>

@@ -1,0 +1,209 @@
+/* Shell — mirrors the vetted Input/InputNumber shell so the counter sits
+   consistently alongside the other form controls. */
+.ui-input-counter {
+  display: inline-flex;
+  align-items: center;
+  background: var(--input);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-xs);
+  font-family: var(--font-family-body);
+  color: var(--primary-fg);
+  transition:
+    border-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+/* Size — heights, paddings, gaps, typography. Right padding is trimmed vs the
+   plain input because the stepper buttons occupy the trailing edge. */
+.ui-input-counter--size-md {
+  height: 36px;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-7p5) var(--spacing-xs) var(--spacing-7p5) var(--spacing-sm);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+
+.ui-input-counter--size-lg {
+  height: 40px;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-9p5) var(--spacing-6) var(--spacing-9p5) var(--spacing-md);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+
+.ui-input-counter--size-sm {
+  height: 32px;
+  gap: var(--spacing-6);
+  padding: var(--spacing-5p5) var(--spacing-6) var(--spacing-5p5) var(--spacing-xs);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+
+.ui-input-counter--size-xs {
+  height: 28px;
+  gap: var(--spacing-6);
+  padding: var(--spacing-2xs) var(--spacing-2xs) var(--spacing-2xs) var(--spacing-6);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+
+.ui-input-counter--size-tiny {
+  height: 24px;
+  gap: var(--spacing-2xs);
+  padding: var(--spacing-2xs) var(--spacing-2xs) var(--spacing-2xs) var(--spacing-6);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+
+/* Roundness — Mini uses the smaller default radius per Figma (rounded-xl → radius). */
+.ui-input-counter--round-default {
+  border-radius: var(--rounded-xl);
+}
+
+.ui-input-counter--size-xs.ui-input-counter--round-default {
+  border-radius: var(--radius);
+}
+
+.ui-input-counter--size-tiny.ui-input-counter--round-default {
+  border-radius: var(--rounded-lg);
+}
+
+.ui-input-counter--round-round {
+  border-radius: var(--rounded-full);
+}
+
+/* Focus (interactive) — wrapper highlights when the inner field is focused. */
+.ui-input-counter:focus-within {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+/* Error (logical) — red border, no base shadow. */
+.ui-input-counter--error {
+  border-color: var(--destructive-border);
+  box-shadow: none;
+}
+
+.ui-input-counter--error:focus-within {
+  border-color: var(--destructive-border);
+  box-shadow: 0 0 0 3px var(--focus-ring-error);
+}
+
+/* Disabled — visual only; buttons + field carry their own disabled state. */
+.ui-input-counter--disabled {
+  opacity: 0.5;
+  background: var(--secondary-bg);
+}
+
+.ui-input-counter--disabled:focus-within {
+  border-color: var(--border-primary);
+  box-shadow: var(--shadow-xs);
+}
+
+/* Left group — prefix + field + suffix, grows to fill available width. */
+.ui-input-counter__main {
+  display: inline-flex;
+  align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+  gap: var(--spacing-2xs);
+  overflow: hidden;
+}
+
+/* The native input — strips browser chrome and inherits typography from shell. */
+.ui-input-counter__field {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.ui-input-counter__field::-webkit-inner-spin-button,
+.ui-input-counter__field::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.ui-input-counter__field::placeholder {
+  color: var(--muted-fg);
+  opacity: 1;
+}
+
+.ui-input-counter__field:disabled {
+  cursor: not-allowed;
+}
+
+/* Decoration slot wrappers — prepend/append hints, muted like the placeholder. */
+.ui-input-counter__decoration {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--muted-fg);
+}
+
+/* Stepper group — two segmented mini buttons pinned to the trailing edge. */
+.ui-input-counter__controls {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--spacing-2xs);
+}
+
+.ui-input-counter__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: var(--input);
+  color: var(--secondary-fg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-lg);
+  cursor: pointer;
+  transition:
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.ui-input-counter__btn > svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.ui-input-counter__btn:hover {
+  background: var(--ghost-hover);
+}
+
+.ui-input-counter__btn:active {
+  background: var(--secondary-bg);
+}
+
+.ui-input-counter__btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.ui-input-counter__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

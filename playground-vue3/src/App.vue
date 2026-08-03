@@ -190,7 +190,7 @@
           <WkAvatar src="https://i.pravatar.cc/80?img=12" alt="User 1" />
           <WkAvatar src="https://i.pravatar.cc/80?img=14" alt="User 2" roundness="roundrect" />
           <WkAvatar src="https://i.pravatar.cc/80?img=15" alt="User 3" online />
-          <WkAvatar src="https://broken-url-fallback-test.invalid/x.png" alt="Falls back to initials" name="FB" />
+          <!-- <WkAvatar src="https://broken-url-fallback-test.invalid/x.png" alt="Falls back to initials" name="FB" /> -->
         </div>
       </section>
 
@@ -321,12 +321,17 @@
       <section class="section">
         <h2>Field — Vertical layout (wraps existing inputs)</h2>
         <div class="field-grid">
-          <WkField label="Label">
+          <WkField label="Label" help-text="aloooo">
             <WkInput v-model="fieldText" type="time" step="1" placeholder="Value">
-              <template #prefix>
-                <WkiChessBishop :size="16" />
-              </template>
+              <template #prefix> fjasjfkkjsafkjsaf </template>
             </WkInput>
+            <template #message-icon>&nbsp;</template>
+          </WkField>
+          <WkField label="Label">
+            <WkInputNumber v-model="fieldText" placeholder="Value" size="xs">
+              <template #prefix> fjasjfkkjsafkjsaf </template>
+              <template #suffix> hsdhjfshjdf </template>
+            </WkInputNumber>
           </WkField>
           <WkField label="Label">
             <WkSelect :value="fieldSelect" @change="fieldSelect = $event">
@@ -457,7 +462,6 @@
             side="right"
             title="To learn more about how this works, check out the docs. If you have any questions, please reach out to us."
             :max-width="205"
-            :open="tooltipsPinned"
           >
             <WkButton variant="outline">Export File</WkButton>
           </WkTooltip>
@@ -804,7 +808,22 @@
       <section class="section">
         <h2>Date Picker</h2>
         <div class="dp-grid">
-          <label>Single<WkDatePicker v-model="dpSingle" /></label>
+          <label>single</label>
+
+          <div :style="{ width: '500px' }">
+            <WkDatePicker v-model="dpSingle" />
+            <WkSelect :value="fieldSelect" @change="fieldSelect = $event">
+              <WkSelectOption v-for="opt in fieldOptions" :key="opt.value" :value="opt.value" size="lg">
+                <template #prefix>
+                  <WkiChessBishop :size="16" />
+                </template>
+                {{ opt.label }}
+                <template #suffix>
+                  <span>USD</span>
+                </template>
+              </WkSelectOption>
+            </WkSelect>
+          </div>
           <label>Range<WkDatePicker v-model="dpRange" mode="range" :months="2" placement="center" /></label>
           <label>Multiple<WkDatePicker v-model="dpMultiple" mode="multiple" :max-count="2" /></label>
           <label>Date + time<WkDatePicker v-model="dpDateTime" show-time /></label>
@@ -820,6 +839,248 @@
           <div>multiple: {{ dpMultiple }}</div>
           <div>date+time: {{ dpDateTime }}</div>
         </div>
+      </section>
+
+      <section class="section">
+        <h2>Tabs — all sizes</h2>
+        <div class="stack">
+          <div v-for="s in tabsSizes" :key="s" class="row">
+            <span class="row__item" style="width: 32px">{{ s }}</span>
+            <WkTabs :tabs="tabsItems" :value="tabsValue[s]" :size="s" @change="tabsValue[s] = $event" />
+            <code style="font-size: 11px">{{ tabsValue[s] }}</code>
+          </div>
+        </div>
+
+        <h2 style="margin-top: 24px">Tabs — icon-only</h2>
+        <div class="stack">
+          <div v-for="s in tabsSizes" :key="'icon-' + s" class="row">
+            <span class="row__item" style="width: 32px">{{ s }}</span>
+            <WkTabs :tabs="tabsIconItems" :value="tabsIconValue[s]" :size="s" @change="tabsIconValue[s] = $event" />
+          </div>
+        </div>
+
+        <h2 style="margin-top: 24px">Tabs — with counter &amp; disabled</h2>
+        <WkTabs :tabs="tabsCounterItems" :value="tabsCounterValue" @change="tabsCounterValue = $event" />
+
+        <h2 style="margin-top: 24px">Tabs — stretch</h2>
+        <WkTabs
+          :tabs="tabsItems"
+          :value="tabsStretchValue"
+          stretch-items
+          @change="tabsStretchValue = $event"
+          style="max-width: 480px"
+        />
+      </section>
+
+      <section class="section">
+        <h2>Table V2 — base (header + body)</h2>
+        <WkTableV2
+          :emptyText="'sjdfljskdfljs'"
+          bordered
+          enableFixedLeft
+          :columns="tableV2Columns"
+          :data-source="tableV2Data"
+          :scroll="{ y: 300, x: 2000 }"
+          :rowSelection="rowSelection"
+          :rowDraggable="rowDraggable"
+          :custom-row="tableV2CustomRow"
+          :custom-header-row="tableV2CustomHeaderRow"
+        >
+          <template #bodyCell="{ column, text, record }">
+            <template v-if="column.dataIndex === 'name'">
+              <div style="display: flex; align-items: center; gap: 8px">
+                <WkAvatar :src="record?.avatar" :name="record?.name" size="small" />
+                <span>{{ text }}</span>
+              </div>
+            </template>
+            <template v-else-if="column.dataIndex === 'status'">
+              <!-- <span
+                :style="{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '2px 10px',
+                  borderRadius: '999px',
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  background: text === 'Active' ? 'var(--success-muted, #dcfce7)' : 'var(--neutral-muted, #f4f4f5)',
+                  color: text === 'Active' ? 'var(--success-fg, #16a34a)' : 'var(--muted-fg, #71717a)'
+                }"
+                >{{ text }}</span
+              > -->
+
+              <WkBadge :variant="text === 'Active' ? 'primary' : 'secondary'" :label="text" />
+            </template>
+            <template v-else-if="column.dataIndex === 'action'">
+              <WkDropdown :items="tableV2ActionItems" @select="handleTableV2Action($event, record)">
+                <WkTooltip title="Actions" side="top">
+                  <button
+                    type="button"
+                    style="
+                      background: none;
+                      border: none;
+                      cursor: pointer;
+                      padding: 4px 8px;
+                      border-radius: 4px;
+                      color: var(--fg);
+                      font-size: 18px;
+                      line-height: 1;
+                    "
+                  >
+                    ···
+                  </button>
+                </WkTooltip>
+              </WkDropdown>
+            </template>
+          </template>
+        </WkTableV2>
+      </section>
+
+      <section class="section">
+        <h2>Input Counter — sizes × states</h2>
+        <div style="display: flex; flex-direction: column; gap: 16px; max-width: 360px">
+          <div v-for="s in ['xs', 'sm', 'md', 'lg']" :key="s" style="display: flex; align-items: center; gap: 12px">
+            <span style="width: 32px; font-size: 12px; color: var(--muted-fg)">{{ s }}</span>
+            <WkInputCounter :size="s" v-model="icQty" :min="0" :step="10" placeholder="Qty" />
+          </div>
+          <WkInputCounter v-model="icQty" placeholder="Prefix / suffix">
+            <template #prefix><span>$</span></template>
+            <template #suffix><span>USD</span></template>
+          </WkInputCounter>
+          <WkInputCounter :value="5" error placeholder="Error" />
+          <WkInputCounter :value="5" disabled placeholder="Disabled" />
+          <WkInputCounter v-model="icQty" roundness="round" placeholder="Round" />
+          <code style="font-size: 11px">qty = {{ icQty }}</code>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Popover — trigger: click (default)</h2>
+        <div class="row">
+          <WkPopover :width="300">
+            <template #trigger>
+              <button type="button" class="wk-demo-trigger">Filters (click)</button>
+            </template>
+            <template #default="{ close }">
+              <strong>Filter results</strong>
+              <label style="display: flex; gap: 8px; align-items: center">
+                <input type="checkbox" /> Only active
+              </label>
+              <label style="display: flex; gap: 8px; align-items: center">
+                <input type="checkbox" /> Include archived
+              </label>
+              <input
+                type="text"
+                placeholder="Search by name…"
+                style="width: 100%; box-sizing: border-box; padding: 6px 8px"
+              />
+              <div style="display: flex; justify-content: flex-end; gap: 8px">
+                <button type="button" class="wk-demo-trigger" @click="close">Apply</button>
+              </div>
+            </template>
+          </WkPopover>
+        </div>
+
+        <h2>Popover — trigger: hover</h2>
+        <div class="row">
+          <WkPopover :trigger="['hover']" :width="260" placement="bottom-start">
+            <template #trigger>
+              <button type="button" class="wk-demo-trigger">Settings (hover)</button>
+            </template>
+            <strong>Quick settings</strong>
+            <label style="display: flex; gap: 8px; align-items: center"> <input type="checkbox" /> Dark mode </label>
+            <label style="display: flex; gap: 8px; align-items: center">
+              <input type="checkbox" /> Notifications
+            </label>
+          </WkPopover>
+        </div>
+
+        <h2>Popover — trigger: click + hover</h2>
+        <div class="row">
+          <WkPopover :trigger="['click', 'hover']" :width="240" placement="bottom-start">
+            <template #trigger>
+              <button type="button" class="wk-demo-trigger">More options (click or hover)</button>
+            </template>
+            <span>Option A</span>
+            <span>Option B</span>
+            <span>Option C</span>
+          </WkPopover>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>HoverCard — trigger: hover (default)</h2>
+        <div class="row">
+          <WkHoverCard :width="500" placement="bottom-start">
+            <template #trigger>
+              <a href="#" class="wk-demo-trigger" @click.prevent>@webcake-ui (hover)</a>
+            </template>
+            <div style="display: flex; gap: 12px; align-items: center">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-bg)"></div>
+              <div>
+                <div style="font-weight: 600">Webcake UI Kit</div>
+                <div style="font-size: 12px; color: var(--muted-fg)">Dual-compat Vue 2 + Vue 3 components</div>
+              </div>
+            </div>
+          </WkHoverCard>
+        </div>
+
+        <h2>HoverCard — trigger: click</h2>
+        <div class="row">
+          <WkHoverCard :trigger="['click']" :width="260" placement="bottom-start">
+            <template #trigger>
+              <a href="#" class="wk-demo-trigger" @click.prevent>@webcake-ui (click)</a>
+            </template>
+            <div style="display: flex; gap: 12px; align-items: center">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-bg)"></div>
+              <div>
+                <div style="font-weight: 600">Webcake UI Kit</div>
+                <div style="font-size: 12px; color: var(--muted-fg)">Click-to-pin preview card</div>
+              </div>
+            </div>
+          </WkHoverCard>
+        </div>
+
+        <h2>HoverCard — trigger: click + hover</h2>
+        <div class="row">
+          <WkHoverCard :trigger="['click', 'hover']" :width="260" placement="bottom-start">
+            <template #trigger>
+              <a href="#" class="wk-demo-trigger" @click.prevent>@webcake-ui (click or hover)</a>
+            </template>
+            <div style="display: flex; gap: 12px; align-items: center">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-bg)"></div>
+              <div>
+                <div style="font-weight: 600">Webcake UI Kit</div>
+                <div style="font-size: 12px; color: var(--muted-fg)">Hover to preview, click to pin</div>
+              </div>
+            </div>
+          </WkHoverCard>
+        </div>
+      </section>
+
+      <section class="demo-section" style="padding: 48px 32px">
+        <h2>Drawer</h2>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap">
+          <WkButton size="sm" @click="((drawerPlacement = 'bottom'), (drawerOpen = true))">Bottom</WkButton>
+          <WkButton size="sm" @click="((drawerPlacement = 'top'), (drawerOpen = true))">Top</WkButton>
+          <WkButton size="sm" @click="((drawerPlacement = 'left'), (drawerOpen = true))">Left</WkButton>
+          <WkButton size="sm" @click="((drawerPlacement = 'right'), (drawerOpen = true))">Right</WkButton>
+          <WkButton size="sm" variant="outline" @click="drawerHandle = !drawerHandle">
+            Handle: {{ drawerHandle ? 'on' : 'off' }}
+          </WkButton>
+        </div>
+        <WkDrawer
+          :open="drawerOpen"
+          :placement="drawerPlacement"
+          :showHandle="drawerHandle"
+          :blur="4"
+          @change="drawerOpen = $event"
+        >
+          <div style="display: flex; flex-direction: column; gap: 12px; padding: 24px; min-height: 500px">
+            <h3 style="margin: 0">{{ drawerPlacement }} drawer</h3>
+            <p style="margin: 0">Drag the handle, press Esc, or click the backdrop to close.</p>
+            <WkButton size="sm" @click="drawerOpen = false">Close</WkButton>
+          </div>
+        </WkDrawer>
       </section>
     </div>
   </div>
@@ -843,6 +1104,10 @@ export default {
   data() {
     const _now = new Date()
     return {
+      drawerOpen: false,
+      drawerPlacement: 'bottom',
+      drawerHandle: true,
+      icQty: 3,
       dpSingle: null,
       dpRange: [],
       dpMultiple: [],
@@ -853,6 +1118,203 @@ export default {
       dpSelects: null,
       dpMin: new Date(_now.getFullYear(), _now.getMonth(), 1),
       dpMax: new Date(_now.getFullYear(), _now.getMonth() + 1, 0),
+      tabsSizes: ['xs', 'sm', 'md', 'lg'],
+      tabsValue: { xs: 'inbox', sm: 'inbox', md: 'inbox', lg: 'inbox' },
+      tabsIconValue: { xs: 'a', sm: 'a', md: 'a', lg: 'a' },
+      tabsCounterValue: 'inbox',
+      tabsStretchValue: 'inbox',
+      tabsItems: [
+        { value: 'inbox', label: 'Inbox', counter: 5 },
+        { value: 'sent', label: 'Sent' },
+        { value: 'drafts', label: 'Drafts' },
+        { value: 'archived', label: 'Archived', disabled: true }
+      ],
+      tabsIconItems: [
+        { value: 'a', icon: WkiChessBishop },
+        { value: 'b', icon: WkiChessBishop },
+        { value: 'c', icon: WkiChessBishop }
+      ],
+      tabsCounterItems: [
+        { value: 'inbox', label: 'Inbox', counter: 12, icon: WkiChessBishop },
+        { value: 'sent', label: 'Sent', icon: WkiChessBishop },
+        { value: 'spam', label: 'Spam', counter: 3, icon: WkiChessBishop },
+        { value: 'trash', label: 'Trash', disabled: true }
+      ],
+      tableV2Columns: [
+        { title: 'Name', dataIndex: 'name', width: 180, ellipsis: true, resizable: true, maxWidth: 250 },
+        { title: 'Age', dataIndex: 'age', align: 'center', width: 80, resizable: true },
+        { title: 'Email', dataIndex: 'email', width: 220, ellipsis: true, resizable: true },
+        { title: 'Phone', dataIndex: 'phone', width: 140, resizable: true },
+        { title: 'Company', dataIndex: 'company', width: 180, ellipsis: true, resizable: true },
+        { title: 'Status', dataIndex: 'status', align: 'center', width: 100, resizable: true },
+        { title: 'Score', dataIndex: 'score', align: 'right', width: 90, resizable: true },
+        { title: 'Address', dataIndex: 'address', width: 260, ellipsis: true, resizable: true },
+        { title: 'Joined', dataIndex: 'joined', align: 'center', width: 120, fixed: 'right', resizable: true },
+        { title: 'Action', dataIndex: 'action', align: 'center', width: 50, fixed: 'right' }
+      ],
+      tableV2Data: [
+        {
+          key: '1',
+          name: 'Edward King',
+          avatar: 'https://i.pravatar.cc/80?img=1',
+          age: 32,
+          email: 'edward@example.com',
+          phone: '+1 202-555-0101',
+          company: 'Acme Corp',
+          status: 'Active',
+          score: 87,
+          address: 'London, Park Lane no. 0',
+          joined: '2021-03-15'
+        },
+        {
+          key: '2',
+          name: 'Jim Green',
+          avatar: 'https://i.pravatar.cc/80?img=2',
+          age: 42,
+          email: 'jim.green@example.com',
+          phone: '+1 202-555-0132',
+          company: 'Globex',
+          status: 'Inactive',
+          score: 54,
+          address: 'Sydney No. 1 Lake Park',
+          joined: '2019-07-22'
+        },
+        {
+          key: '3',
+          name: 'Joe Black',
+          avatar: 'https://i.pravatar.cc/80?img=3',
+          age: 28,
+          email: 'joe.black@example.com',
+          phone: '+1 202-555-0178',
+          company: 'Initech',
+          status: 'Active',
+          score: 91,
+          address: 'Tokyo No. 2 Center St',
+          joined: '2022-11-01'
+        },
+        {
+          key: '4',
+          name: 'Sara Mills',
+          avatar: 'https://i.pravatar.cc/80?img=4',
+          age: 35,
+          email: 'sara.mills@example.com',
+          phone: '+1 202-555-0143',
+          company: 'Umbrella',
+          status: 'Active',
+          score: 76,
+          address: 'Paris, Rue de Rivoli',
+          joined: '2020-05-09'
+        },
+        {
+          key: '5',
+          name: 'Tom Lane',
+          avatar: 'https://i.pravatar.cc/80?img=5',
+          age: 29,
+          email: 'tom.lane@example.com',
+          phone: '+1 202-555-0160',
+          company: 'Acme Corp',
+          status: 'Active',
+          score: 63,
+          address: 'Berlin, Unter den Linden',
+          joined: '2023-01-18'
+        },
+        {
+          key: '6',
+          name: 'Nina Cruz',
+          avatar: 'https://i.pravatar.cc/80?img=6',
+          age: 38,
+          email: 'nina.cruz@example.com',
+          phone: '+1 202-555-0115',
+          company: 'Globex',
+          status: 'Inactive',
+          score: 44,
+          address: 'Madrid, Gran Via 10',
+          joined: '2018-09-30'
+        },
+        {
+          key: '7',
+          name: 'Leo Hart',
+          avatar: 'https://i.pravatar.cc/80?img=7',
+          age: 45,
+          email: 'leo.hart@example.com',
+          phone: '+1 202-555-0189',
+          company: 'Initech',
+          status: 'Active',
+          score: 99,
+          address: 'Rome, Via del Corso',
+          joined: '2017-12-05'
+        },
+        {
+          key: '8',
+          name: 'Mia Ford',
+          avatar: 'https://i.pravatar.cc/80?img=8',
+          age: 26,
+          email: 'mia.ford@example.com',
+          phone: '+1 202-555-0122',
+          company: 'Umbrella',
+          status: 'Active',
+          score: 82,
+          address: 'Amsterdam, Damrak',
+          joined: '2024-02-14'
+        },
+        {
+          key: '9',
+          name: 'Ben Shaw',
+          avatar: 'https://i.pravatar.cc/80?img=9',
+          age: 33,
+          email: 'ben.shaw@example.com',
+          phone: '+1 202-555-0197',
+          company: 'Acme Corp',
+          status: 'Inactive',
+          score: 37,
+          address: 'Toronto, Bay St',
+          joined: '2021-06-20'
+        },
+        {
+          key: '10',
+          name: 'Ella Ross',
+          avatar: 'https://i.pravatar.cc/80?img=10',
+          age: 31,
+          email: 'ella.ross@example.com',
+          phone: '+1 202-555-0108',
+          company: 'Globex',
+          status: 'Active',
+          score: 78,
+          address: 'Seoul, Gangnam-gu',
+          joined: '2022-08-11'
+        },
+        {
+          key: '11',
+          name: 'Dan Fox',
+          avatar: 'https://i.pravatar.cc/80?img=11',
+          age: 40,
+          email: 'dan.fox@example.com',
+          phone: '+1 202-555-0155',
+          company: 'Initech',
+          status: 'Active',
+          score: 66,
+          address: 'Singapore, Orchard Rd',
+          joined: '2020-03-27'
+        },
+        {
+          key: '12',
+          name: 'Amy Cole',
+          avatar: 'https://i.pravatar.cc/80?img=12',
+          age: 27,
+          email: 'amy.cole@example.com',
+          phone: '+1 202-555-0134',
+          company: 'Umbrella',
+          status: 'Inactive',
+          score: 51,
+          address: 'Dubai, Sheikh Zayed Rd',
+          joined: '2023-10-03'
+        }
+      ],
+      tableV2ActionItems: [
+        { key: 'edit', label: 'Edit', icon: WkiChessBishop },
+        { key: 'view', label: 'View detail' },
+        { key: 'delete', label: 'Delete', destructive: true }
+      ],
       alertTypes: ['neutral', 'error', 'warning', 'info'],
       textareaModel: 'Editable value',
       dropdownActive: [],
@@ -1076,7 +1538,8 @@ export default {
           boundary: 2,
           showIcon: false
         }
-      ]
+      ],
+      selectedRowKeys: ['1']
     }
   },
   components: {
@@ -1092,9 +1555,64 @@ export default {
           .map(o => o.label)
           .join(', ') || '(none)'
       )
+    },
+
+    rowSelection() {
+      return {
+        columnWidth: 36,
+        checkStrictly: false,
+        selectedRowKeys: this.selectedRowKeys,
+        onChange: (selectedRowKeys, selectedRows) => {
+          this.selectedRowKeys = selectedRowKeys
+        },
+        onSelect: (record, selected, selectedRows) => {
+          console.log(record, 'select============')
+        },
+        onSelectAll: (selected, selectedRows, changeRows) => {
+          console.log(selectedRows, 'select_all============')
+        }
+      }
+    },
+
+    rowDraggable() {
+      return {
+        enableAnimationFlip: true,
+        handleReorder: (fromIndex, toIndex, dataSource) => {
+          console.log(fromIndex, toIndex, dataSource, 'rowDraggable============')
+          // this.tableV2Data = dataSource
+        }
+      }
+    },
+
+    tableV2CustomRow() {
+      return (record, index) => ({
+        onClick: event => {
+          console.log('row click', record, index, event)
+        },
+        onDblclick: event => {
+          console.log('row dblclick', record, index, event)
+        },
+        onContextmenu: event => {
+          event.preventDefault()
+          console.log('row contextmenu', record, index)
+        }
+        // onMouseenter: (event) => { console.log('row mouseenter', record.name) },
+        // onMouseleave: (event) => { console.log('row mouseleave', record.name) },
+      })
+    },
+
+    tableV2CustomHeaderRow() {
+      return (columns, index) => ({
+        onClick: event => {
+          console.log('header row click', columns, index, event)
+        }
+      })
     }
   },
   methods: {
+    handleTableV2Action(item, record) {
+      console.log('table action', item.key, record)
+    },
     disableWeekends(date) {
       const d = date.getDay()
       return d === 0 || d === 6

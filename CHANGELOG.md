@@ -7,16 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.0] - 2026-07-30
 
 ### Added
+
 - `WkPagination` accepts a new `size` prop to control its navigation button size, accepting the same values as `WkButton` (`mini`, `xs`, `sm`, `md`, `lg`, `xl`) and defaulting to `sm`.
 
 ## [1.1.38] - 2026-07-29
 
 ### Added
+
 - `WkSelect` accepts a new `dropdownMatchSelectWidth` prop to control whether its dropdown overlay matches the trigger width.
 - `WkDatePicker` accepts a new `showYearJump` prop to control the year navigation in its calendar panel header.
 - New `WkiDistanceLeft`, `WkiDistanceBottom`, `WkiLineHeight`, and `WkiStrokeWeight` icons.
 
 ### Fixed
+
 - `WkDatePicker` applies its root class to the trigger element instead of the underlying `WkMenu`, fixing trigger styling, and its calendar body is now centered.
 - `WkDatePicker`'s month dropdown in the panel header no longer stretches to match the select's width, preventing overflow in the calendar header.
 - `WkInputNumber`'s prefix/suffix decoration no longer clips wider icon content.
@@ -26,27 +29,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.37] - 2026-07-25
 
 ### Fixed
+
 - `WkDatePicker` centralizes its dayjs setup into a shared singleton module with broader plugin coverage (`weekday`, `weekOfYear`, `isoWeek`, `advancedFormat`, `quarterOfYear`) and a more robust CJS/ESM/global plugin resolver, fixing plugin registration gaps across bundlers.
 
 ## [1.1.36] - 2026-07-25
 
 ### Fixed
+
 - `WkDatePicker` resolves its dayjs plugins via namespace imports with a `.default` fallback, fixing plugin registration under bundlers that interop CJS/ESM differently.
 
 ## [1.1.35] - 2026-07-25
 
 ### Fixed
+
 - `WkAlertDialog` footer buttons pass their text through the `label` prop instead of default slot content, fixing label alignment and loading-state consistency with other buttons.
 - `WkDatePicker` inlines its dayjs plugin registration in each consuming file instead of a shared singleton module, for more reliable resolution across bundlers.
 
 ## [1.1.34] - 2026-07-25
 
 ### Added
+
 - `WkButton` gains a new `ghost-destructive` variant.
 - `WkSlider` accepts a new `variant` prop (`neutral` default, `primary`) to control its fill and thumb color.
 - `wkMessage` supports a new `progress` value to render an embedded progress bar and an `imgSrc` value to show a file-upload style image preview instead of the status icon.
 
 ### Changed
+
 - `WkBadge`'s `primary`, `destructive`, `info`, and `warning` variants now use a subtle background with a colored border and text instead of a solid fill.
 - `WkAlertDialog` and `WkDialog` default footer action buttons render at `sm` size instead of the default size.
 - `WkMenu` no longer enforces a minimum overlay width.
@@ -55,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `WkSelect`'s `listHeight` prop now accepts a CSS size string (e.g. a percentage) in addition to a pixel number.
 
 ### Fixed
+
 - `WkButton` disabled state now shows a consistent muted background and border across all variants except `ghost` and `link`.
 - `WkButtonGroup` keeps the correct disabled background on grouped outline buttons.
 - `WkInput` disabled state adds a muted background instead of relying on opacity alone.
@@ -65,17 +74,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.33] - 2026-07-23
 
 ### Added
+
 - `WkDropdown` and `WkMenu` accept a new `persistent` prop to keep the overlay open when clicking outside.
 - `WkTag` emits a new `click` event.
 - New `WkiFrameCornersDash` and `WkiOpacity` icons.
 
 ### Changed
+
 - `WkDropdown`'s overlay now defaults to a 280px width instead of auto-sizing to its trigger.
 - `WkMenu` sizes its overlay to an exact `width` instead of a `min-width`, so custom widths no longer expand with content.
 - `WkDatePicker` calendar weekday and day cells grow from 32px to 36px, with updated mini-size typography tokens.
 - Heading 2 typography scales up from 30px/30px to 32px/40px font-size/line-height.
 
 ### Fixed
+
 - `WkButton` label now stretches to fill the available space, fixing icon/label alignment.
 - `WkDialog` fixes z-index stacking across multiple open dialogs and now cleans up correctly when unmounted under Vue 2.
 - `WkDropdown`, `WkMenu`, `WkSlider`, and `WkTooltip` now clean up their event listeners and timers correctly when unmounted under Vue 2.
@@ -84,22 +96,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.32] - 2026-07-21
 
 ### Added
+
 - `WkInputNumber` supports a new `draggable` prop that lets users click-and-drag horizontally on the field to change its value, with a matching `ew-resize` cursor.
 - New `WkiFrameCorners` icon.
 
 ## [1.1.31] - 2026-07-18
 
 ### Fixed
+
 - `WkDatePicker` fixes dayjs plugin resolution so calendar and time panels load correctly under both the Vue 3 (Vite) and Vue 2 (webpack) bundlers.
 
 ## [1.1.30] - 2026-07-09
 
 ### Added
+
 - New `WkDatePicker` component with calendar and time panels for selecting a single date.
 - New `wkMessage` imperative service for showing global toast-style messages (`success`, `error`, `info`, `warning`, `loading`), with configurable placement, duration, and max count.
 - New `WkProgress` component with a `value`/`max`-driven progress bar.
 
 ### Changed
+
 - `WkRadio` and `WkRadioGroup` now accept `String`, `Number`, or `Boolean` values, not just strings.
 - `WkTable` row drag-and-drop now reorders rows live as you drag over them, instead of only on drop.
 - `WkTable` column resize handle grows to full height on hover, and the resize indicator line is thicker with an updated accent color.
@@ -107,11 +123,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `WkMenu` no longer caps its width at 320px.
 
 ### Fixed
+
 - `WkInput` no longer shows the native calendar picker indicator on date-typed fields.
 
 ## [1.1.29] - 2026-07-06
 
 ### Added
+
 - `WkAlert` gains a new `success` type alongside the existing `neutral`, `error`, `warning`, and `info` types.
 - `WkSelectOption` supports new `prefix` and `suffix` slots for leading and trailing content inside an option.
 - `WkDropdown`, `WkSelect`, and `WkTooltip` accept new `overlayClassName` and `overlayStyle` props for customizing their floating overlay panel.
@@ -120,27 +138,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `WkTable` columns can be pinned to the left or right edge via `fixed` and made user-resizable via `resizable`, with sticky-column shadows on scroll.
 
 ### Changed
+
 - `WkTable` now renders with a rounded, bordered container and switches to `ResizeObserver`-based layout syncing for smoother horizontal scrolling and header/body alignment.
 - `WkSelect` multiple-mode trigger height switches from a fixed height to `min-height` so it grows naturally as tags wrap.
 - `WkInput` decoration icon wrapper uses `min-width` instead of a fixed `width` so wider custom decorations are no longer clipped.
 - Color tokens: warning colors now derive from amber instead of yellow/orange, new `positive` color tokens support the `WkAlert` success state, and the unused `--warning-text`/`--infor-text` tokens are removed in favor of `--warning`/`--infor`.
 
 ### Fixed
+
 - Click-outside detection now correctly ignores clicks inside nested portal-hosted overlays, such as a `WkSelect` menu opened inside a `WkDropdown`, preventing the parent overlay from closing prematurely.
 - `WkDropdown` destructive menu items keep their subtle red background when also active, instead of losing it.
 
 ## [1.1.28] - 2026-07-02
 
 ### Fixed
+
 - `WkSelect` now derives an option's label from its slot text content when no explicit `label` prop is provided, fixing labels for options rendered via slots on both Vue 2 and Vue 3.
 
 ## [1.1.27] - 2026-07-02
 
 ### Added
+
 - New `WkAlert` component with `neutral`, `error`, `warning`, and `info` types, optional `title`/`description` props, `closable` button, and `icon`/`description`/`action` slots.
 - `WkSelect` accepts a new `append` prop to render trailing text inside the trigger, alongside the existing `prepend`.
 
 ### Changed
+
 - Color tokens: `--info-subtle`/`--info-border`/`--info-text` are renamed to `--infor-subtle`/`--infor-border`/`--infor-text`, and new `--destructive-border-subtle`, `--warning-border-subtle`, and `--infor-border-subtle` tokens are added; warning and info text colors are adjusted for better contrast in both light and dark themes.
 - `WkSwitch` off-state track background changes from `--border-primary` to `--color-neutral-300`.
 - `WkDropdown` destructive menu items now show a subtle red hover background.
