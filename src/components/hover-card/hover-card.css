@@ -1,0 +1,10 @@
+.ui-hover-card__anchor {
+  display: inline-flex;
+}
+
+.ui-hover-card__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+}

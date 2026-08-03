@@ -1,0 +1,162 @@
+/* ── overlay ──────────────────────────────────────────────────────────── */
+.ui-drawer-root {
+  position: fixed;
+  inset: 0;
+}
+
+.ui-drawer-mask {
+  position: absolute;
+  inset: 0;
+  background: var(--backdrop);
+}
+
+/* ── panel ────────────────────────────────────────────────────────────── */
+.ui-drawer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  outline: none;
+  pointer-events: auto;
+  box-sizing: border-box;
+  border-radius: var(--rounded-3xl);
+  margin: 8px;
+}
+
+/* Bottom sheet (default) — spans full width, docked to the bottom edge. */
+.ui-drawer--bottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: calc(100% - var(--spacing-4xl));
+}
+
+.ui-drawer--top {
+  left: 0;
+  right: 0;
+  top: 0;
+  max-height: calc(100% - var(--spacing-4xl));
+}
+
+.ui-drawer--left {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 378px;
+  max-width: calc(100% - var(--spacing-4xl));
+}
+
+.ui-drawer--right {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 378px;
+  max-width: calc(100% - var(--spacing-4xl));
+}
+
+/* ── handle ───────────────────────────────────────────────────────────── */
+.ui-drawer__handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-top: var(--spacing-xs);
+  padding-bottom: var(--spacing-sm);
+}
+
+.ui-drawer__handle-bar {
+  width: 50px;
+  height: 3px;
+  border-radius: var(--radius-2);
+  background: var(--accent-2);
+}
+
+/* Side drawers get a vertical grab bar aligned to the exposed edge. */
+.ui-drawer--left .ui-drawer__handle,
+.ui-drawer--right .ui-drawer__handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.ui-drawer--left .ui-drawer__handle {
+  right: 0;
+  padding-right: var(--spacing-xs);
+  padding-left: var(--spacing-sm);
+}
+
+.ui-drawer--right .ui-drawer__handle {
+  left: 0;
+  padding-left: var(--spacing-xs);
+  padding-right: var(--spacing-sm);
+}
+
+.ui-drawer--left .ui-drawer__handle-bar,
+.ui-drawer--right .ui-drawer__handle-bar {
+  width: 3px;
+  height: 50px;
+}
+
+/* ── body ─────────────────────────────────────────────────────────────── */
+.ui-drawer__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  font-family: var(--paragraph-small-font-family);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--secondary-fg);
+}
+
+/* ── transitions ──────────────────────────────────────────────────────── */
+.ui-drawer-fade-enter-active,
+.ui-drawer-fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.ui-drawer-fade-enter,
+.ui-drawer-fade-enter-from,
+.ui-drawer-fade-leave-to {
+  opacity: 0;
+}
+
+.ui-drawer-slide-bottom-enter-active,
+.ui-drawer-slide-bottom-leave-active,
+.ui-drawer-slide-top-enter-active,
+.ui-drawer-slide-top-leave-active,
+.ui-drawer-slide-left-enter-active,
+.ui-drawer-slide-left-leave-active,
+.ui-drawer-slide-right-enter-active,
+.ui-drawer-slide-right-leave-active {
+  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.ui-drawer-slide-bottom-enter,
+.ui-drawer-slide-bottom-enter-from,
+.ui-drawer-slide-bottom-leave-to {
+  transform: translateY(100%);
+}
+
+.ui-drawer-slide-top-enter,
+.ui-drawer-slide-top-enter-from,
+.ui-drawer-slide-top-leave-to {
+  transform: translateY(-100%);
+}
+
+.ui-drawer-slide-left-enter,
+.ui-drawer-slide-left-enter-from,
+.ui-drawer-slide-left-leave-to {
+  transform: translateX(-100%);
+}
+
+.ui-drawer-slide-right-enter,
+.ui-drawer-slide-right-enter-from,
+.ui-drawer-slide-right-leave-to {
+  transform: translateX(100%);
+}
