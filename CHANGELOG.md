@@ -4,6 +4,26 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2] - 2026-08-04
+
+### Added
+
+- `WkTable` accepts a new `height` prop that sets a minimum height for the scrollable body and its empty state, automatically deducting the header height.
+- `WkTable` exposes a new `empty` named slot for customizing the empty state content, in addition to the existing `emptyText` prop.
+
+### Changed
+
+- `WkSelect`'s `optionSize` prop validator now accepts `sm` instead of `xs`.
+- `WkSelect`'s default "No data" empty state now shows an image illustration alongside the text.
+- `WkSelect`'s `xs` size search placeholder now uses the `paragraph-mini` typography tokens and applies regardless of `multiple` mode.
+
+### Fixed
+
+- `WkSelectOption`'s `prefix` and `suffix` slots are now detected correctly when passed as scoped slots, fixing missing prefix/suffix rendering under Vue 2.
+- `WkTable` no longer imports the Vue 3-only `getCurrentInstance` Composition API function, fixing a dual-compat break under Vue 2.
+- `WkTable`'s drag preview row no longer renders when there is no active dragged record.
+- `WkTable`'s `bodyCell` slot no longer overrides the built-in selection and drag-handle columns.
+
 ## [1.2.0] - 2026-07-30
 
 ### Added
