@@ -9,13 +9,15 @@
     <template v-if="isEmpty">
       <tr class="ui-table-v2__row">
         <td colspan="100">
-          <div class="ui-table-v2__row-empty ui-table-v2__empty">
-            <div class="wrapper-img">
-              <img
-                src="https://content.pancake.vn/web-media-262/2e/2a/0c/96/c2b58ae9f06c4dc2a3b83016e56d5b4132ff40637862ba23435e43a0-w:224-h:224-l:3927-t:image/png.png"
-              />
-            </div>
-            <span class="wk-paragraph-small">{{ emptyText }}</span>
+          <div class="ui-table-v2__row-empty ui-table-v2__empty" :style="emptyStyle">
+            <slot name="empty">
+              <div class="wrapper-img">
+                <img
+                  src="https://content.pancake.vn/web-media-262/2e/2a/0c/96/c2b58ae9f06c4dc2a3b83016e56d5b4132ff40637862ba23435e43a0-w:224-h:224-l:3927-t:image/png.png"
+                />
+              </div>
+              <span class="wk-paragraph-small">{{ emptyText }}</span>
+            </slot>
           </div>
         </td>
       </tr>
@@ -70,6 +72,11 @@ export default {
   computed: {
     emptyText() {
       return this.tableContext.data.emptyText || 'Không có dữ liệu'
+    },
+    emptyStyle() {
+      const { height, rowHeight } = this.tableContext.layout
+      if (!height) return {}
+      return { minHeight: `calc(${height}px - ${rowHeight}px)` }
     }
   },
   beforeUnmount: function () {

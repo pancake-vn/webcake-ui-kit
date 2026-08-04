@@ -1,5 +1,4 @@
 <script>
-import { getCurrentInstance } from 'vue'
 import { findDOMNode } from '../../utils/common'
 
 export default {
@@ -14,7 +13,6 @@ export default {
         offsetHeight: 0,
         offsetWidth: 0
       },
-      instance: getCurrentInstance(),
       currentElement: null,
       resizeObserver: null
     }

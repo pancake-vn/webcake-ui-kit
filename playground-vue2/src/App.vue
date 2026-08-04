@@ -430,6 +430,17 @@
             </template>
           </template>
         </WkTableV2>
+
+        <WkSelect :value="'solid'" size="xs" optionSize="sm" class="w-full">
+          <WkSelectOption value="none">slect</WkSelectOption>
+          <WkSelectOption value="solid">Solid</WkSelectOption>
+          <WkSelectOption value="dashed">Dashed</WkSelectOption>
+          <WkSelectOption value="dotted">Dotted</WkSelectOption>
+          <WkSelectOption value="double">Double</WkSelectOption>
+          <WkSelectOption value="groove">Groove</WkSelectOption>
+          <WkSelectOption value="outset">Outset</WkSelectOption>
+          <WkSelectOption value="ridge">Ridge</WkSelectOption>
+        </WkSelect>
       </section>
 
       <section class="section">

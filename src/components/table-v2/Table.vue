@@ -6,6 +6,9 @@
           <template #bodyCell="slotData">
             <slot name="bodyCell" v-bind="slotData"></slot>
           </template>
+          <template #empty>
+            <slot name="empty"></slot>
+          </template>
         </TableWrapper>
       </TableResizeObserver>
     </TableLoading>
@@ -19,7 +22,6 @@ import { sortData } from './composables/useSorter.js'
 import { computeOffsets } from './composables/useSticky.js'
 import { SELECTION_COLUMN, DRAGGABLE_COLUMN } from './constants.js'
 import TableWrapper from './TableWrapper.vue'
-import TableEmpty from './TableEmpty.vue'
 import TableLoading from './TableLoading.vue'
 import TableResizeObserver from './TableResizeObserver.vue'
 
@@ -57,7 +59,8 @@ export default {
     enableFixedLeft: { type: Boolean, default: false },
     rowHeight: { type: Number, default: 36 },
     headerHeight: { type: Number, default: 50 },
-    emptyText: { type: String, default: '' }
+    emptyText: { type: String, default: '' },
+    height: { type: [Number, String], default: 0 }
   },
 
   emits: ['change', 'sort-change', 'select-change'],
@@ -90,7 +93,8 @@ export default {
         size: this.size,
         scroll: this.scroll,
         rowHeight: this.rowHeight,
-        headerHeight: this.headerHeight
+        headerHeight: this.headerHeight,
+        height: this.height
       }
     },
 
@@ -171,6 +175,7 @@ export default {
         this.tableCtx.layout.size = v.size
         this.tableCtx.layout.scroll = v.scroll
         this.tableCtx.layout.tableLayout = v.scroll && v.scroll.y ? 'fixed' : 'auto'
+        this.tableCtx.layout.height = v.height
       }
     },
 

@@ -27,7 +27,8 @@ export function createTableContext() {
       containerWidth: 0,
       columnWidths: new Map(),
       rowHeight: 50,
-      headerHeight: 36
+      headerHeight: 36,
+      height: 0
     },
 
     sort: {

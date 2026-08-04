@@ -2,10 +2,10 @@
   <table
     class="ui-table-v2__drag-preview"
     aria-hidden="true"
-    :style="{ width: containerWidth ? containerWidth + 'px' : '100%' }"
+    :style="{ width: containerWidth ? containerWidth + 'px' : '100%', tableLayout: 'fixed' }"
   >
     <tbody class="ui-table-v2__body">
-      <tr class="ui-table-v2__row">
+      <tr class="ui-table-v2__row" v-if="record">
         <td v-for="col in columns" :key="col.key">
           <div v-if="col.type === DRAGGABLE_COLUMN" class="wrapper-option">
             <span class="drag-handle">

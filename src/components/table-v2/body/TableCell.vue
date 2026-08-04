@@ -20,7 +20,13 @@
       </span>
     </div>
 
-    <slot name="bodyCell" :column="column" :text="record[column.dataIndex]" :record="record">
+    <slot
+      v-if="!isSelectionCol && !isDraggableCol"
+      name="bodyCell"
+      :column="column"
+      :text="record[column.dataIndex]"
+      :record="record"
+    >
       <span :class="[column.ellipsis && 'ui-table-v2__cell--ellipsis']">
         {{ record[column.dataIndex] }}
       </span>

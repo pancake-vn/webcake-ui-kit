@@ -56,9 +56,48 @@
           <div>
             <WkButton @click="openDialog2 = true">Open Dialog 2</WkButton>
             <div>Dialog 22222</div>
-            <WkDropdown :items="dropdownOptions">
-              <WkButton>test</WkButton>
-            </WkDropdown>
+            <WkSelect
+              :value="action"
+              @change="updateAction"
+              size="xs"
+              optionSize="sm"
+              :overlayStyle="{ minWidth: '160px' }"
+            >
+              <template #icon>
+                <component :is="eventIcon[action]" :size="16" />
+              </template>
+
+              <WkSelectOption value="add_to_cart">
+                <template #prefix>
+                  <component :is="eventIcon.add_to_cart" :size="16" />
+                </template>
+                {{ 'elements.list_product.add_to_cart' }}
+              </WkSelectOption>
+              <WkSelectOption value="buy_now">
+                <template #prefix>
+                  <component :is="eventIcon.buy_now" :size="16" />
+                </template>
+                {{ 'elements.list_product.buy_now' }}
+              </WkSelectOption>
+              <WkSelectOption value="open_popup">
+                <template #prefix>
+                  <component :is="eventIcon.open_popup" :size="16" />
+                </template>
+                {{ 'trait.open_popup' }}
+              </WkSelectOption>
+              <WkSelectOption value="back_home">
+                <template #prefix>
+                  <component :is="eventIcon.back_home" :size="16" />
+                </template>
+                {{ 'trait.back_home' }}
+              </WkSelectOption>
+              <WkSelectOption value="open_link">
+                <template #prefix>
+                  <component :is="eventIcon.open_link" :size="16" />
+                </template>
+                {{ 'trait.redirect_link' }}
+              </WkSelectOption>
+            </WkSelect>
           </div>
         </WkDialog>
         <WkDialog :open="openDialog2" @cancel="openDialog2 = false" @ok="openDialog2 = false" :zIndex="2000">
@@ -512,6 +551,7 @@
           <div>
             <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">Searchable</p>
             <WkSelect
+              size="xs"
               :value="selectSearchable"
               :options="selectOptions"
               searchable
@@ -1060,10 +1100,10 @@
       <section class="demo-section" style="padding: 48px 32px">
         <h2>Drawer</h2>
         <div style="display: flex; gap: 12px; flex-wrap: wrap">
-          <WkButton size="sm" @click="((drawerPlacement = 'bottom'), (drawerOpen = true))">Bottom</WkButton>
-          <WkButton size="sm" @click="((drawerPlacement = 'top'), (drawerOpen = true))">Top</WkButton>
-          <WkButton size="sm" @click="((drawerPlacement = 'left'), (drawerOpen = true))">Left</WkButton>
-          <WkButton size="sm" @click="((drawerPlacement = 'right'), (drawerOpen = true))">Right</WkButton>
+          <WkButton size="sm" @click=";((drawerPlacement = 'bottom'), (drawerOpen = true))">Bottom</WkButton>
+          <WkButton size="sm" @click=";((drawerPlacement = 'top'), (drawerOpen = true))">Top</WkButton>
+          <WkButton size="sm" @click=";((drawerPlacement = 'left'), (drawerOpen = true))">Left</WkButton>
+          <WkButton size="sm" @click=";((drawerPlacement = 'right'), (drawerOpen = true))">Right</WkButton>
           <WkButton size="sm" variant="outline" @click="drawerHandle = !drawerHandle">
             Handle: {{ drawerHandle ? 'on' : 'off' }}
           </WkButton>
@@ -1087,7 +1127,21 @@
 </template>
 
 <script>
-import { WkiAArrowDown, WkiAArrowUp, WkiChessBishop } from '../../src/icons'
+import {
+  WkiAArrowDown,
+  WkiAArrowUp,
+  WkiChessBishop,
+  WkiPlus,
+  WkiMinus,
+  WkiShoppingCart,
+  WkiShoppingBag,
+  WkiMousePointerClick,
+  WkiSquareArrowOutUpRight,
+  WkiUndo2,
+  WkiLink,
+  WkiPackage,
+  WkiShirt
+} from '../../src/icons'
 import { wkMessage } from '../../src/index.js'
 const HOUSE_ICON =
   '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">' +
@@ -1545,7 +1599,17 @@ export default {
   components: {
     WkiAArrowDown,
     WkiAArrowUp,
-    WkiChessBishop
+    WkiChessBishop,
+    WkiPlus,
+    WkiMinus,
+    WkiShoppingCart,
+    WkiShoppingBag,
+    WkiMousePointerClick,
+    WkiSquareArrowOutUpRight,
+    WkiUndo2,
+    WkiLink,
+    WkiPackage,
+    WkiShirt
   },
   computed: {
     optionsState() {
@@ -1555,6 +1619,18 @@ export default {
           .map(o => o.label)
           .join(', ') || '(none)'
       )
+    },
+
+    eventIcon() {
+      return {
+        open_cart: WkiShoppingCart,
+        add_to_cart: WkiShoppingCart,
+        buy_now: WkiMousePointerClick,
+        open_popup: WkiSquareArrowOutUpRight,
+        back_home: WkiUndo2,
+        open_link: WkiLink,
+        link_product: WkiShirt
+      }
     },
 
     rowSelection() {
