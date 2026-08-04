@@ -27,6 +27,9 @@
             <template #bodyCell="slotData">
               <slot name="bodyCell" v-bind="slotData"></slot>
             </template>
+            <template #empty>
+              <slot name="empty"></slot>
+            </template>
           </TableBody>
         </table>
       </div>
@@ -40,6 +43,9 @@
         <TableBody :measureColumnWidth="hasScrollY || hasScrollX || hasSticky" :is-empty="isEmpty">
           <template #bodyCell="slotData">
             <slot name="bodyCell" v-bind="slotData"></slot>
+          </template>
+          <template #empty>
+            <slot name="empty"></slot>
           </template>
         </TableBody>
       </table>
@@ -73,6 +79,10 @@ export default {
   computed: {
     scroll: function () {
       return this.tableContext.layout.scroll
+    },
+
+    minHeight: function () {
+      return this.tableContext.layout.height
     },
 
     isEmpty() {
@@ -135,9 +145,13 @@ export default {
 
     // Case 3 — body scroll container
     bodyHoldStyle: function () {
+      const rowHeight = this.tableContext.layout.headerHeight
+      const deduct = `${this.toCssSize(rowHeight)}`
+
       var style = {
         overflowY: 'auto',
-        maxHeight: this.toCssSize(this.scroll.y)
+        maxHeight: `calc(${this.toCssSize(this.scroll.y)} - ${deduct})`,
+        minHeight: this.minHeight > 0 ? `calc(${this.toCssSize(this.minHeight)} - ${deduct})` : undefined
       }
       if (this.hasScrollX) {
         style.overflowX = 'auto'

@@ -97,7 +97,15 @@
         />
       </slot>
       <slot v-if="showEmpty" name="empty">
-        <Empty description="No data" />
+        <Empty description="No data">
+          <template #media>
+            <div class="select-empty">
+              <img
+                src="https://content.pancake.vn/web-media-262/2e/2a/0c/96/c2b58ae9f06c4dc2a3b83016e56d5b4132ff40637862ba23435e43a0-w:224-h:224-l:3927-t:image/png.png"
+              />
+            </div>
+          </template>
+        </Empty>
       </slot>
     </div>
   </Menu>
@@ -138,7 +146,7 @@ export default {
     optionSize: {
       type: String,
       default: 'md',
-      validator: v => ['xs', 'md', 'lg'].indexOf(v) !== -1
+      validator: v => ['sm', 'md', 'lg'].indexOf(v) !== -1
     },
     value: {
       type: [String, Array],

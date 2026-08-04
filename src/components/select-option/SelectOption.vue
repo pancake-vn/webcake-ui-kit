@@ -15,13 +15,13 @@
     :aria-disabled="isDisabled ? 'true' : null"
     @click="handleClick"
   >
-    <span v-if="$slots.prefix" class="ui-select-option__prefix">
+    <span v-if="hasPrefix" class="ui-select-option__prefix">
       <slot name="prefix" />
     </span>
     <span class="ui-select-option--label">
       <slot>{{ label || value }}</slot>
     </span>
-    <span v-if="$slots.suffix" class="ui-select-option__suffix">
+    <span v-if="hasSuffix" class="ui-select-option__suffix">
       <slot name="suffix" />
     </span>
     <WkiCheck v-if="isSelected && isMultiMode" :size="16" color="var(--muted-fg)" />
@@ -99,6 +99,12 @@ export default {
     effectiveSize() {
       // explicit prop wins; otherwise inherit from parent Select; else regular
       return this.size || (this.select && (this.select.optionSize || this.select.size)) || 'md'
+    },
+    hasPrefix() {
+      return !!((this.$scopedSlots && this.$scopedSlots.prefix) || this.$slots.prefix)
+    },
+    hasSuffix() {
+      return !!((this.$scopedSlots && this.$scopedSlots.suffix) || this.$slots.suffix)
     },
     isHidden() {
       if (!this.select || !this.select.filterText) return false

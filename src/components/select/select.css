@@ -213,8 +213,9 @@
   font-size: 14px;
 }
 
-.ui-select--multiple.ui-select--xs .ui-select__search::placeholder {
-  font-size: 12px;
+.ui-select--xs .ui-select__search::placeholder {
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
 }
 
 .ui-select__search--single {
@@ -247,6 +248,13 @@
   border-radius: 3px;
 }
 
-.ui-select__empty {
-  padding: var(--spacing-sm) var(--spacing-xs);
+.ui-select__list ::v-deep .select-empty {
+  height: 100px;
+  width: 100px;
+}
+
+.ui-select__list ::v-deep .select-empty img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
