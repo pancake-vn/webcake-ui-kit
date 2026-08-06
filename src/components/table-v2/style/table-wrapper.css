@@ -36,10 +36,6 @@
   border-bottom: 1px solid var(--border-primary);
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__body > tr:last-child td {
-  border-bottom: none;
-}
-
 .ui-table-v2__wrapper ::v-deep .ui-table-v2__table--bordered .ui-table-v2__header > tr > th:not(:last-child),
 .ui-table-v2__wrapper ::v-deep .ui-table-v2__table--bordered .ui-table-v2__body > tr > td:not(:last-child) {
   border-inline-end: 1px solid var(--border-primary);
