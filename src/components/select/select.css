@@ -210,7 +210,7 @@
 
 .ui-select__search::placeholder {
   color: var(--muted-fg);
-  font-size: 14px;
+  font-size: inherit;
 }
 
 .ui-select--xs .ui-select__search::placeholder {

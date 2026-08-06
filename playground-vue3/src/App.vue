@@ -900,16 +900,7 @@
         </div>
 
         <h2 style="margin-top: 24px">Tabs — with counter &amp; disabled</h2>
-        <WkTabs :tabs="tabsCounterItems" :value="tabsCounterValue" @change="tabsCounterValue = $event" />
-
-        <h2 style="margin-top: 24px">Tabs — stretch</h2>
-        <WkTabs
-          :tabs="tabsItems"
-          :value="tabsStretchValue"
-          stretch-items
-          @change="tabsStretchValue = $event"
-          style="max-width: 480px"
-        />
+        <WkTabs size="sm" :tabs="tabsCounterItems" :value="tabsCounterValue" @change="tabsCounterValue = $event" />
       </section>
 
       <section class="section">
@@ -1172,9 +1163,9 @@ export default {
       dpSelects: null,
       dpMin: new Date(_now.getFullYear(), _now.getMonth(), 1),
       dpMax: new Date(_now.getFullYear(), _now.getMonth() + 1, 0),
-      tabsSizes: ['xs', 'sm', 'md', 'lg'],
-      tabsValue: { xs: 'inbox', sm: 'inbox', md: 'inbox', lg: 'inbox' },
-      tabsIconValue: { xs: 'a', sm: 'a', md: 'a', lg: 'a' },
+      tabsSizes: ['mini', 'xs', 'sm', 'md', 'lg'],
+      tabsValue: { mini: 'inbox', xs: 'inbox', sm: 'inbox', md: 'inbox', lg: 'inbox' },
+      tabsIconValue: { mini: 'a', xs: 'a', sm: 'a', md: 'a', lg: 'a' },
       tabsCounterValue: 'inbox',
       tabsStretchValue: 'inbox',
       tabsItems: [
