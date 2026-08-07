@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.4] - 2026-08-07
+
+### Added
+
+- `WkSelect` accepts a new `showChecked` prop to display the check icon next to the selected option even outside multi-select mode.
+- `WkSelect` exposes new `contentHeader` and `contentFooter` named slots for its dropdown list.
+- New design tokens for builder/layer UI states (`--layer-fg`, `--layer-hover-bg`, `--layer-accent-bg`, `--non-delete-layer-hover`, `--non-delete-layer-accent`, `--stroke`, `--stroke-hover`, `--non-delete-stroke`, `--non-delete-stroke-hover`).
+
+### Changed
+
+- `WkPopover`'s default `offset` is now `4` instead of `8`.
+- `WkMenu` no longer caps its content list at a fixed `320px` max-height, letting the dropdown grow to fit its content.
+
+### Fixed
+
+- Chart color tokens are renamed to `--chart-positive`, `--chart-negative`, `--chart-stroke`, and `--chart-stroke-2`, fixing a naming collision with the general `--positive`/`--negative`/`--stroke` semantic tokens.
+
 ## [1.2.3] - 2026-08-06
 
 ### Added
