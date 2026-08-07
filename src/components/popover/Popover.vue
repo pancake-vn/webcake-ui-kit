@@ -66,7 +66,7 @@ export default {
       default: 'bottom-start',
       validator: v => PLACEMENTS.indexOf(v) !== -1
     },
-    offset: { type: Number, default: 8 },
+    offset: { type: Number, default: 4 },
     // 'click', 'hover', or both
     trigger: {
       type: Array,

@@ -535,17 +535,44 @@
 
       <section class="section" style="margin-bottom: 300px">
         <h2>Select — new features</h2>
+
+        <div :style="{ marginTop: '50px', marginBottom: '50px' }">
+          <WkPopover>
+            <template #trigger>
+              <WkButton>Mở popover</WkButton>
+            </template>
+            <div
+              :style="{ width: '500px', height: '300px', display: 'flex', alignItems: 'end', justifyContent: 'end' }"
+            >
+              <WkButton>Nội dung popover</WkButton>
+              <WkDropdown :items="dropdownOptions" :value="dropdownActive" @select="handleDropdownActive" size="lg">
+                <WkButton>test</WkButton>
+              </WkDropdown>
+            </div>
+          </WkPopover>
+        </div>
         <div style="display: flex; flex-direction: column; gap: 16px; max-width: 320px">
           <div>
             <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">Single (default)</p>
             <WkSelect
               :value="selectSingle"
-              :options="selectOptions"
               placeholder="Pick one"
               @change="selectSingle = $event"
               size="xs"
               option-size="sm"
-            />
+              listHeight="max-content"
+              showChecked
+            >
+              <WkSelectOption v-for="opt in selectOptions" :key="opt.value" :value="opt.value" :label="opt.label" />
+              <template #contentHeader>
+                <WkButton variant="secondary" :style="{ width: '100%', marginTop: '8px' }">Thêm mới</WkButton>
+                <WkDivider />
+              </template>
+              <template #contentFooter>
+                <WkDivider />
+                <WkButton variant="secondary" :style="{ width: '100%', marginTop: '8px' }">Thêm mới</WkButton>
+              </template>
+            </WkSelect>
             <code style="font-size: 11px">{{ selectSingle }}</code>
           </div>
           <div>

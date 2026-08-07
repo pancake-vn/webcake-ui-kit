@@ -120,6 +120,18 @@
   /* Effect */
   --focus-ring: var(--color-neutral-200);
   --focus-ring-error: var(--color-red-300);
+
+  /* Builder */
+  --layer-fg: var(--color-brand-neutrals-700);
+  --layer-hover-bg: var(--color-brand-neutrals-50);
+  --layer-accent-bg: var(--color-brand-neutrals-200);
+  --non-delete-layer-hover: var(--color-violet-50);
+  --non-delete-layer-accent: var(--color-violet-200);
+
+  --stroke: #3f8dff;
+  --stroke-hover: #8fbcff;
+  --non-delete-stroke: var(--color-violet-600);
+  --non-delete-stroke-hover: var(--color-violet-400);
 }
 
 .dark {
