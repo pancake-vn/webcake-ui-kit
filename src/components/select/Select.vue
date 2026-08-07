@@ -87,6 +87,9 @@
       </div>
     </template>
     <div class="ui-select__list" :style="listStyle">
+      <div v-if="hasContentHeader">
+        <slot name="contentHeader"></slot>
+      </div>
       <slot>
         <SelectOption
           v-for="opt in filteredOptions"
@@ -107,6 +110,9 @@
           </template>
         </Empty>
       </slot>
+      <div v-if="hasContentFooter">
+        <slot name="contentFooter"></slot>
+      </div>
     </div>
   </Menu>
 </template>
@@ -147,6 +153,10 @@ export default {
       type: String,
       default: 'md',
       validator: v => ['sm', 'md', 'lg'].indexOf(v) !== -1
+    },
+    showChecked: {
+      type: Boolean,
+      default: false
     },
     value: {
       type: [String, Array],
@@ -286,6 +296,12 @@ export default {
       }
       if (this.normalizedOptions.length === 0 && Object.keys(this.slotOptionVisible).length === 0) return true
       return false
+    },
+    hasContentFooter() {
+      return !!((this.$scopedSlots && this.$scopedSlots['contentFooter']) || this.$slots['contentFooter'])
+    },
+    hasContentHeader() {
+      return !!((this.$scopedSlots && this.$scopedSlots['contentHeader']) || this.$slots['contentHeader'])
     },
     hasIconSlot() {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])

@@ -24,7 +24,7 @@
     <span v-if="hasSuffix" class="ui-select-option__suffix">
       <slot name="suffix" />
     </span>
-    <WkiCheck v-if="isSelected && isMultiMode" :size="16" color="var(--muted-fg)" />
+    <WkiCheck v-if="isSelected && (isMultiMode || isShowChecked)" :size="16" color="var(--muted-fg)" />
   </div>
 </template>
 
@@ -128,6 +128,9 @@ export default {
     },
     isMultiMode() {
       return !!(this.select && this.select.isMultiMode)
+    },
+    isShowChecked() {
+      return !!(this.select && this.select.showChecked)
     }
   },
 
