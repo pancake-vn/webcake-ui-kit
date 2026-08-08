@@ -1,7 +1,6 @@
 .ui-menuitem {
   display: flex;
   align-items: center;
-  min-height: 36px;
   border-radius: var(--radius-8, 8px);
   font-family: var(--font-family-body);
   font-size: var(--paragraph-small-font-size);
@@ -42,7 +41,7 @@
 /* Sizes */
 
 .ui-menuitem--sm {
-  min-height: 28px;
+  height: 28px;
   padding: var(--spacing-2xs) var(--spacing-xs);
   gap: var(--spacing-xs);
   font-size: var(--paragraph-mini-font-size);
@@ -50,13 +49,13 @@
 }
 
 .ui-menuitem--md {
-  min-height: 32px;
+  height: 32px;
   padding: var(--spacing-5p5) var(--spacing-xs);
   gap: var(--spacing-xs);
 }
 
 .ui-menuitem--lg {
-  min-height: 36px;
+  height: 36px;
   padding: var(--spacing-7p5) var(--spacing-sm);
   gap: var(--spacing-sm);
 }
@@ -87,6 +86,9 @@
 }
 
 .ui-menuitem__suffix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: var(--paragraph-small-font-size);
   line-height: var(--paragraph-small-line-height);
   color: var(--muted-fg);
