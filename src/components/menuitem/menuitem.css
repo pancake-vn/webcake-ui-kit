@@ -1,0 +1,102 @@
+.ui-menuitem {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  border-radius: var(--radius-8, 8px);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--primary-fg);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s;
+}
+
+.ui-menuitem:hover:not(.ui-menuitem--disabled) {
+  background: var(--accent-bg);
+}
+
+.ui-menuitem--active {
+  background: var(--accent-2);
+  font-weight: var(--paragraph-medium-font-weight);
+}
+
+.ui-menuitem--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ui-menuitem--error {
+  color: var(--destructive-text);
+}
+
+.ui-menuitem--error:hover {
+  background: var(--destructive-subtle) !important;
+}
+
+.ui-menuitem--error.ui-menuitem--active {
+  background: var(--destructive-subtle) !important;
+}
+
+/* Sizes */
+
+.ui-menuitem--sm {
+  min-height: 28px;
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  gap: var(--spacing-xs);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+}
+
+.ui-menuitem--md {
+  min-height: 32px;
+  padding: var(--spacing-5p5) var(--spacing-xs);
+  gap: var(--spacing-xs);
+}
+
+.ui-menuitem--lg {
+  min-height: 36px;
+  padding: var(--spacing-7p5) var(--spacing-sm);
+  gap: var(--spacing-sm);
+}
+
+/* Slots */
+
+.ui-menuitem__prefix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  width: 20px;
+  height: 20px;
+}
+
+.ui-menuitem--sm .ui-menuitem__prefix {
+  width: 16px;
+  height: 16px;
+}
+
+.ui-menuitem__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-menuitem__suffix {
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--muted-fg);
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-left: var(--spacing-sm);
+  white-space: nowrap;
+}
+
+.ui-menuitem--sm .ui-menuitem__suffix {
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+}
