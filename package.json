@@ -1,6 +1,6 @@
 {
   "name": "webcake-ui-kit",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "UI Kit for Vue 2 && 3 - Pure Options API",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -40,6 +40,7 @@
     "./WkInputCounter": "./src/components/input-counter/InputCounter.vue",
     "./WkInputNumber": "./src/components/input-number/InputNumber.vue",
     "./WkMenu": "./src/components/menu/Menu.vue",
+    "./WkMenuItem": "./src/components/menuitem/MenuItem.vue",
     "./WkPagination": "./src/components/pagination/Pagination.vue",
     "./WkPopover": "./src/components/popover/Popover.vue",
     "./WkProgress": "./src/components/progress/Progress.vue",
