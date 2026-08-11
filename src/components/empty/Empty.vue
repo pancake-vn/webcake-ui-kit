@@ -8,7 +8,13 @@
         <Typography v-if="hasTitle" class="ui-empty__title" variant="paragraph-regular" weight="medium">
           <slot name="title">{{ title }}</slot>
         </Typography>
-        <Typography v-if="hasDescription" class="ui-empty__description" variant="paragraph-small" weight="regular">
+        <Typography
+          v-if="hasDescription"
+          class="ui-empty__description"
+          variant="paragraph-small"
+          weight="regular"
+          color="muted-fg"
+        >
           <slot name="description">{{ description }}</slot>
         </Typography>
       </div>

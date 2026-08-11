@@ -56,48 +56,6 @@
           <div>
             <WkButton @click="openDialog2 = true">Open Dialog 2</WkButton>
             <div>Dialog 22222</div>
-            <WkSelect
-              :value="action"
-              @change="updateAction"
-              size="xs"
-              optionSize="sm"
-              :overlayStyle="{ minWidth: '160px' }"
-            >
-              <template #icon>
-                <component :is="eventIcon[action]" :size="16" />
-              </template>
-
-              <WkSelectOption value="add_to_cart">
-                <template #prefix>
-                  <component :is="eventIcon.add_to_cart" :size="16" />
-                </template>
-                {{ 'elements.list_product.add_to_cart' }}
-              </WkSelectOption>
-              <WkSelectOption value="buy_now">
-                <template #prefix>
-                  <component :is="eventIcon.buy_now" :size="16" />
-                </template>
-                {{ 'elements.list_product.buy_now' }}
-              </WkSelectOption>
-              <WkSelectOption value="open_popup">
-                <template #prefix>
-                  <component :is="eventIcon.open_popup" :size="16" />
-                </template>
-                {{ 'trait.open_popup' }}
-              </WkSelectOption>
-              <WkSelectOption value="back_home">
-                <template #prefix>
-                  <component :is="eventIcon.back_home" :size="16" />
-                </template>
-                {{ 'trait.back_home' }}
-              </WkSelectOption>
-              <WkSelectOption value="open_link">
-                <template #prefix>
-                  <component :is="eventIcon.open_link" :size="16" />
-                </template>
-                {{ 'trait.redirect_link' }}
-              </WkSelectOption>
-            </WkSelect>
           </div>
         </WkDialog>
         <WkDialog :open="openDialog2" @cancel="openDialog2 = false" @ok="openDialog2 = false" :zIndex="2000">
@@ -575,12 +533,56 @@
             </WkSelect>
             <code style="font-size: 11px">{{ selectSingle }}</code>
           </div>
+          <WkSelect
+            :value="selectSingle"
+            @change="selectSingle = $event"
+            size="xs"
+            optionSize="sm"
+            :overlayStyle="{ minWidth: '160px' }"
+          >
+            <template v-if="eventIcon[selectSingle]" #icon>
+              <component :is="eventIcon[selectSingle]" :size="16" />
+            </template>
+
+            <WkSelectOption value="add_to_cart">
+              <template #prefix>
+                <component :is="eventIcon.add_to_cart" :size="16" />
+              </template>
+              {{ 'elements.list_product.add_to_cart' }}
+            </WkSelectOption>
+            <WkSelectOption value="buy_now">
+              <template #prefix>
+                <component :is="eventIcon.buy_now" :size="16" />
+              </template>
+              {{ 'elements.list_product.buy_now' }}
+            </WkSelectOption>
+            <WkSelectOption value="open_popup">
+              <template #prefix>
+                <component :is="eventIcon.open_popup" :size="16" />
+              </template>
+              {{ 'trait.open_popup' }}
+            </WkSelectOption>
+            <WkSelectOption value="back_home">
+              <template #prefix>
+                <component :is="eventIcon.back_home" :size="16" />
+              </template>
+              {{ 'trait.back_home' }}
+            </WkSelectOption>
+            <WkSelectOption value="open_link">
+              <template #prefix>
+                <component :is="eventIcon.open_link" :size="16" />
+              </template>
+              {{ 'trait.redirect_link' }}
+            </WkSelectOption>
+          </WkSelect>
           <div>
             <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">Searchable</p>
             <WkSelect
               size="xs"
+              optionSize="sm"
+              showChecked
               :value="selectSearchable"
-              :options="selectOptions"
+              :options="eventPromotionOptions"
               searchable
               placeholder="Type to search"
               @change="selectSearchable = $event"
@@ -938,11 +940,12 @@
           enableFixedLeft
           :columns="tableV2Columns"
           :data-source="tableV2Data"
-          :scroll="{ y: 300, x: 2000 }"
+          :height="1000"
           :rowSelection="rowSelection"
           :rowDraggable="rowDraggable"
           :custom-row="tableV2CustomRow"
           :custom-header-row="tableV2CustomHeaderRow"
+          :rowHeight="60"
         >
           <template #bodyCell="{ column, text, record }">
             <template v-if="column.dataIndex === 'name'">
@@ -1453,7 +1456,50 @@ export default {
       selectMultiSearch: [],
       selectFilter: '',
       selectOptions: [
-        { label: 'Apple', value: 'apple' },
+        {
+          label: 'Apple',
+          value: 'apple',
+          placement: 'right-start',
+          children: [
+            {
+              label: 'Sub Apple 1',
+              value: 'sub-apple-1',
+              placement: 'right-start',
+              children: [
+                {
+                  label: 'Sub Sub Apple 1',
+                  value: 'sub-sub-apple-1',
+                  children: []
+                }
+              ]
+            },
+            {
+              label: 'Sub Apple 2',
+              value: 'sub-apple-2',
+              children: [
+                {
+                  label: 'Sub Sub Apple 2',
+                  value: 'sub-sub-apple-2',
+                  placement: 'bottom',
+                  offset: 12,
+                  width: 200,
+                  children: [
+                    {
+                      label: 'Sub Sub Sub Apple 1',
+                      value: 'sub-sub-sub-apple-1',
+                      children: []
+                    },
+                    {
+                      label: 'Sub Sub Sub Apple 2',
+                      value: 'sub-sub-sub-apple-2',
+                      children: []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
         { label: 'Banana', value: 'banana' },
         { label: 'Cherry', value: 'cherry' },
         { label: 'Durian', value: 'durian' },
@@ -1666,6 +1712,130 @@ export default {
           console.log(selectedRows, 'select_all============')
         }
       }
+    },
+
+    eventPromotionOptions() {
+      const options = [
+        {
+          label: 'Thu gọn',
+          value: 'collapse'
+        },
+        {
+          label: 'Ẩn hiện',
+          value: 'showhide'
+        },
+        {
+          label: 'form_param.additional_price',
+          value: 'custom_form_price'
+        },
+        {
+          label: 'form_param.additional_discount',
+          value: 'custom_form_discount'
+        },
+        {
+          label: 'form_param.additional_shipping_fee',
+          value: 'custom_form_shipping_fee'
+        }
+      ]
+
+      options.push({
+        label: 'Cổng thanh toán',
+        value: 'payment_gateway',
+        children: [
+          {
+            label: 'POS auto banking',
+            value: 'tcb_auto_banking'
+          },
+          {
+            label: 'Paypal payment',
+            value: 'paypal_banking'
+          },
+          {
+            label: 'Xendit payment',
+            value: 'xendit_banking',
+            children: [
+              {
+                label: 'Xendit default',
+                value: 'xendit_banking_default'
+              },
+              {
+                label: 'Gcash',
+                value: 'xendit_banking_GCASH'
+              }
+            ]
+          },
+          {
+            label: 'VNPAY payment',
+            value: 'vnpay_banking'
+          },
+          {
+            label: 'Momo payment',
+            value: 'momopay_banking'
+          },
+          {
+            label: 'Paymongo payment',
+            value: 'paymongo_banking'
+          },
+          {
+            label: 'Stripe payment',
+            value: 'stripe_banking'
+          },
+          {
+            label: 'Onepay payment',
+            value: 'onepay_banking',
+            children: [
+              {
+                label: 'Onepay default',
+                value: 'onepay_banking_default'
+              },
+              {
+                label: 'Card international',
+                value: 'onepay_banking_INTERNATIONAL'
+              },
+              {
+                label: 'Card domestic',
+                value: 'onepay_banking_DOMESTIC'
+              },
+              {
+                label: 'Googlepay',
+                value: 'onepay_banking_GOOGLEPAY'
+              },
+              {
+                label: 'Applepay',
+                value: 'onepay_banking_APPLEPAY'
+              },
+              {
+                label: 'VNpay',
+                value: 'onepay_banking_MOBILEBANKING'
+              },
+              {
+                label: 'Zalopay',
+                value: 'onepay_banking_ZALOPAY'
+              },
+              {
+                label: 'Shopeepay',
+                value: 'onepay_banking_SHOPEEPAY'
+              }
+            ]
+          },
+          {
+            label: 'Mercadopago payment',
+            value: 'mercadopago_banking',
+            children: [
+              {
+                label: 'Mercado pago (default)',
+                value: 'mercadopago_banking_default'
+              },
+              {
+                label: 'Mercado pago (OXXO payment)',
+                value: 'mercadopago_banking_oxxo'
+              }
+            ]
+          }
+        ]
+      })
+
+      return options
     },
 
     rowDraggable() {

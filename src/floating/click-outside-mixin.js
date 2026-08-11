@@ -21,12 +21,24 @@ export default {
       if (!myFloat || typeof document === 'undefined') return false
       const portalRoot = document.querySelector('[data-wk-portal-root]')
       if (!portalRoot || !portalRoot.contains(target)) return false
-      const floatingEls = portalRoot.querySelectorAll('[id^="wk-menu-"]')
-      for (let i = 0; i < floatingEls.length; i++) {
-        const fp = floatingEls[i]
-        if (!fp.contains(target)) continue
+
+      const getFloatingPanel = el => {
+        let curr = el
+        while (curr && curr !== portalRoot) {
+          if (curr.id && curr.id.startsWith('wk-menu-')) return curr
+          curr = curr.parentElement
+        }
+        return null
+      }
+
+      let currTarget = target
+      while (currTarget) {
+        const fp = getFloatingPanel(currTarget)
+        if (!fp) return false
         const trig = fp._wkTrigger
-        if (trig && myFloat.contains(trig)) return true
+        if (!trig) return false
+        if (myFloat.contains(trig)) return true
+        currTarget = trig
       }
       return false
     },

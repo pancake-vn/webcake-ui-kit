@@ -119,7 +119,15 @@ export default {
 
     // Case 1 & 2 — wrapper có overflow-x khi scroll.x
     contentStyle: function () {
-      return this.hasScrollX ? { overflow: 'auto hidden' } : {}
+      let style = {}
+      if (this.hasScrollX) {
+        style = { overflow: 'auto hidden' }
+      }
+
+      if (this.minHeight > 0) {
+        style.minHeight = `${this.toCssSize(this.minHeight)}`
+      }
+      return style
     },
 
     // Case 1 & 2 — table style
@@ -170,7 +178,6 @@ export default {
       this.isPingedRight = scrollLeft < scrollWidth - clientWidth
     },
     updateScrollState() {
-      console.log('update')
       if (this.$refs.bodyRef) {
         const { width } = getTargetScrollBarSize(this.$refs.bodyRef)
         this.tableContext.layout.scrollBarWidth = width == 'auto' ? '0px' : width
@@ -187,9 +194,6 @@ export default {
       this.$nextTick(() => {
         this.updateScrollState()
       })
-    },
-    hasScrollY(val) {
-      console.log('hasScrollY', val)
     }
   },
 

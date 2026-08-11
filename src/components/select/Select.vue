@@ -35,7 +35,7 @@
         @keydown.space.prevent="toggle()"
       >
         <span class="ui-select__left">
-          <span v-if="hasIconSlot" class="ui-select__icon">
+          <span v-if="hasIconSlot()" class="ui-select__icon">
             <slot name="icon" />
           </span>
           <span v-if="prepend" class="ui-select__prepend">{{ prepend }}</span>
@@ -87,7 +87,7 @@
       </div>
     </template>
     <div class="ui-select__list" :style="listStyle">
-      <div v-if="hasContentHeader">
+      <div v-if="hasContentHeader()">
         <slot name="contentHeader"></slot>
       </div>
       <slot>
@@ -97,6 +97,10 @@
           :value="opt.value"
           :label="opt.label"
           :disabled="opt.disabled"
+          :children="opt.children"
+          :placement="opt.placement"
+          :width="opt.width"
+          :offset="opt.offset"
         />
       </slot>
       <slot v-if="showEmpty" name="empty">
@@ -110,7 +114,7 @@
           </template>
         </Empty>
       </slot>
-      <div v-if="hasContentFooter">
+      <div v-if="hasContentFooter()">
         <slot name="contentFooter"></slot>
       </div>
     </div>
@@ -159,7 +163,7 @@ export default {
       default: false
     },
     value: {
-      type: [String, Array],
+      type: [String, Number, Array],
       default: null
     },
     modelValue: {
@@ -255,8 +259,16 @@ export default {
       var base = this.mode === 'tags' ? this.options.concat(this.tagOptions) : this.options
       return base.map(function (opt) {
         return typeof opt === 'string'
-          ? { label: opt, value: opt, disabled: false }
-          : { label: opt.label || opt.value, value: opt.value, disabled: !!opt.disabled }
+          ? { label: opt, value: opt, disabled: false, children: [], placement: 'right-start' }
+          : {
+              label: opt.label || opt.value,
+              value: opt.value,
+              disabled: !!opt.disabled,
+              children: opt.children || [],
+              placement: opt.placement || 'right-start',
+              width: opt.width || null,
+              offset: opt.offset || null
+            }
       })
     },
     filteredOptions() {
@@ -273,7 +285,17 @@ export default {
       if (this.isMultiMode) return ''
       if (!this.effectiveValue) return ''
       if (this.labelCache[this.effectiveValue]) return this.labelCache[this.effectiveValue]
-      const opt = this.normalizedOptions.find(o => o.value === this.effectiveValue)
+      const findOpt = (opts, val) => {
+        for (let i = 0; i < opts.length; i++) {
+          if (opts[i].value === val) return opts[i]
+          if (opts[i].children && opts[i].children.length > 0) {
+            const found = findOpt(opts[i].children, val)
+            if (found) return found
+          }
+        }
+        return null
+      }
+      const opt = findOpt(this.normalizedOptions, this.effectiveValue)
       if (opt) return opt.label
       return this._findLabelInSlot(this.effectiveValue) || this.effectiveValue
     },
@@ -281,10 +303,18 @@ export default {
       if (!this.isMultiMode) return []
       var values = Array.isArray(this.effectiveValue) ? this.effectiveValue : []
       var self = this
+      const findOpt = (opts, val) => {
+        for (let i = 0; i < opts.length; i++) {
+          if (opts[i].value === val) return opts[i]
+          if (opts[i].children && opts[i].children.length > 0) {
+            const found = findOpt(opts[i].children, val)
+            if (found) return found
+          }
+        }
+        return null
+      }
       return values.map(function (v) {
-        var opt = self.normalizedOptions.find(function (o) {
-          return o.value === v
-        })
+        var opt = findOpt(self.normalizedOptions, v)
         return { value: v, label: opt ? opt.label : self.labelCache[v] || v }
       })
     },
@@ -296,15 +326,6 @@ export default {
       }
       if (this.normalizedOptions.length === 0 && Object.keys(this.slotOptionVisible).length === 0) return true
       return false
-    },
-    hasContentFooter() {
-      return !!((this.$scopedSlots && this.$scopedSlots['contentFooter']) || this.$slots['contentFooter'])
-    },
-    hasContentHeader() {
-      return !!((this.$scopedSlots && this.$scopedSlots['contentHeader']) || this.$slots['contentHeader'])
-    },
-    hasIconSlot() {
-      return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
     },
     listStyle() {
       if (typeof this.listHeight === 'number') return { maxHeight: this.listHeight + 'px' }
@@ -356,6 +377,15 @@ export default {
   },
 
   methods: {
+    hasContentFooter() {
+      return !!((this.$scopedSlots && this.$scopedSlots['contentFooter']) || this.$slots['contentFooter'])
+    },
+    hasContentHeader() {
+      return !!((this.$scopedSlots && this.$scopedSlots['contentHeader']) || this.$slots['contentHeader'])
+    },
+    hasIconSlot() {
+      return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
+    },
     onMenuChange(v) {
       this.isOpen = v
     },

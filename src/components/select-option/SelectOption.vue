@@ -15,26 +15,54 @@
     :aria-disabled="isDisabled ? 'true' : null"
     @click="handleClick"
   >
-    <span v-if="hasPrefix" class="ui-select-option__prefix">
+    <span v-if="hasPrefix()" class="ui-select-option__prefix">
       <slot name="prefix" />
     </span>
     <span class="ui-select-option--label">
       <slot>{{ label || value }}</slot>
     </span>
-    <span v-if="hasSuffix" class="ui-select-option__suffix">
+    <span v-if="hasSuffix()" class="ui-select-option__suffix">
       <slot name="suffix" />
     </span>
-    <WkiCheck v-if="isSelected && (isMultiMode || isShowChecked)" :size="16" color="var(--muted-fg)" />
+    <WkiCheck
+      v-if="isSelected && (isMultiMode || isShowChecked) && children.length === 0"
+      :size="16"
+      color="var(--muted-fg)"
+    />
+
+    <Dropdown v-if="children.length > 0" :placement="placement" :width="width || 280" :offset="offset">
+      <div class="expand-trigger">
+        <WkiChevronRight :size="16" />
+      </div>
+      <template #overlay>
+        <div class="ui-select__list">
+          <SelectOption
+            v-for="opt in children"
+            :key="opt.value"
+            :value="opt.value"
+            :label="opt.label"
+            :disabled="opt.disabled"
+            :children="opt.children"
+            :placement="opt.placement"
+            :width="opt.width"
+            :offset="opt.offset"
+          />
+        </div>
+      </template>
+    </Dropdown>
   </div>
 </template>
 
 <script>
-import { WkiCheck } from '../../icons'
+import { WkiCheck, WkiChevronRight } from '../../icons'
+import Dropdown from '../dropdown/Dropdown.vue'
 export default {
   name: 'SelectOption',
 
   components: {
-    WkiCheck
+    WkiCheck,
+    Dropdown,
+    WkiChevronRight
   },
 
   inject: {
@@ -43,7 +71,7 @@ export default {
 
   props: {
     value: {
-      type: String,
+      type: [String, Number],
       required: true
     },
     label: {
@@ -67,6 +95,22 @@ export default {
       validator: function (v) {
         return ['default', 'destructive'].indexOf(v) !== -1
       }
+    },
+    children: {
+      type: Array,
+      default: () => []
+    },
+    placement: {
+      type: String,
+      default: 'right-start'
+    },
+    width: {
+      type: [String, Number],
+      default: null
+    },
+    offset: {
+      type: [String, Number],
+      default: null
     }
   },
 
@@ -100,12 +144,6 @@ export default {
       // explicit prop wins; otherwise inherit from parent Select; else regular
       return this.size || (this.select && (this.select.optionSize || this.select.size)) || 'md'
     },
-    hasPrefix() {
-      return !!((this.$scopedSlots && this.$scopedSlots.prefix) || this.$slots.prefix)
-    },
-    hasSuffix() {
-      return !!((this.$scopedSlots && this.$scopedSlots.suffix) || this.$slots.suffix)
-    },
     isHidden() {
       if (!this.select || !this.select.filterText) return false
       var q = this.select.filterText.toLowerCase()
@@ -118,10 +156,27 @@ export default {
     isSelected() {
       if (!this.select) return false
       var val = this.select.effectiveValue
-      if (this.select.isMultiMode) {
-        return Array.isArray(val) && val.indexOf(this.value) !== -1
+
+      const isMatch = v => {
+        if (this.select.isMultiMode) {
+          return Array.isArray(val) && val.indexOf(v) !== -1
+        }
+        return val !== undefined && val === v
       }
-      return val !== undefined && val === this.value
+
+      if (isMatch(this.value)) return true
+      if (this.select.isMultiMode) return false
+
+      const checkChildren = children => {
+        if (!children || !children.length) return false
+        for (let i = 0; i < children.length; i++) {
+          if (isMatch(children[i].value)) return true
+          if (checkChildren(children[i].children)) return true
+        }
+        return false
+      }
+
+      return checkChildren(this.children)
     },
     isDisabled() {
       return this.disabled || !!(this.select && this.select.disabled)
@@ -135,6 +190,12 @@ export default {
   },
 
   methods: {
+    hasPrefix() {
+      return !!((this.$scopedSlots && this.$scopedSlots.prefix) || this.$slots.prefix)
+    },
+    hasSuffix() {
+      return !!((this.$scopedSlots && this.$scopedSlots.suffix) || this.$slots.suffix)
+    },
     _registerLabel() {
       if (!this.select) return
       var labelEl = this.$el && this.$el.querySelector('.ui-select-option--label')

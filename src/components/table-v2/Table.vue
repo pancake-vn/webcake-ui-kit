@@ -57,8 +57,8 @@ export default {
     customHeaderRow: { type: Function, default: null },
     rowDraggable: { type: Object, default: null },
     enableFixedLeft: { type: Boolean, default: false },
-    rowHeight: { type: Number, default: 36 },
-    headerHeight: { type: Number, default: 50 },
+    rowHeight: { type: Number, default: 50 },
+    headerHeight: { type: Number, default: 36 },
     emptyText: { type: String, default: '' },
     height: { type: [Number, String], default: 0 }
   },
@@ -176,6 +176,8 @@ export default {
         this.tableCtx.layout.scroll = v.scroll
         this.tableCtx.layout.tableLayout = v.scroll && v.scroll.y ? 'fixed' : 'auto'
         this.tableCtx.layout.height = v.height
+        this.tableCtx.layout.headerHeight = v.headerHeight
+        this.tableCtx.layout.rowHeight = v.rowHeight
       }
     },
 
@@ -186,7 +188,6 @@ export default {
         ;((this.tableCtx.data.display = v.sortKey ? sortData(v.source, v.sortKey, v.sortOrder) : v.source),
           (this.tableCtx.data.loading = v.loading))
         this.tableCtx.data.emptyText = v.emptyText
-        console.log(this.tableCtx.data.emptyText)
       }
     },
 
