@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.7] - 2026-08-11
+
+### Added
+- `WkSelect` and `WkSelectOption` support nested submenu options via a new `children` prop on each option, with per-level `placement`, `width`, and `offset` control.
+- `WkDropdown` accepts new `dropdownMatchSelectWidth` and `offset` props for anchor-width matching and positioning.
+- `WkTableV2`'s content wrapper now supports a `minHeight` prop on its scrollable area.
+
+### Changed
+- `WkTableV2`'s default `rowHeight` and `headerHeight` are swapped, so rows default to `50` and the header to `36`.
+- `WkSelect`'s `value` prop now accepts numbers in addition to strings and arrays.
+- `WkEmpty`'s description text now renders in the muted foreground color.
+
+### Fixed
+- `WkInput`'s `prefix` and `suffix` slots are now detected correctly when passed as scoped slots, fixing missing prefix/suffix rendering under Vue 2.
+- `WkDropdown`'s trigger click no longer bubbles up, preventing nested dropdowns such as `WkSelect` submenus from closing unexpectedly.
+- Click-outside detection now walks the full chain of nested floating panels, fixing `WkSelect` submenus that closed prematurely.
+
 ## [1.2.6] - 2026-08-08
 
 ### Fixed
