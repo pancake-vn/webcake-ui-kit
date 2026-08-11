@@ -2,7 +2,7 @@
   <Menu
     :open="isOpen"
     :placement="placement"
-    :offset="4"
+    :offset="offset"
     :close-on-esc="closeOnEsc"
     :disabled="disabled"
     :persistent="persistent"
@@ -12,12 +12,13 @@
     :width="width"
     :overlay-class-name="overlayClassName"
     :overlay-style="overlayStyle"
+    :anchor-width="dropdownMatchSelectWidth"
   >
     <template #trigger="{ triggerRef }">
       <span
         :ref="triggerRef"
         class="ui-dropdown__anchor"
-        @click="triggerHasClick && handleClick()"
+        @click.stop="triggerHasClick && handleClick()"
         @mouseenter="triggerHasHover && handleMouseEnter()"
         @mouseleave="triggerHasHover && handleMouseLeave()"
       >
@@ -100,7 +101,9 @@ export default {
     overlayClassName: { type: [String, Array, Object], default: null },
     overlayStyle: { type: [Object, Array], default: null },
     showChecked: { type: Boolean, default: false },
-    persistent: { type: Boolean, default: false }
+    persistent: { type: Boolean, default: false },
+    dropdownMatchSelectWidth: { type: Boolean, default: false },
+    offset: { type: Number, default: 4 }
   },
   emits: ['change', 'update:modelValue', 'open', 'close', 'select'],
   data() {
