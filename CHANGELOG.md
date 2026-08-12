@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.9] - 2026-08-12
+
+### Fixed
+- `WkItem` no longer forces `justify-content: space-between`, letting its content area (`flex: 1`) control spacing while `prefix`/`suffix` slots stay fixed-width via `flex-shrink: 0`.
+- `WkItem`'s `muted` variant now applies regardless of the `asChild` state, fixing muted styling that only worked when `asChild` was also set.
+
 ## [1.2.8] - 2026-08-12
 
 ### Added
