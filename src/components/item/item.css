@@ -4,6 +4,7 @@
   gap: var(--spacing-md);
   padding: var(--spacing-md);
   outline: 1px solid transparent;
+  outline-offset: -1px;
   border-radius: var(--rounded-xl);
   overflow: hidden;
   min-height: 52px;
