@@ -8,6 +8,7 @@
   overflow: hidden;
   min-height: 52px;
   cursor: pointer;
+  width: 100%;
 }
 .ui-item.ui-item--as-child.ui-item--variant-outline {
   border: 1px solid var(--border-primary);
@@ -40,6 +41,7 @@
   flex-direction: column;
   gap: var(--spacing-2xs);
   flex: 1;
+  min-width: 0px;
 }
 
 .ui-item--label {
@@ -47,6 +49,12 @@
 }
 .ui-item--description {
   color: var(--muted-fg);
+}
+.ui-item--label,
+.ui-item--description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ui-item--prefix,
