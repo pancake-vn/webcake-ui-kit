@@ -1,13 +1,19 @@
 import WkTable from '../../src/components/table/Table.vue'
+import WkButton from '../../src/components/button/Button.vue'
+import WkTag from '../../src/components/tag/Tag.vue'
 
-const COLUMNS_BASIC = [
+// ---------------------------------------------------------------------------
+// Shared fixtures
+// ---------------------------------------------------------------------------
+
+const COLUMNS = [
   { title: 'Name', dataIndex: 'name', key: 'name', width: 200 },
-  { title: 'Age', dataIndex: 'age', key: 'age', align: 'right', width: 100 },
-  { title: 'Role', dataIndex: 'role', key: 'role', width: 150 },
+  { title: 'Age', dataIndex: 'age', key: 'age', width: 80, align: 'center' },
+  { title: 'Role', dataIndex: 'role', key: 'role', width: 140 },
   { title: 'Status', dataIndex: 'status', key: 'status', width: 120 }
 ]
 
-const DATA_BASIC = [
+const DATA = [
   { key: '1', name: 'Alice Johnson', age: 30, role: 'Admin', status: 'Active' },
   { key: '2', name: 'Bob Smith', age: 25, role: 'Editor', status: 'Active' },
   { key: '3', name: 'Carol White', age: 28, role: 'Viewer', status: 'Inactive' },
@@ -15,26 +21,81 @@ const DATA_BASIC = [
   { key: '5', name: 'Eva Brown', age: 22, role: 'Viewer', status: 'Pending' }
 ]
 
+// ---------------------------------------------------------------------------
+// Default export
+// ---------------------------------------------------------------------------
+
 export default {
   title: 'Data/Table',
   component: WkTable,
   parameters: {
     docs: {
       description: {
-        component:
-          'Data table with optional row selection, column sorting, sticky header/body scroll, ' +
-          'and `#headerCell` / `#bodyCell` scoped slots for custom renderers. ' +
-          '`columns` accepts `{ title, dataIndex, key?, width?, align?, sorter?, ellipsis? }`. ' +
-          '`rowKey` can be a record field name (string) or a function `(record) => key`.'
+        component: `
+Advanced data table (v2). Compared with \`WkTable\`, it adds:
+- **Row drag-and-drop** via \`rowDraggable\` prop
+- **Sticky columns** (left/right) via \`column.fixed\`
+- **Row / header height** control (\`rowHeight\`, \`headerHeight\`)
+- **Custom row hooks** (\`customRow\`, \`customHeaderRow\`)
+- **enableFixedLeft** shorthand to pin the first column without a scroll container
+
+**\`columns\` descriptor fields:**
+\`\`\`js
+{
+  title:     'Name',   // header label
+  dataIndex: 'name',   // record field to render
+  key:       'name',   // unique column key (fallback: dataIndex)
+  width:     200,      // px number or CSS string
+  align:     'left',   // 'left' | 'center' | 'right'
+  fixed:     'left',   // 'left' | 'right' — sticky column
+  ellipsis:  true,     // truncate cell text with ellipsis
+}
+\`\`\`
+
+**Object props — \`rowSelection\`:**
+\`\`\`js
+{
+  selectedRowKeys: [],             // controlled selection (array of row keys)
+  onChange:  (keys, rows) => {},   // fires when selection changes
+  onSelect:  (record, selected, selectedRows, e) => {}, // single row toggled
+  onSelectAll:  (selected, selectedRows, changeRows) => {}, // header checkbox
+  onSelectNone: () => {},          // deselect-all
+  hideSelectAll: false,            // hide the header "select all" checkbox
+  columnWidth:   36,               // px width of the selection column
+  type: 'checkbox',                // 'checkbox' (default) | 'radio'
+}
+\`\`\`
+
+**Object props — \`rowDraggable\`:**
+\`\`\`js
+{
+  handleReorder: (fromIndex, toIndex, newDisplay) => {}, // called after drag drop — update dataSource here
+  columnWidth:          36,   // px width of the drag-handle column
+  enableAnimationFlip:  false // FLIP transition between old and new positions
+}
+\`\`\`
+
+**Object props — \`scroll\`:**
+\`\`\`js
+{
+  x: 1200, // total table width (px) — enables horizontal scroll
+  y: 400,  // max body height (px) — sticky header, body scrolls vertically
+}
+\`\`\`
+        `.trim()
       }
     }
   }
 }
 
+// ---------------------------------------------------------------------------
+// Stories
+// ---------------------------------------------------------------------------
+
 export const Primary = () => ({
   components: { WkTable },
   data() {
-    return { columns: COLUMNS_BASIC, data: DATA_BASIC }
+    return { columns: COLUMNS, data: DATA }
   },
   template: `
     <div style="padding: 24px; max-width: 960px;">
@@ -43,17 +104,17 @@ export const Primary = () => ({
   `
 })
 Primary.parameters = {
-  docs: { description: { story: 'Basic table with four columns and five rows.' } }
+  docs: { description: { story: 'Basic table — four columns, five rows, no extras.' } }
 }
 
 export const Bordered = () => ({
   components: { WkTable },
   data() {
-    return { columns: COLUMNS_BASIC, data: DATA_BASIC }
+    return { columns: COLUMNS, data: DATA }
   },
   template: `
     <div style="padding: 24px; max-width: 960px;">
-      <WkTable :columns="columns" :data-source="data" bordered />
+      <WkTable :columns="columns" :data-source="data" :bordered="true" />
     </div>
   `
 })
@@ -64,354 +125,132 @@ Bordered.parameters = {
 export const AllVariants = () => ({
   components: { WkTable },
   data() {
-    return { columns: COLUMNS_BASIC, data: DATA_BASIC }
+    return { columns: COLUMNS, data: DATA }
   },
   template: `
     <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 40px;">
       <div>
-        <p style="margin: 0 0 12px; font-size: 13px; font-weight: 500; color: #6b7280;">Default</p>
+        <p style="margin: 0 0 10px; font-size: 13px; font-weight: 500; color: #6b7280;">Default</p>
         <WkTable :columns="columns" :data-source="data" />
       </div>
       <div>
-        <p style="margin: 0 0 12px; font-size: 13px; font-weight: 500; color: #6b7280;">Bordered</p>
-        <WkTable :columns="columns" :data-source="data" bordered />
+        <p style="margin: 0 0 10px; font-size: 13px; font-weight: 500; color: #6b7280;">Bordered</p>
+        <WkTable :columns="columns" :data-source="data" :bordered="true" />
       </div>
     </div>
   `
 })
 AllVariants.parameters = {
-  docs: { description: { story: 'Default vs bordered layout side by side.' } }
+  docs: { description: { story: 'Default and bordered layouts side by side.' } }
+}
+
+export const LoadingState = () => ({
+  components: { WkTable, WkButton },
+  data() {
+    return { columns: COLUMNS, data: DATA, loading: true }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 12px;">
+      <WkButton size="sm" @click="loading = !loading">Toggle loading</WkButton>
+      <WkTable :columns="columns" :data-source="data" :loading="loading" />
+    </div>
+  `
+})
+LoadingState.parameters = {
+  docs: { description: { story: '`loading` overlays a spinner on top of the table body. Click the button to toggle.' } }
+}
+
+export const EmptyState = () => ({
+  components: { WkTable },
+  data() {
+    return { columns: COLUMNS }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 32px;">
+      <div>
+        <p style="margin: 0 0 10px; font-size: 13px; font-weight: 500; color: #6b7280;">Default empty</p>
+        <WkTable :columns="columns" :data-source="[]" />
+      </div>
+      <div>
+        <p style="margin: 0 0 10px; font-size: 13px; font-weight: 500; color: #6b7280;">Custom emptyText</p>
+        <WkTable :columns="columns" :data-source="[]" empty-text="Không có dữ liệu phù hợp" />
+      </div>
+    </div>
+  `
+})
+EmptyState.parameters = {
+  docs: { description: { story: 'Empty state with default text and custom `emptyText` prop.' } }
 }
 
 export const WithRowSelection = () => ({
   components: { WkTable },
   data() {
     return {
-      columns: COLUMNS_BASIC,
-      data: DATA_BASIC,
-      selectedKeys: ['1']
+      columns: COLUMNS,
+      data: DATA,
+      selectedKeys: ['1', '3']
     }
   },
-  methods: {
-    onSelectionChange(keys) {
-      this.selectedKeys = keys
+  computed: {
+    rowSelection() {
+      const self = this
+      return {
+        selectedRowKeys: self.selectedKeys,
+        // Fires on every selection change — update selectedRowKeys here
+        onChange(keys /*, selectedRows */) {
+          self.selectedKeys = keys
+        },
+        // Optional: fired when a single row checkbox changes
+        onSelect(record, selected /*, selectedRows, nativeEvent */) {
+          console.log('onSelect', record.key, selected)
+        },
+        // Optional: fired when the header "select all" checkbox changes
+        onSelectAll(selected /*, selectedRows, changeRows */) {
+          console.log('onSelectAll', selected)
+        },
+        // Optional: fired when clicking "deselect all" (custom UI)
+        onSelectNone() {
+          self.selectedKeys = []
+        },
+        hideSelectAll: false, // set true to hide the header checkbox
+        columnWidth: 40, // px width of the checkbox column
+        type: 'checkbox' // 'checkbox' | 'radio'
+      }
     }
   },
   template: `
-    <div style="padding: 24px; max-width: 960px;">
-      <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
-        Selected: {{ selectedKeys.join(', ') || 'none' }}
+    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 12px;">
+      <p style="margin: 0; font-size: 13px; color: #6b7280;">
+        Selected keys: <strong>{{ selectedKeys.join(', ') || 'none' }}</strong>
       </p>
-      <WkTable
-        :columns="columns"
-        :data-source="data"
-        row-selection
-        :selected-row-keys="selectedKeys"
-        @update:selectedRowKeys="onSelectionChange"
-      />
+      <WkTable :columns="columns" :data-source="data" :row-selection="rowSelection" />
     </div>
   `
 })
 WithRowSelection.parameters = {
   docs: {
     description: {
-      story:
-        'Row selection via leading checkbox column. ' +
-        'Pass `:selected-row-keys` + `@update:selectedRowKeys` for controlled mode. ' +
-        'Header checkbox toggles all rows.'
+      story: `
+Pass a \`rowSelection\` object to enable the leading checkbox column.
+
+\`\`\`js
+rowSelection: {
+  selectedRowKeys: [],             // controlled: array of selected row keys
+  onChange:  (keys, rows) => {},   // fires whenever selection changes — update selectedRowKeys here
+  onSelect:  (record, selected, selectedRows, nativeEvent) => {}, // optional: single-row toggle
+  onSelectAll:  (selected, selectedRows, changeRows) => {},        // optional: header checkbox
+  onSelectNone: () => {},          // optional: deselect-all action
+  hideSelectAll: false,            // hide the header "select all" checkbox
+  columnWidth:   40,               // px width of the checkbox column (default 36)
+  type: 'checkbox',                // 'checkbox' (default) | 'radio'
+}
+\`\`\`
+      `.trim()
     }
   }
 }
 
-export const WithSorting = () => ({
-  components: { WkTable },
-  data() {
-    return {
-      columns: [
-        { title: 'Name', dataIndex: 'name', key: 'name', sorter: true },
-        { title: 'Age', dataIndex: 'age', key: 'age', align: 'right', sorter: (a, b) => a.age - b.age },
-        { title: 'Role', dataIndex: 'role', key: 'role' }
-      ],
-      data: DATA_BASIC,
-      lastSort: null
-    }
-  },
-  methods: {
-    onSortChange(s) {
-      this.lastSort = s.order ? s.field + ' ' + s.order : 'none'
-    }
-  },
-  template: `
-    <div style="padding: 24px; max-width: 960px;">
-      <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
-        Sort: {{ lastSort || 'none' }}
-      </p>
-      <WkTable :columns="columns" :data-source="data" @sort-change="onSortChange" />
-    </div>
-  `
-})
-WithSorting.parameters = {
-  docs: {
-    description: {
-      story:
-        '`sorter: true` uses default locale-compare / numeric sort. ' +
-        '`sorter: (a, b) => ...` uses a custom comparator. ' +
-        'Click a sortable header to cycle ascend → descend → none.'
-    }
-  }
-}
-
-export const WithEmptyState = () => ({
-  components: { WkTable },
-  data() {
-    return { columns: COLUMNS_BASIC, data: [] }
-  },
-  template: `
-    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 32px;">
-      <div>
-        <p style="margin: 0 0 12px; font-size: 13px; font-weight: 500; color: #6b7280;">Default empty text</p>
-        <WkTable :columns="columns" :data-source="data" />
-      </div>
-      <div>
-        <p style="margin: 0 0 12px; font-size: 13px; font-weight: 500; color: #6b7280;">Custom emptyText prop</p>
-        <WkTable :columns="columns" :data-source="data" empty-text="No results found" />
-      </div>
-      <div>
-        <p style="margin: 0 0 12px; font-size: 13px; font-weight: 500; color: #6b7280;">Custom #emptyText slot</p>
-        <WkTable :columns="columns" :data-source="data">
-          <template #emptyText>
-            <div style="padding: 32px; text-align: center; color: #9ca3af; font-size: 13px;">
-              🗂 No records match your filter
-            </div>
-          </template>
-        </WkTable>
-      </div>
-    </div>
-  `
-})
-WithEmptyState.parameters = {
-  docs: {
-    description: {
-      story: 'Three ways to customise the empty state: default WkEmpty, `emptyText` prop, or `#emptyText` slot.'
-    }
-  }
-}
-
-export const ScrollableY = () => ({
-  components: { WkTable },
-  data() {
-    return {
-      columns: COLUMNS_BASIC,
-      data: Array.from({ length: 20 }, (_, i) => ({
-        key: String(i + 1),
-        name: 'User ' + (i + 1),
-        age: 20 + i,
-        role: ['Admin', 'Editor', 'Viewer'][i % 3],
-        status: i % 2 === 0 ? 'Active' : 'Inactive'
-      }))
-    }
-  },
-  template: `
-    <div style="padding: 24px; max-width: 960px;">
-      <WkTable :columns="columns" :data-source="data" :height="280" />
-    </div>
-  `
-})
-ScrollableY.parameters = {
-  docs: {
-    description: {
-      story:
-        '`height` caps the body and enables vertical scroll with a sticky header. ' +
-        'A scrollbar-gutter column is added to the header automatically.'
-    }
-  }
-}
-
-export const WithCustomCellRenderers = () => ({
-  components: { WkTable },
-  data() {
-    return { columns: COLUMNS_BASIC, data: DATA_BASIC }
-  },
-  template: `
-    <div style="padding: 24px; max-width: 960px;">
-      <WkTable :columns="columns" :data-source="data">
-        <template #headerCell="{ column }">
-          <span style="font-style: italic;">{{ column.title }}</span>
-        </template>
-        <template #bodyCell="{ column, text }">
-          <span
-            v-if="column.key === 'status'"
-            :style="{
-              display: 'inline-block',
-              padding: '2px 8px',
-              borderRadius: '9999px',
-              fontSize: '11px',
-              fontWeight: 500,
-              background: text === 'Active' ? '#dcfce7' : text === 'Inactive' ? '#fee2e2' : '#fef9c3',
-              color: text === 'Active' ? '#166534' : text === 'Inactive' ? '#991b1b' : '#854d0e'
-            }"
-          >{{ text }}</span>
-          <span v-else>{{ text }}</span>
-        </template>
-      </WkTable>
-    </div>
-  `
-})
-WithCustomCellRenderers.parameters = {
-  docs: {
-    description: {
-      story:
-        '`#headerCell` and `#bodyCell` scoped slots for custom rendering. ' +
-        'Slot props: `column`, `record`, `text`, `index`.'
-    }
-  }
-}
-
-export const Matrix = () => ({
-  components: { WkTable },
-  data() {
-    return {
-      data: DATA_BASIC,
-      colsNoKey: [
-        { title: 'Name', dataIndex: 'name', key: 'name', sorter: true },
-        { title: 'Age', dataIndex: 'age', key: 'age', align: 'right', sorter: (a, b) => a.age - b.age },
-        { title: 'Role', dataIndex: 'role', key: 'role' }
-      ]
-    }
-  },
-  template: `
-    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 40px;">
-      <div>
-        <p style="margin: 0 0 8px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #9ca3af;">Selection + Sort + Bordered</p>
-        <WkTable :columns="colsNoKey" :data-source="data" row-selection bordered />
-      </div>
-      <div>
-        <p style="margin: 0 0 8px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #9ca3af;">Selection + Scroll</p>
-        <WkTable :columns="colsNoKey" :data-source="data" row-selection :height="200" />
-      </div>
-    </div>
-  `
-})
-Matrix.parameters = {
-  docs: { description: { story: 'Combination of props: selection + sort + bordered; selection + scroll.' } }
-}
-
-export const FocusVisible = () => ({
-  components: { WkTable },
-  data() {
-    return {
-      columns: [
-        { title: 'Name', dataIndex: 'name', key: 'name', sorter: true },
-        { title: 'Age', dataIndex: 'age', key: 'age', align: 'right', sorter: (a, b) => a.age - b.age }
-      ],
-      data: DATA_BASIC
-    }
-  },
-  template: `
-    <div style="padding: 24px; max-width: 960px;">
-      <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">Tab to sortable headers and press Enter/Space to sort.</p>
-      <WkTable :columns="columns" :data-source="data" />
-    </div>
-  `
-})
-FocusVisible.parameters = {
-  docs: {
-    description: {
-      story: 'Sortable column headers are keyboard accessible (`tabindex="0"`, Enter/Space triggers sort).'
-    }
-  }
-}
-
-const COLUMNS_HUGE = [
-  { title: 'Name', dataIndex: 'name', key: 'name' },
-  { title: 'Age', dataIndex: 'age', key: 'age', align: 'right' },
-  { title: 'Role', dataIndex: 'role', key: 'role' }
-]
-const DATA_HUGE = Array.from({ length: 10000 }, (_, i) => ({
-  key: 'v' + i,
-  name: 'User ' + (i + 1),
-  age: 20 + (i % 30),
-  role: 'Role ' + (i % 5)
-}))
-
-export const Virtualized = () => ({
-  components: { WkTable },
-  data() {
-    return { columns: COLUMNS_HUGE, data: DATA_HUGE, selected: ['v500'] }
-  },
-  template: `
-    <div style="padding: 24px; max-width: 960px;">
-      <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
-        10,000 rows — only the rows in the viewport (plus overscan) are in the DOM.
-      </p>
-      <WkTable
-        :columns="columns"
-        :data-source="data"
-        bordered
-        virtual
-        :height="500"
-        :row-height="39"
-        row-selection
-        :selected-row-keys="selected"
-        @update:selectedRowKeys="selected = $event"
-      />
-    </div>
-  `
-})
-Virtualized.parameters = {
-  docs: {
-    description: {
-      story:
-        'Virtualized body via the `virtual` prop. Renders only the visible window over a 10,000-row ' +
-        'dataset while preserving full native scroll height, sticky header, and selection state ' +
-        '(e.g. `v500`) for rows outside the window. Requires a vertical-scroll viewport (`height` or ' +
-        '`scroll.y`) and a fixed numeric `row-height`. `overscan` (default 8) tunes the buffer.'
-    }
-  }
-}
-
-export const ResizableColumns = () => ({
-  components: { WkTable },
-  data() {
-    return {
-      columns: [
-        { title: 'Name', dataIndex: 'name', key: 'name', width: 180, resizable: true, minWidth: 80 },
-        { title: 'Age', dataIndex: 'age', key: 'age', width: 80, resizable: true, minWidth: 60, align: 'right' },
-        { title: 'Role', dataIndex: 'role', key: 'role', width: 140, resizable: true, minWidth: 80 },
-        { title: 'Department', dataIndex: 'dept', key: 'dept', width: 160, resizable: true, minWidth: 100 },
-        { title: 'Status', dataIndex: 'status', key: 'status', width: 120, resizable: false }
-      ],
-      data: [
-        { key: '1', name: 'Alice Johnson', age: 30, role: 'Admin', dept: 'Engineering', status: 'Active' },
-        { key: '2', name: 'Bob Smith', age: 25, role: 'Editor', dept: 'Product', status: 'Active' },
-        { key: '3', name: 'Carol White', age: 28, role: 'Viewer', dept: 'Design', status: 'Inactive' },
-        { key: '4', name: 'David Lee', age: 34, role: 'Editor', dept: 'Engineering', status: 'Active' },
-        { key: '5', name: 'Eva Brown', age: 22, role: 'Viewer', dept: 'Marketing', status: 'Pending' }
-      ]
-    }
-  },
-  template: `
-    <div style="padding: 24px; max-width: 900px;">
-      <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
-        Drag the resize handle (right edge of a column header) to change its width.
-        The last column has <code>resizable: false</code>.
-      </p>
-      <WkTable :columns="columns" :data-source="data" bordered />
-    </div>
-  `
-})
-ResizableColumns.parameters = {
-  docs: {
-    description: {
-      story:
-        'Add `resizable: true` to a column descriptor to show a drag handle on its right edge. ' +
-        'Optionally set `minWidth` (px, default 40) to clamp the minimum. ' +
-        'Columns with `fixed: "right"` resize leftward automatically.'
-    }
-  }
-}
-
-export const DragAndDropRows = () => ({
+export const WithRowDraggable = () => ({
   components: { WkTable },
   data() {
     return {
@@ -420,50 +259,95 @@ export const DragAndDropRows = () => ({
         { title: 'Role', dataIndex: 'role', key: 'role', width: 140 },
         { title: 'Status', dataIndex: 'status', key: 'status', width: 120 }
       ],
-      data: [
-        { key: '1', name: 'Alice Johnson', role: 'Admin', status: 'Active' },
-        { key: '2', name: 'Bob Smith', role: 'Editor', status: 'Active' },
-        { key: '3', name: 'Carol White', role: 'Viewer', status: 'Inactive' },
-        { key: '4', name: 'David Lee', role: 'Editor', status: 'Active' },
-        { key: '5', name: 'Eva Brown', role: 'Viewer', status: 'Pending' }
-      ],
+      data: DATA.slice(),
       lastMove: null
     }
   },
-  methods: {
-    onDragRecord({ record, fromIndex, toIndex }) {
-      const next = this.data.slice()
-      const [moved] = next.splice(fromIndex, 1)
-      next.splice(toIndex, 0, moved)
-      this.data = next
-      this.lastMove = record.name + ': ' + fromIndex + ' → ' + toIndex
+  computed: {
+    rowDraggable() {
+      const self = this
+      return {
+        // Called after drag ends — reorder data source here
+        handleReorder(fromIndex, toIndex, _newDisplay) {
+          const next = self.data.slice()
+          const [moved] = next.splice(fromIndex, 1)
+          next.splice(toIndex, 0, moved)
+          self.data = next
+          self.lastMove = moved.name + ': row ' + (fromIndex + 1) + ' → ' + (toIndex + 1)
+        },
+        columnWidth: 36, // px width of the drag-handle column
+        enableAnimationFlip: true // FLIP animation when rows reorder
+      }
     }
   },
   template: `
-    <div style="padding: 24px; max-width: 600px;">
+    <div style="padding: 24px; max-width: 700px; display: flex; flex-direction: column; gap: 12px;">
+      <p style="margin: 0; font-size: 13px; color: #6b7280;">
+        Drag the handle on the left to reorder rows.
+        <span v-if="lastMove" style="margin-left: 8px; color: #4f46e5; font-weight: 500;">{{ lastMove }}</span>
+      </p>
+      <WkTable :columns="columns" :data-source="data" :row-draggable="rowDraggable" :bordered="true" />
+    </div>
+  `
+})
+WithRowDraggable.parameters = {
+  docs: {
+    description: {
+      story: `
+Pass a \`rowDraggable\` object to enable the drag-handle column on the left.
+
+\`\`\`js
+rowDraggable: {
+  // REQUIRED: called after the user drops a row — update dataSource here
+  handleReorder(fromIndex, toIndex, newDisplay) {
+    const next = data.slice()
+    const [moved] = next.splice(fromIndex, 1)
+    next.splice(toIndex, 0, moved)
+    data = next
+  },
+  columnWidth:         36,    // px width of the drag-handle column (default 36)
+  enableAnimationFlip: true,  // FLIP animation between old and new positions
+}
+\`\`\`
+      `.trim()
+    }
+  }
+}
+
+export const FixedHeader = () => ({
+  components: { WkTable },
+  data() {
+    return {
+      columns: COLUMNS,
+      data: Array.from({ length: 20 }, function (_, i) {
+        return {
+          key: String(i + 1),
+          name: 'User ' + (i + 1),
+          age: 20 + i,
+          role: ['Admin', 'Editor', 'Viewer'][i % 3],
+          status: i % 2 === 0 ? 'Active' : 'Inactive'
+        }
+      })
+    }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 960px;">
       <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
-        Drag the grip handle on the left to reorder rows.
-        <span v-if="lastMove" style="margin-left:8px; color:#6366f1; font-weight:500;">{{ lastMove }}</span>
+        20 rows — header is sticky, body scrolls inside a 300px viewport.
       </p>
       <WkTable
         :columns="columns"
         :data-source="data"
-        is-drag
-        bordered
-        @drag-record="onDragRecord"
+        :scroll="{ y: 300 }"
       />
     </div>
   `
 })
-DragAndDropRows.parameters = {
+FixedHeader.parameters = {
   docs: {
     description: {
       story:
-        'Enable row drag-and-drop with `is-drag`. ' +
-        'A grip handle column is prepended automatically. ' +
-        'On drop the component emits `drag-record` with `{ record, fromIndex, toIndex }` plus the native `DragEvent`. ' +
-        'The parent is responsible for updating `data-source` — splice `fromIndex` out and insert at `toIndex`. ' +
-        'Rows animate with a FLIP transition after each reorder.'
+        '`scroll: { y: 300 }` caps the body height and renders a sticky header above. The header and body are separate `<table>` elements that share column widths.'
     }
   }
 }
@@ -474,7 +358,7 @@ export const FixedColumns = () => ({
     return {
       columns: [
         { title: 'Name', dataIndex: 'name', key: 'name', width: 160, fixed: 'left' },
-        { title: 'Age', dataIndex: 'age', key: 'age', width: 80, align: 'right' },
+        { title: 'Age', dataIndex: 'age', key: 'age', width: 80, align: 'center' },
         { title: 'Role', dataIndex: 'role', key: 'role', width: 140 },
         { title: 'Department', dataIndex: 'dept', key: 'dept', width: 160 },
         { title: 'Location', dataIndex: 'loc', key: 'loc', width: 160 },
@@ -542,14 +426,14 @@ export const FixedColumns = () => ({
     }
   },
   template: `
-    <div style="padding: 24px; max-width: 600px;">
+    <div style="padding: 24px; max-width: 620px;">
       <p style="margin: 0 0 12px; font-size: 13px; color: #6b7280;">
-        <strong>Name</strong> is fixed left, <strong>Status</strong> is fixed right. Scroll horizontally to see both stay in place.
+        <strong>Name</strong> fixed left · <strong>Status</strong> fixed right. Scroll horizontally.
       </p>
       <WkTable
         :columns="columns"
         :data-source="data"
-        bordered
+        :bordered="true"
         :scroll="{ x: 1200 }"
       />
     </div>
@@ -559,73 +443,152 @@ FixedColumns.parameters = {
   docs: {
     description: {
       story:
-        'Set `fixed: "left"` or `fixed: "right"` on a column to pin it during horizontal scroll. ' +
-        'Combine with `scroll: { x: <totalWidth> }` to enable the horizontal scrollbar. ' +
+        'Set `fixed: "left"` or `fixed: "right"` on a column descriptor combined with `scroll: { x: <total-width> }` to pin columns during horizontal scroll. ' +
         'Shadow lines appear automatically on the last fixed-left and first fixed-right columns.'
     }
   }
 }
 
-export const ColumnSchema = () => ({
-  components: { WkTable },
+export const CustomBodyCell = () => ({
+  components: { WkTable, WkTag },
   data() {
-    return {
-      columns: [
-        { title: 'Name', dataIndex: 'name', key: 'name', width: 180, fixed: 'left', resizable: true, minWidth: 80 },
-        { title: 'Age', dataIndex: 'age', key: 'age', width: 80, align: 'right', sorter: (a, b) => a.age - b.age },
-        { title: 'Role', dataIndex: 'role', key: 'role', width: 140, sorter: true },
-        { title: 'Note', dataIndex: 'note', key: 'note', width: 200, ellipsis: true },
-        { title: 'Status', dataIndex: 'status', key: 'status', width: 120, fixed: 'right' }
-      ],
-      data: [
-        {
-          key: '1',
-          name: 'Alice Johnson',
-          age: 30,
-          role: 'Admin',
-          note: 'Long note that gets truncated with ellipsis when it overflows the cell width',
-          status: 'Active'
-        },
-        { key: '2', name: 'Bob Smith', age: 25, role: 'Editor', note: 'Short note', status: 'Active' },
-        {
-          key: '3',
-          name: 'Carol White',
-          age: 28,
-          role: 'Viewer',
-          note: 'Another long description that demonstrates the ellipsis truncation feature',
-          status: 'Inactive'
-        }
-      ]
-    }
+    return { columns: COLUMNS, data: DATA }
   },
   template: `
-    <div style="padding: 24px; max-width: 860px;">
-      <WkTable :columns="columns" :data-source="data" bordered :scroll="{ x: 900 }" />
+    <div style="padding: 24px; max-width: 960px;">
+      <WkTable :columns="columns" :data-source="data">
+        <template #bodyCell="{ column, text, record }">
+          <span v-if="column.dataIndex === 'status'">
+            <WkTag
+              :color="text === 'Active' ? 'green' : text === 'Inactive' ? 'red' : 'orange'"
+            >{{ text }}</WkTag>
+          </span>
+          <strong v-else-if="column.dataIndex === 'name'" style="color: #111827;">{{ text }}</strong>
+          <span v-else>{{ text }}</span>
+        </template>
+      </WkTable>
     </div>
   `
 })
-ColumnSchema.parameters = {
+CustomBodyCell.parameters = {
   docs: {
     description: {
       story: `
-All fields accepted by a column descriptor object:
+\`#bodyCell\` scoped slot for custom cell rendering.
 
+Slot props:
 \`\`\`js
-{
-  title:      'Name',              // header label (also accepts #headerCell slot)
-  dataIndex:  'name',             // record field to render (also used as fallback key)
-  key:        'name',             // unique column key — defaults to dataIndex
-  width:      180,                // number (px) or CSS string e.g. '20%'
-  align:      'left',             // 'left' (default) | 'center' | 'right'
-  fixed:      'left',             // 'left' | 'right' — pin column during horizontal scroll
-  resizable:  true,               // show drag handle on column edge
-  minWidth:   80,                 // minimum px width during resize (default 40)
-  ellipsis:   true,               // truncate cell text with text-overflow: ellipsis
-  sorter:     true,               // true → default locale/numeric sort
-  sorter:     (a, b) => a.age - b.age  // or a custom comparator function
-}
+{ column, text, record, index }
 \`\`\`
+
+- \`column\` — the column descriptor object
+- \`text\`   — raw value from \`record[column.dataIndex]\`
+- \`record\` — full row data object
+- \`index\`  — row index in the display array
       `.trim()
     }
+  }
+}
+
+export const WithRowAndColumnSelection = () => ({
+  components: { WkTable },
+  data() {
+    return {
+      columns: COLUMNS,
+      data: DATA,
+      selectedKeys: []
+    }
+  },
+  computed: {
+    rowSelection() {
+      const self = this
+      return {
+        selectedRowKeys: self.selectedKeys,
+        onChange(keys) {
+          self.selectedKeys = keys
+        },
+        type: 'checkbox'
+      }
+    }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 40px;">
+      <div>
+        <p style="margin: 0 0 10px; font-size: 13px; font-weight: 500; color: #6b7280;">
+          Selection + Bordered — selected: {{ selectedKeys.join(', ') || 'none' }}
+        </p>
+        <WkTable
+          :columns="columns"
+          :data-source="data"
+          :row-selection="rowSelection"
+          :bordered="true"
+        />
+      </div>
+      <div>
+        <p style="margin: 0 0 10px; font-size: 13px; font-weight: 500; color: #6b7280;">
+          Selection + Fixed Header
+        </p>
+        <WkTable
+          :columns="columns"
+          :data-source="data"
+          :row-selection="rowSelection"
+          :scroll="{ y: 220 }"
+        />
+      </div>
+    </div>
+  `
+})
+WithRowAndColumnSelection.parameters = {
+  docs: { description: { story: 'Row selection combined with bordered layout and fixed-header scroll.' } }
+}
+
+export const Matrix = () => ({
+  components: { WkTable },
+  data() {
+    return {
+      columns: COLUMNS,
+      data: DATA,
+      selectedKeys: []
+    }
+  },
+  computed: {
+    rowSelection() {
+      const self = this
+      return {
+        selectedRowKeys: self.selectedKeys,
+        onChange(keys) {
+          self.selectedKeys = keys
+        }
+      }
+    }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 40px;">
+      <div>
+        <p style="margin: 0 0 8px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #9ca3af;">Default</p>
+        <WkTable :columns="columns" :data-source="data" />
+      </div>
+      <div>
+        <p style="margin: 0 0 8px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #9ca3af;">Bordered + Selection</p>
+        <WkTable :columns="columns" :data-source="data" :bordered="true" :row-selection="rowSelection" />
+      </div>
+      <div>
+        <p style="margin: 0 0 8px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #9ca3af;">Fixed header (scroll.y=200) + Selection</p>
+        <WkTable :columns="columns" :data-source="data" :scroll="{ y: 200 }" :row-selection="rowSelection" />
+      </div>
+      <div>
+        <p style="margin: 0 0 8px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #9ca3af;">Loading</p>
+        <WkTable :columns="columns" :data-source="data" :loading="true" />
+      </div>
+      <div>
+        <p style="margin: 0 0 8px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #9ca3af;">Empty state</p>
+        <WkTable :columns="columns" :data-source="[]" />
+      </div>
+    </div>
+  `
+})
+Matrix.parameters = {
+  docs: {
+    description: { story: 'Feature matrix: default · bordered+selection · fixed-header+selection · loading · empty.' }
   }
 }

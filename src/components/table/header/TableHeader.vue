@@ -1,5 +1,5 @@
 <template>
-  <thead class="ui-table-v2__header">
+  <thead class="ui-table__header">
     <TableHeaderRow />
   </thead>
 </template>
@@ -8,7 +8,7 @@
 import TableHeaderRow from './TableHeaderRow.vue'
 
 export default {
-  name: 'TableV2Header',
+  name: 'TableHeader',
   components: { TableHeaderRow },
   inject: ['tableContext']
 }

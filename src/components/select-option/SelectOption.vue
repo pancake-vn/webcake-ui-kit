@@ -13,7 +13,7 @@
     role="option"
     :aria-selected="isSelected ? 'true' : 'false'"
     :aria-disabled="isDisabled ? 'true' : null"
-    @click="handleClick"
+    @click.stop="handleClick"
   >
     <span v-if="hasPrefix()" class="ui-select-option__prefix">
       <slot name="prefix" />
@@ -214,3 +214,4 @@ export default {
 </script>
 
 <style src="./select_option.css" scoped></style>
+<style src="./select_option_sub.css"></style>

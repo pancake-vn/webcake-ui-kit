@@ -1,11 +1,11 @@
 <template>
   <div
-    :class="['ui-table-v2__cell-resize-handle', dragging && 'dragging', reversed && 'reversed']"
+    :class="['ui-table__cell-resize-handle', dragging && 'dragging', reversed && 'reversed']"
     @mousedown.stop.prevent="handleMouseDown"
     @touchstart.stop.prevent="handleTouchStart"
     @click.stop.prevent
   >
-    <div class="ui-table-v2__cell-resize-line"></div>
+    <div class="ui-table__cell-resize-line"></div>
   </div>
 </template>
 

@@ -661,77 +661,6 @@
         </div>
       </section>
 
-      <section>
-        <!-- <WkTypography variant="paragraph-regular" align="right" color="primary-fg">Aligned right</WkTypography>
-        <h2>Table — data-driven, bordered, sortable</h2>
-        <WkTable
-          :columns="tableColumns"
-          :data-source="tableData"
-          bordered
-          :customRow="customRowExample"
-          :customHeader="customHeaderExample"
-        >
-          <template #bodyCell="{ column, record }">
-            <WkButton v-if="column.dataIndex === 'operation'" size="xs" variant="ghost">Edit</WkButton>
-            <template v-else>{{ record.name + 'aaaa' }}</template>
-          </template>
-        </WkTable> -->
-
-        <!-- <h2 style="margin-top: 24px">Table — row selection</h2>
-        <WkTable :columns="tableColumns" :data-source="tableData">
-          <template #bodyCell="{ column, record }">
-            <WkTypography variant="heading-3" as="div" @dblclick="handleClickTypo"
-              >heading-3 rendered as &lt;div&gt; via as prop</WkTypography
-            >
-            <WkButton v-if="column.dataIndex === 'operation'" size="xs" variant="ghost">Edit</WkButton>
-            <template v-else>{{ record.name + 'aaaa' }}. 123123fds;k</template>
-          </template>
-        </WkTable>
-        <p>Selected keys: {{ tableSelectedKeys.join(', ') || '(none)' }}</p>
-
-        <h2 style="margin-top: 24px">Table — empty</h2>
-        <WkTable :columns="tableColumns" :data-source="[]" bordered /> -->
-
-        <h2 style="margin-top: 24px">Table — fixed scroll (x: 600, y: 494) + height 524</h2>
-        <WkTable
-          :columns="tableColumns"
-          :data-source="tableScrollData"
-          :scroll="{ y: 400, x: 1200 }"
-          bordered
-          row-selection
-          :selected-row-keys="tableSelectedKeys"
-          @update:selectedRowKeys="tableSelectedKeys = $event"
-          isDrag
-          :rowHeight="50"
-        />
-
-        <h2 style="margin-top: 24px">Table — drag &amp; drop rows</h2>
-        <WkTable
-          :columns="tableColumns"
-          :data-source="tableDragData"
-          isDrag
-          @drag-record="onTableDragRecord"
-          :rowHeight="50"
-        />
-        <p style="margin-top: 8px; font-size: 12px; color: var(--muted-fg)">
-          Order: {{ tableDragData.map(r => r.name).join(' → ') }}
-        </p>
-
-        <!-- <h2 style="margin-top: 24px">Table — virtual scrolling (10,000 rows)</h2>
-        <WkTable
-          :columns="tableColumns"
-          :data-source="tableHugeData"
-          bordered
-          virtual
-          :height="500"
-          :row-height="39"
-          row-selection
-          :selected-row-keys="tableHugeSelectedKeys"
-          @update:selectedRowKeys="tableHugeSelectedKeys = $event"
-        />
-        <p>Selected keys: {{ tableHugeSelectedKeys.join(', ') || '(none)' }}</p> -->
-      </section>
-
       <WkSidebarItem>
         sfhmvsjfjsda
         <template #icon>
@@ -934,7 +863,7 @@
 
       <section class="section">
         <h2>Table V2 — base (header + body)</h2>
-        <WkTableV2
+        <WkTable
           :emptyText="'sjdfljskdfljs'"
           bordered
           enableFixedLeft
@@ -972,7 +901,7 @@
               <WkBadge :variant="text === 'Active' ? 'primary' : 'secondary'" :label="text" />
             </template>
             <template v-else-if="column.dataIndex === 'action'">
-              <WkDropdown :items="tableV2ActionItems" @select="handleTableV2Action($event, record)">
+              <WkDropdown :items="tableActionItems" @select="handleTableAction($event, record)">
                 <WkTooltip title="Actions" side="top">
                   <button
                     type="button"
@@ -993,7 +922,7 @@
               </WkDropdown>
             </template>
           </template>
-        </WkTableV2>
+        </WkTable>
       </section>
 
       <section class="section">
@@ -1385,7 +1314,7 @@ export default {
           joined: '2023-10-03'
         }
       ],
-      tableV2ActionItems: [
+      tableActionItems: [
         { key: 'edit', label: 'Edit', icon: WkiChessBishop },
         { key: 'view', label: 'View detail' },
         { key: 'delete', label: 'Delete', destructive: true }
@@ -1741,6 +1670,7 @@ export default {
       options.push({
         label: 'Cổng thanh toán',
         value: 'payment_gateway',
+        width: 190,
         children: [
           {
             label: 'POS auto banking',
@@ -1753,6 +1683,7 @@ export default {
           {
             label: 'Xendit payment',
             value: 'xendit_banking',
+            width: 190,
             children: [
               {
                 label: 'Xendit default',
@@ -1783,6 +1714,7 @@ export default {
           {
             label: 'Onepay payment',
             value: 'onepay_banking',
+            width: 190,
             children: [
               {
                 label: 'Onepay default',
@@ -1821,6 +1753,7 @@ export default {
           {
             label: 'Mercadopago payment',
             value: 'mercadopago_banking',
+            width: 190,
             children: [
               {
                 label: 'Mercado pago (default)',
@@ -1874,7 +1807,7 @@ export default {
     }
   },
   methods: {
-    handleTableV2Action(item, record) {
+    handleTableAction(item, record) {
       console.log('table action', item.key, record)
     },
     disableWeekends(date) {

@@ -3,7 +3,7 @@
     <col
       v-for="col in tableContext.columns.flat"
       :key="col.key"
-      :class="isSelectionCol(col) ? 'ui-table-v2__selection-col' : ''"
+      :class="isSelectionCol(col) ? 'ui-table__selection-col' : ''"
       :style="colStyle(col)"
     />
     <col v-if="hasScrollBar" :style="{ width: tableContext.layout.scrollBarWidth }" />
@@ -15,7 +15,7 @@ import { toCssSize } from '../../utils/common'
 import { SELECTION_COLUMN, DRAGGABLE_COLUMN } from './constants.js'
 
 export default {
-  name: 'TableV2ColGroup',
+  name: 'TableColGroup',
   inject: ['tableContext'],
   props: {
     isHeader: { type: Boolean, default: false }

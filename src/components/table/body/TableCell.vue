@@ -1,12 +1,12 @@
 <template>
   <td
     :class="[
-      'ui-table-v2__cell',
-      isSelectionCol && 'ui-table-v2__cell--selection',
-      isSelectionCol && 'ui-table-v2__header-cell--selection',
-      column.fixed && `ui-table-v2__cell--fixed-${column.fixed}`,
-      isLastFixedLeft && 'ui-table-v2__cell--fixed-left__last',
-      isFirstFixedRight && 'ui-table-v2__cell--fixed-right__first'
+      'ui-table__cell',
+      isSelectionCol && 'ui-table__cell--selection',
+      isSelectionCol && 'ui-table__header-cell--selection',
+      column.fixed && `ui-table__cell--fixed-${column.fixed}`,
+      isLastFixedLeft && 'ui-table__cell--fixed-left__last',
+      isFirstFixedRight && 'ui-table__cell--fixed-right__first'
     ]"
     :style="cellStyle"
   >
@@ -27,7 +27,7 @@
       :text="record[column.dataIndex]"
       :record="record"
     >
-      <span :class="[column.ellipsis && 'ui-table-v2__cell--ellipsis']">
+      <span :class="[column.ellipsis && 'ui-table__cell--ellipsis']">
         {{ record[column.dataIndex] }}
       </span>
     </slot>
@@ -41,7 +41,7 @@ import { toCssSize } from '../../../utils/common.js'
 import { WkiGripVertical } from '../../../icons'
 
 export default {
-  name: 'TableV2Cell',
+  name: 'TableCell',
   components: { Checkbox, WkiGripVertical },
   inject: ['tableContext'],
   props: {

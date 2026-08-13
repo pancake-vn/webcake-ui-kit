@@ -1,13 +1,13 @@
 <template>
   <th
     :class="[
-      'ui-table-v2__header-cell',
-      isSelectionCol && 'ui-table-v2__header-cell--selection',
-      isLastItem && 'ui-table-v2__header-cell--last',
-      isSelectionCol && !isHideSelectAll && 'ui-table-v2__header-cell--selection',
-      column.fixed && `ui-table-v2__cell--fixed-${column.fixed}`,
-      isLastFixedLeft && 'ui-table-v2__cell--fixed-left__last',
-      isFirstFixedRight && 'ui-table-v2__cell--fixed-right__first'
+      'ui-table__header-cell',
+      isSelectionCol && 'ui-table__header-cell--selection',
+      isLastItem && 'ui-table__header-cell--last',
+      isSelectionCol && !isHideSelectAll && 'ui-table__header-cell--selection',
+      column.fixed && `ui-table__cell--fixed-${column.fixed}`,
+      isLastFixedLeft && 'ui-table__cell--fixed-left__last',
+      isFirstFixedRight && 'ui-table__cell--fixed-right__first'
     ]"
     :style="cellStyle"
   >
@@ -15,7 +15,7 @@
       <Checkbox :checked="tableContext.selection.checkAll" @change="onCheckAll" />
     </div>
 
-    <span v-else :class="[column.ellipsis && 'ui-table-v2__header-cell--ellipsis']">{{ column.title }}</span>
+    <span v-else :class="[column.ellipsis && 'ui-table__header-cell--ellipsis']">{{ column.title }}</span>
 
     <slot name="drag-handle"></slot>
   </th>
@@ -27,7 +27,7 @@ import { SELECTION_COLUMN } from '../constants.js'
 import { toCssSize } from '../../../utils/common.js'
 
 export default {
-  name: 'TableV2HeaderCell',
+  name: 'TableHeaderCell',
   components: { Checkbox },
   inject: ['tableContext'],
   props: {
