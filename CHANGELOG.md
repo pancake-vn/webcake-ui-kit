@@ -4,6 +4,18 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.14] - 2026-08-13
+
+### Changed
+- `WkTable` now uses the richer sticky/resizable implementation formerly shipped as `WkTableV2`; the standalone `WkTableV2` export has been removed.
+- `WkDatePicker`'s `sm` trigger now uses the mini paragraph typography tokens instead of the default size, and no longer forces a 200px minimum width.
+
+### Fixed
+- `WkSelectOption`'s submenu offset and `WkSelect`'s list styling now apply correctly by using unscoped selectors instead of `::v-deep`, fixing missing styling on nested submenu anchors and list scrollbars.
+- `WkDropdown`'s trigger hover events no longer bubble up, preventing nested dropdowns from opening or closing their parent unexpectedly.
+- `WkSelectOption`'s click no longer bubbles up, preventing nested submenu selection from also triggering the parent option's click handler.
+- `WkTextarea`'s character counter now only shows when `showCount` is explicitly set, instead of also appearing whenever `maxLength` is set.
+
 ## [1.2.13] - 2026-08-12
 
 ### Fixed
