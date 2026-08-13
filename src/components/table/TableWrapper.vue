@@ -61,7 +61,7 @@ import DragPreview from './body/DragPreview.vue'
 import { toCssSize, getTargetScrollBarSize } from '../../utils/common'
 
 export default {
-  name: 'TableV2Wrapper',
+  name: 'TableWrapper',
 
   data: () => {
     return {

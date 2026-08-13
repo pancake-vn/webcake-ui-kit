@@ -32,7 +32,7 @@ import { splitProps } from '../../../utils/common.js'
 import ColumnDragHandle from '../ColumnDragHandle.vue'
 
 export default {
-  name: 'TableV2HeaderRow',
+  name: 'TableHeaderRow',
   components: {
     TableHeaderCell,
     ColumnDragHandle

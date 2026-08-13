@@ -15,7 +15,7 @@ import { toCssSize } from '../../utils/common'
 import { SELECTION_COLUMN, DRAGGABLE_COLUMN } from './constants.js'
 
 export default {
-  name: 'TableV2ColGroup',
+  name: 'TableColGroup',
   inject: ['tableContext'],
   props: {
     isHeader: { type: Boolean, default: false }

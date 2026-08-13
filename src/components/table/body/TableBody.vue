@@ -43,7 +43,7 @@ import TableRow from './TableRow.vue'
 import MeasureCell from './MeasureCell.vue'
 
 export default {
-  name: 'TableV2Body',
+  name: 'TableBody',
   components: { TableRow, MeasureCell },
   props: {
     measureColumnWidth: {

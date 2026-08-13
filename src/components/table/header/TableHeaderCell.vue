@@ -27,7 +27,7 @@ import { SELECTION_COLUMN } from '../constants.js'
 import { toCssSize } from '../../../utils/common.js'
 
 export default {
-  name: 'TableV2HeaderCell',
+  name: 'TableHeaderCell',
   components: { Checkbox },
   inject: ['tableContext'],
   props: {

@@ -26,7 +26,7 @@ import TableLoading from './TableLoading.vue'
 import TableResizeObserver from './TableResizeObserver.vue'
 
 export default {
-  name: 'TableV2',
+  name: 'Table',
 
   components: { TableWrapper, TableLoading, TableResizeObserver },
 

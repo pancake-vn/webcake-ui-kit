@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'TableV2Empty',
+  name: 'TableEmpty',
   inject: ['tableContext']
 }
 </script>

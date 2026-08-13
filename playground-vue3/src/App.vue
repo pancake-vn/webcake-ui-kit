@@ -901,7 +901,7 @@
               <WkBadge :variant="text === 'Active' ? 'primary' : 'secondary'" :label="text" />
             </template>
             <template v-else-if="column.dataIndex === 'action'">
-              <WkDropdown :items="tableV2ActionItems" @select="handleTableV2Action($event, record)">
+              <WkDropdown :items="tableActionItems" @select="handleTableAction($event, record)">
                 <WkTooltip title="Actions" side="top">
                   <button
                     type="button"
@@ -1314,7 +1314,7 @@ export default {
           joined: '2023-10-03'
         }
       ],
-      tableV2ActionItems: [
+      tableActionItems: [
         { key: 'edit', label: 'Edit', icon: WkiChessBishop },
         { key: 'view', label: 'View detail' },
         { key: 'delete', label: 'Delete', destructive: true }
@@ -1807,7 +1807,7 @@ export default {
     }
   },
   methods: {
-    handleTableV2Action(item, record) {
+    handleTableAction(item, record) {
       console.log('table action', item.key, record)
     },
     disableWeekends(date) {

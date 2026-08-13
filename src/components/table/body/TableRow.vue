@@ -29,7 +29,7 @@ import TableCell from './TableCell.vue'
 import { splitProps } from '../../../utils/common.js'
 
 export default {
-  name: 'TableV2Row',
+  name: 'TableRow',
   components: { TableCell },
   inject: ['tableContext'],
   props: {

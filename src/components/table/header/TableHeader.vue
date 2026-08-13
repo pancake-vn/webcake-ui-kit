@@ -8,7 +8,7 @@
 import TableHeaderRow from './TableHeaderRow.vue'
 
 export default {
-  name: 'TableV2Header',
+  name: 'TableHeader',
   components: { TableHeaderRow },
   inject: ['tableContext']
 }

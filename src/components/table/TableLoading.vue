@@ -11,7 +11,7 @@
 import Spinner from '../spinner/Spinner.vue'
 
 export default {
-  name: 'TableV2Loading',
+  name: 'TableLoading',
   components: { Spinner },
   inject: ['tableContext'],
   computed: {

@@ -41,7 +41,7 @@ import { toCssSize } from '../../../utils/common.js'
 import { WkiGripVertical } from '../../../icons'
 
 export default {
-  name: 'TableV2Cell',
+  name: 'TableCell',
   components: { Checkbox, WkiGripVertical },
   inject: ['tableContext'],
   props: {

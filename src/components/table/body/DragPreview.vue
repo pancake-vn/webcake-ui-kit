@@ -27,7 +27,7 @@ import { WkiGripVertical } from '../../../icons'
 import { SELECTION_COLUMN, DRAGGABLE_COLUMN } from '../constants.js'
 
 export default {
-  name: 'TableV2DragPreview',
+  name: 'TableDragPreview',
   components: { WkiGripVertical },
   inject: ['tableContext'],
   data: function () {
