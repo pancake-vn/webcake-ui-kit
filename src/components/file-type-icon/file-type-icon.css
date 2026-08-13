@@ -1,0 +1,48 @@
+.ui-file-type-icon {
+  position: relative;
+  height: 40px;
+  width: 32px;
+}
+.ui-file-type-icon--variant-grey,
+.ui-file-type-icon--variant-solid {
+  overflow: hidden;
+}
+.ui-file-type-icon.ui-file-type-icon--is-folder {
+  width: 40px;
+}
+.ui-file-type-icon--text-wrapper {
+  position: absolute;
+  border-radius: 2px;
+  padding: 2px 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ui-file-type-icon--variant-default .ui-file-type-icon--text-wrapper {
+  left: -6px;
+  bottom: 6px;
+}
+.ui-file-type-icon--variant-grey .ui-file-type-icon--text-wrapper,
+.ui-file-type-icon--variant-solid .ui-file-type-icon--text-wrapper {
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 6px;
+}
+
+.ui-file-type-icon--text {
+  font-size: 10px;
+  font-family: 'Inter';
+  text-align: center;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  user-select: none;
+}
+
+.ui-file-type-icon--variant-default .ui-file-type-icon--text,
+.ui-file-type-icon--variant-solid .ui-file-type-icon--text {
+  color: white;
+}
+.ui-file-type-icon--variant-grey .ui-file-type-icon--text {
+  color: var(--neutral-700);
+}
