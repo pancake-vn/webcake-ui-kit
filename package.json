@@ -1,6 +1,6 @@
 {
   "name": "webcake-ui-kit",
-  "version": "1.2.14",
+  "version": "1.2.15",
   "description": "UI Kit for Vue 2 && 3 - Pure Options API",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -35,6 +35,7 @@
     "./WkEmpty": "./src/components/empty/Empty.vue",
     "./WkEmptyIcon": "./src/components/empty-icon/EmptyIcon.vue",
     "./WkField": "./src/components/field/Field.vue",
+    "./WkFileTypeIcon": "./src/components/file-type-icon/FileTypeIcon.vue",
     "./WkHoverCard": "./src/components/hover-card/HoverCard.vue",
     "./WkInput": "./src/components/input/Input.vue",
     "./WkInputCounter": "./src/components/input-counter/InputCounter.vue",
