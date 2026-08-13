@@ -1,11 +1,11 @@
 <template>
   <table
-    class="ui-table-v2__drag-preview"
+    class="ui-table__drag-preview"
     aria-hidden="true"
     :style="{ width: containerWidth ? containerWidth + 'px' : '100%', tableLayout: 'fixed' }"
   >
-    <tbody class="ui-table-v2__body">
-      <tr class="ui-table-v2__row" v-if="record">
+    <tbody class="ui-table__body">
+      <tr class="ui-table__row" v-if="record">
         <td v-for="col in columns" :key="col.key">
           <div v-if="col.type === DRAGGABLE_COLUMN" class="wrapper-option">
             <span class="drag-handle">
@@ -49,17 +49,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.ui-table-v2__drag-preview {
-  position: fixed;
-  top: -10000px;
-  left: -10000px;
-  pointer-events: none;
-  border-collapse: separate;
-  border-spacing: 0;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
-  overflow: hidden;
-}
-</style>

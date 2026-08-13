@@ -2,7 +2,7 @@
   <tr
     v-bind="customAttrs"
     v-on="customListeners"
-    :class="['ui-table-v2__header-row', customAttrs.class]"
+    :class="['ui-table__header-row', customAttrs.class]"
     :style="rowStyle"
   >
     <TableHeaderCell
@@ -22,7 +22,7 @@
         />
       </template>
     </TableHeaderCell>
-    <th v-if="hasScrollBar" class="ui-table-v2__scrollbar-cell" aria-hidden="true" :style="styleFakeScrollbar" />
+    <th v-if="hasScrollBar" class="ui-table__scrollbar-cell" aria-hidden="true" :style="styleFakeScrollbar" />
   </tr>
 </template>
 

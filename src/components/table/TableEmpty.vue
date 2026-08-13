@@ -1,5 +1,5 @@
 <template>
-  <div class="ui-table-v2__empty"></div>
+  <div class="ui-table__empty"></div>
 </template>
 
 <script>

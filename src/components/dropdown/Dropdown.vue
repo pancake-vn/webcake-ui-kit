@@ -19,8 +19,8 @@
         :ref="triggerRef"
         class="ui-dropdown__anchor"
         @click.stop="triggerHasClick && handleClick()"
-        @mouseenter="triggerHasHover && handleMouseEnter()"
-        @mouseleave="triggerHasHover && handleMouseLeave()"
+        @mouseenter.stop="triggerHasHover && handleMouseEnter()"
+        @mouseleave.stop="triggerHasHover && handleMouseLeave()"
       >
         <slot></slot>
       </span>

@@ -7,7 +7,6 @@
   align-items: center;
   gap: var(--spacing-xs);
   width: 100%;
-  min-width: 200px;
   box-sizing: border-box;
   height: 36px;
   padding: 0 var(--spacing-sm);
@@ -27,6 +26,9 @@
 .ui-date-picker__trigger--sm {
   height: 28px;
   padding: 0 var(--spacing-xs);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
 }
 
 .ui-date-picker__trigger--lg {

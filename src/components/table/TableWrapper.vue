@@ -1,9 +1,9 @@
 <template>
   <div
-    class="ui-table-v2__wrapper"
+    class="ui-table__wrapper"
     :class="{
-      'ui-table-v2__wrapper--ping-left': isPingedLeft,
-      'ui-table-v2__wrapper--ping-right': isPingedRight
+      'ui-table__wrapper--ping-left': isPingedLeft,
+      'ui-table__wrapper--ping-right': isPingedRight
     }"
   >
     <DragPreview v-if="hasDraggable" ref="dragPreview">
@@ -14,13 +14,13 @@
 
     <!-- Case 3: scroll.y — header và body là 2 table riêng để sticky header -->
     <template v-if="hasScrollY && !isEmpty">
-      <div ref="headerRef" class="ui-table-v2__header-hold" style="overflow: hidden">
+      <div ref="headerRef" class="ui-table__header-hold" style="overflow: hidden">
         <table :class="tableClass" :style="fixedTableStyle">
           <TableColGroup :is-header="true" />
           <TableHeader />
         </table>
       </div>
-      <div ref="bodyRef" class="ui-table-v2__body-hold" :style="bodyHoldStyle" @scroll="handleBodyScroll">
+      <div ref="bodyRef" class="ui-table__body-hold" :style="bodyHoldStyle" @scroll="handleBodyScroll">
         <table :class="tableClass" :style="fixedTableStyle">
           <TableColGroup />
           <TableBody :measureColumnWidth="hasScrollY || hasScrollX || hasSticky">
@@ -36,7 +36,7 @@
     </template>
 
     <!-- Case 1 & 2: một table duy nhất -->
-    <div v-else class="ui-table-v2__content" ref="bodyRef" :style="contentStyle" @scroll="handleBodyScroll">
+    <div v-else class="ui-table__content" ref="bodyRef" :style="contentStyle" @scroll="handleBodyScroll">
       <table :class="tableClass" :style="tableStyle">
         <TableColGroup />
         <TableHeader />
@@ -112,8 +112,8 @@ export default {
 
     tableClass: function () {
       return {
-        'ui-table-v2__table': true,
-        'ui-table-v2__table--bordered': this.tableContext.layout.bordered
+        'ui-table__table': true,
+        'ui-table__table--bordered': this.tableContext.layout.bordered
       }
     },
 
@@ -191,6 +191,11 @@ export default {
 
   watch: {
     'tableContext.data.display.length': function () {
+      this.$nextTick(() => {
+        this.updateScrollState()
+      })
+    },
+    hasScrollY() {
       this.$nextTick(() => {
         this.updateScrollState()
       })

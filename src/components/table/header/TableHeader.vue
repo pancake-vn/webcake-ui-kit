@@ -1,5 +1,5 @@
 <template>
-  <thead class="ui-table-v2__header">
+  <thead class="ui-table__header">
     <TableHeaderRow />
   </thead>
 </template>

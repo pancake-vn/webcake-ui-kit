@@ -385,7 +385,7 @@
 
         <WkButton @click="toggleData">Toggle Data</WkButton>
 
-        <WkTableV2
+        <WkTable
           bordered
           enableFixedLeft
           :columns="tableV2Columns"
@@ -429,7 +429,7 @@
               </WkDropdown>
             </template>
           </template>
-        </WkTableV2>
+        </WkTable>
 
         <WkSelect :value="'solid'" size="xs" optionSize="sm" class="w-full">
           <WkSelectOption value="none">slect</WkSelectOption>
@@ -441,25 +441,17 @@
           <WkSelectOption value="outset">Outset</WkSelectOption>
           <WkSelectOption value="ridge">Ridge</WkSelectOption>
         </WkSelect>
-      </section>
 
-      <section class="section">
-        <h2 style="margin-top: 24px">Table — fixed scroll (x: 600, y: 494) + height 524</h2>
-        <WkTable
-          :columns="tableColumns"
-          :data-source="tableScrollData"
-          :scroll="{ y: 400, x: 1200 }"
-          row-selection
-          :selected-row-keys="tableSelectedKeys"
-          @update:selectedRowKeys="tableSelectedKeys = $event"
-          isDrag
+        <WkSelect
+          size="xs"
+          optionSize="sm"
+          showChecked
+          :value="selectSearchable"
+          :options="eventPromotionOptions"
+          searchable
+          placeholder="Type to search"
+          @change="selectSearchable = $event"
         />
-
-        <h2 style="margin-top: 24px">Table — drag &amp; drop rows</h2>
-        <WkTable :columns="tableColumns" :data-source="tableDragData" isDrag @drag-record="onTableDragRecord" />
-        <p style="margin-top: 8px; font-size: 12px; color: var(--muted-fg)">
-          Order: {{ tableDragData.map(r => r.name).join(' → ') }}
-        </p>
       </section>
 
       <section class="section">
@@ -779,6 +771,7 @@ export default {
       dpSingle: null,
       dpRange: [],
       dpMultiple: [],
+      selectSearchable: '',
       dpDateTime: null,
       dpMinMax: null,
       dpNoWeekend: null,
@@ -1189,6 +1182,134 @@ export default {
           .map(o => o.label)
           .join(', ') || '(none)'
       )
+    },
+
+    eventPromotionOptions() {
+      const options = [
+        {
+          label: 'Thu gọn',
+          value: 'collapse'
+        },
+        {
+          label: 'Ẩn hiện',
+          value: 'showhide'
+        },
+        {
+          label: 'form_param.additional_price',
+          value: 'custom_form_price'
+        },
+        {
+          label: 'form_param.additional_discount',
+          value: 'custom_form_discount'
+        },
+        {
+          label: 'form_param.additional_shipping_fee',
+          value: 'custom_form_shipping_fee'
+        }
+      ]
+
+      options.push({
+        label: 'Cổng thanh toán',
+        value: 'payment_gateway',
+        width: 190,
+        children: [
+          {
+            label: 'POS auto banking',
+            value: 'tcb_auto_banking'
+          },
+          {
+            label: 'Paypal payment',
+            value: 'paypal_banking'
+          },
+          {
+            label: 'Xendit payment',
+            value: 'xendit_banking',
+            width: 190,
+            children: [
+              {
+                label: 'Xendit default',
+                value: 'xendit_banking_default'
+              },
+              {
+                label: 'Gcash',
+                value: 'xendit_banking_GCASH'
+              }
+            ]
+          },
+          {
+            label: 'VNPAY payment',
+            value: 'vnpay_banking'
+          },
+          {
+            label: 'Momo payment',
+            value: 'momopay_banking'
+          },
+          {
+            label: 'Paymongo payment',
+            value: 'paymongo_banking'
+          },
+          {
+            label: 'Stripe payment',
+            value: 'stripe_banking'
+          },
+          {
+            label: 'Onepay payment',
+            value: 'onepay_banking',
+            width: 190,
+            children: [
+              {
+                label: 'Onepay default',
+                value: 'onepay_banking_default'
+              },
+              {
+                label: 'Card international',
+                value: 'onepay_banking_INTERNATIONAL'
+              },
+              {
+                label: 'Card domestic',
+                value: 'onepay_banking_DOMESTIC'
+              },
+              {
+                label: 'Googlepay',
+                value: 'onepay_banking_GOOGLEPAY'
+              },
+              {
+                label: 'Applepay',
+                value: 'onepay_banking_APPLEPAY'
+              },
+              {
+                label: 'VNpay',
+                value: 'onepay_banking_MOBILEBANKING'
+              },
+              {
+                label: 'Zalopay',
+                value: 'onepay_banking_ZALOPAY'
+              },
+              {
+                label: 'Shopeepay',
+                value: 'onepay_banking_SHOPEEPAY'
+              }
+            ]
+          },
+          {
+            label: 'Mercadopago payment',
+            value: 'mercadopago_banking',
+            width: 190,
+            children: [
+              {
+                label: 'Mercado pago (default)',
+                value: 'mercadopago_banking_default'
+              },
+              {
+                label: 'Mercado pago (OXXO payment)',
+                value: 'mercadopago_banking_oxxo'
+              }
+            ]
+          }
+        ]
+      })
+
+      return options
     },
 
     rowSelection() {

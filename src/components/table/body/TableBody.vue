@@ -1,15 +1,15 @@
 <template>
-  <tbody class="ui-table-v2__body">
+  <tbody class="ui-table__body">
     <template v-if="measureColumnWidth">
-      <tr aria-hidden="true" class="ui-table-v2__measure-row" :style="{ height: '0', fontSize: '0' }">
+      <tr aria-hidden="true" class="ui-table__measure-row" :style="{ height: '0', fontSize: '0' }">
         <MeasureCell v-for="(column, colIndex) in tableContext.columns.flat" :key="colIndex" :colKey="column.key" />
       </tr>
     </template>
 
     <template v-if="isEmpty">
-      <tr class="ui-table-v2__row">
+      <tr class="ui-table__row">
         <td colspan="100">
-          <div class="ui-table-v2__row-empty ui-table-v2__empty" :style="emptyStyle">
+          <div class="ui-table__row-empty ui-table__empty" :style="emptyStyle">
             <slot name="empty">
               <div class="wrapper-img">
                 <img
@@ -93,7 +93,7 @@ export default {
       const offset = this.measureColumnWidth ? 1 : 0
       this._sortable = Sortable.create(this.$el, {
         handle: '.drag-handle',
-        draggable: '.ui-table-v2__row',
+        draggable: '.ui-table__row',
         animation: this.tableContext.draggable.enableAnimationFlip ? 150 : 0,
         onChoose: function (evt) {
           const rowIndex = evt.oldIndex - offset

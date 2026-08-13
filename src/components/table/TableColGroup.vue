@@ -3,7 +3,7 @@
     <col
       v-for="col in tableContext.columns.flat"
       :key="col.key"
-      :class="isSelectionCol(col) ? 'ui-table-v2__selection-col' : ''"
+      :class="isSelectionCol(col) ? 'ui-table__selection-col' : ''"
       :style="colStyle(col)"
     />
     <col v-if="hasScrollBar" :style="{ width: tableContext.layout.scrollBarWidth }" />

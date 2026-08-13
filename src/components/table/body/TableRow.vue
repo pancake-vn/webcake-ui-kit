@@ -3,9 +3,9 @@
     v-bind="customAttrs"
     v-on="customListeners"
     :class="[
-      'ui-table-v2__row',
-      isLastItem && 'ui-table-v2__row--last',
-      isSelected && 'ui-table-v2__row--selected',
+      'ui-table__row',
+      isLastItem && 'ui-table__row--last',
+      isSelected && 'ui-table__row--selected',
       customAttrs.class
     ]"
     :style="rowStyle"

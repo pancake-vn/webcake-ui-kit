@@ -1,11 +1,11 @@
-.ui-table-v2__wrapper {
+.ui-table__wrapper {
   overflow: hidden;
   border-radius: var(--rounded-2xl);
   border-inline-end: 1px solid var(--border-primary);
   border-inline-start: 1px solid var(--border-primary);
 }
 
-.ui-table-v2__wrapper table {
+.ui-table__wrapper table {
   width: 100%;
   text-align: start;
   border-radius: 8px 8px 0 0;
@@ -13,22 +13,22 @@
   border-spacing: 0;
 }
 
-.ui-table-v2__wrapper .ui-table-v2__content {
+.ui-table__wrapper .ui-table__content {
   border-top: 1px solid var(--border-primary);
   border-bottom: 1px solid var(--border-primary);
 }
 
-.ui-table-v2__wrapper .ui-table-v2__header-hold {
+.ui-table__wrapper .ui-table__header-hold {
   border-top: 1px solid var(--border-primary);
 }
 
-.ui-table-v2__wrapper .ui-table-v2__body-hold {
+.ui-table__wrapper .ui-table__body-hold {
   border-bottom: 1px solid var(--border-primary);
 }
 
 /* Common betwenn Header and Body */
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__header > tr > th,
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__body > tr > td {
+.ui-table__wrapper ::v-deep .ui-table__header > tr > th,
+.ui-table__wrapper ::v-deep .ui-table__body > tr > td {
   color: var(--primary-fg);
   font-size: var(--paragraph-small-font-size);
   line-height: var(--paragraph-small-line-height);
@@ -36,17 +36,17 @@
   border-bottom: 1px solid var(--border-primary);
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__table--bordered .ui-table-v2__header > tr > th:not(:last-child),
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__table--bordered .ui-table-v2__body > tr > td:not(:last-child) {
+.ui-table__wrapper ::v-deep .ui-table__table--bordered .ui-table__header > tr > th:not(:last-child),
+.ui-table__wrapper ::v-deep .ui-table__table--bordered .ui-table__body > tr > td:not(:last-child) {
   border-inline-end: 1px solid var(--border-primary);
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__table--bordered .ui-table-v2__header .ui-table-v2__header-cell--last {
+.ui-table__wrapper ::v-deep .ui-table__table--bordered .ui-table__header .ui-table__header-cell--last {
   border-inline-end: 1px solid transparent !important;
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__header-cell--ellipsis,
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__cell--ellipsis {
+.ui-table__wrapper ::v-deep .ui-table__header-cell--ellipsis,
+.ui-table__wrapper ::v-deep .ui-table__cell--ellipsis {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -55,7 +55,7 @@
   display: block;
 }
 
-.ui-table-v2__wrapper ::v-deep .wrapper-option {
+.ui-table__wrapper ::v-deep .wrapper-option {
   height: 100%;
   width: 100%;
   display: flex;
@@ -63,30 +63,30 @@
   align-items: center;
 }
 
-.ui-table-v2__wrapper ::v-deep .wrapper-option .ui-checkbox {
+.ui-table__wrapper ::v-deep .wrapper-option .ui-checkbox {
   margin: auto;
 }
 
-.ui-table-v2__wrapper ::v-deep .wrapper-option .drag-handle {
+.ui-table__wrapper ::v-deep .wrapper-option .drag-handle {
   cursor: grab;
 }
 
-.ui-table-v2__wrapper--ping-left ::v-deep .ui-table-v2__cell--fixed-left__last {
+.ui-table__wrapper--ping-left ::v-deep .ui-table__cell--fixed-left__last {
   box-shadow: var(--shadow-fixed-column-left);
   border-inline-end: none !important;
 }
 
-.ui-table-v2__wrapper--ping-right ::v-deep .ui-table-v2__cell--fixed-right__first {
+.ui-table__wrapper--ping-right ::v-deep .ui-table__cell--fixed-right__first {
   box-shadow: var(--shadow-fixed-column-right);
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__cell--fixed-left,
-.ui-table-v2__wrapper::v-deep .ui-table-v2__cell--fixed-right {
+.ui-table__wrapper ::v-deep .ui-table__cell--fixed-left,
+.ui-table__wrapper::v-deep .ui-table__cell--fixed-right {
   background: var(--primary-bg);
   z-index: 2;
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__cell--fixed-left__last::after {
+.ui-table__wrapper ::v-deep .ui-table__cell--fixed-left__last::after {
   position: absolute;
   top: 0;
   right: 0;
@@ -98,7 +98,7 @@
   pointer-events: none;
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__cell--fixed-right__first::before {
+.ui-table__wrapper ::v-deep .ui-table__cell--fixed-right__first::before {
   position: absolute;
   top: 0;
   bottom: -1px;
@@ -110,7 +110,7 @@
   pointer-events: none;
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__cell-resize-handle {
+.ui-table__wrapper ::v-deep .ui-table__cell-resize-handle {
   position: absolute;
   top: 0;
   height: 100% !important;
@@ -128,7 +128,7 @@
   align-items: center;
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__cell-resize-handle .ui-table-v2__cell-resize-line {
+.ui-table__wrapper ::v-deep .ui-table__cell-resize-handle .ui-table__cell-resize-line {
   display: block;
   width: 2px;
   margin-left: 7px;
@@ -136,20 +136,20 @@
   background: var(--border-focus);
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__cell-resize-handle.reversed {
+.ui-table__wrapper ::v-deep .ui-table__cell-resize-handle.reversed {
   right: auto;
   left: -8px;
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__cell-resize-handle:hover .ui-table-v2__cell-resize-line,
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__cell-resize-handle.dragging .ui-table-v2__cell-resize-line {
+.ui-table__wrapper ::v-deep .ui-table__cell-resize-handle:hover .ui-table__cell-resize-line,
+.ui-table__wrapper ::v-deep .ui-table__cell-resize-handle.dragging .ui-table__cell-resize-line {
   opacity: 1;
   background-color: #1677ff;
   height: 100% !important;
 }
 
 /* Header */
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__header > tr > th {
+.ui-table__wrapper ::v-deep .ui-table__header > tr > th {
   background: var(--secondary-bg);
   padding: var(--spacing-xs);
   font-weight: 500;
@@ -158,50 +158,66 @@
 }
 
 /* Body */
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__body .ui-table-v2__row {
+.ui-table__wrapper ::v-deep .ui-table__body .ui-table__row {
   height: 50px;
 }
 
-.ui-table-v2__wrapper ::v-deep .drag-handle {
+.ui-table__wrapper ::v-deep .drag-handle {
   cursor: grab;
   display: flex;
   align-items: center;
   color: var(--secondary-fg, #999);
 }
 
-.ui-table-v2__wrapper ::v-deep .drag-handle:active {
+.ui-table__wrapper ::v-deep .drag-handle:active {
   cursor: grabbing;
 }
 
-.ui-table-v2__wrapper ::v-deep .sortable-chosen > td {
+.ui-table__wrapper ::v-deep .sortable-chosen > td {
   background: var(--accent-1);
   opacity: 0.8;
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__body > tr > td {
+.ui-table__wrapper ::v-deep .ui-table__body > tr > td {
   padding: var(--spacing-xs);
   font-weight: 400;
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__body > .ui-table-v2__row:hover > td {
+.ui-table__wrapper ::v-deep .ui-table__body > .ui-table__row:hover > td {
   background: var(--accent-1);
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__body .ui-table-v2__row--selected > td {
+.ui-table__wrapper ::v-deep .ui-table__body .ui-table__row--selected > td {
   background: var(--accent-1);
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__drag-preview .ui-table-v2__body > tr > td {
+.ui-table__wrapper ::v-deep .ui-table__drag-preview .ui-table__body > tr > td {
   background: var(--primary-bg);
   position: unset;
 }
 
+.ui-table__wrapper ::v-deep .ui-table__drag-preview {
+  position: fixed;
+  top: -10000px;
+  left: -10000px;
+  pointer-events: none;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ui-table__wrapper ::v-deep .ui-table__scrollbar-cell {
+  z-index: 2;
+}
+
 /* Empty */
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__body > tr > td:has(.ui-table-v2__row-empty):hover {
+.ui-table__wrapper ::v-deep .ui-table__body > tr > td:has(.ui-table__row-empty):hover {
   background: transparent;
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__row-empty {
+.ui-table__wrapper ::v-deep .ui-table__row-empty {
   min-height: 300px;
   display: flex;
   flex-direction: column;
@@ -209,74 +225,74 @@
   justify-content: center;
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__row-empty .wrapper-img {
+.ui-table__wrapper ::v-deep .ui-table__row-empty .wrapper-img {
   width: 120px;
   height: 120px;
   user-select: none;
 }
 
-.ui-table-v2__wrapper ::v-deep .ui-table-v2__row-empty .wrapper-img img {
+.ui-table__wrapper ::v-deep .ui-table__row-empty .wrapper-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
 /* Scrollbar */
-.ui-table-v2__body-hold::-webkit-scrollbar {
+.ui-table__body-hold::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 
-.ui-table-v2__body-hold::-webkit-scrollbar-track:vertical {
+.ui-table__body-hold::-webkit-scrollbar-track:vertical {
   border-left: 1px solid var(--border-primary);
 }
 
-.ui-table-v2__body-hold::-webkit-scrollbar-track:horizontal {
+.ui-table__body-hold::-webkit-scrollbar-track:horizontal {
   border-top: 1px solid var(--border-primary);
 }
 
-.ui-table-v2__body-hold::-webkit-scrollbar-thumb {
+.ui-table__body-hold::-webkit-scrollbar-thumb {
   background: var(--border-primary);
   border-radius: 3px;
 }
 
-.ui-table-v2__body-hold::-webkit-scrollbar-thumb:vertical {
+.ui-table__body-hold::-webkit-scrollbar-thumb:vertical {
   border-left: 2px solid transparent;
   border-right: 1px solid transparent;
   background-clip: content-box;
 }
 
-.ui-table-v2__body-hold::-webkit-scrollbar-thumb:horizontal {
+.ui-table__body-hold::-webkit-scrollbar-thumb:horizontal {
   border-top: 2px solid transparent;
   border-bottom: 1px solid transparent;
   background-clip: content-box;
 }
 
-.ui-table-v2__content::-webkit-scrollbar {
+.ui-table__content::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 
-.ui-table-v2__content::-webkit-scrollbar-track:vertical {
+.ui-table__content::-webkit-scrollbar-track:vertical {
   border-left: 1px solid var(--border-primary);
 }
 
-.ui-table-v2__content::-webkit-scrollbar-track:horizontal {
+.ui-table__content::-webkit-scrollbar-track:horizontal {
   border-top: 1px solid var(--border-primary);
 }
 
-.ui-table-v2__content::-webkit-scrollbar-thumb {
+.ui-table__content::-webkit-scrollbar-thumb {
   background: var(--border-primary);
   border-radius: 3px;
 }
 
-.ui-table-v2__content::-webkit-scrollbar-thumb:vertical {
+.ui-table__content::-webkit-scrollbar-thumb:vertical {
   border-left: 2px solid transparent;
   border-right: 1px solid transparent;
   background-clip: content-box;
 }
 
-.ui-table-v2__content::-webkit-scrollbar-thumb:horizontal {
+.ui-table__content::-webkit-scrollbar-thumb:horizontal {
   border-top: 2px solid transparent;
   border-bottom: 1px solid transparent;
   background-clip: content-box;
