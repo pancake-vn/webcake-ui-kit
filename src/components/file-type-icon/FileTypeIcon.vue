@@ -77,7 +77,7 @@
         <path opacity="0.3" d="M20 0L32 12H24C21.7909 12 20 10.2091 20 8V0Z" fill="white" />
       </svg>
 
-      <div :class="['ui-file-type-icon--text-wrapper']" :style="textWrapperStyle">
+      <div v-if="fileType" :class="['ui-file-type-icon--text-wrapper']" :style="textWrapperStyle">
         <span class="ui-file-type-icon--text" :style="textStyle">{{ fileType.toUpperCase() }}</span>
       </div>
     </template>
