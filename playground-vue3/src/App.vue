@@ -1072,6 +1072,52 @@
           </div>
         </WkDrawer>
       </section>
+
+      <section>
+        <h2>Upload</h2>
+        <p>
+          Dropzone + list states, picture-card / circle, disabled. Reuses WkProgress / WkSpinner / WkButton / WkDialog.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 24px; max-width: 520px">
+          <WkUpload
+            :default-file-list="[
+              { uid: 'u1', name: 'annual-report-2024.xlsx', status: 'done', size: 25600 },
+              { uid: 'u2', name: 'dashboard-prototype.mp4', status: 'uploading', percent: 40, size: 12582912 },
+              { uid: 'u3', name: 'broken-upload.pdf', status: 'error', size: 900000 }
+            ]"
+          />
+          <WkUpload
+            multiple
+            accept="image/*"
+            list-type="picture-card"
+            :default-file-list="[
+              {
+                uid: 'p1',
+                name: 'cover.png',
+                status: 'done',
+                type: 'image/png',
+                thumbUrl:
+                  'https://content.pancake.vn/web-media-262/2e/2a/0c/96/c2b58ae9f06c4dc2a3b83016e56d5b4132ff40637862ba23435e43a0-w:224-h:224-l:3927-t:image/png.png'
+              },
+              { uid: 'p2', name: 'failed.png', status: 'error', type: 'image/png' }
+            ]"
+          />
+          <WkUpload
+            list-type="picture-circle"
+            :default-file-list="[
+              {
+                uid: 'a1',
+                name: 'avatar.png',
+                status: 'done',
+                type: 'image/png',
+                thumbUrl:
+                  'https://content.pancake.vn/web-media-262/2e/2a/0c/96/c2b58ae9f06c4dc2a3b83016e56d5b4132ff40637862ba23435e43a0-w:224-h:224-l:3927-t:image/png.png'
+              }
+            ]"
+          />
+          <WkUpload disabled />
+        </div>
+      </section>
     </div>
   </div>
 </template>

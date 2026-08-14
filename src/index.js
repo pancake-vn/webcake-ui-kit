@@ -46,6 +46,7 @@ export { default as WkToggle } from './components/toggle/Toggle.vue'
 export { default as WkToggleGroup } from './components/toggle-group/ToggleGroup.vue'
 export { default as WkTooltip } from './components/tooltip/Tooltip.vue'
 export { default as WkTypography } from './components/typography/Typography.vue'
+export { default as WkUpload } from './components/upload/Upload.vue'
 export { default as WkDatePicker } from './components/date-picker/DatePicker.vue'
 
 // Imperative singleton service (no SFC export — mounts its own container to body).

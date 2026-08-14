@@ -1,0 +1,149 @@
+.ui-upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  width: 100%;
+  font-family: var(--font-family-body);
+}
+
+.ui-upload__input {
+  display: none;
+}
+
+/* ---- Dropzone trigger (default / picture) ---- */
+.ui-upload__dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  border: 1px dashed var(--border-primary);
+  border-radius: var(--rounded-xl);
+  background: var(--accent-0);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.ui-upload__dropzone:hover,
+.ui-upload__dropzone--over {
+  background: var(--secondary-hover);
+}
+
+.ui-upload__dropzone:focus-visible {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.ui-upload__dropzone--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.ui-upload__dropzone-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  width: 100%;
+}
+
+.ui-upload__feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--spacing-36);
+  min-height: var(--spacing-36);
+  padding: var(--spacing-xs);
+  color: var(--secondary-fg);
+  background: var(--muted-bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-full);
+}
+
+.ui-upload__dropzone-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  width: 100%;
+  text-align: center;
+}
+
+.ui-upload__dropzone-title {
+  margin: 0;
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--primary-fg);
+}
+
+.ui-upload__link {
+  color: var(--primary-brand-fg);
+  font-weight: var(--paragraph-medium-font-weight);
+}
+
+.ui-upload__dropzone-hint {
+  margin: 0;
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  color: var(--muted-fg);
+}
+
+/* ---- Add-tile trigger (picture-card / picture-circle) ---- */
+.ui-upload__card-trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  width: 140px;
+  height: 140px;
+  color: var(--muted-fg);
+  background: var(--primary-bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-xl);
+  cursor: pointer;
+  outline: none;
+  transition: background 0.15s ease;
+}
+
+.ui-upload__card-trigger:hover,
+.ui-upload__card-trigger--over {
+  background: var(--primary-hover);
+}
+
+.ui-upload__card-trigger:focus-visible {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.ui-upload__card-trigger--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.ui-upload__card-trigger-text {
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+}
+
+.ui-upload--picture-circle .ui-upload__card-trigger {
+  border-radius: var(--rounded-full);
+}
+
+/* ---- Preview dialog body ---- */
+.ui-upload__preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-upload__preview-img {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: var(--rounded-lg);
+}
