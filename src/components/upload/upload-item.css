@@ -1,0 +1,250 @@
+/* ============================ Row (default / picture) ============================ */
+.ui-upload-item--row {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  width: 100%;
+}
+
+.ui-upload-item__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+/* Base: used as absolute corner button inside the card tile. */
+.ui-upload-item__remove {
+  position: absolute;
+  top: var(--spacing-2xs);
+  right: var(--spacing-2xs);
+  z-index: 1;
+  opacity: 0;
+}
+
+/* Row mode: remove button sits inline inside __actions — reset to normal flow. */
+.ui-upload-item--row .ui-upload-item__remove {
+  position: static;
+  opacity: 1;
+}
+
+.ui-upload-item__media {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--rounded-lg);
+  color: var(--muted-fg);
+}
+
+.ui-upload-item__media--thumb {
+  overflow: hidden;
+  background: var(--sidebar);
+  border: 1px solid var(--border-primary);
+}
+
+.ui-upload-item__thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ui-upload-item__file-icon {
+  color: var(--secondary-fg);
+}
+
+.ui-upload-item__info {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+}
+
+.ui-upload-item__name {
+  margin: 0;
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--primary-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui-upload-item__desc {
+  margin: 0;
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  color: var(--muted-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui-upload-item__desc--error {
+  color: var(--destructive);
+}
+
+.ui-upload-item__actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.ui-upload-item__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  padding: var(--spacing-6);
+  color: var(--secondary-fg);
+  background: transparent;
+  border: none;
+  border-radius: var(--rounded-md);
+  cursor: pointer;
+}
+
+.ui-upload-item__icon-btn:hover {
+  background: var(--ghost-hover);
+}
+
+.ui-upload-item__icon-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.ui-upload-item__status-icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--rounded-full);
+}
+
+.ui-upload-item__status-icon--done {
+  color: var(--inverse-fg);
+  background: var(--primary-brand-bg);
+}
+
+.ui-upload-item__status-icon--error {
+  color: var(--destructive);
+}
+
+.ui-upload-item__progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  width: 100%;
+}
+
+.ui-upload-item__progress-text {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  color: var(--muted-fg);
+}
+
+/* ============================ Card tile (picture-card / picture-circle) ============================ */
+.ui-upload-item--card {
+  flex: none;
+}
+
+.ui-upload-item__card-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  overflow: hidden;
+  background: var(--sidebar);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-xl);
+}
+
+.ui-upload-item--picture-circle .ui-upload-item__card-inner {
+  border-radius: var(--rounded-full);
+}
+
+.ui-upload-item__card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ui-upload-item__card-file {
+  color: var(--muted-fg);
+}
+
+.ui-upload-item__card-mask {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2xs);
+  color: var(--inverse-fg);
+  background: var(--backdrop);
+}
+
+.ui-upload-item__card-mask--error {
+  color: var(--destructive);
+  background: var(--destructive-subtle);
+}
+
+.ui-upload-item__card-percent {
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+}
+
+.ui-upload-item__card-actions {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  opacity: 0;
+  background: var(--backdrop);
+  transition: opacity 0.15s ease;
+}
+
+.ui-upload-item__card-inner:hover .ui-upload-item__card-actions,
+.ui-upload-item__card-inner:focus-within .ui-upload-item__card-actions,
+.ui-upload-item__card-inner:hover .ui-upload-item__remove,
+.ui-upload-item__card-inner:focus-within .ui-upload-item__remove {
+  opacity: 1;
+}
+
+.ui-upload-item__card-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--inverse-fg);
+  background: transparent;
+  border: none;
+  border-radius: var(--rounded-md);
+  cursor: pointer;
+}
+
+.ui-upload-item__card-action:hover {
+  background: var(--outline-hover);
+}
+
+.ui-upload-item__card-action:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}

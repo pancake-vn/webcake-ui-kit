@@ -66,6 +66,7 @@
     "./WkToggleGroup": "./src/components/toggle-group/ToggleGroup.vue",
     "./WkTooltip": "./src/components/tooltip/Tooltip.vue",
     "./WkTypography": "./src/components/typography/Typography.vue",
+    "./WkUpload": "./src/components/upload/Upload.vue",
     "./components/*": "./src/components/*",
     "./icons": "./src/icons/index.js",
     "./package.json": "./package.json"

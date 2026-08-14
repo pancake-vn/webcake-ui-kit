@@ -1,0 +1,17 @@
+.ui-upload-list {
+  display: flex;
+  width: 100%;
+}
+
+.ui-upload-list--default,
+.ui-upload-list--picture {
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.ui-upload-list--picture-card,
+.ui-upload-list--picture-circle {
+  flex-flow: row wrap;
+  gap: var(--spacing-sm);
+  align-items: flex-start;
+}
