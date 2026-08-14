@@ -4,6 +4,11 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.17] - 2026-08-14
+
+### Added
+- New `WkUpload` component with `default`, `picture`, `picture-card`, and `picture-circle` list types, supporting drag-and-drop, paste, directory upload, multiple files, and both controlled (`file-list`) and uncontrolled (`default-file-list`) usage.
+
 ## [1.2.16] - 2026-08-13
 
 ### Fixed
