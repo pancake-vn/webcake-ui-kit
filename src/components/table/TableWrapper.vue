@@ -158,8 +158,9 @@ export default {
 
       var style = {
         overflowY: 'auto',
+        overflowX: 'hidden',
         maxHeight: `calc(${this.toCssSize(this.scroll.y)} - ${deduct})`,
-        minHeight: this.minHeight > 0 ? `calc(${this.toCssSize(this.minHeight)} - ${deduct})` : undefined
+        minHeight: this.minHeight ? `calc(${this.toCssSize(this.minHeight)} - ${deduct})` : undefined
       }
       if (this.hasScrollX) {
         style.overflowX = 'auto'

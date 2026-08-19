@@ -1774,5 +1774,6 @@ export { default as WkiSkewWidth } from './SkewWidth.vue'
 export { default as WkiStrokeLine } from './StrokeLine.vue'
 export { default as WkiTopline } from './Topline.vue'
 export { default as WkiLettersSpacing } from './LettersSpacing.vue'
+export { default as WkiPopup } from './Popup.vue'
 
 // --- AUTO-GENERATED LUCIDE EXPORTS END ---

@@ -10,6 +10,7 @@
     @close="onMenuClose"
     :overlay-class-name="overlayClassName"
     :overlay-style="overlayStyle"
+    :width="overlayWidth"
   >
     <template #trigger="{ toggle, isOpen: open, attrs, triggerRef }">
       <div
@@ -218,7 +219,8 @@ export default {
     },
     overlayClassName: { type: [String, Array, Object], default: null },
     overlayStyle: { type: [Object, Array], default: null },
-    dropdownMatchSelectWidth: { type: Boolean, default: true }
+    dropdownMatchSelectWidth: { type: Boolean, default: true },
+    overlayWidth: { type: [String, Number], default: null }
   },
 
   emits: ['change', 'update:modelValue'],
