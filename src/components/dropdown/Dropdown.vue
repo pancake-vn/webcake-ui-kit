@@ -18,7 +18,7 @@
       <span
         :ref="triggerRef"
         class="ui-dropdown__anchor"
-        @click.stop="triggerHasClick && handleClick()"
+        @click.stop="triggerHasClick && handleClick($event)"
         @mouseenter.stop="triggerHasHover && handleMouseEnter()"
         @mouseleave.stop="triggerHasHover && handleMouseLeave()"
       >
@@ -136,8 +136,10 @@ export default {
       this.$emit('change', v)
       this.$emit('update:modelValue', v)
     },
-    handleClick() {
+    handleClick(e) {
       if (this.disabled) return
+      // Don't close when clicking a focusable element inside the trigger (e.g. input, textarea)
+      if (this.isOpen && e && e.target && e.target.closest('input, textarea, select, [contenteditable]')) return
       this.onMenuChange(!this.isOpen)
     },
     handleMouseEnter() {

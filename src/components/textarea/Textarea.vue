@@ -68,7 +68,7 @@ export default {
       return String(this.currentValue).length
     },
     showCounter() {
-      return this.showCount
+      return this.showCount || this.maxLength !== undefined
     }
   },
   watch: {

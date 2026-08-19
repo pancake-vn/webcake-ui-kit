@@ -90,6 +90,7 @@
 
 .ui-input-number--disabled {
   opacity: 0.5;
+  background: var(--secondary-bg);
 }
 
 .ui-input-number--disabled:focus-within {

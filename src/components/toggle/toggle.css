@@ -184,22 +184,22 @@
   padding: var(--spacing-3xs);
 }
 .ui-toggle--icon-only.ui-toggle--xs {
-  min-width: 28px;
+  width: 28px;
   height: 28px;
   padding: var(--spacing-6) var(--spacing-6) var(--spacing-6) var(--spacing-xs);
 }
 .ui-toggle--icon-only.ui-toggle--sm {
-  min-width: 32px;
+  width: 32px;
   height: 32px;
   padding: var(--spacing-6);
 }
 .ui-toggle--icon-only.ui-toggle--md {
-  min-width: 36px;
+  width: 36px;
   height: 36px;
   padding: var(--spacing-xs);
 }
 .ui-toggle--icon-only.ui-toggle--lg {
-  min-width: 40px;
+  width: 40px;
   height: 40px;
   padding: var(--spacing-10);
 }

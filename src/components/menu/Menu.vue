@@ -198,7 +198,12 @@ export default {
         this._kmSetFloatEl(float)
         this._pmAttach(this._triggerEl, float)
         this._coAttach()
-        if (this.autoFocus) this._fmFocus(float)
+        if (this.autoFocus) {
+          // Don't steal focus when the trigger itself already holds it (e.g. an input inside the anchor)
+          const active = typeof document !== 'undefined' && document.activeElement
+          const triggerHasFocus = active && this._triggerEl && this._triggerEl.contains(active)
+          if (!triggerHasFocus) this._fmFocus(float)
+        }
       })
     },
     handleClose() {

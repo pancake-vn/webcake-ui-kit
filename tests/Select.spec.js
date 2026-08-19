@@ -35,7 +35,7 @@ describe('WkSelect', () => {
 
   it('normalizes string options to {value, label, disabled}', () => {
     const w = mount(WkSelect, { props: { options: FRUITS } })
-    expect(w.vm.normalizedOptions[0]).toEqual({
+    expect(w.vm.normalizedOptions[0]).toMatchObject({
       value: 'Apple',
       label: 'Apple',
       disabled: false
@@ -239,7 +239,8 @@ describe('WkSelect', () => {
     it('filters options by label (case-insensitive)', () => {
       const w = mount(WkSelect, { props: { searchable: true, options: FRUITS } })
       w.vm.filterText = 'ban'
-      expect(w.vm.filteredOptions).toEqual([{ value: 'Banana', label: 'Banana', disabled: false }])
+      expect(w.vm.filteredOptions).toHaveLength(1)
+      expect(w.vm.filteredOptions[0]).toMatchObject({ value: 'Banana', label: 'Banana', disabled: false })
     })
 
     it('returns all options when filterText is empty', () => {

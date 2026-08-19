@@ -325,10 +325,17 @@
             <template #message-icon>&nbsp;</template>
           </WkField>
           <WkField label="Label">
-            <WkInputNumber v-model="fieldText" placeholder="Value" size="xs">
-              <template #prefix> fjasjfkkjsafkjsaf </template>
-              <template #suffix> hsdhjfshjdf </template>
-            </WkInputNumber>
+            <WkDropdown>
+              <WkInputNumber v-model="fieldText" placeholder="Value" size="xs">
+                <template #prefix> fjasjfkkjsafkjsaf </template>
+                <template #suffix> hsdhjfshjdf </template>
+              </WkInputNumber>
+              <template #overlay>
+                <div class="mt-2 px-4">
+                  <WkButton>Button</WkButton>
+                </div>
+              </template>
+            </WkDropdown>
           </WkField>
           <WkField label="Label">
             <WkSelect :value="fieldSelect" @change="fieldSelect = $event">
@@ -520,6 +527,7 @@
               option-size="sm"
               listHeight="max-content"
               showChecked
+              :overlayWidth="600"
             >
               <WkSelectOption v-for="opt in selectOptions" :key="opt.value" :value="opt.value" :label="opt.label" />
               <template #contentHeader>
