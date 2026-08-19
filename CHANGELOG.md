@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.18] - 2026-08-19
+
+### Added
+- New `WkiPopup` icon.
+- `WkSelect` accepts a new `overlayWidth` prop to control the dropdown overlay's width directly.
+
+### Changed
+- `WkTable`'s scrollable body now hides horizontal overflow by default instead of leaving it visible when no horizontal scroll is configured.
+- `WkToggle`'s icon-only `xs`/`sm`/`md`/`lg` sizes now use a fixed width instead of a minimum width.
+- `WkTextarea`'s character counter now also shows whenever `maxLength` is set, in addition to `showCount`.
+
+### Fixed
+- `WkDropdown` no longer closes when clicking a focusable element (input, textarea, select, or contenteditable) inside its trigger.
+- `WkMenu` no longer steals focus from a focusable element inside its trigger when `autoFocus` is set.
+- `WkInputNumber`'s disabled state now shows a distinct background color.
+- `WkTable`'s `minHeight` now also applies when set to `0`.
+
 ## [1.2.17] - 2026-08-14
 
 ### Added
