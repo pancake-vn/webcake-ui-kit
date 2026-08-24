@@ -8,7 +8,7 @@
 
     <template v-if="isEmpty">
       <tr class="ui-table__row">
-        <td colspan="100">
+        <td colspan="100" :style="{ borderBottom: 'none' }">
           <div class="ui-table__row-empty ui-table__empty" :style="emptyStyle">
             <slot name="empty">
               <div class="wrapper-img">
@@ -41,6 +41,7 @@
 import Sortable from 'sortablejs'
 import TableRow from './TableRow.vue'
 import MeasureCell from './MeasureCell.vue'
+import { toCssSize } from '../../../utils/common'
 
 export default {
   name: 'TableBody',
@@ -73,10 +74,14 @@ export default {
     emptyText() {
       return this.tableContext.data.emptyText || 'Không có dữ liệu'
     },
+
+    minHeight: function () {
+      return this.tableContext.layout.height
+    },
+
     emptyStyle() {
-      const { height, rowHeight } = this.tableContext.layout
-      if (!height) return {}
-      return { minHeight: `calc(${height}px - ${rowHeight}px)` }
+      const { rowHeight } = this.tableContext.layout
+      return { minHeight: `calc(${toCssSize(this.minHeight)} - ${toCssSize(rowHeight)})` }
     }
   },
   beforeUnmount: function () {

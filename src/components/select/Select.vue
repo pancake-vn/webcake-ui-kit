@@ -2,7 +2,7 @@
   <Menu
     :open="isOpen"
     :disabled="disabled || loading"
-    placement="bottom-start"
+    :placement="placement"
     :offset="4"
     :anchor-width="dropdownMatchSelectWidth"
     :close-on-select="false"
@@ -220,7 +220,11 @@ export default {
     overlayClassName: { type: [String, Array, Object], default: null },
     overlayStyle: { type: [Object, Array], default: null },
     dropdownMatchSelectWidth: { type: Boolean, default: true },
-    overlayWidth: { type: [String, Number], default: null }
+    overlayWidth: { type: [String, Number], default: null },
+    placement: {
+      type: String,
+      default: 'bottom-start'
+    }
   },
 
   emits: ['change', 'update:modelValue'],
