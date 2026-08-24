@@ -25,7 +25,7 @@
       @focus="onFocus"
       @blur="onBlur"
     ></textarea>
-    <span v-if="showCounter" class="ui-textarea__counter"
+    <span v-if="showCount" class="ui-textarea__counter"
       >{{ charCount }}<template v-if="maxLength !== undefined"> / {{ maxLength }}</template></span
     >
   </span>

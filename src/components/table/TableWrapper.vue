@@ -124,7 +124,7 @@ export default {
         style = { overflow: 'auto hidden' }
       }
 
-      if (this.minHeight > 0) {
+      if (this.minHeight) {
         style.minHeight = `${this.toCssSize(this.minHeight)}`
       }
       return style

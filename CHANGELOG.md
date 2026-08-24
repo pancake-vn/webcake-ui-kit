@@ -4,18 +4,32 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.19] - 2026-08-24
+
+### Added
+
+- `WkSelect` accepts a new `placement` prop to control the dropdown menu's placement.
+
+### Fixed
+
+- `WkTable` empty state now calculates `minHeight` correctly for string values (e.g. CSS units) and removes the bottom border.
+- `WkTextarea`'s character counter visibility is now correctly controlled by the `showCount` prop instead of `showCounter`.
+
 ## [1.2.18] - 2026-08-19
 
 ### Added
+
 - New `WkiPopup` icon.
 - `WkSelect` accepts a new `overlayWidth` prop to control the dropdown overlay's width directly.
 
 ### Changed
+
 - `WkTable`'s scrollable body now hides horizontal overflow by default instead of leaving it visible when no horizontal scroll is configured.
 - `WkToggle`'s icon-only `xs`/`sm`/`md`/`lg` sizes now use a fixed width instead of a minimum width.
 - `WkTextarea`'s character counter now also shows whenever `maxLength` is set, in addition to `showCount`.
 
 ### Fixed
+
 - `WkDropdown` no longer closes when clicking a focusable element (input, textarea, select, or contenteditable) inside its trigger.
 - `WkMenu` no longer steals focus from a focusable element inside its trigger when `autoFocus` is set.
 - `WkInputNumber`'s disabled state now shows a distinct background color.
@@ -24,25 +38,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.17] - 2026-08-14
 
 ### Added
+
 - New `WkUpload` component with `default`, `picture`, `picture-card`, and `picture-circle` list types, supporting drag-and-drop, paste, directory upload, multiple files, and both controlled (`file-list`) and uncontrolled (`default-file-list`) usage.
 
 ## [1.2.16] - 2026-08-13
 
 ### Fixed
+
 - `WkFileTypeIcon` no longer renders an empty text label when no `fileType` is provided.
 
 ## [1.2.15] - 2026-08-13
 
 ### Added
+
 - New `WkFileTypeIcon` component with `default`/`grey`/`solid` variants and `isFolder`/`isFolderEmpty` states for representing files and folders.
 
 ## [1.2.14] - 2026-08-13
 
 ### Changed
+
 - `WkTable` now uses the richer sticky/resizable implementation formerly shipped as `WkTableV2`; the standalone `WkTableV2` export has been removed.
 - `WkDatePicker`'s `sm` trigger now uses the mini paragraph typography tokens instead of the default size, and no longer forces a 200px minimum width.
 
 ### Fixed
+
 - `WkSelectOption`'s submenu offset and `WkSelect`'s list styling now apply correctly by using unscoped selectors instead of `::v-deep`, fixing missing styling on nested submenu anchors and list scrollbars.
 - `WkDropdown`'s trigger hover events no longer bubble up, preventing nested dropdowns from opening or closing their parent unexpectedly.
 - `WkSelectOption`'s click no longer bubbles up, preventing nested submenu selection from also triggering the parent option's click handler.
@@ -51,49 +70,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.13] - 2026-08-12
 
 ### Fixed
+
 - `WkItem`'s outline now renders inset instead of overlapping adjacent content.
 
 ## [1.2.12] - 2026-08-12
 
 ### Fixed
+
 - `WkItem`'s `sm` size now applies horizontal and vertical padding instead of collapsing to a bare min-height.
 - `WkItem`'s `prefix` and `suffix` slots now center their content both horizontally and vertically.
 
 ## [1.2.11] - 2026-08-12
 
 ### Fixed
+
 - `WkItem`'s `outline` variant now uses an outline instead of a border, preventing the border from affecting box sizing and applying regardless of the `asChild` state.
 - `WkItem` no longer shows a pointer cursor unless `asChild` is set.
 
 ## [1.2.10] - 2026-08-12
 
 ### Fixed
+
 - `WkItem`'s label and description now truncate with an ellipsis instead of overflowing, and its content area shrinks correctly within flex layouts.
 
 ## [1.2.9] - 2026-08-12
 
 ### Fixed
+
 - `WkItem` no longer forces `justify-content: space-between`, letting its content area (`flex: 1`) control spacing while `prefix`/`suffix` slots stay fixed-width via `flex-shrink: 0`.
 - `WkItem`'s `muted` variant now applies regardless of the `asChild` state, fixing muted styling that only worked when `asChild` was also set.
 
 ## [1.2.8] - 2026-08-12
 
 ### Added
+
 - New `WkItem` component with `default`/`muted`/`outline` variants, `active` and `asChild` states, `sm`/`md` sizes, `horizontal`/`vertical` layouts, and `prefix`/`suffix` slots.
 
 ## [1.2.7] - 2026-08-11
 
 ### Added
+
 - `WkSelect` and `WkSelectOption` support nested submenu options via a new `children` prop on each option, with per-level `placement`, `width`, and `offset` control.
 - `WkDropdown` accepts new `dropdownMatchSelectWidth` and `offset` props for anchor-width matching and positioning.
 - `WkTableV2`'s content wrapper now supports a `minHeight` prop on its scrollable area.
 
 ### Changed
+
 - `WkTableV2`'s default `rowHeight` and `headerHeight` are swapped, so rows default to `50` and the header to `36`.
 - `WkSelect`'s `value` prop now accepts numbers in addition to strings and arrays.
 - `WkEmpty`'s description text now renders in the muted foreground color.
 
 ### Fixed
+
 - `WkInput`'s `prefix` and `suffix` slots are now detected correctly when passed as scoped slots, fixing missing prefix/suffix rendering under Vue 2.
 - `WkDropdown`'s trigger click no longer bubbles up, preventing nested dropdowns such as `WkSelect` submenus from closing unexpectedly.
 - Click-outside detection now walks the full chain of nested floating panels, fixing `WkSelect` submenus that closed prematurely.
@@ -101,12 +129,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.6] - 2026-08-08
 
 ### Fixed
+
 - `WkMenuItem` uses fixed heights instead of minimum heights for its `sm`/`md`/`lg` sizes, keeping rows from growing taller than intended.
 - `WkMenuItem`'s `suffix` slot content is now centered both horizontally and vertically.
 
 ## [1.2.5] - 2026-08-08
 
 ### Added
+
 - New `WkMenuItem` component with `active`, `disabled`, `error`, and `sm`/`md`/`lg` size states, plus `prefix` and `suffix` slots.
 
 ## [1.2.4] - 2026-08-07
