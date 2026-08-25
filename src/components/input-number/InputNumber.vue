@@ -68,7 +68,8 @@ export default {
     },
     error: { type: Boolean, default: false },
     centered: { type: Boolean, default: false },
-    draggable: { type: Boolean, default: false }
+    draggable: { type: Boolean, default: false },
+    shiftStep: { type: Number, default: 10 }
   },
   emits: ['input', 'update:modelValue', 'change', 'focus', 'blur', 'pressEnter'],
   data() {
@@ -77,12 +78,17 @@ export default {
       inputText: '',
       dragActive: false,
       dragStartX: 0,
-      dragStartValue: 0
+      dragStartValue: 0,
+      dragShiftHeld: false,
     }
   },
   computed: {
     currentValue() {
       return this.modelValue !== undefined ? this.modelValue : this.value
+    },
+    effectiveStep() {
+      if (this.shiftStep !== null && this.dragShiftHeld) return this.shiftStep
+      return this.step
     },
     hasPrefix() {
       return !!((this.$scopedSlots && this.$scopedSlots['prefix']) || this.$slots['prefix'])
@@ -195,6 +201,7 @@ export default {
       this.dragStartValue =
         this.currentValue !== null && this.currentValue !== undefined ? Number(this.currentValue) : 0
       this.dragActive = false
+      this.dragShiftHeld = e.shiftKey
       document.addEventListener('mousemove', this.onDragMove)
       document.addEventListener('mouseup', this.onDragEnd)
     },
@@ -206,20 +213,23 @@ export default {
         document.body.style.cursor = 'ew-resize'
         if (this.$refs.input) this.$refs.input.blur()
       }
-      const newVal = this.clamp(this.toPrecision(this.dragStartValue + delta * this.step))
+      this.dragShiftHeld = e.shiftKey
+      const newVal = this.clamp(this.toPrecision(this.dragStartValue + delta * this.effectiveStep))
       this.$emit('input', newVal)
       this.$emit('update:modelValue', newVal)
+      this.$emit('change', newVal)
     },
     onDragEnd(e) {
       document.removeEventListener('mousemove', this.onDragMove)
       document.removeEventListener('mouseup', this.onDragEnd)
       if (this.dragActive) {
         const delta = e.clientX - this.dragStartX
-        const newVal = this.clamp(this.toPrecision(this.dragStartValue + delta * this.step))
+        const newVal = this.clamp(this.toPrecision(this.dragStartValue + delta * this.effectiveStep))
         this.$emit('change', newVal)
         document.body.style.cursor = ''
       }
       this.dragActive = false
+      this.dragShiftHeld = false
     },
     onKeydown(e) {
       if (e.key === 'ArrowUp') {
