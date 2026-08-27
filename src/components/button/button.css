@@ -156,7 +156,8 @@
 }
 
 .ui-btn--primary:hover,
-.ui-btn--primary:active {
+.ui-btn--primary:active,
+.ui-btn--primary.ui-btn--active {
   background: var(--primary-brand-hover);
 }
 
@@ -167,7 +168,8 @@
 }
 
 .ui-btn--neutral:hover,
-.ui-btn--neutral:active {
+.ui-btn--neutral:active,
+.ui-btn--neutral.ui-btn--active {
   background: var(--button-black-hover);
 }
 
@@ -178,7 +180,8 @@
 }
 
 .ui-btn--secondary:hover,
-.ui-btn--secondary:active {
+.ui-btn--secondary:active,
+.ui-btn--secondary.ui-btn--active {
   background: var(--secondary-hover);
 }
 
@@ -191,7 +194,8 @@
 }
 
 .ui-btn--outline:hover,
-.ui-btn--outline:active {
+.ui-btn--outline:active,
+.ui-btn--outline.ui-btn--active {
   background: var(--outline-hover);
   box-shadow: none;
 }
@@ -203,7 +207,8 @@
 }
 
 .ui-btn--ghost:hover,
-.ui-btn--ghost:active {
+.ui-btn--ghost:active,
+.ui-btn--ghost.ui-btn--active {
   background: var(--ghost-hover);
 }
 
@@ -214,7 +219,8 @@
 }
 
 .ui-btn--destructive:hover,
-.ui-btn--destructive:active {
+.ui-btn--destructive:active,
+.ui-btn--destructive.ui-btn--active {
   background: var(--destructive-hover);
 }
 
@@ -225,7 +231,8 @@
 }
 
 .ui-btn--ghost-destructive:hover,
-.ui-btn--ghost-destructive:active {
+.ui-btn--ghost-destructive:active,
+.ui-btn--ghost-destructive.ui-btn--active {
   background: var(--destructive-subtle);
 }
 
@@ -239,7 +246,8 @@
 }
 
 .ui-btn--link:hover,
-.ui-btn--link:active {
+.ui-btn--link:active,
+.ui-btn--link.ui-btn--active {
   color: var(--primary-brand-hover);
 }
 

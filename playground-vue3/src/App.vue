@@ -878,6 +878,7 @@
           :columns="tableV2Columns"
           :data-source="[]"
           :height="1000"
+          :scroll="{ x: 1200, y: 1000 }"
           :rowSelection="rowSelection"
           :rowDraggable="rowDraggable"
           :custom-row="tableV2CustomRow"
@@ -1207,7 +1208,7 @@ export default {
         { title: 'Status', dataIndex: 'status', align: 'center', width: 100, resizable: true },
         { title: 'Score', dataIndex: 'score', align: 'right', width: 90, resizable: true },
         { title: 'Address', dataIndex: 'address', width: 260, ellipsis: true, resizable: true },
-        { title: 'Joined', dataIndex: 'joined', align: 'center', width: 120, fixed: 'right', resizable: true },
+        { title: 'Joined', dataIndex: 'joined', align: 'center', width: 120, resizable: true },
         { title: 'Action', dataIndex: 'action', align: 'center', width: 50, fixed: 'right' }
       ],
       tableV2Data: [

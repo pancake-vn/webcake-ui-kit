@@ -6,7 +6,8 @@
       `ui-btn--${size}`,
       `ui-btn--round-${roundness}`,
       isIconOnly && 'ui-btn--icon-only',
-      loading && 'ui-btn--loading'
+      loading && 'ui-btn--loading',
+      active && 'ui-btn--active'
     ]"
     :type="htmlType"
     :disabled="disabled || loading"
@@ -64,6 +65,7 @@ export default {
     label: { type: String, default: '' },
     disabled: { type: Boolean, default: false },
     loading: { type: Boolean, default: false },
+    active: { type: Boolean, default: false },
     htmlType: {
       type: String,
       default: 'button',
