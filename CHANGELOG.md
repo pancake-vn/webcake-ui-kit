@@ -4,6 +4,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-08-27
+
+### Added
+- `WkButton` accepts a new `active` prop to force the hover/active visual state across all variants.
+- `WkTag` accepts a new `active` prop to force the hover/active visual state on the `default` and `outline` types.
+
+### Changed
+- `WkTable`'s sticky-column shadow now renders as a soft inset shadow on a pseudo-element instead of a hard box-shadow on the cell, matching the fixed-left and fixed-right edges more closely.
+- `WkSidebarItem` now uses the standard `--radius` token instead of `--radius-6` for its border radius.
+
 ## [1.3.0] - 2026-08-25
 
 ### Added
