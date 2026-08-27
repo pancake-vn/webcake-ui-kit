@@ -18,7 +18,8 @@
   background: var(--secondary-bg);
   color: var(--primary-fg);
 }
-.ui-tag--type-default:hover {
+.ui-tag--type-default:hover,
+.ui-tag--type-default.ui-tag--active {
   background: #f0f0f0;
 }
 
@@ -27,7 +28,8 @@
   border: 1px solid var(--border-primary);
   color: var(--secondary-fg);
 }
-.ui-tag--type-outline:hover {
+.ui-tag--type-outline:hover,
+.ui-tag--type-outline.ui-tag--active {
   background: rgba(0, 0, 0, 0.05);
   color: var(--primary-fg);
 }

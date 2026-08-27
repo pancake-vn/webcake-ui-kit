@@ -1,6 +1,11 @@
 <template>
   <span
-    :class="['ui-tag', `ui-tag--type-${type}`, `ui-tag--${size}`, { 'ui-tag--with-icon': hasIcon }]"
+    :class="[
+      'ui-tag',
+      `ui-tag--type-${type}`,
+      `ui-tag--${size}`,
+      { 'ui-tag--with-icon': hasIcon, 'ui-tag--active': active }
+    ]"
     @click="handleClick"
   >
     <span v-if="hasIcon" class="ui-tag__icon"><slot name="icon" /></span>
@@ -36,7 +41,8 @@ export default {
     },
     counter: { type: Number, default: 0 },
     closable: { type: Boolean, default: false },
-    label: { type: String, default: '' }
+    label: { type: String, default: '' },
+    active: { type: Boolean, default: false }
   },
   emits: ['close', 'click'],
   computed: {
