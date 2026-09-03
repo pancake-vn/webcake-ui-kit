@@ -36,7 +36,7 @@ export default {
       type: String,
       default: 'md',
       validator: function (v) {
-        return ['sm', 'md', 'lg'].includes(v)
+        return ['sm', 'md', 'lg', 'xl', 'huge'].includes(v)
       }
     },
     counter: { type: Number, default: 0 },

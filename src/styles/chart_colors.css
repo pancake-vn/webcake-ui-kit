@@ -9,9 +9,9 @@
   --chart-positive: #009689;
   --chart-negative: #f54a00;
 
-  --fill: #bfdeffb3;
+  --chart-fill: #bfdeffb3;
   --chart-stroke: #8ec5ff;
-  --fill-2: #aaccffb3;
+  --chart-fill-2: #aaccffb3;
   --chart-stroke-2: #3f8dff;
 }
 
@@ -26,8 +26,8 @@
   --chart-positive: #00bc7d;
   --chart-negative: #ff2056;
 
-  --fill: #475d75b3;
+  --chart-fill: #475d75b3;
   --chart-stroke: #8ec5ff;
-  --fill-2: #1f4176b3;
+  --chart-fill-2: #1f4176b3;
   --chart-stroke-2: #3f8dff;
 }

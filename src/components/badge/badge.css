@@ -8,7 +8,7 @@
   font-size: var(--paragraph-mini-font-size);
   line-height: var(--paragraph-mini-line-height);
   letter-spacing: var(--paragraph-mini-letter-spacing);
-  font-weight: var(--paragraph-bold-font-weight);
+  font-weight: 500;
   white-space: nowrap;
   transition: box-shadow 0.15s ease;
   border-width: 1px;
@@ -28,7 +28,7 @@
   border-color: var(--positive-border-subtle);
 }
 .ui-badge--secondary {
-  background: var(--secondary-bg);
+  background: var(--tertiary-bg);
   color: var(--secondary-fg);
   border: none;
 }
