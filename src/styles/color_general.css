@@ -29,10 +29,11 @@
 
   /* Start: Unofficial */
   --primary-hover: var(--color-brand-neutrals-50);
-  --secondary-hover: var(--color-brand-neutrals-50);
-  --primary-brand-hover: var(--color-brand-shades-500);
+  --secondary-hover: var(--color-brand-neutrals-200);
+  --tertiary-hover: var(--color-brand-neutrals-300);
+  --primary-brand-hover: var(--color-brand-shades-700);
   --destructive-text: var(--color-red-600);
-  --destructive-hover: var(--color-red-500);
+  --destructive-hover: var(--color-red-700);
   --destructive-subtle: var(--color-red-50);
   --destructive-border: var(--color-red-500);
   --destructive-border-subtle: var(--color-red-200);
@@ -128,6 +129,9 @@
   --non-delete-layer-hover: var(--color-violet-50);
   --non-delete-layer-accent: var(--color-violet-200);
 
+  --fill: rgba(63, 141, 255, 0.1);
+  --non-delete-fill: rgba(168, 85, 247, 0.1);
+
   --stroke: #3f8dff;
   --stroke-hover: #8fbcff;
   --non-delete-stroke: var(--color-violet-600);
@@ -160,10 +164,11 @@
 
   /* Start: Unofficial */
   --primary-hover: var(--color-brand-neutrals-950);
-  --secondary-hover: var(--color-brand-neutrals-900);
-  --primary-brand-hover: var(--color-brand-shades-500);
+  --secondary-hover: var(--color-brand-neutrals-800);
+  --tertiary-hover: var(--color-brand-neutrals-700);
+  --primary-brand-hover: var(--color-brand-shades-300);
   --destructive-text: var(--color-red-400);
-  --destructive-hover: var(--color-red-500);
+  --destructive-hover: var(--color-red-300);
   --destructive-subtle: var(--color-red-950);
   --destructive-border: var(--color-red-500);
   --destructive-border-subtle: var(--color-red-800);

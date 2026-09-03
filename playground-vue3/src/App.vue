@@ -876,7 +876,7 @@
           bordered
           enableFixedLeft
           :columns="tableV2Columns"
-          :data-source="[]"
+          :data-source="tableV2Data"
           :height="1000"
           :scroll="{ x: 1200, y: 1000 }"
           :rowSelection="rowSelection"

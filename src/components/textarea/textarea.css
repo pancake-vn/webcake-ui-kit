@@ -25,6 +25,10 @@
   border-radius: var(--radius-18);
 }
 
+.ui-textarea:hover:not(.ui-textarea--disabled):not(.ui-textarea--error) {
+  border-color: var(--border-focus);
+}
+
 /* Focus (interactive) — wrapper highlights when the field is focused. */
 .ui-textarea:focus-within {
   border-color: var(--border-focus);

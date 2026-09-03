@@ -15,12 +15,12 @@
 
 /* — type — */
 .ui-tag--type-default {
-  background: var(--secondary-bg);
+  background: var(--tertiary-bg);
   color: var(--primary-fg);
 }
 .ui-tag--type-default:hover,
 .ui-tag--type-default.ui-tag--active {
-  background: #f0f0f0;
+  background: var(--tertiary-hover);
 }
 
 .ui-tag--type-outline {
@@ -39,19 +39,38 @@
 
 .ui-tag--sm {
   gap: var(--spacing-2xs);
+  height: 20px;
 }
 
 .ui-tag--md {
   border-radius: var(--radius);
   font-size: var(--paragraph-small-font-size);
   line-height: var(--paragraph-small-line-height);
+  height: 24px;
 }
 
 .ui-tag--lg {
   padding: var(--spacing-2xs) 10px;
-  border-radius: var(--radius-10);
+  border-radius: var(--rounded-xl);
   font-size: var(--paragraph-small-font-size);
   line-height: var(--paragraph-small-line-height);
+  height: 28px;
+}
+
+.ui-tag--xl {
+  padding: var(--spacing-6) var(--spacing-10) var(--spacing-6) var(--spacing-xs);
+  border-radius: var(--rounded-xl);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  height: 32px;
+}
+
+.ui-tag--huge {
+  padding: var(--spacing-xs) var(--spacing-sm) var(--spacing-xs) var(--spacing-10);
+  border-radius: var(--rounded-xl);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  height: 36px;
 }
 
 /* reduce left padding when icon slot is present */

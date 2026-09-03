@@ -5,7 +5,7 @@ export default {
   component: Tag,
   argTypes: {
     type: { control: { type: 'inline-radio' }, options: ['default', 'outline'] },
-    size: { control: { type: 'inline-radio' }, options: ['sm', 'md', 'lg'] },
+    size: { control: { type: 'inline-radio' }, options: ['sm', 'md', 'lg', 'xl', 'huge'] },
     label: { control: 'text' },
     counter: { control: 'number' },
     closable: { control: 'boolean' }
@@ -39,7 +39,7 @@ export const AllVariants = () => ({
       <div v-for="type in ['default','outline']" :key="type" style="display:flex;flex-direction:column;gap:8px;">
         <span style="color:#6b7280;font-size:12px;">type: {{ type }}</span>
         <div style="display:flex;gap:8px;align-items:center;">
-          <Tag v-for="size in ['sm','md','lg']" :key="size" :type="type" :size="size" :label="size" />
+          <Tag v-for="size in ['sm','md','lg', 'xl', 'huge']" :key="size" :type="type" :size="size" :label="size" />
         </div>
       </div>
     </div>
@@ -56,13 +56,13 @@ export const Matrix = () => ({
       <thead>
         <tr>
           <th></th>
-          <th style="color:#6b7280;font-size:12px;font-weight:500;" v-for="s in ['sm','md','lg']" :key="s">{{ s }}</th>
+          <th style="color:#6b7280;font-size:12px;font-weight:500;" v-for="s in ['sm','md','lg', 'xl', 'huge']" :key="s">{{ s }}</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="type in ['default','outline']" :key="type">
           <td style="color:#6b7280;font-size:12px;white-space:nowrap;">{{ type }}</td>
-          <td v-for="size in ['sm','md','lg']" :key="size">
+          <td v-for="size in ['sm','md','lg', 'xl', 'huge']" :key="size">
             <Tag :type="type" :size="size" label="Tag" />
           </td>
         </tr>
