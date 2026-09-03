@@ -4,6 +4,22 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2] - 2026-09-03
+
+### Added
+- `WkTag` now supports `xl` and `huge` sizes in addition to `sm`, `md`, and `lg`.
+- `WkInput`, `WkInputCounter`, `WkInputNumber`, and `WkTextarea` now show a highlighted border on hover when not disabled or in an error state.
+
+### Changed
+- Design tokens `--secondary-hover`, `--tertiary-hover`, `--primary-brand-hover`, and `--destructive-hover` were retuned for both light and dark themes, and new `--fill` and `--non-delete-fill` tokens were added.
+- The chart color tokens `--fill` and `--fill-2` were renamed to `--chart-fill` and `--chart-fill-2`.
+- `WkTag`'s `sm`, `md`, and `lg` sizes now have fixed heights for more consistent sizing.
+
+### Fixed
+- `WkBadge`'s `secondary` variant and `WkTag`'s `default` type now use the correct background token instead of a mismatched or hardcoded color.
+- `WkBadge`'s label no longer renders with an incorrect font weight.
+- `WkInput`'s field text now truncates with an ellipsis instead of overflowing.
+
 ## [1.3.1] - 2026-08-27
 
 ### Added
