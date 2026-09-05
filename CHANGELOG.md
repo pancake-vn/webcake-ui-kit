@@ -4,6 +4,17 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.3] - 2026-09-05
+
+### Added
+- `WkDatePicker` accepts a new `xs` size in addition to `sm`, `md`, and `lg`.
+
+### Changed
+- `WkDatePicker`'s `sm` size trigger now has a taller fixed height and adjusted spacing for better alignment.
+
+### Fixed
+- `WkBadge` now has a fixed height for more consistent sizing.
+
 ## [1.3.2] - 2026-09-03
 
 ### Added
