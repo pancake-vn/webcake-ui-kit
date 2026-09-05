@@ -13,6 +13,7 @@
   transition: box-shadow 0.15s ease;
   border-width: 1px;
   border-style: solid;
+  height: 20px;
 }
 
 .ui-badge--round-default {

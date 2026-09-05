@@ -24,6 +24,12 @@
 }
 
 .ui-date-picker__trigger--sm {
+  height: 32px;
+  gap: var(--spacing-6);
+  padding: 0 var(--spacing-xs);
+}
+
+.ui-date-picker__trigger--xs {
   height: 28px;
   padding: 0 var(--spacing-xs);
   font-size: var(--paragraph-mini-font-size);

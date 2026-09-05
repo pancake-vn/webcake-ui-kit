@@ -4,7 +4,7 @@ export default {
   title: 'Forms/DatePicker',
   component: WkDatePicker,
   argTypes: {
-    size: { control: { type: 'inline-radio' }, options: ['sm', 'md', 'lg'] },
+    size: { control: { type: 'inline-radio' }, options: ['xs', 'sm', 'md', 'lg'] },
     mode: { control: { type: 'inline-radio' }, options: ['single', 'range', 'multiple'] },
     placement: { control: 'text' },
     disabled: { control: 'boolean' },
