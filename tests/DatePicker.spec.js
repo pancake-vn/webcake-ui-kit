@@ -34,7 +34,7 @@ describe('WkDatePicker', () => {
   })
 
   it('applies size class for each size', () => {
-    for (const size of ['sm', 'md', 'lg']) {
+    for (const size of ['xs', 'sm', 'md', 'lg']) {
       const w = mount(WkDatePicker, { props: { size } })
       expect(w.find('.ui-date-picker__trigger').classes()).toContain(`ui-date-picker__trigger--${size}`)
     }

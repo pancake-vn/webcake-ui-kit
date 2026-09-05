@@ -182,7 +182,7 @@ export default {
     size: {
       type: String,
       default: 'md',
-      validator: v => ['sm', 'md', 'lg'].includes(v)
+      validator: v => ['xs', 'sm', 'md', 'lg'].includes(v)
     },
     todayText: { type: String, default: 'Today' },
     clearText: { type: String, default: 'Clear' },
