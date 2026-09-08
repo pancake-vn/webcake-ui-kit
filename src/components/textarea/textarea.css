@@ -49,6 +49,8 @@
 /* Disabled — visual only; cursor handled by the inner field. */
 .ui-textarea--disabled {
   opacity: 0.5;
+  border-color: var(--border-3);
+  background: var(--secondary-bg);
 }
 
 .ui-textarea--disabled:focus-within {

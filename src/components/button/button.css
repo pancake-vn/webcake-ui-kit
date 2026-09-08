@@ -283,12 +283,14 @@
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
+  background: var(--ghost);
+  color: var(--primary-fg);
 }
 
-.ui-btn:not(.ui-btn--ghost):not(.ui-btn--link):disabled {
-  background: var(--muted-bg);
-  color: var(--muted-fg);
-  border: 1px solid var(--border-primary);
+.ui-btn:not(.ui-btn--ghost):not(.ui-btn--link):not(.ui-btn--ghost-destructive):disabled {
+  background: var(--secondary-bg);
+  color: var(--primary-fg);
+  border: 1px solid var(--border-3);
   box-shadow: var(--shadow-xs);
 }
 
