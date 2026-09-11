@@ -133,11 +133,17 @@
 .ui-dialog-header__title {
   width: 100%;
   font-family: var(--heading-4-font-family);
-  font-size: var(--heading-4-font-size);
   line-height: var(--heading-4-line-height);
   letter-spacing: var(--heading-4-letter-spacing);
   font-weight: var(--heading-4-font-weight);
   color: var(--primary-fg);
+}
+
+.ui-dialog-header__title__size-sm {
+  font-size: var(--paragraph-regular-font-size);
+}
+.ui-dialog-header__title__size-md {
+  font-size: var(--heading-4-font-size);
 }
 
 .ui-dialog-header__sub-text {

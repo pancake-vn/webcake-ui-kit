@@ -22,7 +22,7 @@
               <div class="ui-dialog-header__row">
                 <slot name="header">
                   <div v-if="hasTitle" class="ui-dialog-header__content">
-                    <div class="ui-dialog-header__title">
+                    <div :class="['ui-dialog-header__title', `ui-dialog-header__title__size-${headerSize}`]">
                       <slot name="title">{{ title }}</slot>
                     </div>
                   </div>
@@ -117,6 +117,11 @@ export default {
     closable: { type: Boolean, default: true },
     showHeader: { type: Boolean, default: true },
     headerDivider: { type: Boolean, default: true },
+    headerSize: {
+      type: String,
+      default: 'md',
+      validator: v => ['sm', 'md'].includes(v)
+    },
     footer: { type: Boolean, default: true },
     footerAlign: {
       type: String,
