@@ -11,7 +11,7 @@
 
     <span class="ui-radio__inner"></span>
 
-    <div class="ui-radio__label_wrapper">
+    <div v-if="$slots.default" class="ui-radio__label_wrapper">
       <span class="ui-radio__label">
         <slot>
           {{ label }}
