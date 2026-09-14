@@ -4,6 +4,8 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.5] - 2026-09-14
+
 ### Fixed
 
 - `WkDialog` header now supports a `headerSize` prop (`'sm'` or `'md'`, default `'md'`) to control the title font size; `headerSize="sm"` uses paragraph font size instead of heading-4 for more compact dialogs.
