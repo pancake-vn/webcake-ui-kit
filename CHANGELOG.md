@@ -4,35 +4,48 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.5] - 2026-09-14
+
+### Fixed
+
+- `WkDialog` header now supports a `headerSize` prop (`'sm'` or `'md'`, default `'md'`) to control the title font size; `headerSize="sm"` uses paragraph font size instead of heading-4 for more compact dialogs.
+
 ## [1.3.4] - 2026-09-08
 
 ### Fixed
+
 - `WkButton`'s disabled state now uses correct background and border tokens for the default and ghost-destructive variants.
 - `WkInput`, `WkInputCounter`, `WkInputNumber`, `WkSelect`, and `WkTextarea` now show a visible border color in the disabled state instead of blending into the background.
 
 ## [1.3.3] - 2026-09-05
 
 ### Added
+
 - `WkDatePicker` accepts a new `xs` size in addition to `sm`, `md`, and `lg`.
 
 ### Changed
+
 - `WkDatePicker`'s `sm` size trigger now has a taller fixed height and adjusted spacing for better alignment.
 
 ### Fixed
+
 - `WkBadge` now has a fixed height for more consistent sizing.
 
 ## [1.3.2] - 2026-09-03
 
 ### Added
+
 - `WkTag` now supports `xl` and `huge` sizes in addition to `sm`, `md`, and `lg`.
 - `WkInput`, `WkInputCounter`, `WkInputNumber`, and `WkTextarea` now show a highlighted border on hover when not disabled or in an error state.
 
 ### Changed
+
 - Design tokens `--secondary-hover`, `--tertiary-hover`, `--primary-brand-hover`, and `--destructive-hover` were retuned for both light and dark themes, and new `--fill` and `--non-delete-fill` tokens were added.
 - The chart color tokens `--fill` and `--fill-2` were renamed to `--chart-fill` and `--chart-fill-2`.
 - `WkTag`'s `sm`, `md`, and `lg` sizes now have fixed heights for more consistent sizing.
 
 ### Fixed
+
 - `WkBadge`'s `secondary` variant and `WkTag`'s `default` type now use the correct background token instead of a mismatched or hardcoded color.
 - `WkBadge`'s label no longer renders with an incorrect font weight.
 - `WkInput`'s field text now truncates with an ellipsis instead of overflowing.
@@ -40,19 +53,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.3.1] - 2026-08-27
 
 ### Added
+
 - `WkButton` accepts a new `active` prop to force the hover/active visual state across all variants.
 - `WkTag` accepts a new `active` prop to force the hover/active visual state on the `default` and `outline` types.
 
 ### Changed
+
 - `WkTable`'s sticky-column shadow now renders as a soft inset shadow on a pseudo-element instead of a hard box-shadow on the cell, matching the fixed-left and fixed-right edges more closely.
 - `WkSidebarItem` now uses the standard `--radius` token instead of `--radius-6` for its border radius.
 
 ## [1.3.0] - 2026-08-25
 
 ### Added
+
 - `WkInputNumber` accepts a new `shiftStep` prop that sets an accelerated increment amount while holding Shift during drag.
 
 ### Changed
+
 - `WkInputNumber` now emits `change` continuously while dragging instead of only when the drag ends.
 
 ## [1.2.19] - 2026-08-24
