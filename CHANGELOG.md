@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.6] - 2026-09-14
+
+### Added
+
+- `WkItem` accepts new `showRadio`, `showCheckbox`, `showCheckboxSuffix`, and `checked` boolean props for rendering integrated radio or checkbox controls within the item.
+- `WkItem` storybook now includes `WithRadio`, `WithCheckbox`, `WithCheckboxAndContent`, and `VerticalLayoutWithCheckbox` stories demonstrating the new checkbox and radio integration features.
+
+### Changed
+
+- `WkItem` `description` now renders regardless of the `layout` prop value; previously it was conditionally shown only in `vertical` layout.
+- `WkItem` `prefix` and `suffix` slots now only render their wrapper elements when slot content is actually provided.
+- `WkRadio` label wrapper now only renders when the default slot has content, preventing an empty wrapper element when used without a label.
+
+### Fixed
+
+- `WkRadio` inner indicator element no longer applies `margin-top: 2px`, improving vertical alignment with adjacent content.
+
 ## [1.3.5] - 2026-09-14
 
 ### Fixed

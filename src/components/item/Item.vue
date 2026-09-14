@@ -10,7 +10,13 @@
     ]"
     :style="{ width: typeof width == 'string' ? width : `${width}px` }"
   >
-    <div class="ui-item--prefix">
+    <div v-if="showRadio" class="ui-item-radio--container">
+      <Radio :checked="checked" />
+    </div>
+    <div v-if="showCheckbox" class="ui-item-checkbox--container">
+      <Checkbox :checked="checked" />
+    </div>
+    <div v-if="$slots.prefix" class="ui-item--prefix">
       <slot name="prefix"></slot>
     </div>
     <slot>
@@ -18,20 +24,29 @@
         <div class="ui-item--label wk-paragraph-small wk-weight-medium">
           {{ label }}
         </div>
-        <div v-if="description && layout == 'vertical'" class="ui-item--description wk-paragraph-mini">
+        <div v-if="description" class="ui-item--description wk-paragraph-mini">
           {{ description }}
         </div>
       </div>
     </slot>
-    <div class="ui-item--suffix">
+    <div v-if="showCheckboxSuffix" class="ui-item-checkbox--container">
+      <Checkbox :checked="checked" />
+    </div>
+    <div v-if="$slots.prefix" class="ui-item--suffix">
       <slot name="suffix"></slot>
     </div>
   </div>
 </template>
 
 <script>
+import Radio from '../radio/Radio.vue'
+import Checkbox from '../checkbox/Checkbox.vue'
 export default {
   name: 'WkItem',
+  components: {
+    Radio,
+    Checkbox
+  },
   props: {
     label: String,
     variant: {
@@ -54,17 +69,16 @@ export default {
     description: String,
     width: {
       type: [String, Number]
-    }
+    },
+    showRadio: Boolean,
+    showCheckbox: Boolean,
+    showCheckboxSuffix: Boolean,
+    checked: Boolean
   },
   emits: [],
-  data() {
-    return {
-      // Add component state
-    }
-  },
-  computed: {
-    // Add computed properties
-  },
+  data() {},
+  mounted() {},
+  computed: {},
   methods: {
     // Add methods
   }
