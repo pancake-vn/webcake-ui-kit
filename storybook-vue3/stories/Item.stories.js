@@ -20,7 +20,11 @@ export default {
     },
     active: { control: 'boolean' },
     asChild: { control: 'boolean' },
-    width: { control: 'text' }
+    width: { control: 'text' },
+    showRadio: { control: 'boolean' },
+    showCheckbox: { control: 'boolean' },
+    showCheckboxSuffix: { control: 'boolean' },
+    checked: { control: 'boolean' }
   }
 }
 
@@ -200,6 +204,90 @@ export const FocusVisible = () => ({
       <WkItem label="Focusable item 1" tabindex="0" />
       <WkItem label="Focusable item 2" tabindex="0" variant="muted" />
       <WkItem label="Focusable item 3" tabindex="0" variant="outline" />
+    </div>
+  `
+})
+
+export const WithRadio = () => ({
+  components: { WkItem },
+  template: `
+    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px">
+      <h4 style="margin-bottom: 8px">Items with Radio</h4>
+      <WkItem label="Option 1" showRadio :checked="true" />
+      <WkItem label="Option 2" showRadio :checked="false" />
+      <WkItem label="Option 3" description="With description" showRadio :checked="false" />
+    </div>
+  `
+})
+
+export const WithCheckbox = () => ({
+  components: { WkItem },
+  template: `
+    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px">
+      <h4 style="margin-bottom: 8px">Items with Checkbox (prefix)</h4>
+      <WkItem label="Task 1" showCheckbox :checked="true" />
+      <WkItem label="Task 2" showCheckbox :checked="false" />
+      <WkItem label="Task 3" description="Completed task" showCheckbox :checked="true" variant="muted" />
+
+      <h4 style="margin-bottom: 8px; margin-top: 16px">Items with Checkbox (suffix)</h4>
+      <WkItem label="Setting 1" showCheckboxSuffix :checked="false" />
+      <WkItem label="Setting 2" showCheckboxSuffix :checked="true" />
+      <WkItem label="Setting 3" description="With description" showCheckboxSuffix :checked="true" />
+    </div>
+  `
+})
+
+export const WithCheckboxAndContent = () => ({
+  components: { WkItem },
+  template: `
+    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px">
+      <WkItem label="With prefix slot" showCheckbox :checked="true">
+        <template #prefix>
+          <span style="font-size: 20px">📁</span>
+        </template>
+      </WkItem>
+
+      <WkItem label="With suffix slot" showCheckbox :checked="false">
+        <template #suffix>
+          <span style="padding: 2px 8px; background: #10b981; color: white; border-radius: 4px; font-size: 12px">New</span>
+        </template>
+      </WkItem>
+
+      <WkItem showRadio :checked="true">
+        <template #prefix>
+          <span style="width: 32px; height: 32px; background: #3b82f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white">A</span>
+        </template>
+        <div>
+          <div style="font-weight: 600">Custom Content Item</div>
+          <div style="font-size: 12px; color: #6b7280; margin-top: 2px">With custom slot content</div>
+        </div>
+        <template #suffix>
+          <span style="font-size: 12px; color: #6b7280">→</span>
+        </template>
+      </WkItem>
+    </div>
+  `
+})
+
+export const VerticalLayoutWithCheckbox = () => ({
+  components: { WkItem },
+  template: `
+    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px">
+      <h4 style="margin-bottom: 8px">Vertical Layout</h4>
+      <WkItem
+        label="Vertical with checkbox"
+        description="Description is always shown now regardless of layout"
+        layout="vertical"
+        showCheckbox
+        :checked="true"
+      />
+      <WkItem
+        label="Vertical with radio"
+        description="Radio button in vertical layout"
+        layout="vertical"
+        showRadio
+        :checked="false"
+      />
     </div>
   `
 })

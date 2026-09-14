@@ -35,7 +35,6 @@
   box-sizing: border-box;
   transition: all 0.2s;
   box-shadow: var(--shadow-xs);
-  margin-top: 2px;
 }
 .ui-radio__inner::after {
   content: '';
