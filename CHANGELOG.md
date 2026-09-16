@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.7] - 2026-09-16
+
+### Fixed
+
+- `WkBreadcrumb`'s current item no longer applies a bold font-weight override, matching the weight of the other breadcrumb items.
+- `WkTag`'s `outline` type now uses the `--primary-bg` and `--primary-hover` design tokens instead of hardcoded translucent colors for its background and hover/active states.
+- `WkTag`'s `lg` size now uses the `--radius` token instead of `--rounded-xl` for its border radius.
+
 ## [1.3.6] - 2026-09-14
 
 ### Added
