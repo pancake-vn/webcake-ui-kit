@@ -68,8 +68,8 @@
           </WkDropdown>
         </WkDialog>
 
-        <WkTag size="sm">
-          alooo
+        <WkTag size="lg" type="outline">
+          outline
           <template #icon>
             <WkiChessBishop :size="12" />
           </template>

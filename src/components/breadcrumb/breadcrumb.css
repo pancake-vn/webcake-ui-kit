@@ -67,7 +67,6 @@
 
 .ui-breadcrumb__current {
   color: var(--primary-fg);
-  font-weight: var(--paragraph-medium-font-weight);
 }
 
 .ui-breadcrumb__icon {

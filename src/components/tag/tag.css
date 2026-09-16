@@ -24,13 +24,13 @@
 }
 
 .ui-tag--type-outline {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--primary-bg);
   border: 1px solid var(--border-primary);
   color: var(--secondary-fg);
 }
 .ui-tag--type-outline:hover,
 .ui-tag--type-outline.ui-tag--active {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--primary-hover);
   color: var(--primary-fg);
 }
 
@@ -51,7 +51,7 @@
 
 .ui-tag--lg {
   padding: var(--spacing-2xs) 10px;
-  border-radius: var(--rounded-xl);
+  border-radius: var(--radius);
   font-size: var(--paragraph-small-font-size);
   line-height: var(--paragraph-small-line-height);
   height: 28px;
