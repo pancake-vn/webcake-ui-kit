@@ -69,14 +69,11 @@ function open(config) {
   const vm = ensureContainer()
   if (!vm) return function () {}
 
-  // Per-call placement/offset override (applied before add so the container
-  // is positioned correctly when the message enters).
-  if (config.placement != null || config.offset != null) {
-    vm.configure({
-      placement: config.placement,
-      offset: config.offset
-    })
-  }
+  // Always resolve placement/offset — per-call value wins, falls back to globalConfig.
+  vm.configure({
+    placement: config.placement != null ? config.placement : globalConfig.placement,
+    offset: config.offset != null ? config.offset : globalConfig.offset
+  })
 
   const type = config.type || 'info'
   const duration = config.duration !== undefined ? config.duration : type === 'loading' ? 0 : globalConfig.duration
