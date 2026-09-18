@@ -97,6 +97,7 @@
           :key="opt.value"
           :value="opt.value"
           :label="opt.label"
+          :mark-label="opt.markLabel"
           :disabled="opt.disabled"
           :children="opt.children"
           :placement="opt.placement"
@@ -265,9 +266,10 @@ export default {
       var base = this.mode === 'tags' ? this.options.concat(this.tagOptions) : this.options
       return base.map(function (opt) {
         return typeof opt === 'string'
-          ? { label: opt, value: opt, disabled: false, children: [], placement: 'right-start' }
+          ? { label: opt, value: opt, markLabel: opt, disabled: false, children: [], placement: 'right-start' }
           : {
               label: opt.label || opt.value,
+              markLabel: opt.markLabel || opt.label || opt.value,
               value: opt.value,
               disabled: !!opt.disabled,
               children: opt.children || [],
@@ -290,7 +292,6 @@ export default {
     selectedLabel() {
       if (this.isMultiMode) return ''
       if (!this.effectiveValue) return ''
-      if (this.labelCache[this.effectiveValue]) return this.labelCache[this.effectiveValue]
       const findOpt = (opts, val) => {
         for (let i = 0; i < opts.length; i++) {
           if (opts[i].value === val) return opts[i]
@@ -302,7 +303,8 @@ export default {
         return null
       }
       const opt = findOpt(this.normalizedOptions, this.effectiveValue)
-      if (opt) return opt.label
+      if (opt) return opt.markLabel || opt.label
+      if (this.labelCache[this.effectiveValue]) return this.labelCache[this.effectiveValue]
       return this._findLabelInSlot(this.effectiveValue) || this.effectiveValue
     },
     selectedItems() {
