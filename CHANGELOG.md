@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.10] - 2026-09-18
+
+### Added
+- `WkSelect` and `WkSelectOption` accept a new `markLabel` prop to show a custom display label distinct from the option's matching/searchable label.
+
+### Fixed
+- `WkSelect` now prioritizes the option's current label (or `markLabel`) over its cached label when rendering the selected value, keeping the trigger text in sync with in-place label updates.
+
 ## [1.3.9] - 2026-09-17
 
 ### Fixed
