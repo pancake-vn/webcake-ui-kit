@@ -41,6 +41,7 @@
             :key="opt.value"
             :value="opt.value"
             :label="opt.label"
+            :mark-label="opt.markLabel"
             :disabled="opt.disabled"
             :children="opt.children"
             :placement="opt.placement"
@@ -75,6 +76,10 @@ export default {
       required: true
     },
     label: {
+      type: String,
+      default: ''
+    },
+    markLabel: {
       type: String,
       default: ''
     },
@@ -198,6 +203,10 @@ export default {
     },
     _registerLabel() {
       if (!this.select) return
+      if (this.markLabel) {
+        this.select.registerOption(this.value, this.markLabel)
+        return
+      }
       var labelEl = this.$el && this.$el.querySelector('.ui-select-option--label')
       var slotText = labelEl ? labelEl.textContent.trim() : ''
       var labelText = slotText || this.label || String(this.value)
