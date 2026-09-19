@@ -5,6 +5,7 @@
       :checked="isChecked"
       :error="error"
       :disabled="disabled"
+      :iconType="iconType"
       @change="onChange"
     />
     <span class="ui-checkbox-group__label">
@@ -30,7 +31,8 @@ export default {
     modelValue: { type: Boolean, default: undefined },
     error: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
-    label: { type: String, default: '' }
+    label: { type: String, default: '' },
+    iconType: { type: String, default: 'default', validator: v => ['default', 'minus'].includes(v) }
   },
   emits: ['change', 'update:modelValue'],
   computed: {
