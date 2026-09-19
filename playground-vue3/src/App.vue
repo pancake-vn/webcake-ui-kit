@@ -358,7 +358,7 @@
           </WkField>
           <WkField label="Label" align="start">
             <div class="field-checkbox-list">
-              <WkCheckboxGroup label="Option 1" :modelValue="true" />
+              <WkCheckboxGroup label="Option 1" :modelValue="true" iconType="minus" />
               <WkCheckboxGroup label="Option 2" />
               <WkCheckboxGroup label="Option 3" />
             </div>

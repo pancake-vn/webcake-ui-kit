@@ -10,24 +10,29 @@
       @change="onChange"
     />
     <span class="ui-checkbox__box" aria-hidden="true">
-      <WkiCheck v-if="isChecked" :size="14" />
+      <template v-if="isChecked">
+        <WkiMinus v-if="iconType === 'minus'" :size="14" />
+        <WkiCheck v-else :size="14" />
+      </template>
     </span>
   </span>
 </template>
 
 <script>
 import WkiCheck from '../../icons/Check.vue'
+import WkiMinus from '../../icons/Minus.vue'
 
 export default {
   name: 'Checkbox',
-  components: { WkiCheck },
+  components: { WkiCheck, WkiMinus },
   inheritAttrs: false,
   model: { prop: 'checked', event: 'change' },
   props: {
     checked: { type: Boolean, default: false },
     modelValue: { type: Boolean, default: undefined },
     error: { type: Boolean, default: false },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
+    iconType: { type: String, default: 'default', validator: v => ['default', 'minus'].includes(v) }
   },
   emits: ['change', 'update:modelValue'],
   computed: {
