@@ -4,7 +4,7 @@
     :disabled="disabled || loading"
     :placement="placement"
     :offset="4"
-    :anchor-width="dropdownMatchSelectWidth"
+    :anchor-width="effectiveDropdownMatchSelectWidth"
     :close-on-select="false"
     @change="onMenuChange"
     @close="onMenuClose"
@@ -87,37 +87,50 @@
         </span>
       </div>
     </template>
-    <div class="ui-select__list" :style="listStyle">
-      <div v-if="hasContentHeader()">
-        <slot name="contentHeader"></slot>
+    <div class="ui-select__columns">
+      <div class="ui-select__list" :style="listStyle">
+        <div v-if="hasContentHeader()">
+          <slot name="contentHeader"></slot>
+        </div>
+        <slot>
+          <SelectOption
+            v-for="opt in filteredOptions"
+            :key="opt.value"
+            :value="opt.value"
+            :label="opt.label"
+            :mark-label="opt.markLabel"
+            :disabled="opt.disabled"
+            :children="opt.children"
+            :placement="opt.placement"
+            :offset="opt.offset"
+          />
+        </slot>
+        <slot v-if="showEmpty" name="empty">
+          <Empty description="No data">
+            <template #media>
+              <div class="select-empty">
+                <img
+                  src="https://content.pancake.vn/web-media-262/2e/2a/0c/96/c2b58ae9f06c4dc2a3b83016e56d5b4132ff40637862ba23435e43a0-w:224-h:224-l:3927-t:image/png.png"
+                />
+              </div>
+            </template>
+          </Empty>
+        </slot>
+        <div v-if="hasContentFooter()">
+          <slot name="contentFooter"></slot>
+        </div>
       </div>
-      <slot>
+      <div v-for="(col, idx) in expandedColumns" :key="col.ownerValue" class="ui-select__list" :style="listStyle">
         <SelectOption
-          v-for="opt in filteredOptions"
+          v-for="opt in col.children"
           :key="opt.value"
           :value="opt.value"
           :label="opt.label"
           :mark-label="opt.markLabel"
           :disabled="opt.disabled"
-          :children="opt.children"
-          :placement="opt.placement"
-          :width="opt.width"
-          :offset="opt.offset"
+          :children="opt.children || []"
+          :column-depth="idx + 1"
         />
-      </slot>
-      <slot v-if="showEmpty" name="empty">
-        <Empty description="No data">
-          <template #media>
-            <div class="select-empty">
-              <img
-                src="https://content.pancake.vn/web-media-262/2e/2a/0c/96/c2b58ae9f06c4dc2a3b83016e56d5b4132ff40637862ba23435e43a0-w:224-h:224-l:3927-t:image/png.png"
-              />
-            </div>
-          </template>
-        </Empty>
-      </slot>
-      <div v-if="hasContentFooter()">
-        <slot name="contentFooter"></slot>
       </div>
     </div>
   </Menu>
@@ -203,6 +216,10 @@ export default {
       type: [Number, String],
       default: 256
     },
+    listWidth: {
+      type: [Number, String],
+      default: null
+    },
     mode: {
       type: String,
       default: 'single',
@@ -236,7 +253,8 @@ export default {
       labelCache: {},
       filterText: '',
       tagOptions: [],
-      slotOptionVisible: {}
+      slotOptionVisible: {},
+      expandedColumns: []
     }
   },
 
@@ -274,7 +292,6 @@ export default {
               disabled: !!opt.disabled,
               children: opt.children || [],
               placement: opt.placement || 'right-start',
-              width: opt.width || null,
               offset: opt.offset || null
             }
       })
@@ -335,9 +352,25 @@ export default {
       if (this.normalizedOptions.length === 0 && Object.keys(this.slotOptionVisible).length === 0) return true
       return false
     },
+    effectiveDropdownMatchSelectWidth() {
+      if (
+        this.normalizedOptions.some(function (opt) {
+          return opt.children && opt.children.length > 0
+        })
+      ) {
+        return false
+      }
+      return this.dropdownMatchSelectWidth
+    },
     listStyle() {
-      if (typeof this.listHeight === 'number') return { maxHeight: this.listHeight + 'px' }
-      return { maxHeight: this.listHeight }
+      var style = {}
+      style.maxHeight = typeof this.listHeight === 'number' ? this.listHeight + 'px' : this.listHeight
+      if (this.listWidth != null) {
+        var w = typeof this.listWidth === 'number' ? this.listWidth + 'px' : this.listWidth
+        style.width = w
+        style.minWidth = w
+      }
+      return style
     },
     externalClass() {
       // Vue 3: class is in $attrs (inheritAttrs:false keeps it off the root)
@@ -567,6 +600,29 @@ export default {
         return null
       }
       return scan(this._slotNodes())
+    },
+    expandColumn(depth, ownerValue, children) {
+      var existing = this.expandedColumns[depth]
+      if (existing && existing.ownerValue === ownerValue) {
+        this.expandedColumns = this.expandedColumns.slice(0, depth)
+      } else {
+        this.expandedColumns = this.expandedColumns.slice(0, depth).concat([
+          {
+            ownerValue: ownerValue,
+            children: children || []
+          }
+        ])
+      }
+    },
+    openColumn(depth, ownerValue, children) {
+      var existing = this.expandedColumns[depth]
+      if (existing && existing.ownerValue === ownerValue) return
+      this.expandedColumns = this.expandedColumns.slice(0, depth).concat([
+        {
+          ownerValue: ownerValue,
+          children: children || []
+        }
+      ])
     }
   }
 }

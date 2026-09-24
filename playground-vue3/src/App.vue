@@ -584,7 +584,7 @@
             </WkSelectOption>
           </WkSelect>
           <div>
-            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">Searchable</p>
+            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">11111122222</p>
             <WkSelect
               size="xs"
               optionSize="sm"
@@ -594,6 +594,7 @@
               searchable
               placeholder="Type to search"
               @change="selectSearchable = $event"
+              :listWidth="230"
             />
             <code style="font-size: 11px">{{ selectSearchable }}</code>
           </div>

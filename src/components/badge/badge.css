@@ -11,8 +11,6 @@
   font-weight: 500;
   white-space: nowrap;
   transition: box-shadow 0.15s ease;
-  border-width: 1px;
-  border-style: solid;
   height: 20px;
 }
 
@@ -24,39 +22,33 @@
 }
 
 .ui-badge--primary {
-  background: var(--positive-subtle);
-  color: var(--primary-brand-fg);
-  border-color: var(--positive-border-subtle);
+  background: var(--color-emerald-100);
+  color: var(--color-emerald-700);
 }
 .ui-badge--secondary {
   background: var(--tertiary-bg);
   color: var(--secondary-fg);
-  border: none;
 }
 .ui-badge--outline {
   background: var(--outline);
   color: var(--primary-fg);
-  border-color: var(--border-primary);
+  border: 1px solid var(--border-primary);
 }
 .ui-badge--ghost {
   background: var(--ghost);
   color: var(--primary-fg);
-  border: none;
 }
 .ui-badge--destructive {
-  background: var(--destructive-subtle);
-  color: var(--destructive);
-  border-color: var(--destructive-border-subtle);
+  background: var(--color-red-100);
+  color: var(--color-red-700);
 }
 .ui-badge--info {
-  background: var(--infor-subtle);
-  color: var(--infor);
-  border-color: var(--infor-border-subtle);
+  background: var(--color-blue-100);
+  color: var(--color-blue-700);
 }
 .ui-badge--warning {
-  background: var(--warning-subtle);
-  color: var(--warning);
-  border-color: var(--warning-border-subtle);
+  background: var(--color-amber-100);
+  color: var(--color-amber-700);
 }
 
 .ui-badge:focus-visible {

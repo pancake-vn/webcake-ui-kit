@@ -27,9 +27,15 @@ function patchWrapper(w) {
 
 export function mount(Component, options = {}) {
   const opts = { ...options }
-  if (isV1 && opts.props) {
-    opts.propsData = opts.props
-    delete opts.props
+  if (isV1) {
+    if (opts.props) {
+      opts.propsData = opts.props
+      delete opts.props
+    }
+    if (opts.global && opts.global.provide) {
+      opts.provide = opts.global.provide
+      delete opts.global
+    }
   }
   return patchWrapper(vtu.mount(Component, opts))
 }
