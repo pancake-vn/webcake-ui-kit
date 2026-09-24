@@ -4,6 +4,18 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.12] - 2026-09-24
+
+### Added
+- `WkInput` emits a new `click` event when the input element is clicked.
+- `WkSelect` accepts a new `listWidth` prop to set a fixed width for its option list and any expanded child columns.
+
+### Changed
+- `WkSelect` and `WkSelectOption` now render nested (child) options as inline columns that expand beside the list, replacing the previous flyout dropdown submenu behavior.
+
+### Fixed
+- `WkBadge`'s `primary`, `destructive`, `info`, and `warning` variants now use correct solid color tokens and no longer render an unintended border.
+
 ## [1.3.11] - 2026-09-19
 
 ### Added
