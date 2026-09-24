@@ -239,6 +239,7 @@
   overflow-y: auto;
   padding: var(--spacing-2xs);
   gap: var(--spacing-3xs);
+  flex: 1 0 0;
 }
 
 .ui-select__list::-webkit-scrollbar {
@@ -248,6 +249,20 @@
 .ui-select__list::-webkit-scrollbar-thumb {
   background: var(--border-primary);
   border-radius: 3px;
+}
+
+.ui-select__columns {
+  display: flex;
+  align-items: stretch;
+}
+
+.ui-select__columns > .ui-select__list {
+  flex: 1 1 0;
+  min-width: 160px;
+}
+
+.ui-select__columns > .ui-select__list + .ui-select__list {
+  border-left: 1px solid var(--border-primary);
 }
 
 .ui-select__list ::v-deep .select-empty {

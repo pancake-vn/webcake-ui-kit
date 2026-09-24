@@ -8,6 +8,7 @@
       disabled && 'ui-input--disabled',
       $attrs.class
     ]"
+    @click="onClick"
   >
     <span v-if="hasPrefix()" class="ui-input__decoration ui-input__prefix" aria-hidden="true">
       <slot name="prefix"></slot>
@@ -59,7 +60,7 @@ export default {
     readonly: { type: Boolean, default: false },
     centered: { type: Boolean, default: false }
   },
-  emits: ['input', 'change', 'update:modelValue', 'focus', 'blur', 'pressEnter'],
+  emits: ['input', 'change', 'update:modelValue', 'focus', 'blur', 'pressEnter', 'click'],
   computed: {
     currentValue() {
       return this.modelValue !== undefined ? this.modelValue : this.value
@@ -94,6 +95,9 @@ export default {
       if (e.key === 'Enter') {
         this.$emit('pressEnter', e.target.value, e)
       }
+    },
+    onClick(e) {
+      this.$emit('click', e)
     }
   }
 }

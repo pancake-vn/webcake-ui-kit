@@ -1,6 +1,17 @@
+/* Single root: lays the option row and its (optional) inline child column
+   side by side. Top-aligned so the expanded column starts at the option row. */
+.ui-select-option-wrapper {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  min-width: 0;
+}
+
 .ui-select-option {
   display: flex;
   align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
   min-height: 32px;
   border-radius: var(--radius);
   font-family: var(--font-family-body);
@@ -97,4 +108,17 @@
 .ui-select-option__suffix {
   font-size: var(--paragraph-mini-font-size);
   line-height: var(--paragraph-mini-line-height);
+}
+
+/* Chevron affordance for options that expand a child column. */
+.ui-select-option__expand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--muted-fg);
+}
+
+.ui-select-option--expanded {
+  background: var(--accent-bg);
 }

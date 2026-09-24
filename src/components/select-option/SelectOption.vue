@@ -1,68 +1,56 @@
 <template>
   <div
     v-show="!isHidden"
-    class="ui-select-option"
-    :class="[
-      effectiveSize === 'sm' ? 'ui-select-option--sm' : null,
-      effectiveSize === 'md' ? 'ui-select-option--md' : null,
-      effectiveSize === 'lg' ? 'ui-select-option--lg' : null,
-      variant === 'destructive' ? 'ui-select-option--destructive' : null,
-      isDisabled ? 'ui-select-option--disabled' : null,
-      isSelected ? 'ui-select-option--selected' : null
-    ]"
-    role="option"
-    :aria-selected="isSelected ? 'true' : 'false'"
-    :aria-disabled="isDisabled ? 'true' : null"
-    @click.stop="handleClick"
+    class="ui-select-option-wrapper"
+    :class="{ 'ui-select-option-wrapper--expanded': isExpanded }"
   >
-    <span v-if="hasPrefix()" class="ui-select-option__prefix">
-      <slot name="prefix" />
-    </span>
-    <span class="ui-select-option--label">
-      <slot>{{ label || value }}</slot>
-    </span>
-    <span v-if="hasSuffix()" class="ui-select-option__suffix">
-      <slot name="suffix" />
-    </span>
-    <WkiCheck
-      v-if="isSelected && (isMultiMode || isShowChecked) && children.length === 0"
-      :size="16"
-      color="var(--muted-fg)"
-    />
-
-    <Dropdown v-if="children.length > 0" :placement="placement" :width="width || 280" :offset="offset">
-      <div class="expand-trigger">
+    <div
+      class="ui-select-option"
+      :class="[
+        effectiveSize === 'sm' ? 'ui-select-option--sm' : null,
+        effectiveSize === 'md' ? 'ui-select-option--md' : null,
+        effectiveSize === 'lg' ? 'ui-select-option--lg' : null,
+        variant === 'destructive' ? 'ui-select-option--destructive' : null,
+        isDisabled ? 'ui-select-option--disabled' : null,
+        isSelected ? 'ui-select-option--selected' : null,
+        hasChildren ? 'ui-select-option--has-children' : null,
+        isExpanded ? 'ui-select-option--expanded' : null
+      ]"
+      role="option"
+      :aria-selected="isSelected ? 'true' : 'false'"
+      :aria-disabled="isDisabled ? 'true' : null"
+      :aria-haspopup="hasChildren ? 'true' : null"
+      :aria-expanded="hasChildren ? (isExpanded ? 'true' : 'false') : null"
+      @click.stop="handleClick"
+    >
+      <span v-if="hasPrefix()" class="ui-select-option__prefix">
+        <slot name="prefix" />
+      </span>
+      <span class="ui-select-option--label">
+        <slot>{{ label || value }}</slot>
+      </span>
+      <span v-if="hasSuffix()" class="ui-select-option__suffix">
+        <slot name="suffix" />
+      </span>
+      <WkiCheck
+        v-if="isSelected && (isMultiMode || isShowChecked) && !hasChildren"
+        :size="16"
+        color="var(--muted-fg)"
+      />
+      <span v-if="hasChildren" class="ui-select-option__expand">
         <WkiChevronRight :size="16" />
-      </div>
-      <template #overlay>
-        <div class="ui-select__list">
-          <SelectOption
-            v-for="opt in children"
-            :key="opt.value"
-            :value="opt.value"
-            :label="opt.label"
-            :mark-label="opt.markLabel"
-            :disabled="opt.disabled"
-            :children="opt.children"
-            :placement="opt.placement"
-            :width="opt.width"
-            :offset="opt.offset"
-          />
-        </div>
-      </template>
-    </Dropdown>
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
 import { WkiCheck, WkiChevronRight } from '../../icons'
-import Dropdown from '../dropdown/Dropdown.vue'
 export default {
   name: 'SelectOption',
 
   components: {
     WkiCheck,
-    Dropdown,
     WkiChevronRight
   },
 
@@ -109,21 +97,28 @@ export default {
       type: String,
       default: 'right-start'
     },
-    width: {
-      type: [String, Number],
-      default: null
-    },
     offset: {
       type: [String, Number],
       default: null
+    },
+    columnDepth: {
+      type: Number,
+      default: 0
     }
   },
 
   emits: [],
 
+  data() {
+    return {}
+  },
+
   mounted() {
     this._registerLabel()
     if (this.select) this.select.setSlotOptionVisible(this.value, !this.isHidden)
+    if (this.hasChildren && this.isSelected && this.select && typeof this.select.openColumn === 'function') {
+      this.select.openColumn(this.columnDepth, this.value, this.children)
+    }
   },
 
   updated() {
@@ -141,6 +136,11 @@ export default {
   watch: {
     isHidden(val) {
       if (this.select) this.select.setSlotOptionVisible(this.value, !val)
+    },
+    isSelected(val) {
+      if (val && this.hasChildren && this.select && typeof this.select.openColumn === 'function') {
+        this.select.openColumn(this.columnDepth, this.value, this.children)
+      }
     }
   },
 
@@ -148,6 +148,14 @@ export default {
     effectiveSize() {
       // explicit prop wins; otherwise inherit from parent Select; else regular
       return this.size || (this.select && (this.select.optionSize || this.select.size)) || 'md'
+    },
+    hasChildren() {
+      return Array.isArray(this.children) && this.children.length > 0
+    },
+    isExpanded() {
+      if (!this.select || !this.hasChildren) return false
+      var col = this.select.expandedColumns && this.select.expandedColumns[this.columnDepth]
+      return !!(col && col.ownerValue === this.value)
     },
     isHidden() {
       if (!this.select || !this.select.filterText) return false
@@ -214,6 +222,12 @@ export default {
     },
     handleClick() {
       if (this.isDisabled) return
+      if (this.hasChildren) {
+        if (this.select && typeof this.select.expandColumn === 'function') {
+          this.select.expandColumn(this.columnDepth, this.value, this.children)
+        }
+        return
+      }
       if (this.select && typeof this.select.select === 'function') {
         this.select.select(this.value)
       }
@@ -223,4 +237,3 @@ export default {
 </script>
 
 <style src="./select_option.css" scoped></style>
-<style src="./select_option_sub.css"></style>
