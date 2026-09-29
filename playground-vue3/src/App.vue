@@ -412,7 +412,7 @@
             <WkInput placeholder="Enter your e-mail address..." />
           </WkField>
           <WkField label="Category">
-            <WkSelect :options="fieldOptions" />
+            <WkSelect :options="[]" />
           </WkField>
           <WkField label="Message" align="start">
             <textarea class="field-textarea" placeholder="Type your message here." />
