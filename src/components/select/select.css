@@ -258,7 +258,6 @@
 
 .ui-select__columns > .ui-select__list {
   flex: 1 1 0;
-  min-width: 160px;
 }
 
 .ui-select__columns > .ui-select__list + .ui-select__list {
