@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.14] - 2026-09-30
+
+### Changed
+- `WkSelect`'s empty state now renders a plain image and message instead of nesting a `WkEmpty` component, and accepts a new `emptyText` prop to customize the message.
+
+### Fixed
+- `WkSelect`'s empty state image no longer relies on a deep `::v-deep` style override and now sizes and centers correctly within the option list.
+
 ## [1.3.13] - 2026-09-29
 
 ### Fixed
