@@ -1,6 +1,10 @@
 <template>
   <thead class="ui-table__header">
-    <TableHeaderRow />
+    <TableHeaderRow>
+      <template #selectionHeader>
+        <slot name="selectionHeader"></slot>
+      </template>
+    </TableHeaderRow>
   </thead>
 </template>
 

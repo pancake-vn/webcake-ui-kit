@@ -4,7 +4,6 @@
       'ui-table__header-cell',
       isSelectionCol && 'ui-table__header-cell--selection',
       isLastItem && 'ui-table__header-cell--last',
-      isSelectionCol && !isHideSelectAll && 'ui-table__header-cell--selection',
       column.fixed && `ui-table__cell--fixed-${column.fixed}`,
       isLastFixedLeft && 'ui-table__cell--fixed-left__last',
       isFirstFixedRight && 'ui-table__cell--fixed-right__first'
@@ -12,7 +11,7 @@
     :style="cellStyle"
   >
     <div v-if="isSelectionCol && !isHideSelectAll" class="wrapper-option">
-      <Checkbox :checked="tableContext.selection.checkAll" @change="onCheckAll" />
+      <Checkbox :checked="hasChecked" @change="onCheckAll" :iconType="isCheckAll ? 'default' : 'minus'" />
     </div>
 
     <span v-else :class="[column.ellipsis && 'ui-table__header-cell--ellipsis']">{{ column.title }}</span>
@@ -36,11 +35,19 @@ export default {
     offset: { type: [Number, String], default: 0 }
   },
   computed: {
-    isHideSelectAll() {
-      return this.tableContext.selection.hideSelectAll
+    isHideSelectAll: function () {
+      return !!this.tableContext.selection.hideSelectAll
     },
     isSelectionCol: function () {
       return this.column.type === SELECTION_COLUMN
+    },
+    hasChecked: function () {
+      return this.tableContext.selection.selectedRowKeys.length > 0
+    },
+    isCheckAll: function () {
+      var keys = this.tableContext.selection.selectedRowKeys
+      var display = this.tableContext.data.display
+      return display.length > 0 && keys.length === display.length
     },
     isLastFixedLeft: function () {
       if (this.column.fixed !== 'left') return false
@@ -73,16 +80,17 @@ export default {
     }
   },
   methods: {
-    onCheckAll: function (checked) {
+    onCheckAll: function () {
       const key = this.tableContext.layout.rowKey
       const allKeys = this.tableContext.data.display.map(function (r) {
         return r[key]
       })
 
-      this.tableContext.actions.select(checked ? allKeys : [], {
-        type: checked ? 'all' : 'none',
-        selected: checked
-      })
+      if (this.isCheckAll) {
+        this.tableContext.actions.select([], { type: 'none', selected: false })
+      } else {
+        this.tableContext.actions.select(allKeys, { type: 'all', selected: true })
+      }
     }
   }
 }
