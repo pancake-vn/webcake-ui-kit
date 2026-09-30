@@ -1,8 +1,7 @@
 .ui-table__wrapper {
   overflow: hidden;
   border-radius: var(--rounded-2xl);
-  border-inline-end: 1px solid var(--border-primary);
-  border-inline-start: 1px solid var(--border-primary);
+  border: 1px solid var(--border-primary);
 }
 
 .ui-table__wrapper table {
@@ -11,19 +10,6 @@
   border-radius: 8px 8px 0 0;
   border-collapse: separate;
   border-spacing: 0;
-}
-
-.ui-table__wrapper .ui-table__content {
-  border-top: 1px solid var(--border-primary);
-  border-bottom: 1px solid var(--border-primary);
-}
-
-.ui-table__wrapper .ui-table__header-hold {
-  border-top: 1px solid var(--border-primary);
-}
-
-.ui-table__wrapper .ui-table__body-hold {
-  border-bottom: 1px solid var(--border-primary);
 }
 
 /* Common betwenn Header and Body */
@@ -299,4 +285,19 @@
   border-top: 2px solid transparent;
   border-bottom: 1px solid transparent;
   background-clip: content-box;
+}
+
+.ui-table__wrapper ::v-deep .ui-table__header-cell--bulk.ui-table__header-cell--bulk {
+  padding: 0;
+  vertical-align: middle;
+}
+
+.ui-table__wrapper ::v-deep .ui-table__header-cell--bulk > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
 }

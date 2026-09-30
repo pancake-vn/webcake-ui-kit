@@ -121,3 +121,234 @@ describe('WkTable', () => {
     w.unmount && w.unmount()
   })
 })
+
+describe('WkTable — row selection', () => {
+  afterEach(() => {
+    document.body.innerHTML = ''
+  })
+
+  it('marks selected rows with --selected class', async () => {
+    const w = mount(WkTable, {
+      props: {
+        columns: COLUMNS,
+        dataSource: ROWS,
+        rowSelection: { selectedRowKeys: ['1'], onChange: () => {} }
+      }
+    })
+    await w.vm.$nextTick()
+    const rows = w.findAll('.ui-table__row')
+    expect(rows[0].classes()).toContain('ui-table__row--selected')
+    expect(rows[1].classes()).not.toContain('ui-table__row--selected')
+    w.unmount && w.unmount()
+  })
+
+  it('does not mark rows when selectedRowKeys is empty', () => {
+    const w = mount(WkTable, {
+      props: {
+        columns: COLUMNS,
+        dataSource: ROWS,
+        rowSelection: { selectedRowKeys: [], onChange: () => {} }
+      }
+    })
+    expect(w.find('.ui-table__row--selected').exists()).toBe(false)
+    w.unmount && w.unmount()
+  })
+
+  it('updates row selected state when selectedRowKeys prop changes', async () => {
+    const Harness = {
+      components: { WkTable },
+      data: () => ({ cols: COLUMNS, rows: ROWS, keys: [] }),
+      computed: {
+        rs() {
+          return {
+            selectedRowKeys: this.keys,
+            onChange: k => {
+              this.keys = k
+            }
+          }
+        }
+      },
+      template: `<WkTable :columns="cols" :data-source="rows" :row-selection="rs" />`
+    }
+    const w = mount(Harness)
+    await w.vm.$nextTick()
+    expect(w.find('.ui-table__row--selected').exists()).toBe(false)
+    w.vm.keys = ['2']
+    await w.vm.$nextTick()
+    const rows = w.findAll('.ui-table__row')
+    expect(rows[0].classes()).not.toContain('ui-table__row--selected')
+    expect(rows[1].classes()).toContain('ui-table__row--selected')
+    w.unmount && w.unmount()
+  })
+
+  it('hideSelectAll hides header checkbox', () => {
+    const w = mount(WkTable, {
+      props: {
+        columns: COLUMNS,
+        dataSource: ROWS,
+        rowSelection: { selectedRowKeys: [], onChange: () => {}, hideSelectAll: true }
+      }
+    })
+    expect(w.find('.ui-table__header .wrapper-option').exists()).toBe(false)
+    w.unmount && w.unmount()
+  })
+
+  it('shows header checkbox when hideSelectAll is false', () => {
+    const w = mount(WkTable, {
+      props: {
+        columns: COLUMNS,
+        dataSource: ROWS,
+        rowSelection: { selectedRowKeys: [], onChange: () => {}, hideSelectAll: false }
+      }
+    })
+    expect(w.find('.ui-table__header .wrapper-option').exists()).toBe(true)
+    w.unmount && w.unmount()
+  })
+
+  it('selectionHeader slot is hidden when no rows selected', () => {
+    const Harness = {
+      components: { WkTable },
+      data: () => ({ cols: COLUMNS, rows: ROWS, keys: [] }),
+      computed: {
+        rs() {
+          return {
+            selectedRowKeys: this.keys,
+            onChange: k => {
+              this.keys = k
+            }
+          }
+        }
+      },
+      template: `
+        <WkTable :columns="cols" :data-source="rows" :row-selection="rs">
+          <template #selectionHeader><span class="bulk-label">bulk</span></template>
+        </WkTable>
+      `
+    }
+    const w = mount(Harness)
+    expect(w.find('.bulk-label').exists()).toBe(false)
+    w.unmount && w.unmount()
+  })
+
+  it('selectionHeader slot is visible when rows are selected', async () => {
+    const Harness = {
+      components: { WkTable },
+      data: () => ({ cols: COLUMNS, rows: ROWS, keys: ['1'] }),
+      computed: {
+        rs() {
+          return {
+            selectedRowKeys: this.keys,
+            onChange: k => {
+              this.keys = k
+            }
+          }
+        }
+      },
+      template: `
+        <WkTable :columns="cols" :data-source="rows" :row-selection="rs">
+          <template #selectionHeader><span class="bulk-label">bulk</span></template>
+        </WkTable>
+      `
+    }
+    const w = mount(Harness)
+    await w.vm.$nextTick()
+    expect(w.find('.bulk-label').exists()).toBe(true)
+    w.unmount && w.unmount()
+  })
+
+  it('selectionHeader slot appears when selectedRowKeys changes from empty to non-empty', async () => {
+    const Harness = {
+      components: { WkTable },
+      data: () => ({ cols: COLUMNS, rows: ROWS, keys: [] }),
+      computed: {
+        rs() {
+          return {
+            selectedRowKeys: this.keys,
+            onChange: k => {
+              this.keys = k
+            }
+          }
+        }
+      },
+      template: `
+        <WkTable :columns="cols" :data-source="rows" :row-selection="rs">
+          <template #selectionHeader><span class="bulk-label">bulk</span></template>
+        </WkTable>
+      `
+    }
+    const w = mount(Harness)
+    expect(w.find('.bulk-label').exists()).toBe(false)
+    w.vm.keys = ['1']
+    await w.vm.$nextTick()
+    expect(w.find('.bulk-label').exists()).toBe(true)
+    w.unmount && w.unmount()
+  })
+
+  it('selectionHeader slot disappears when selectedRowKeys is cleared externally', async () => {
+    const Harness = {
+      components: { WkTable },
+      data: () => ({ cols: COLUMNS, rows: ROWS, keys: ['1'] }),
+      computed: {
+        rs() {
+          return {
+            selectedRowKeys: this.keys,
+            onChange: k => {
+              this.keys = k
+            }
+          }
+        }
+      },
+      template: `
+        <WkTable :columns="cols" :data-source="rows" :row-selection="rs">
+          <template #selectionHeader><span class="bulk-label">bulk</span></template>
+        </WkTable>
+      `
+    }
+    const w = mount(Harness)
+    await w.vm.$nextTick()
+    expect(w.find('.bulk-label').exists()).toBe(true)
+    w.vm.keys = []
+    await w.vm.$nextTick()
+    expect(w.find('.bulk-label').exists()).toBe(false)
+    w.unmount && w.unmount()
+  })
+
+  it('bulk th has --bulk class when selectionHeader is active', async () => {
+    const Harness = {
+      components: { WkTable },
+      data: () => ({ cols: COLUMNS, rows: ROWS, keys: ['1'] }),
+      computed: {
+        rs() {
+          return {
+            selectedRowKeys: this.keys,
+            onChange: k => {
+              this.keys = k
+            }
+          }
+        }
+      },
+      template: `
+        <WkTable :columns="cols" :data-source="rows" :row-selection="rs">
+          <template #selectionHeader><span class="bulk-label">bulk</span></template>
+        </WkTable>
+      `
+    }
+    const w = mount(Harness)
+    await w.vm.$nextTick()
+    expect(w.find('.ui-table__header-cell--bulk').exists()).toBe(true)
+    w.unmount && w.unmount()
+  })
+
+  it('does not enter bulk mode without #selectionHeader slot even when rows selected', async () => {
+    const w = mount(WkTable, {
+      props: {
+        columns: COLUMNS,
+        dataSource: ROWS,
+        rowSelection: { selectedRowKeys: ['1'], onChange: () => {} }
+      }
+    })
+    await w.vm.$nextTick()
+    expect(w.find('.ui-table__header-cell--bulk').exists()).toBe(false)
+    w.unmount && w.unmount()
+  })
+})

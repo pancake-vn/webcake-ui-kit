@@ -250,6 +250,73 @@ rowSelection: {
   }
 }
 
+export const WithSelectionHeader = () => ({
+  components: { WkTable, WkButton, WkTag },
+  data() {
+    return { columns: COLUMNS, data: DATA, selectedKeys: [] }
+  },
+  computed: {
+    rowSelection() {
+      const self = this
+      return {
+        selectedRowKeys: self.selectedKeys,
+        onChange(keys) {
+          self.selectedKeys = keys
+        }
+      }
+    }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 12px;">
+      <p style="margin: 0; font-size: 13px; color: #6b7280;">
+        Select one or more rows — the header row switches to bulk-action mode.
+        Click × on the tag to clear selection.
+      </p>
+      <WkTable :columns="columns" :data-source="data" :row-selection="rowSelection">
+        <template #selectionHeader>
+          <div style="display:flex;align-items:center;gap:12px;justify-content:space-between;width:100%;padding:0 16px;">
+            <WkTag
+              label="Đã chọn"
+              type="outline"
+              closable
+              size="lg"
+              :counter="selectedKeys.length"
+              @close="selectedKeys = []"
+            />
+            <div style="display:flex;gap:8px;">
+              <WkButton size="sm" variant="outline">Xuất Excel</WkButton>
+              <WkButton size="sm" variant="destructive-outline">Xoá</WkButton>
+            </div>
+          </div>
+        </template>
+      </WkTable>
+    </div>
+  `
+})
+WithSelectionHeader.parameters = {
+  docs: {
+    description: {
+      story: `
+Provide a \`#selectionHeader\` slot to replace the column headers with a bulk-action bar whenever one or more rows are selected. When \`selectedRowKeys\` goes back to empty the original headers are restored.
+
+The slot fills the remaining header width after the selection-checkbox column. Use it for actions like delete, export, or a selected-count badge.
+
+\`\`\`html
+<WkTable :row-selection="rowSelection">
+  <template #selectionHeader>
+    <div style="display: flex; align-items: center; gap: 12px; padding: 0 16px; width: 100%;">
+      <span>{{ selectedKeys.length }} đã chọn</span>
+      <button @click="selectedKeys = []">Bỏ chọn</button>
+      <button @click="deleteSelected">Xoá</button>
+    </div>
+  </template>
+</WkTable>
+\`\`\`
+      `.trim()
+    }
+  }
+}
+
 export const WithRowDraggable = () => ({
   components: { WkTable },
   data() {

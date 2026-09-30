@@ -9,6 +9,9 @@
           <template #empty>
             <slot name="empty"></slot>
           </template>
+          <template #selectionHeader>
+            <slot name="selectionHeader"></slot>
+          </template>
         </TableWrapper>
       </TableResizeObserver>
     </TableLoading>
@@ -58,7 +61,7 @@ export default {
     rowDraggable: { type: Object, default: null },
     enableFixedLeft: { type: Boolean, default: false },
     rowHeight: { type: Number, default: 50 },
-    headerHeight: { type: Number, default: 36 },
+    headerHeight: { type: Number, default: 40 },
     emptyText: { type: String, default: '' },
     height: { type: [Number, String], default: 0 }
   },
@@ -88,13 +91,18 @@ export default {
     },
 
     layoutInput: function () {
+      const hasSlotSelectionHeader = !!(
+        (this.$scopedSlots && this.$scopedSlots['selectionHeader']) ||
+        this.$slots['selectionHeader']
+      )
       return {
         bordered: this.bordered,
         size: this.size,
         scroll: this.scroll,
         rowHeight: this.rowHeight,
         headerHeight: this.headerHeight,
-        height: this.height
+        height: this.height,
+        hasSlotSelectionHeader: hasSlotSelectionHeader
       }
     },
 
@@ -178,6 +186,7 @@ export default {
         this.tableCtx.layout.height = v.height
         this.tableCtx.layout.headerHeight = v.headerHeight
         this.tableCtx.layout.rowHeight = v.rowHeight
+        this.tableCtx.layout.hasSlotSelectionHeader = v.hasSlotSelectionHeader
       }
     },
 
@@ -208,7 +217,7 @@ export default {
       handler: function (v) {
         if (!v) return
         this.tableCtx.selection.selectedRowKeys = v.selectedRowKeys || []
-        this.tableCtx.selection.hideSelectAll = v.hideSelectAll
+        this.tableCtx.selection.hideSelectAll = !!v.hideSelectAll
         this.tableCtx.selection.columnWidth = v.columnWidth
         this.tableCtx.selection.type = v.type
         this.tableCtx.selection.onChange = v.onChange
@@ -247,12 +256,10 @@ export default {
     },
 
     handleSelect: function (keys, meta) {
-      var prevKeys = this.tableCtx.selection.selectedRowKeys
+      var prevKeys = this.tableCtx.selection.selectedRowKeys.slice()
       var display = this.tableCtx.data.display
       var rowKey = this.tableCtx.layout.rowKey
       var rs = this.rowSelection || {}
-
-      this.tableCtx.selection.checkAll = keys.length === display.length && display.length > 0
 
       var selectedRows = display.filter(function (r) {
         return keys.indexOf(r[rowKey]) !== -1
@@ -265,17 +272,15 @@ export default {
       if (meta.type === 'row') {
         if (rs.onSelect) rs.onSelect(meta.record, meta.selected, selectedRows, meta.nativeEvent)
       } else if (meta.type === 'all') {
-        // changeRows = rows mới được check (chưa có trong prevKeys)
-        var changeRows = display.filter(function (r) {
+        var addedRows = display.filter(function (r) {
           return prevKeys.indexOf(r[rowKey]) === -1
         })
-        if (rs.onSelectAll) rs.onSelectAll(true, selectedRows, changeRows)
+        if (rs.onSelectAll) rs.onSelectAll(true, selectedRows, addedRows)
       } else if (meta.type === 'none') {
-        // changeRows = rows bị uncheck (đang có trong prevKeys)
-        changeRows = display.filter(function (r) {
+        var removedRows = display.filter(function (r) {
           return prevKeys.indexOf(r[rowKey]) !== -1
         })
-        if (rs.onSelectAll) rs.onSelectAll(false, [], changeRows)
+        if (rs.onSelectAll) rs.onSelectAll(false, [], removedRows)
         if (rs.onSelectNone) rs.onSelectNone()
       }
     },

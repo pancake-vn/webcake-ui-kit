@@ -17,7 +17,11 @@
       <div ref="headerRef" class="ui-table__header-hold" style="overflow: hidden">
         <table :class="tableClass" :style="fixedTableStyle">
           <TableColGroup :is-header="true" />
-          <TableHeader />
+          <TableHeader>
+            <template #selectionHeader>
+              <slot name="selectionHeader"></slot>
+            </template>
+          </TableHeader>
         </table>
       </div>
       <div ref="bodyRef" class="ui-table__body-hold" :style="bodyHoldStyle" @scroll="handleBodyScroll">
@@ -39,7 +43,11 @@
     <div v-else class="ui-table__content" ref="bodyRef" :style="contentStyle" @scroll="handleBodyScroll">
       <table :class="tableClass" :style="tableStyle">
         <TableColGroup />
-        <TableHeader />
+        <TableHeader>
+          <template #selectionHeader>
+            <slot name="selectionHeader"></slot>
+          </template>
+        </TableHeader>
         <TableBody :measureColumnWidth="hasScrollY || hasScrollX || hasSticky" :is-empty="isEmpty">
           <template #bodyCell="slotData">
             <slot name="bodyCell" v-bind="slotData"></slot>
@@ -166,14 +174,22 @@ export default {
         style.overflowX = 'auto'
       }
       return style
+    },
+
+    hasSelectionHeader: function () {
+      const hasKeys = this.tableContext.selection.selectedRowKeys.length > 0
+      const hasSlot = this.tableContext.layout.hasSlotSelectionHeader
+
+      return hasKeys && hasSlot
     }
   },
   methods: {
     handleBodyScroll(e) {
       const { scrollLeft, scrollWidth, clientWidth } = e.currentTarget
-      if (this.$refs.headerRef) {
+      if (this.$refs.headerRef && !this.hasSelectionHeader) {
         this.$refs.headerRef.scrollLeft = scrollLeft
       }
+      if (!this.hasScrollX) return
 
       this.isPingedLeft = scrollLeft > 0
       this.isPingedRight = scrollLeft < scrollWidth - clientWidth
@@ -182,6 +198,8 @@ export default {
       if (this.$refs.bodyRef) {
         const { width } = getTargetScrollBarSize(this.$refs.bodyRef)
         this.tableContext.layout.scrollBarWidth = width == 'auto' ? '0px' : width
+
+        if (!this.hasScrollX) return
 
         const { scrollWidth, clientWidth, scrollLeft } = this.$refs.bodyRef
         this.isPingedLeft = scrollLeft > 0
@@ -200,6 +218,24 @@ export default {
       this.$nextTick(() => {
         this.updateScrollState()
       })
+    },
+    'tableContext.layout.columnWidths': function () {
+      if (this.hasScrollY) {
+        clearTimeout(this._columnWidthsTimer)
+        this._columnWidthsTimer = setTimeout(() => {
+          this.$nextTick(() => {
+            this.updateScrollState()
+          })
+        })
+      }
+    },
+    hasSelectionHeader: function (val) {
+      if (!this.$refs.headerRef) return
+      if (!val && this.$refs.bodyRef) {
+        this.$refs.headerRef.scrollLeft = this.$refs.bodyRef.scrollLeft
+      } else {
+        this.$refs.headerRef.scrollLeft = 0
+      }
     }
   },
 

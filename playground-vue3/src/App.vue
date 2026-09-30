@@ -874,7 +874,6 @@
         <h2>Table V2 — base (header + body)</h2>
         <WkTable
           :emptyText="'sjdfljskdfljs'"
-          bordered
           enableFixedLeft
           :columns="tableV2Columns"
           :data-source="tableV2Data"
@@ -886,6 +885,29 @@
           :custom-header-row="tableV2CustomHeaderRow"
           :rowHeight="60"
         >
+          <template #selectionHeader>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                justify-content: space-between;
+                width: 100%;
+                height: 100%;
+                padding: 0px 16px;
+              "
+            >
+              <WkTag
+                :label="'Đã chọn'"
+                type="outline"
+                closable
+                @close="selectedRowKeys = []"
+                size="lg"
+                :counter="selectedRowKeys.length"
+              />
+              <WkButton size="sm" variant="outline">llllllllllll</WkButton>
+            </div>
+          </template>
           <template #bodyCell="{ column, text, record }">
             <template v-if="column.dataIndex === 'name'">
               <div style="display: flex; align-items: center; gap: 8px">
@@ -1690,11 +1712,12 @@ export default {
         onChange: (selectedRowKeys, selectedRows) => {
           this.selectedRowKeys = selectedRowKeys
         },
-        onSelect: (record, selected, selectedRows) => {
-          console.log(record, 'select============')
-        },
         onSelectAll: (selected, selectedRows, changeRows) => {
-          console.log(selectedRows, 'select_all============')
+          console.log(
+            selectedRows.map(item => item.key),
+            '1111==========='
+          )
+          this.selectedRowKeys = selectedRows.map(item => item.key)
         }
       }
     },
