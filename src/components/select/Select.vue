@@ -106,15 +106,13 @@
           />
         </slot>
         <slot v-if="showEmpty" name="empty">
-          <Empty description="No data">
-            <template #media>
-              <div class="select-empty">
-                <img
-                  src="https://content.pancake.vn/web-media-262/2e/2a/0c/96/c2b58ae9f06c4dc2a3b83016e56d5b4132ff40637862ba23435e43a0-w:224-h:224-l:3927-t:image/png.png"
-                />
-              </div>
-            </template>
-          </Empty>
+          <div class="ui-select__empty">
+            <img
+              src="https://content.pancake.vn/web-media-262/2e/2a/0c/96/c2b58ae9f06c4dc2a3b83016e56d5b4132ff40637862ba23435e43a0-w:224-h:224-l:3927-t:image/png.png"
+              alt=""
+            />
+            <span>{{ emptyText }}</span>
+          </div>
         </slot>
         <div v-if="hasContentFooter()">
           <slot name="contentFooter"></slot>
@@ -142,12 +140,11 @@ import Menu from '../menu/Menu.vue'
 import SelectOption from '../select-option/SelectOption.vue'
 import Spinner from '../spinner/Spinner.vue'
 import Tag from '../tag/Tag.vue'
-import Empty from '../empty/Empty.vue'
 
 export default {
   name: 'Select',
 
-  components: { Menu, SelectOption, Spinner, WkiChevronDown, Tag, Empty },
+  components: { Menu, SelectOption, Spinner, WkiChevronDown, Tag },
 
   provide() {
     return { select: this }
@@ -242,6 +239,10 @@ export default {
     placement: {
       type: String,
       default: 'bottom-start'
+    },
+    emptyText: {
+      type: String,
+      default: 'Chưa có dữ liệu'
     }
   },
 
