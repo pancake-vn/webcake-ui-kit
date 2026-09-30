@@ -4,6 +4,20 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.15] - 2026-09-30
+
+### Added
+- `WkTable` accepts a new `selectionHeader` slot that renders a bulk-action bar spanning the header row once one or more rows are selected.
+
+### Changed
+- `WkTable`'s default `headerHeight` increased from 36 to 40.
+- `WkTable`'s select-all checkbox now shows an indeterminate "minus" icon when only some rows are selected, instead of only toggling between checked and unchecked.
+
+### Fixed
+- `WkTable`'s select-all checkbox state now stays correctly in sync with the current selection instead of relying on a separately tracked flag.
+- `WkTable`'s outer wrapper now renders a single consistent border instead of separate, occasionally misaligned border segments around the header and body.
+- `WkTable`'s horizontal scroll position and edge-shadow indicators no longer update incorrectly when the table has no horizontal overflow.
+
 ## [1.3.14] - 2026-09-30
 
 ### Changed
