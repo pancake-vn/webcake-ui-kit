@@ -229,6 +229,13 @@ export default {
         })
       }
     },
+    'tableContext.layout.scrollBarWidth': function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.$nextTick(() => {
+          this.tableContext.layout.columnWidths = new Map()
+        })
+      }
+    },
     hasSelectionHeader: function (val) {
       if (!this.$refs.headerRef) return
       if (!val && this.$refs.bodyRef) {
