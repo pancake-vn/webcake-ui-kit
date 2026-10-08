@@ -8,6 +8,7 @@
 
 .ui-tooltip__trigger {
   display: inline-flex;
+  width: 100%;
 }
 
 /* Color tokens cascade via a local CSS variable so the arrow inherits

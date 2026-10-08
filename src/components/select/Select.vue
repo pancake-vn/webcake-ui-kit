@@ -579,6 +579,23 @@ export default {
             if (label) this.registerOption(String(props.value), String(label))
           }
           if (Array.isArray(vnode.children)) collect(vnode.children)
+          // Vue 2: slot content of component vnodes lives in componentOptions.children
+          if (vnode.componentOptions && Array.isArray(vnode.componentOptions.children)) {
+            collect(vnode.componentOptions.children)
+          }
+          // Vue 3: slot content lives in vnode.children as a slots object
+          if (
+            vnode.children &&
+            !Array.isArray(vnode.children) &&
+            typeof vnode.children === 'object' &&
+            typeof vnode.children.default === 'function'
+          ) {
+            try {
+              collect(vnode.children.default())
+            } catch (e) {
+              /* slot fn may throw */
+            }
+          }
         })
       }
       collect(this._slotNodes())
@@ -596,6 +613,25 @@ export default {
           if (Array.isArray(vnode.children)) {
             const found = scan(vnode.children)
             if (found) return found
+          }
+          // Vue 2: recurse into component slot children
+          if (vnode.componentOptions && Array.isArray(vnode.componentOptions.children)) {
+            const found = scan(vnode.componentOptions.children)
+            if (found) return found
+          }
+          // Vue 3: recurse into component slot children
+          if (
+            vnode.children &&
+            !Array.isArray(vnode.children) &&
+            typeof vnode.children === 'object' &&
+            typeof vnode.children.default === 'function'
+          ) {
+            try {
+              const found = scan(vnode.children.default())
+              if (found) return found
+            } catch (e) {
+              /* slot fn may throw */
+            }
           }
         }
         return null
