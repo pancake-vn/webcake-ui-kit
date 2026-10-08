@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.17] - 2026-10-08
+
+### Fixed
+- `WkSelect` now correctly resolves option labels rendered inside slot content on both Vue 2 and Vue 3, instead of missing them during label and value lookups.
+- `WkTooltip`'s trigger wrapper now spans the full width of its container instead of shrinking to its content.
+
 ## [1.3.16] - 2026-10-07
 
 ### Fixed
