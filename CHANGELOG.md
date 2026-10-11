@@ -4,6 +4,11 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.18] - 2026-10-11
+
+### Added
+- `WkDropdown` now renders a `data-key` attribute on each menu item, sub-menu item, and regular item for easier targeting in tests and automation.
+
 ## [1.3.17] - 2026-10-08
 
 ### Fixed
