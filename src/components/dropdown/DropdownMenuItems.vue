@@ -13,6 +13,7 @@
         <div
           v-for="child in item.children || []"
           :key="child.key"
+          :data-key="child.key"
           class="ui-dropdown-items__item"
           :class="{
             'ui-dropdown-items__item--disabled': child.disabled,
@@ -65,6 +66,7 @@
         <div
           v-for="child in item.children || []"
           :key="child.key"
+          :data-key="child.key"
           class="ui-dropdown-items__item ui-dropdown-items__item--sub"
           :class="{
             'ui-dropdown-items__item--disabled': child.disabled || item.disabled,
@@ -94,6 +96,7 @@
       <!-- Regular item -->
       <div
         v-else
+        :data-key="item.key"
         class="ui-dropdown-items__item"
         :class="{
           'ui-dropdown-items__item--disabled': item.disabled,
