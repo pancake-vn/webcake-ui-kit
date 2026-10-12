@@ -48,7 +48,13 @@ export default {
   },
   computed: {
     hasScrollBar: function () {
-      return this.isHeader && this.tableContext.layout.scrollBarWidth != '0px'
+      return this.isHeader && this.tableContext.layout.scrollBarWidth != '0px' && !this.hasSelectionHeader
+    },
+    hasSelectionHeader: function () {
+      const hasKeys = this.tableContext.selection.selectedRowKeys.length > 0
+      const hasSlot = this.tableContext.layout.hasSlotSelectionHeader
+
+      return hasKeys && hasSlot
     }
   }
 }
