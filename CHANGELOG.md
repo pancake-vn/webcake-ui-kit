@@ -4,6 +4,10 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.19] - 2026-10-12
+
+No user-visible changes. This release contains no new commits to `src/` beyond what is already documented under `[1.3.18]`; the version bump exists only in the working tree (`package.json`/`package-lock.json`) with no corresponding code change to report.
+
 ## [1.3.18] - 2026-10-11
 
 ### Added
