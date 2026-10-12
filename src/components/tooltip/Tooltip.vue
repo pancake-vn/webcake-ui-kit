@@ -1,13 +1,6 @@
 <template>
   <span class="ui-tooltip">
-    <span
-      ref="trigger"
-      class="ui-tooltip__trigger"
-      @mouseenter="onShow"
-      @mouseleave="onHide"
-      @focusin="onShow"
-      @focusout="onHide"
-    >
+    <span ref="trigger" class="ui-tooltip__trigger" @mouseenter="onShow" @mouseleave="onHide">
       <slot></slot>
     </span>
     <span

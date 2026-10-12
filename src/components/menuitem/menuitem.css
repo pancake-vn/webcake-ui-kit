@@ -68,12 +68,12 @@
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
-  width: 20px;
+  min-width: 20px;
   height: 20px;
 }
 
 .ui-menuitem--sm .ui-menuitem__prefix {
-  width: 16px;
+  min-width: 16px;
   height: 16px;
 }
 

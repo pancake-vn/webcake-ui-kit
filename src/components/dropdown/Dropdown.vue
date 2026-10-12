@@ -100,7 +100,8 @@ export default {
     },
     overlayClassName: { type: [String, Array, Object], default: null },
     overlayStyle: { type: [Object, Array], default: null },
-    showChecked: { type: Boolean, default: false },
+    showChecked: { type: Boolean, default: true },
+    closeOnSelect: { type: Boolean, default: true },
     persistent: { type: Boolean, default: false },
     dropdownMatchSelectWidth: { type: Boolean, default: false },
     offset: { type: Number, default: 4 }
@@ -157,7 +158,7 @@ export default {
     },
     onItemSelect(key) {
       this.$emit('select', key)
-      this.onMenuChange(false)
+      if (this.closeOnSelect) this.onMenuChange(false)
     }
   },
   beforeUnmount() {
