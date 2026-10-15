@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.21] - 2026-10-15
+
+### Added
+- `WkDropdown` accepts a new `closeOnSelect` prop to keep the menu open after an item is selected.
+- A new `--tooltip-mute-foreground` design token is available for light and dark themes.
+
+### Changed
+- `WkDropdown` now renders its items with `WkMenuItem` and `WkDivider` internally, and no longer renders distinct group or submenu item types; all non-divider entries render as flat items.
+- `WkDropdown`'s `showChecked` prop now defaults to `true`, showing a check icon on the active item by default.
+- `WkTooltip`'s trigger no longer shows or hides on keyboard focus, responding only to mouse hover.
+- `WkTable`'s selection header bar now suppresses the scrollbar-width spacer column while it is shown.
+- The default chart color palette (`--chart-1` through `--chart-5`) has been updated to a new blue/purple/pink set.
+
+### Fixed
+- `WkMenuItem` click events no longer bubble to parent elements, preventing duplicate handling when nested inside `WkDropdown`.
+- `WkMenuItem`'s prefix icon area no longer clips wider icons, using a minimum width instead of a fixed width.
+
 ## [1.3.19] - 2026-10-12
 
 No user-visible changes. This release contains no new commits to `src/` beyond what is already documented under `[1.3.18]`; the version bump exists only in the working tree (`package.json`/`package-lock.json`) with no corresponding code change to report.
