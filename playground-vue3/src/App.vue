@@ -63,9 +63,6 @@
             <div>Dialog 22222</div>
           </template>
           <p>abcccc</p>
-          <WkDropdown :items="dropdownOptions">
-            <WkTooltip :title="'12312dssdfsdf'" side="bottom"> sadfsafssadfsdf </WkTooltip>
-          </WkDropdown>
         </WkDialog>
 
         <WkTag size="lg" type="outline">
@@ -77,6 +74,12 @@
       </section>
 
       <section class="section">
+        <WkDropdown :items="dropdownOptions" :closeOnSelect="false">
+          <WkTooltip :title="'12312dssdfsdf'" side="bottom">
+            <WkButton type="primary" icon="arrow_down" icon-position="right">Click me 123</WkButton>
+          </WkTooltip>
+        </WkDropdown>
+
         <h2>Pagination</h2>
         <div class="row">
           <WkPagination
@@ -677,7 +680,13 @@
         </template>
       </WkSidebarItem>
 
-      <WkDropdown :items="dropdownOptions" :value="dropdownActive" @select="handleDropdownActive" size="lg">
+      <WkDropdown
+        :items="dropdownOptions"
+        :value="dropdownActive"
+        @select="handleDropdownActive"
+        size="lg"
+        :closeOnSelect="false"
+      >
         <WkButton>test</WkButton>
       </WkDropdown>
       {{ dropdownActive }}

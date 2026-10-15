@@ -8,7 +8,7 @@
       [`ui-menuitem--${size}`]: size
     }"
     :title="label"
-    @click="handleClick"
+    @click.stop="handleClick"
   >
     <span v-if="$slots.prefix" class="ui-menuitem__prefix">
       <slot name="prefix"></slot>
