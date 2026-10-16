@@ -4,6 +4,11 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.22] - 2026-10-16
+
+### Changed
+- `WkMenu` now closes automatically when its trigger element scrolls out of view, instead of staying open and misaligned; this also applies to `WkDropdown`, `WkSelect`, `WkDatePicker`, `WkPopover`, and `WkHoverCard`, which render their floating panels through `WkMenu`.
+
 ## [1.3.21] - 2026-10-15
 
 ### Added
