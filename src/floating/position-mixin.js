@@ -28,6 +28,15 @@ export default {
         if (refEl) this._pmRO.observe(refEl)
         if (floatEl) this._pmRO.observe(floatEl)
       }
+      if (typeof window.IntersectionObserver === 'function' && refEl) {
+        this._pmIO = new window.IntersectionObserver(
+          entries => {
+            if (entries[0] && entries[0].intersectionRatio === 0) this._pmOnHidden()
+          },
+          { threshold: 0 }
+        )
+        this._pmIO.observe(refEl)
+      }
       this._pmUpdate()
     },
     _pmDetach() {
@@ -44,10 +53,15 @@ export default {
         this._pmRO.disconnect()
         this._pmRO = null
       }
+      if (this._pmIO) {
+        this._pmIO.disconnect()
+        this._pmIO = null
+      }
       this._pmRefEl = null
       this._pmFloatEl = null
       this._pmTick = null
     },
+    _pmOnHidden() {},
     _pmUpdate() {
       const ref = this._pmRefEl
       const float = this._pmFloatEl

@@ -221,6 +221,9 @@ export default {
     _kmOnTab() {
       if (this.closeOnTab) this.closeMenu()
     },
+    _pmOnHidden() {
+      this.closeMenu()
+    },
     _coOnOutside() {
       if (this.persistent) return
       this.closeMenu()
