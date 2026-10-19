@@ -1,0 +1,81 @@
+.ui-sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-xs);
+  background: var(--sidebar);
+  color: var(--sidebar-foreground);
+  height: 100%;
+  font-family: var(--font-family-body);
+}
+
+/* Icon-only rail */
+.ui-sidebar--collapsed {
+  width: auto;
+  align-items: center;
+}
+
+/* Menu list (one per nesting level) */
+.ui-sidebar__menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3xs);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex: 1;
+}
+
+/* Rows */
+.ui-sidebar__leaf,
+.ui-sidebar__submenu,
+.ui-sidebar__group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  list-style: none;
+}
+
+/* Nested submenu children: vertical guide line + indent */
+.ui-sidebar__submenu .ui-sidebar__menu {
+  width: auto;
+  align-self: stretch;
+  margin-left: var(--spacing-md);
+  padding-left: var(--spacing-xs);
+  border-left: 1px solid var(--sidebar-border);
+}
+
+/* Hide guide line in collapsed rail (children are hidden anyway) */
+.ui-sidebar--collapsed .ui-sidebar__submenu .ui-sidebar__menu {
+  border-left: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+/* Divider between sections */
+.ui-sidebar__divider {
+  height: 1px;
+  margin: var(--spacing-xs) 0;
+  padding: 0;
+  background: var(--sidebar-border);
+  list-style: none;
+}
+
+/* Collapsed rail: hide dividers' horizontal rule stretch, keep spacing tidy */
+.ui-sidebar--collapsed .ui-sidebar__divider {
+  width: 24px;
+  margin: var(--spacing-2xs) auto;
+}
+
+/* Header / footer slots */
+.ui-sidebar__header {
+  flex-shrink: 0;
+  width: 100%;
+  margin-bottom: var(--spacing-xs);
+}
+
+.ui-sidebar__footer {
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: var(--spacing-xs);
+}

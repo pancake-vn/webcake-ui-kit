@@ -13,6 +13,7 @@
         :type="item.destructive ? 'error' : 'default'"
         :show-checked="showChecked"
         @click="onItemClick(item)"
+        :data-key="item.key"
       >
         <template #prefix v-if="item.icon">
           <component

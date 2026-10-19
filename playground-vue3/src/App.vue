@@ -74,8 +74,13 @@
       </section>
 
       <section class="section">
-        <WkDropdown :items="dropdownOptions" :closeOnSelect="false">
-          <WkTooltip :title="'12312dssdfsdf'" side="bottom">
+        <WkDropdown
+          :items="dropdownOptions"
+          :closeOnSelect="false"
+          @open="dropdownOpen = true"
+          @close="dropdownOpen = false"
+        >
+          <WkTooltip :title="'12312dssdfsdf'" side="bottom" :disabled="dropdownOpen">
             <WkButton type="primary" icon="arrow_down" icon-position="right">Click me 123</WkButton>
           </WkTooltip>
         </WkDropdown>
@@ -1159,6 +1164,36 @@
           <WkUpload disabled />
         </div>
       </section>
+
+      <section class="section">
+        <h2>Sidebar — data-driven menu tree</h2>
+        <div class="row" style="align-items: flex-start; gap: 24px">
+          <div style="width: 260px; height: 600px; overflow: hidden">
+            <WkSidebar
+              :items="sidebarItems"
+              :active-key="sidebarActiveKey"
+              :default-open-keys="['sub1', 'sub2', 'sub4', 'sub3']"
+              @select="sidebarActiveKey = $event"
+            >
+              <template #header>
+                <div>alooooo</div>
+              </template>
+              <template #footer>
+                <div>footer</div>
+              </template>
+            </WkSidebar>
+          </div>
+          <div style="border: 1px solid var(--sidebar-border); border-radius: var(--radius); overflow: hidden">
+            <WkSidebar
+              :items="sidebarItems"
+              :active-key="sidebarActiveKey"
+              collapsed
+              @select="sidebarActiveKey = $event"
+            />
+          </div>
+          <div style="font-size: 13px; color: var(--muted-fg)">Selected key: {{ sidebarActiveKey || '—' }}</div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -1177,7 +1212,11 @@ import {
   WkiUndo2,
   WkiLink,
   WkiPackage,
-  WkiShirt
+  WkiShirt,
+  WkiMail,
+  WkiLayoutGrid,
+  WkiSettings,
+  WkiChevronRight
 } from '../../src/icons'
 import { wkMessage } from '../../src/index.js'
 const HOUSE_ICON =
@@ -1195,6 +1234,57 @@ export default {
   data() {
     const _now = new Date()
     return {
+      sidebarActiveKey: '1',
+      sidebarItems: [
+        {
+          key: 'sub1',
+          label: 'Navigation One',
+          icon: WkiMail,
+          children: [
+            { key: '1', label: 'Option 1' },
+            { key: '2', label: 'Option 2' }
+          ]
+        },
+        {
+          key: 'sub2',
+          label: 'Navigation Two',
+          icon: WkiLayoutGrid,
+          children: [
+            { key: '5', label: 'Option 5' },
+            { key: '6', label: 'Option 6' },
+            {
+              key: 'sub3',
+              label: 'Submenu',
+              children: [
+                { key: '7', label: 'Option 7' },
+                { key: '8', label: 'Option 8' }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'sub4',
+          label: 'Navigation Three',
+          icon: WkiSettings,
+          children: [
+            { key: '9', label: 'Option 9' },
+            { key: '10', label: 'Option 10' },
+            { key: '11', label: 'Option 11' },
+            { key: '12', label: 'Option 12' }
+          ]
+        },
+        {
+          key: 'grp',
+          label: 'Integrations',
+          icon: WkiChevronRight,
+          type: 'group',
+          children: [
+            { key: '13', label: 'Option 13' },
+            { key: '14', label: 'Option 14' }
+          ]
+        }
+      ],
+      dropdownOpen: false,
       drawerOpen: false,
       drawerPlacement: 'bottom',
       drawerHandle: true,
