@@ -34,6 +34,7 @@ export { default as WkRichCheckboxGroup } from './components/rich-checkbox-group
 export { default as WkRichSwitchGroup } from './components/rich-switch-group/RichSwitchGroup.vue'
 export { default as WkSelect } from './components/select/Select.vue'
 export { default as WkSelectOption } from './components/select-option/SelectOption.vue'
+export { default as WkSidebar } from './components/sidebar/Sidebar.vue'
 export { default as WkSidebarGroupLabel } from './components/sidebar-group-label/SidebarGroupLabel.vue'
 export { default as WkSidebarItem } from './components/sidebar-item/SidebarItem.vue'
 export { default as WkSlider } from './components/slider/Slider.vue'

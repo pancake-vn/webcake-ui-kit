@@ -788,12 +788,42 @@
           <WkUpload disabled />
         </div>
       </section>
+
+      <section class="section">
+        <h2>Sidebar — data-driven menu tree</h2>
+        <div class="row" style="align-items: flex-start; gap: 24px">
+          <div
+            style="
+              width: 260px;
+              border: 1px solid var(--sidebar-border);
+              border-radius: var(--radius);
+              overflow: hidden;
+            "
+          >
+            <WkSidebar
+              :items="sidebarItems"
+              :active-key="sidebarActiveKey"
+              :default-open-keys="['sub1', 'sub2', 'sub4']"
+              @select="sidebarActiveKey = $event"
+            />
+          </div>
+          <div style="border: 1px solid var(--sidebar-border); border-radius: var(--radius); overflow: hidden">
+            <WkSidebar
+              :items="sidebarItems"
+              :active-key="sidebarActiveKey"
+              collapsed
+              @select="sidebarActiveKey = $event"
+            />
+          </div>
+          <div style="font-size: 13px; color: var(--muted-fg)">Selected key: {{ sidebarActiveKey || '—' }}</div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
-import { WkiAArrowDown, WkiAArrowUp } from '../../src/icons'
+import { WkiAArrowDown, WkiAArrowUp, WkiMail, WkiLayoutGrid, WkiSettings } from '../../src/icons'
 import { wkMessage } from '../../src/index.js'
 const HOUSE_ICON =
   '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">' +
@@ -810,6 +840,72 @@ export default {
   data() {
     const _now = new Date()
     return {
+      sidebarActiveKey: '1',
+      sidebarItems: [
+        {
+          key: 'sub1',
+          label: 'Navigation One',
+          icon: WkiMail,
+          children: [
+            {
+              key: 'g1',
+              label: 'Item 1',
+              type: 'group',
+              children: [
+                { key: '1', label: 'Option 1' },
+                { key: '2', label: 'Option 2' }
+              ]
+            },
+            {
+              key: 'g2',
+              label: 'Item 2',
+              type: 'group',
+              children: [
+                { key: '3', label: 'Option 3' },
+                { key: '4', label: 'Option 4' }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'sub2',
+          label: 'Navigation Two',
+          icon: WkiLayoutGrid,
+          children: [
+            { key: '5', label: 'Option 5' },
+            { key: '6', label: 'Option 6' },
+            {
+              key: 'sub3',
+              label: 'Submenu',
+              children: [
+                { key: '7', label: 'Option 7' },
+                { key: '8', label: 'Option 8' }
+              ]
+            }
+          ]
+        },
+        { type: 'divider' },
+        {
+          key: 'sub4',
+          label: 'Navigation Three',
+          icon: WkiSettings,
+          children: [
+            { key: '9', label: 'Option 9' },
+            { key: '10', label: 'Option 10' },
+            { key: '11', label: 'Option 11' },
+            { key: '12', label: 'Option 12' }
+          ]
+        },
+        {
+          key: 'grp',
+          label: 'Group',
+          type: 'group',
+          children: [
+            { key: '13', label: 'Option 13' },
+            { key: '14', label: 'Option 14' }
+          ]
+        }
+      ],
       drawerOpen: false,
       drawerPlacement: 'bottom',
       drawerHandle: true,

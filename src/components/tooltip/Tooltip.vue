@@ -53,6 +53,7 @@ export default {
       validator: v => ['default', 'brand', 'destructive'].includes(v)
     },
     arrow: { type: Boolean, default: true },
+    disabled: { type: Boolean, default: false },
     overlayClassName: { type: [String, Array, Object], default: null },
     overlayStyle: { type: [Object, Array], default: null }
   },
@@ -67,7 +68,7 @@ export default {
   },
   computed: {
     isVisible() {
-      return (this.open || this.hovered) && this.triggerInView
+      return (this.open || this.hovered) && this.triggerInView && !this.disabled
     },
     hasMaxWidth() {
       return this.maxWidth !== '' && this.maxWidth !== null && this.maxWidth !== undefined
