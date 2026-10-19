@@ -1,6 +1,6 @@
 {
   "name": "webcake-ui-kit",
-  "version": "1.3.22",
+  "version": "1.3.23",
   "description": "UI Kit for Vue 2 && 3 - Pure Options API",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -52,6 +52,7 @@
     "./WkRichSwitchGroup": "./src/components/rich-switch-group/RichSwitchGroup.vue",
     "./WkSelect": "./src/components/select/Select.vue",
     "./WkSelectOption": "./src/components/select-option/SelectOption.vue",
+    "./WkSidebar": "./src/components/sidebar/Sidebar.vue",
     "./WkSidebarGroupLabel": "./src/components/sidebar-group-label/SidebarGroupLabel.vue",
     "./WkSidebarItem": "./src/components/sidebar-item/SidebarItem.vue",
     "./WkSlider": "./src/components/slider/Slider.vue",

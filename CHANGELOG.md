@@ -4,6 +4,21 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.23] - 2026-10-19
+
+### Added
+- `WkSidebar` is a new navigation component that renders a tree of items (leaves, collapsible submenus, labelled groups, and dividers), with a collapsible icon-only rail, header/footer slots, and controlled or uncontrolled active/open state.
+- `WkTooltip` accepts a new `disabled` prop to suppress showing the tooltip.
+
+### Changed
+- `WkDropdown` now renders a `data-key` attribute on its menu items, matching the behavior already present on sub-menu and group items.
+- `WkRadio`'s label wrapper now also renders when only an `extraLabel` slot is provided, instead of requiring the default slot or `label` prop.
+- `WkSidebarGroupLabel`'s internal gap and text spacing were tightened to align with the new `WkSidebar` layout.
+- `WkSidebarItem` no longer applies extra left padding at nesting level 2; indentation for nested items is now handled by `WkSidebar`.
+
+### Fixed
+- `WkTextarea`'s character counter now shows correctly, fixing a template reference that prevented it from appearing even when `showCount` or `maxLength` was set.
+
 ## [1.3.22] - 2026-10-16
 
 ### Changed
