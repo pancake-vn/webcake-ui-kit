@@ -42,13 +42,11 @@
           mode="tags"
           optionSize="sm"
           showTooltip
+          class="dslflsdfkdskfsdkf"
         >
-          <WkSelectOptionGroupV2>
-            <template #label> Okkkkkkk </template>
-            <WkSelectOption label="Allo" value="1" />
-            <WkSelectOption label="Allo 1" value="2" />
-            <WkSelectOption label="Allo 2" value="3" />
-          </WkSelectOptionGroupV2>
+          <WkSelectOption v-for="(font, idx) in fonts" :value="font" :label="font" :key="idx">
+            <span class="font-select__option" :style="{ fontFamily: font }">{{ font }}</span>
+          </WkSelectOption>
           <template #icon>
             <WkiMinus :size="12" />
           </template>
@@ -455,7 +453,7 @@
             </WkDropdown>
           </WkField>
           <WkField label="Label">
-            <WkSelect :value="fieldSelect" @change="fieldSelect = $event" size="md">
+            <!-- <WkSelect :value="fieldSelect" @change="fieldSelect = $event" size="md">
               <WkSelectOption v-for="opt in fieldOptions" :key="opt.value" :value="opt.value" size="lg">
                 <template #prefix>
                   <WkiChessBishop :size="16" />
@@ -465,7 +463,7 @@
                   <span>USD</span>
                 </template>
               </WkSelectOption>
-            </WkSelect>
+            </WkSelect> -->
           </WkField>
           <WkField label="Label" align="start">
             <WkRadioGroup :value="fieldRadio" :options="fieldOptions" @change="fieldRadio = $event" />
@@ -646,7 +644,7 @@
               showChecked
               :overlayWidth="600"
             >
-              <WkSelectOption v-for="opt in selectOptions" :key="opt.value" :value="opt.value" :label="opt.label" />
+              <!-- <WkSelectOption v-for="opt in selectOptions" :key="opt.value" :value="opt.value" :label="opt.label" /> -->
               <template #contentHeader>
                 <WkButton variant="secondary" :style="{ width: '100%', marginTop: '8px' }">Thêm mới</WkButton>
                 <WkDivider />
@@ -658,7 +656,7 @@
             </WkSelect>
             <code style="font-size: 11px">{{ selectSingle }}</code>
           </div>
-          <WkSelect
+          <!-- <WkSelect
             :value="selectSingle"
             @change="selectSingle = $event"
             size="xs"
@@ -699,7 +697,7 @@
               </template>
               {{ 'trait.redirect_link' }}
             </WkSelectOption>
-          </WkSelect>
+          </WkSelect> -->
           <div>
             <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">11111122222</p>
             <WkSelect
@@ -765,7 +763,7 @@
           </div>
           <div>
             <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">filterOption (tìm theo name)</p>
-            <WkSelect
+            <!-- <WkSelect
               :value="selectFilter"
               :filter-option="customFilterOption"
               placeholder="Search by name"
@@ -781,7 +779,7 @@
                   </WkTooltip>
                 </WkDropdown>
               </WkSelectOption>
-            </WkSelect>
+            </WkSelect> -->
             <code style="font-size: 11px">{{ selectFilter }}</code>
           </div>
         </div>
@@ -1389,13 +1387,18 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-unused-components */
 import dayjs from 'dayjs'
 import {
   WkiAArrowDown,
   WkiAArrowUp,
   WkiChessBishop,
-  WkiPlus,
+  WkiMail,
+  WkiLayoutGrid,
+  WkiSettings,
+  WkiChevronRight,
   WkiMinus,
+  WkiPlus,
   WkiShoppingCart,
   WkiShoppingBag,
   WkiMousePointerClick,
@@ -1403,11 +1406,7 @@ import {
   WkiUndo2,
   WkiLink,
   WkiPackage,
-  WkiShirt,
-  WkiMail,
-  WkiLayoutGrid,
-  WkiSettings,
-  WkiChevronRight
+  WkiShirt
 } from '../../src/icons'
 import { wkMessage } from '../../src/index.js'
 const HOUSE_ICON =
@@ -1426,6 +1425,104 @@ export default {
     const _now = new Date()
     return {
       dayjs,
+      fonts: [
+        'Alegreya Sans',
+        'Alegreya Sans SC',
+        'Arial',
+        'Barlow',
+        'Barlow Semi Condensed',
+        'Catamaran',
+        'Encode Sans',
+        'Encode Sans Condensed',
+        'Encode Sans Expanded',
+        'Encode Sans Semi Condensed',
+        'Encode Sans Semi Expanded',
+        'Epilogue',
+        'Exo',
+        'Exo 2',
+        'Fira Sans',
+        'Fira Sans Condensed',
+        'Fira Sans Extra Condensed',
+        'Gothic A1',
+        'Heebo',
+        'Inter',
+        'Jost',
+        'Kanit',
+        'Lato',
+        'Libre Franklin',
+        'Livvic',
+        'Montserrat',
+        'Montserrat Alternates',
+        'Overpass',
+        'Poppins',
+        'Prompt',
+        'Public Sans',
+        'Raleway',
+        'Roboto',
+        'Roboto Slab',
+        'Saira',
+        'Saira Condensed',
+        'Saira Extra Condensed',
+        'Saira Semi Condensed',
+        'Spartan',
+        'Tomorrow',
+        'Work Sans',
+        'Alfa Slab One',
+        'Anton',
+        'Arima',
+        'Arima Madurai',
+        'Athiti',
+        'Bahianita',
+        'Bebas Neue',
+        'Baloo Bhaina 2',
+        'Bungee',
+        'Bungee Inline',
+        'Bungee Outline',
+        'Bungee Shade',
+        'Chonburi',
+        'Cormorant Upright',
+        'Crimson Pro',
+        'Didot',
+        'Dancing Script',
+        'Dosis',
+        'EB Garamond',
+        'Hepta Slab',
+        'Inknut Antiqua',
+        'Itim',
+        'Josefin Sans',
+        'Judson',
+        'Jura',
+        'K2D',
+        'Krona One',
+        'Literata',
+        'Lobster',
+        'Love Ya Like A Sister',
+        'Luxurious Script',
+        'Maven Pro',
+        'Merriweather',
+        'Muli',
+        'Mulish',
+        'Niramit',
+        'Noto Serif',
+        'Open Sans',
+        'Oswald',
+        'Pattaya',
+        'Paytone One',
+        'Philosopher',
+        'Play',
+        'Playfair Display',
+        'Prata',
+        'Quicksand',
+        'Rokkitt',
+        'Source Sans Pro',
+        'Sriracha',
+        'Taviraj',
+        'Thasadith',
+        'Tinos',
+        'Trirong',
+        'VT323',
+        'Yeseva One'
+      ],
       selectV2: '',
       stSingle: null,
       stChecked: [],

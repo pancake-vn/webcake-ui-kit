@@ -4,6 +4,30 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.24] - 2026-10-30
+
+### Added
+- `WkSelectTree` is a new component for selecting one or more items from a hierarchical tree, with search, checkable nodes, and configurable checked-value display strategy.
+- `WkRangePicker` is a new component for selecting a start and end date from a dual-month calendar, with presets and range validation.
+- `WkSelectOptionGroup` is a new component for grouping related `WkSelectOption` entries under a labelled, optionally iconed heading inside `WkSelect`.
+- `WkSelect` options and option groups now accept an `icon` prop, rendered as a prefix inside the dropdown list.
+- `WkTable` accepts new `childrenField`, `defaultExpandAll`, and `indentSize` props to render hierarchical tree data with expand/collapse controls, and emits a new `expand` event; row selection now cascades to descendants unless `checkStrictly` is set.
+- `WkTable` rows can now be dragged horizontally to nest under or outdent from a parent row when `childrenField` is set.
+- `WkDropdown` items now support nested submenus with labelled group headers, opened recursively from a parent item's `children`, and accept a new `blockWidth` prop to control submenu panel width.
+- `WkMenuItem` accepts a new `description` prop, rendered as secondary text below the label.
+- `WkDatePicker` accepts a new `presets` prop for quick-select ranges and a new `cancelText` prop for its footer's cancel button label.
+
+### Changed
+- `WkDatePicker`'s calendar panels were rewritten into separate date, month, year, and time panel components; as part of this, `showToday`, `showSelectMonth`, `showSelectYear`, `showConfirm`, `todayText`, and `clearText` props were removed, `placeholder` no longer accepts an array, `confirmText` now defaults to `"Apply"` instead of `"OK"`, and `showFooter` now defaults to `false`.
+- `WkTag`'s padding and font size were adjusted across the `sm`, `md`, and `lg` sizes for tighter, more consistent spacing.
+- `WkAlert`'s padding was adjusted to be taller horizontally and shorter vertically.
+- `WkAccordionItem`'s bordered variant now uses a smaller corner radius on its first and last items.
+- `WkToggle` no longer centers its content horizontally.
+- The `--color-neutral-700` design token is now a lighter gray.
+
+### Fixed
+- `WkMenuItem` no longer renders empty prefix/suffix wrapper elements when no corresponding slot content is provided.
+
 ## [1.3.23] - 2026-10-19
 
 ### Added

@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-unused-components */
 <template>
   <div :class="['app', isDark && 'dark']">
     <div class="page">
@@ -34,13 +35,30 @@
 
       <section class="section">
         <h2>Select V2 <WkiSettings :size="16" color="red" /></h2>
-        <WkSelect showSearch :value="selectV2" @change="handleSelectV2Change">
-          <WkSelectOption v-for="(option, idx) in fieldOptions" :value="option.value" :key="idx">
+        <WkSelect
+          showSearch
+          :value="selectV2"
+          @change="handleSelectV2Change"
+          optionSize="sm"
+          :overlayWidth="300"
+          placement="bottom-end"
+          size="xs"
+          class="flsdfsdfsdf"
+        >
+          <WkSelectOption v-for="(option, idx) in fonts" :value="option" :key="idx" :label="option">
             <template #prefix>
-              <WkiSettings :size="16" color="red" />
+              <div>
+                <img
+                  :src="'https://img.magnific.com/free-photo/closeup-scarlet-macaw-from-side-view-scarlet-macaw-closeup-head_488145-3540.jpg?semt=ais_hybrid&w=740&q=80'"
+                  style="width: 16px; height: 16px; object-fit: contain; flex-shrink: 0"
+                />
+              </div>
             </template>
-            {{ option.label }}
+            <span class="font-select__option" :style="{ fontFamily: option }">{{ option }}</span>
           </WkSelectOption>
+          <template #icon>
+            <WkiSettings :size="16" color="red" />
+          </template>
         </WkSelect>
       </section>
 
@@ -522,7 +540,7 @@
           </template>
         </WkTable>
 
-        <WkSelect :value="'solid'" size="xs" optionSize="sm" class="w-full">
+        <!-- <WkSelect :value="'solid'" size="xs" optionSize="sm" class="w-full">
           <WkSelectOption value="none">slect</WkSelectOption>
           <WkSelectOption value="solid">Solid</WkSelectOption>
           <WkSelectOption value="dashed">Dashed</WkSelectOption>
@@ -531,7 +549,7 @@
           <WkSelectOption value="groove">Groove</WkSelectOption>
           <WkSelectOption value="outset">Outset</WkSelectOption>
           <WkSelectOption value="ridge">Ridge</WkSelectOption>
-        </WkSelect>
+        </WkSelect> -->
 
         <WkSelect
           size="xs"
@@ -1033,7 +1051,7 @@
 </template>
 
 <script>
-import { WkiAArrowDown, WkiAArrowUp, WkiMail, WkiLayoutGrid, WkiSettings } from '../../src/icons'
+import { WkiAArrowDown, WkiAArrowUp, WkiMail, WkiLayoutGrid, WkiSettings, WkiSection } from '../../src/icons'
 import { wkMessage } from '../../src/index.js'
 const HOUSE_ICON =
   '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true">' +
@@ -1057,6 +1075,104 @@ export default {
       stCheckedChild: [],
       stStrict: [],
       stParentExpand: null,
+      fonts: [
+        'Alegreya Sans',
+        'Alegreya Sans SC',
+        'Arial',
+        'Barlow',
+        'Barlow Semi Condensed',
+        'Catamaran',
+        'Encode Sans',
+        'Encode Sans Condensed',
+        'Encode Sans Expanded',
+        'Encode Sans Semi Condensed',
+        'Encode Sans Semi Expanded',
+        'Epilogue',
+        'Exo',
+        'Exo 2',
+        'Fira Sans',
+        'Fira Sans Condensed',
+        'Fira Sans Extra Condensed',
+        'Gothic A1',
+        'Heebo',
+        'Inter',
+        'Jost',
+        'Kanit',
+        'Lato',
+        'Libre Franklin',
+        'Livvic',
+        'Montserrat',
+        'Montserrat Alternates',
+        'Overpass',
+        'Poppins',
+        'Prompt',
+        'Public Sans',
+        'Raleway',
+        'Roboto',
+        'Roboto Slab',
+        'Saira',
+        'Saira Condensed',
+        'Saira Extra Condensed',
+        'Saira Semi Condensed',
+        'Spartan',
+        'Tomorrow',
+        'Work Sans',
+        'Alfa Slab One',
+        'Anton',
+        'Arima',
+        'Arima Madurai',
+        'Athiti',
+        'Bahianita',
+        'Bebas Neue',
+        'Baloo Bhaina 2',
+        'Bungee',
+        'Bungee Inline',
+        'Bungee Outline',
+        'Bungee Shade',
+        'Chonburi',
+        'Cormorant Upright',
+        'Crimson Pro',
+        'Didot',
+        'Dancing Script',
+        'Dosis',
+        'EB Garamond',
+        'Hepta Slab',
+        'Inknut Antiqua',
+        'Itim',
+        'Josefin Sans',
+        'Judson',
+        'Jura',
+        'K2D',
+        'Krona One',
+        'Literata',
+        'Lobster',
+        'Love Ya Like A Sister',
+        'Luxurious Script',
+        'Maven Pro',
+        'Merriweather',
+        'Muli',
+        'Mulish',
+        'Niramit',
+        'Noto Serif',
+        'Open Sans',
+        'Oswald',
+        'Pattaya',
+        'Paytone One',
+        'Philosopher',
+        'Play',
+        'Playfair Display',
+        'Prata',
+        'Quicksand',
+        'Rokkitt',
+        'Source Sans Pro',
+        'Sriracha',
+        'Taviraj',
+        'Thasadith',
+        'Tinos',
+        'Trirong',
+        'VT323',
+        'Yeseva One'
+      ],
       stTreeData: [
         {
           label: 'Miền Bắc',
@@ -1603,9 +1719,21 @@ export default {
       fieldRadio: 'a',
       fieldSlider: 50,
       fieldOptions: [
-        { label: 'Option 1', value: 'a' },
-        { label: 'Option 2', value: 'b' },
-        { label: 'Option 3', value: 'c' }
+        { value: 'title', label: 'Tiêu đề' },
+        { value: 'description', label: 'Mô tả' },
+        { value: 'image', label: 'Hình ảnh' }
+        // { value: 'video', label: 'Video' },
+        // { value: 'price', label: 'Giá sản phẩm' },
+        // { value: 'quantity', label: 'Số lượng' },
+        // { value: 'status', label: 'Trạng thái' },
+        // { value: 'category', label: 'Danh mục' },
+        // { value: 'created_at', label: 'Ngày tạo' },
+        // { value: 'updated_at', label: 'Ngày cập nhật' },
+        // { value: 'sku', label: 'Mã SKU' },
+        // { value: 'product_type', label: 'Loại sản phẩm' },
+        // { value: 'vendor', label: 'Nhà cung cấp' },
+        // { value: 'tags', label: 'Thẻ sản phẩm' },
+        // { value: 'inventory', label: 'Tồn kho' },
       ],
       tooltipSides: ['top', 'bottom', 'left', 'right'],
       tooltipsPinned: true,
@@ -1742,10 +1870,12 @@ export default {
       ]
     }
   },
+  // eslint-disable-next-line vue/no-unused-components
   components: {
     WkiAArrowDown,
     WkiAArrowUp,
-    WkiSettings
+    WkiSettings,
+    WkiSection
   },
   computed: {
     optionsState() {

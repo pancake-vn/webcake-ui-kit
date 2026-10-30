@@ -18,6 +18,9 @@
 
 .ui-menuitem--active {
   background: var(--accent-2);
+}
+
+.ui-menuitem--active .ui-menuitem__label {
   font-weight: var(--paragraph-medium-font-weight);
 }
 
@@ -45,6 +48,9 @@
   height: 28px;
   padding: var(--spacing-2xs) var(--spacing-xs);
   gap: var(--spacing-xs);
+}
+
+.ui-menuitem--sm .ui-menuitem__label {
   font-size: var(--paragraph-mini-font-size);
   line-height: var(--paragraph-mini-line-height);
 }

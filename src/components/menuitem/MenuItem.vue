@@ -14,7 +14,9 @@
       <slot name="prefix"></slot>
     </span>
     <div class="ui-menuitem__wrapper">
-      <span class="ui-menuitem__label">{{ label }}</span>
+      <slot name="label">
+        <span class="ui-menuitem__label">{{ label }}</span>
+      </slot>
       <span v-if="description" class="ui-menuitem__description">{{ description }}</span>
     </div>
     <span v-if="_hasSlotContent('suffix')" class="ui-menuitem__suffix">
