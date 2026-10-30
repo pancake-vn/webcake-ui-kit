@@ -1,0 +1,25 @@
+.ui-dp-month-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: 32px;
+  font-family: var(--font-family-body);
+}
+
+.ui-dp-month-header__year-btn {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-family: inherit;
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  font-weight: 500;
+  color: var(--primary-fg);
+  border-radius: var(--rounded-md);
+}
+
+.ui-dp-month-header__year-btn:hover {
+  background: var(--accent-1);
+}

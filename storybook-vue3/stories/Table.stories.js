@@ -659,3 +659,262 @@ Matrix.parameters = {
     description: { story: 'Feature matrix: default · bordered+selection · fixed-header+selection · loading · empty.' }
   }
 }
+
+// ---------------------------------------------------------------------------
+// Tree table
+// ---------------------------------------------------------------------------
+
+const TREE_DATA = [
+  {
+    key: '1',
+    name: 'Engineering',
+    age: 52,
+    role: 'Department',
+    status: 'Active',
+    children: [
+      {
+        key: '1-1',
+        name: 'Alice Johnson',
+        age: 30,
+        role: 'Admin',
+        status: 'Active',
+        children: [{ key: '1-1-1', name: 'Bob Smith', age: 25, role: 'Editor', status: 'Active' }]
+      },
+      { key: '1-2', name: 'Carol White', age: 28, role: 'Viewer', status: 'Inactive' }
+    ]
+  },
+  {
+    key: '2',
+    name: 'Product',
+    age: 56,
+    role: 'Department',
+    status: 'Active',
+    children: [
+      { key: '2-1', name: 'David Lee', age: 34, role: 'Editor', status: 'Active' },
+      { key: '2-2', name: 'Eva Brown', age: 22, role: 'Viewer', status: 'Pending' }
+    ]
+  }
+]
+
+export const TreeTable = () => ({
+  components: { WkTable },
+  data() {
+    return { columns: COLUMNS, data: TREE_DATA, lastEvent: null }
+  },
+  methods: {
+    onExpand(expanded, key) {
+      this.lastEvent = (expanded ? 'expanded' : 'collapsed') + ': ' + key
+    }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 12px;">
+      <p style="margin: 0; font-size: 13px; color: #6b7280;">
+        Click the expand arrow to show child rows.
+        <span v-if="lastEvent" style="margin-left: 8px; color: #4f46e5; font-weight: 500;">{{ lastEvent }}</span>
+      </p>
+      <WkTable
+        :columns="columns"
+        :data-source="data"
+        row-key="key"
+        children-field="children"
+        @expand="onExpand"
+      />
+    </div>
+  `
+})
+TreeTable.parameters = {
+  docs: {
+    description: {
+      story: `
+Pass \`children-field\` to enable tree mode. Rows with a children array get an expand/collapse arrow; nested levels are indented by \`indent-size\` px (default 28).
+
+**dataSource shape:**
+\`\`\`js
+[
+  {
+    key: '1',
+    name: 'Engineering',
+    children: [
+      { key: '1-1', name: 'Alice Johnson' },
+      { key: '1-2', name: 'Carol White' }
+    ]
+  }
+]
+\`\`\`
+
+**Tree props:**
+\`\`\`js
+children-field="children"   // field that holds child rows
+:default-expand-all="true"  // expand all on mount
+:indent-size="28"           // px indent per level
+\`\`\`
+
+**Event:** \`@expand(expanded: Boolean, key)\`
+      `.trim()
+    }
+  }
+}
+
+export const TreeTableDefaultExpand = () => ({
+  components: { WkTable },
+  data() {
+    return { columns: COLUMNS, data: TREE_DATA }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 960px;">
+      <WkTable
+        :columns="columns"
+        :data-source="data"
+        row-key="key"
+        children-field="children"
+        :default-expand-all="true"
+      />
+    </div>
+  `
+})
+TreeTableDefaultExpand.parameters = {
+  docs: {
+    description: { story: '`default-expand-all` pre-expands every node on mount.' }
+  }
+}
+
+export const TreeTableWithSelection = () => ({
+  components: { WkTable },
+  data() {
+    return { columns: COLUMNS, data: TREE_DATA, selectedKeys: [] }
+  },
+  computed: {
+    rowSelection() {
+      const self = this
+      return {
+        selectedRowKeys: self.selectedKeys,
+        onChange(keys) {
+          self.selectedKeys = keys
+        },
+        type: 'checkbox'
+      }
+    }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 960px; display: flex; flex-direction: column; gap: 12px;">
+      <p style="margin: 0; font-size: 13px; color: #6b7280;">
+        Check a parent — all descendants are automatically checked/unchecked (<code>:check-strictly="false"</code>).
+        Selected: <strong>{{ selectedKeys.join(', ') || 'none' }}</strong>
+      </p>
+      <WkTable
+        :columns="columns"
+        :data-source="data"
+        row-key="key"
+        children-field="children"
+        :default-expand-all="true"
+        :row-selection="rowSelection"
+        :check-strictly="false"
+      />
+    </div>
+  `
+})
+TreeTableWithSelection.parameters = {
+  docs: {
+    description: {
+      story: `
+Tree + checkbox selection. \`:check-strictly="false"\` cascades check/uncheck to all descendants automatically.
+
+\`\`\`js
+rowSelection: {
+  selectedRowKeys: [],
+  onChange: (keys) => { selectedKeys = keys },
+  type: 'checkbox',
+}
+// :check-strictly="false"  ← cascade to children
+\`\`\`
+      `.trim()
+    }
+  }
+}
+
+export const TreeTableDraggable = () => ({
+  components: { WkTable },
+  data() {
+    return {
+      columns: [
+        { title: 'Name', dataIndex: 'name', key: 'name', width: 220 },
+        { title: 'Role', dataIndex: 'role', key: 'role', width: 140 },
+        { title: 'Status', dataIndex: 'status', key: 'status', width: 120 }
+      ],
+      lastMove: null,
+      data: [
+        {
+          key: '1',
+          name: 'Engineering',
+          role: 'Department',
+          status: 'Active',
+          children: [
+            { key: '1-1', name: 'Alice Johnson', role: 'Admin', status: 'Active' },
+            { key: '1-2', name: 'Carol White', role: 'Viewer', status: 'Inactive' }
+          ]
+        },
+        {
+          key: '2',
+          name: 'Product',
+          role: 'Department',
+          status: 'Active',
+          children: [
+            { key: '2-1', name: 'David Lee', role: 'Editor', status: 'Active' },
+            { key: '2-2', name: 'Eva Brown', role: 'Viewer', status: 'Pending' }
+          ]
+        }
+      ]
+    }
+  },
+  computed: {
+    rowDraggable() {
+      const self = this
+      return {
+        handleReorder(fromIndex, toIndex, newTree) {
+          self.data = newTree
+          self.lastMove = 'row ' + (fromIndex + 1) + ' → ' + (toIndex + 1)
+        },
+        columnWidth: 36,
+        enableAnimationFlip: true
+      }
+    }
+  },
+  template: `
+    <div style="padding: 24px; max-width: 800px; display: flex; flex-direction: column; gap: 12px;">
+      <p style="margin: 0; font-size: 13px; color: #6b7280;">
+        Drag the handle to reorder rows.
+        In tree mode <code>handleReorder</code> receives the rebuilt tree as the third argument.
+        <span v-if="lastMove" style="margin-left: 8px; color: #4f46e5; font-weight: 500;">{{ lastMove }}</span>
+      </p>
+      <WkTable
+        :columns="columns"
+        :data-source="data"
+        row-key="key"
+        children-field="children"
+        :default-expand-all="true"
+        :row-draggable="rowDraggable"
+        :bordered="true"
+      />
+    </div>
+  `
+})
+TreeTableDraggable.parameters = {
+  docs: {
+    description: {
+      story: `
+Tree + drag-and-drop. When \`children-field\` is set, \`handleReorder\` receives a rebuilt tree as the third argument instead of the flat display array.
+
+\`\`\`js
+rowDraggable: {
+  handleReorder(fromIndex, toIndex, newTree) {
+    // newTree — full tree array with children intact after the drop
+    data = newTree
+  },
+  columnWidth: 36,
+  enableAnimationFlip: true,
+}
+\`\`\`
+      `.trim()
+    }
+  }
+}

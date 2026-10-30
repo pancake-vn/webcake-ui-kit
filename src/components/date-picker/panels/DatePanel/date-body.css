@@ -1,0 +1,110 @@
+.ui-dp-date-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-family: var(--font-family-body);
+  outline: none;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Weekday header row — 7 fixed 36px tracks, muted labels. */
+.ui-dp-date-body__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 36px);
+  width: fit-content;
+}
+
+.ui-dp-date-body__weekday {
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-fg);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+
+/*
+ * Day grid — 7 columns, cells butt together horizontally (column-gap 0) so the
+ * range band reads as one continuous strip; a small row-gap keeps weeks legible.
+ */
+.ui-dp-date-body__row {
+  display: grid;
+  grid-template-columns: repeat(7, 36px);
+  row-gap: 1px;
+  column-gap: 0;
+  width: fit-content;
+}
+
+.ui-dp-date-body__cell {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--primary-fg);
+  border-radius: var(--rounded-lg);
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.ui-dp-date-body__cell:hover:not(:disabled):not(.is-selected):not(.is-range-start):not(.is-range-end) {
+  background: var(--accent-1);
+}
+
+.ui-dp-date-body__cell.is-other-month {
+  color: var(--muted-fg);
+}
+
+/* Today ring; a selected endpoint overrides it. */
+.ui-dp-date-body__cell.is-today {
+  box-shadow: inset 0 0 0 1px var(--border-brand);
+}
+
+/* Interior range days — square so neighbours connect into one band. */
+.ui-dp-date-body__cell.is-in-range {
+  background: var(--accent-1);
+  border-radius: 0;
+}
+
+/* Range endpoints + single selection — brand fill. */
+.ui-dp-date-body__cell.is-selected,
+.ui-dp-date-body__cell.is-range-start,
+.ui-dp-date-body__cell.is-range-end {
+  background: var(--primary-brand-bg);
+  color: var(--inverse-fg);
+}
+
+/* .ui-dp-date-body__cell.is-range-start {
+  border-radius: var(--rounded-lg) 0 0 var(--rounded-lg);
+}
+
+.ui-dp-date-body__cell.is-range-end {
+  border-radius: 0 var(--rounded-lg) var(--rounded-lg) 0;
+} */
+
+.ui-dp-date-body__cell.is-today.is-selected,
+.ui-dp-date-body__cell.is-today.is-range-start,
+.ui-dp-date-body__cell.is-today.is-range-end {
+  box-shadow: none;
+}
+
+.ui-dp-date-body__cell.is-disabled,
+.ui-dp-date-body__cell:disabled {
+  color: var(--muted-fg);
+  cursor: not-allowed;
+  background: transparent;
+}
+
+.ui-dp-date-body__cell:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}

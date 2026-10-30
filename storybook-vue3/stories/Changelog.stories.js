@@ -74,7 +74,7 @@ const PILL = (label, color, bg) => `
   ">${label}</span>
 `
 
-const SECTION_H2 = `
+const _SECTION_H2 = `
   font-size: 22px;
   font-weight: 700;
   margin: 48px 0 12px;

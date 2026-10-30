@@ -32,6 +32,97 @@
         </WkButton>
       </header>
 
+      <section class="section">
+        <h2>Select V2 <WkiSettings :size="16" color="red" /></h2>
+        <WkSelect showSearch :value="selectV2" @change="handleSelectV2Change">
+          <WkSelectOption v-for="(option, idx) in fieldOptions" :value="option.value" :key="idx">
+            <template #prefix>
+              <WkiSettings :size="16" color="red" />
+            </template>
+            {{ option.label }}
+          </WkSelectOption>
+        </WkSelect>
+      </section>
+
+      <section class="section">
+        <h2>Select Tree</h2>
+        <div style="display: flex; flex-direction: column; gap: 24px; max-width: 360px">
+          <div>
+            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">Single — default expand all</p>
+            <WkSelectTree
+              :value="stSingle"
+              :tree-data="stTreeData"
+              :treeCheckable="true"
+              show-search
+              default-expand-all
+              placeholder="Chọn khu vực"
+              @change="stSingle = $event"
+            />
+            <code style="font-size: 11px">{{ stSingle }}</code>
+          </div>
+
+          <div>
+            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">Multiple checkbox — SHOW_PARENT</p>
+            <WkSelectTree
+              :value="stChecked"
+              :tree-data="stTreeData"
+              tree-checkable
+              show-checked-strategy="SHOW_PARENT"
+              default-expand-all
+              placeholder="Chọn nhiều"
+              @change="stChecked = $event"
+            />
+            <code style="font-size: 11px">{{ JSON.stringify(stChecked) }}</code>
+          </div>
+
+          <div>
+            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">
+              Multiple checkbox — SHOW_CHILD + search
+            </p>
+            <WkSelectTree
+              :value="stCheckedChild"
+              :tree-data="stTreeData"
+              tree-checkable
+              show-checked-strategy="SHOW_CHILD"
+              show-search
+              placeholder="Tìm kiếm..."
+              @change="stCheckedChild = $event"
+            />
+            <code style="font-size: 11px">{{ JSON.stringify(stCheckedChild) }}</code>
+          </div>
+
+          <div>
+            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">checkStrictly (không cascade)</p>
+            <WkSelectTree
+              :value="stStrict"
+              :tree-data="stTreeData"
+              tree-checkable
+              check-strictly
+              default-expand-all
+              placeholder="Chọn độc lập"
+              size="sm"
+              @change="stStrict = $event"
+            />
+            <code style="font-size: 11px">{{ JSON.stringify(stStrict) }}</code>
+          </div>
+
+          <div>
+            <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">
+              treeNodeSelectable=false (click cha = expand)
+            </p>
+            <WkSelectTree
+              :value="stParentExpand"
+              :tree-data="stTreeData"
+              :tree-node-selectable="false"
+              default-expand-all
+              placeholder="Chỉ chọn leaf"
+              @change="stParentExpand = $event"
+            />
+            <code style="font-size: 11px">{{ stParentExpand }}</code>
+          </div>
+        </div>
+      </section>
+
       <section>
         <WkButton @click="openDialog = true">
           <template #icon>
@@ -455,6 +546,62 @@
       </section>
 
       <section class="section">
+        <h2>Table — Tree Data</h2>
+        <WkTable
+          bordered
+          :columns="treeTableColumns"
+          :data-source="treeTableData"
+          children-field="children"
+          default-expand-all
+          row-key="key"
+        >
+          <template #bodyCell="{ column, text }">
+            <template v-if="column.dataIndex === 'status'">
+              <WkBadge :variant="text === 'Active' ? 'primary' : 'secondary'" :label="text" />
+            </template>
+          </template>
+        </WkTable>
+      </section>
+
+      <section class="section">
+        <h2>Table — Tree Data + Selection</h2>
+        <WkTable
+          bordered
+          :columns="treeTableColumns"
+          :data-source="treeTableData"
+          children-field="children"
+          default-expand-all
+          row-key="key"
+          :rowSelection="treeRowSelection"
+        >
+          <template #bodyCell="{ column, text }">
+            <template v-if="column.dataIndex === 'status'">
+              <WkBadge :variant="text === 'Active' ? 'primary' : 'secondary'" :label="text" />
+            </template>
+          </template>
+        </WkTable>
+      </section>
+
+      <section class="section">
+        <h2>Table — Tree Data + Draggable</h2>
+        <WkTable
+          bordered
+          :columns="treeTableColumns"
+          :data-source="treeTableDataDraggable"
+          children-field="children"
+          default-expand-all
+          row-key="key"
+          :rowDraggable="treeRowDraggable"
+        >
+          <template #bodyCell="{ column, text }">
+            <template v-if="column.dataIndex === 'status'">
+              <WkBadge :variant="text === 'Active' ? 'primary' : 'secondary'" :label="text" />
+            </template>
+          </template>
+        </WkTable>
+      </section>
+
+      <section class="section">
         <h2>Textarea — size × roundness, states</h2>
         <div style="display: flex; gap: 64px; align-items: flex-start">
           <div style="display: flex; flex-direction: column; gap: 16px; width: 320px">
@@ -577,21 +724,84 @@
       <section class="section">
         <h2>Date Picker</h2>
         <div class="dp-grid">
-          <label>Single<WkDatePicker v-model="dpSingle" /></label>
-          <label>Range<WkDatePicker v-model="dpRange" mode="range" :months="2" /></label>
-          <label>Multiple<WkDatePicker v-model="dpMultiple" mode="multiple" :max-count="3" /></label>
-          <label>Date + time<WkDatePicker v-model="dpDateTime" show-time /></label>
-          <label>Min/Max (this month)<WkDatePicker v-model="dpMinMax" :min-date="dpMin" :max-date="dpMax" /></label>
-          <label>Disabled weekends<WkDatePicker v-model="dpNoWeekend" :disabled-date="disableWeekends" /></label>
-          <label>Custom format<WkDatePicker v-model="dpFormat" format="DD/MM/YYYY" /></label>
-          <label>Month/Year selects<WkDatePicker v-model="dpSelects" show-select-month show-select-year /></label>
+          <label>Single<WkDatePicker :value="dpSingle" @change="dpSingle = $event" /></label>
+          <label
+            >Multiple<WkDatePicker
+              :value="dpMultiple"
+              mode="multiple"
+              :max-count="3"
+              :months="2"
+              @change="dpMultiple = $event"
+          /></label>
+          <label>Date + time<WkDatePicker :value="dpDateTime" show-time @change="dpDateTime = $event" /></label>
+          <label
+            >Min/Max (this month)<WkDatePicker
+              :value="dpMinMax"
+              :min-date="dpMin"
+              :max-date="dpMax"
+              @change="dpMinMax = $event"
+          /></label>
+          <label
+            >Disabled weekends<WkDatePicker
+              :value="dpNoWeekend"
+              :disabled-date="disableWeekends"
+              @change="dpNoWeekend = $event"
+          /></label>
+          <label>Custom format<WkDatePicker :value="dpFormat" format="DD/MM/YYYY" @change="dpFormat = $event" /></label>
+          <label
+            >Sizes
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px">
+              <WkDatePicker :value="dpSingle" size="xs" placeholder="xs" @change="dpSingle = $event" />
+              <WkDatePicker :value="dpSingle" size="sm" placeholder="sm" @change="dpSingle = $event" />
+              <WkDatePicker :value="dpSingle" size="md" placeholder="md" @change="dpSingle = $event" />
+              <WkDatePicker :value="dpSingle" size="lg" placeholder="lg" @change="dpSingle = $event" />
+            </div>
+          </label>
+          <label
+            >Presets + showFooter<WkDatePicker
+              :value="dpSingle"
+              show-footer
+              :presets="[
+                { label: 'Yesterday', value: dpYesterday },
+                { label: 'Last Week', value: dpLastWeek }
+              ]"
+              @change="dpSingle = $event"
+          /></label>
           <label>Disabled<WkDatePicker disabled /></label>
         </div>
         <div class="dp-values">
           <div>single: {{ dpSingle }}</div>
-          <div>range: {{ dpRange }}</div>
           <div>multiple: {{ dpMultiple }}</div>
           <div>date+time: {{ dpDateTime }}</div>
+        </div>
+        <h3 style="margin-top: 16px">Range Picker</h3>
+        <div class="dp-grid">
+          <label>Basic range<WkRangePicker :value="dpV2Range" @change="dpV2Range = $event" /></label>
+          <label
+            >Presets + showFooter
+            <WkRangePicker
+              :value="dpV2Range"
+              show-footer
+              :presets="[
+                { label: 'Last 7 Days', value: [dpLast7Start, dpLast7End] },
+                { label: 'Last 30 Days', value: [dpLast30Start, dpLast30End] }
+              ]"
+              @change="dpV2Range = $event"
+            />
+          </label>
+          <label
+            >Sizes
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px">
+              <WkRangePicker :value="dpV2Range" size="xs" @change="dpV2Range = $event" />
+              <WkRangePicker :value="dpV2Range" size="sm" @change="dpV2Range = $event" />
+              <WkRangePicker :value="dpV2Range" size="md" @change="dpV2Range = $event" />
+              <WkRangePicker :value="dpV2Range" size="lg" @change="dpV2Range = $event" />
+            </div>
+          </label>
+          <label>Disabled<WkRangePicker disabled /></label>
+        </div>
+        <div class="dp-values">
+          <div>range: {{ dpV2Range }}</div>
         </div>
       </section>
 
@@ -841,6 +1051,75 @@ export default {
     const _now = new Date()
     return {
       sidebarActiveKey: '1',
+      selectV2: '',
+      stSingle: null,
+      stChecked: [],
+      stCheckedChild: [],
+      stStrict: [],
+      stParentExpand: null,
+      stTreeData: [
+        {
+          label: 'Miền Bắc',
+          value: 'north',
+          children: [
+            {
+              label: 'Hà Nội',
+              value: 'hn',
+              children: [
+                { label: 'Hoàn Kiếm', value: 'hk' },
+                { label: 'Đống Đa', value: 'dd' },
+                { label: 'Ba Đình', value: 'bd' }
+              ]
+            },
+            {
+              label: 'Hải Phòng',
+              value: 'hp',
+              children: [
+                { label: 'Hồng Bàng', value: 'hb' },
+                { label: 'Lê Chân', value: 'lc' }
+              ]
+            }
+          ]
+        },
+        {
+          label: 'Miền Trung',
+          value: 'central',
+          children: [
+            {
+              label: 'Đà Nẵng',
+              value: 'dn',
+              children: [
+                { label: 'Hải Châu', value: 'hch' },
+                { label: 'Thanh Khê', value: 'tk' }
+              ]
+            },
+            { label: 'Huế', value: 'hue', children: [] }
+          ]
+        },
+        {
+          label: 'Miền Nam',
+          value: 'south',
+          children: [
+            {
+              label: 'TP. Hồ Chí Minh',
+              value: 'hcm',
+              children: [
+                { label: 'Quận 1', value: 'q1' },
+                { label: 'Quận 3', value: 'q3' },
+                { label: 'Bình Thạnh', value: 'bt' }
+              ]
+            },
+            {
+              label: 'Cần Thơ',
+              value: 'ct',
+              children: [
+                { label: 'Ninh Kiều', value: 'nk' },
+                { label: 'Bình Thuỷ', value: 'bthu' }
+              ]
+            }
+          ]
+        }
+      ],
       sidebarItems: [
         {
           key: 'sub1',
@@ -911,16 +1190,21 @@ export default {
       drawerHandle: true,
       icQty: 3,
       dpSingle: null,
-      dpRange: [],
       dpMultiple: [],
+      dpV2Range: [],
       selectSearchable: '',
       dpDateTime: null,
       dpMinMax: null,
       dpNoWeekend: null,
       dpFormat: null,
-      dpSelects: null,
       dpMin: new Date(_now.getFullYear(), _now.getMonth(), 1),
       dpMax: new Date(_now.getFullYear(), _now.getMonth() + 1, 0),
+      dpYesterday: new Date(_now.getFullYear(), _now.getMonth(), _now.getDate() - 1),
+      dpLastWeek: new Date(_now.getFullYear(), _now.getMonth(), _now.getDate() - 7),
+      dpLast7Start: new Date(_now.getFullYear(), _now.getMonth(), _now.getDate() - 7),
+      dpLast7End: new Date(_now.getFullYear(), _now.getMonth(), _now.getDate()),
+      dpLast30Start: new Date(_now.getFullYear(), _now.getMonth(), _now.getDate() - 30),
+      dpLast30End: new Date(_now.getFullYear(), _now.getMonth(), _now.getDate()),
       selectedRowKeys: ['1'],
       tableV2Columns: [
         { title: 'Name', dataIndex: 'name', width: 180, ellipsis: true, resizable: true, maxWidth: 250 },
@@ -941,6 +1225,152 @@ export default {
         { title: 'Address', dataIndex: 'address', width: 260, ellipsis: true, resizable: true },
         { title: 'Joined', dataIndex: 'joined', align: 'center', width: 120, fixed: 'right', resizable: true },
         { title: 'Action', dataIndex: 'action', align: 'center', width: 50, fixed: 'right', resizable: true }
+      ],
+      treeTableColumns: [
+        { title: 'Department', dataIndex: 'name', width: 240 },
+        { title: 'Lead', dataIndex: 'lead', width: 160 },
+        { title: 'Head Count', dataIndex: 'headCount', align: 'center', width: 120 },
+        { title: 'Budget', dataIndex: 'budget', align: 'right', width: 120 },
+        { title: 'Status', dataIndex: 'status', align: 'center', width: 110 }
+      ],
+      treeTableData: [
+        {
+          key: 'eng',
+          name: 'Engineering',
+          lead: 'Alice Chen',
+          headCount: 32,
+          budget: '$1.2M',
+          status: 'Active',
+          children: [
+            {
+              key: 'fe',
+              name: 'Frontend',
+              lead: 'Bob Smith',
+              headCount: 10,
+              budget: '$380K',
+              status: 'Active',
+              children: [
+                { key: 'fe1', name: 'Web Apps', lead: 'Carol Lee', headCount: 6, budget: '$220K', status: 'Active' },
+                { key: 'fe2', name: 'Design System', lead: 'Dave Wu', headCount: 4, budget: '$160K', status: 'Active' }
+              ]
+            },
+            {
+              key: 'be',
+              name: 'Backend',
+              lead: 'Eve Park',
+              headCount: 14,
+              budget: '$520K',
+              status: 'Active',
+              children: [
+                {
+                  key: 'be1',
+                  name: 'API Platform',
+                  lead: 'Frank Doe',
+                  headCount: 8,
+                  budget: '$300K',
+                  status: 'Active'
+                },
+                { key: 'be2', name: 'Data', lead: 'Grace Kim', headCount: 6, budget: '$220K', status: 'Active' }
+              ]
+            },
+            { key: 'infra', name: 'Infrastructure', lead: 'Henry Liu', headCount: 8, budget: '$300K', status: 'Active' }
+          ]
+        },
+        {
+          key: 'mkt',
+          name: 'Marketing',
+          lead: 'Iris Wang',
+          headCount: 18,
+          budget: '$850K',
+          status: 'Active',
+          children: [
+            { key: 'mkt1', name: 'Growth', lead: 'Jake Brown', headCount: 8, budget: '$400K', status: 'Active' },
+            { key: 'mkt2', name: 'Content', lead: 'Kate Tan', headCount: 5, budget: '$250K', status: 'Active' },
+            { key: 'mkt3', name: 'Brand', lead: 'Leo Ng', headCount: 5, budget: '$200K', status: 'Inactive' }
+          ]
+        },
+        {
+          key: 'ops',
+          name: 'Operations',
+          lead: 'Mia Zhou',
+          headCount: 12,
+          budget: '$600K',
+          status: 'Active',
+          children: [
+            { key: 'ops1', name: 'Finance', lead: 'Nick Patel', headCount: 5, budget: '$250K', status: 'Active' },
+            { key: 'ops2', name: 'HR', lead: 'Olivia Ray', headCount: 7, budget: '$350K', status: 'Active' }
+          ]
+        }
+      ],
+      treeSelectedRowKeys: [],
+      treeTableDataDraggable: [
+        {
+          key: 'eng',
+          name: 'Engineering',
+          lead: 'Alice Chen',
+          headCount: 32,
+          budget: '$1.2M',
+          status: 'Active',
+          children: [
+            {
+              key: 'fe',
+              name: 'Frontend',
+              lead: 'Bob Smith',
+              headCount: 10,
+              budget: '$380K',
+              status: 'Active',
+              children: [
+                { key: 'fe1', name: 'Web Apps', lead: 'Carol Lee', headCount: 6, budget: '$220K', status: 'Active' },
+                { key: 'fe2', name: 'Design System', lead: 'Dave Wu', headCount: 4, budget: '$160K', status: 'Active' }
+              ]
+            },
+            {
+              key: 'be',
+              name: 'Backend',
+              lead: 'Eve Park',
+              headCount: 14,
+              budget: '$520K',
+              status: 'Active',
+              children: [
+                {
+                  key: 'be1',
+                  name: 'API Platform',
+                  lead: 'Frank Doe',
+                  headCount: 8,
+                  budget: '$300K',
+                  status: 'Active'
+                },
+                { key: 'be2', name: 'Data', lead: 'Grace Kim', headCount: 6, budget: '$220K', status: 'Active' }
+              ]
+            },
+            { key: 'infra', name: 'Infrastructure', lead: 'Henry Liu', headCount: 8, budget: '$300K', status: 'Active' }
+          ]
+        },
+        {
+          key: 'mkt',
+          name: 'Marketing',
+          lead: 'Iris Wang',
+          headCount: 18,
+          budget: '$850K',
+          status: 'Active',
+          children: [
+            { key: 'mkt1', name: 'Growth', lead: 'Jake Brown', headCount: 8, budget: '$400K', status: 'Active' },
+            { key: 'mkt2', name: 'Content', lead: 'Kate Tan', headCount: 5, budget: '$250K', status: 'Active' },
+            { key: 'mkt3', name: 'Brand', lead: 'Leo Ng', headCount: 5, budget: '$200K', status: 'Inactive' }
+          ]
+        },
+        {
+          key: 'ops',
+          name: 'Operations',
+          lead: 'Mia Zhou',
+          headCount: 12,
+          budget: '$600K',
+          status: 'Active',
+          children: [
+            { key: 'ops1', name: 'Finance', lead: 'Nick Patel', headCount: 5, budget: '$250K', status: 'Active' },
+            { key: 'ops2', name: 'HR', lead: 'Olivia Ray', headCount: 7, budget: '$350K', status: 'Active' }
+          ]
+        }
       ],
       tableV2Data: [
         {
@@ -1314,7 +1744,8 @@ export default {
   },
   components: {
     WkiAArrowDown,
-    WkiAArrowUp
+    WkiAArrowUp,
+    WkiSettings
   },
   computed: {
     optionsState() {
@@ -1454,18 +1885,38 @@ export default {
       return options
     },
 
+    treeRowSelection() {
+      return {
+        columnWidth: 44,
+        checkStrictly: false,
+        selectedRowKeys: this.treeSelectedRowKeys,
+        onChange: selectedRowKeys => {
+          this.treeSelectedRowKeys = selectedRowKeys
+        }
+      }
+    },
+
+    treeRowDraggable() {
+      return {
+        enableAnimationFlip: true,
+        handleReorder: (fromIndex, toIndex, dataSource) => {
+          this.treeTableDataDraggable = dataSource
+        }
+      }
+    },
+
     rowSelection() {
       return {
         columnWidth: 44,
         checkStrictly: false,
         selectedRowKeys: this.selectedRowKeys,
-        onChange: (selectedRowKeys, selectedRows) => {
+        onChange: (selectedRowKeys, _selectedRows) => {
           this.selectedRowKeys = selectedRowKeys
         },
-        onSelect: (record, selected, selectedRows) => {
+        onSelect: (record, _selected, _selectedRows) => {
           console.log(record, 'select============')
         },
-        onSelectAll: (selected, selectedRows, changeRows) => {
+        onSelectAll: (selected, selectedRows, _changeRows) => {
           console.log(selectedRows, 'select_all============')
         }
       }
@@ -1482,7 +1933,7 @@ export default {
     },
 
     tableV2CustomRow() {
-      return (record, index) => ({
+      return (_record, _index) => ({
         // onClick: (event) => { console.log('row click', record, index, event) },
         // onDblclick: (event) => { console.log('row dblclick', record, index, event) },
         // onContextmenu: (event) => { event.preventDefault(); console.log('row contextmenu', record, index) },
@@ -1493,13 +1944,17 @@ export default {
 
     tableV2CustomHeaderRow() {
       return (columns, index) => ({
-        onClick: event => {
+        onClick: _event => {
           console.log('header row click', index)
         }
       })
     }
   },
   methods: {
+    handleSelectV2Change(val) {
+      console.log('change: ==========', val)
+      this.selectV2 = val
+    },
     toggleData() {
       this.testTable = this.testTable.length ? this.accordionValue : this.tableV2Data
     },
@@ -1566,11 +2021,11 @@ export default {
     },
     customRowExample(record, index) {
       return {
-        onClick: event => {
+        onClick: _event => {
           console.log('Row clicked:', record)
           console.log(index)
         },
-        onDblclick: event => {
+        onDblclick: _event => {
           console.log('Row double-clicked:', record)
           console.log(index)
         },
@@ -1580,9 +2035,9 @@ export default {
         }
       }
     },
-    customHeaderExample(columns, index) {
+    customHeaderExample(columns, _index) {
       return {
-        onClick: event => {
+        onClick: _event => {
           console.log('Header row clicked:', columns)
         }
       }

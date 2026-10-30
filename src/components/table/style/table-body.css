@@ -1,0 +1,24 @@
+.ui-table__body ::v-deep .ui-table__tree-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.ui-table__body ::v-deep .ui-table__expand-icon {
+  transition: transform 0.2s;
+}
+
+.ui-table__body ::v-deep .ui-table__expand-icon--open {
+  transform: rotate(90deg);
+}
+
+.ui-table__body ::v-deep .ui-table__expand-indent {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.ui-table__body ::v-deep .ui-table__expand-indent-wrapper {
+  display: flex;
+}

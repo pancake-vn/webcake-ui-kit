@@ -37,6 +37,7 @@
         @select="onItemSelect"
         :size="size"
         :showChecked="showChecked"
+        :block-width="blockWidth"
       />
       <slot v-else name="overlay"></slot>
     </div>
@@ -101,6 +102,7 @@ export default {
     overlayClassName: { type: [String, Array, Object], default: null },
     overlayStyle: { type: [Object, Array], default: null },
     showChecked: { type: Boolean, default: true },
+    blockWidth: { type: Number, default: null },
     closeOnSelect: { type: Boolean, default: true },
     persistent: { type: Boolean, default: false },
     dropdownMatchSelectWidth: { type: Boolean, default: false },

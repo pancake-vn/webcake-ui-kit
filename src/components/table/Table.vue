@@ -23,6 +23,12 @@ import { createTableContext } from './context/createTableContext.js'
 import { flattenColumns } from './composables/useColumns.js'
 import { sortData } from './composables/useSorter.js'
 import { computeOffsets } from './composables/useSticky.js'
+import {
+  flattenRecords,
+  collectAllKeys,
+  collectDescendantKeys,
+  moveTreeNodeByDrop
+} from './composables/useFlattenRecords.js'
 import { SELECTION_COLUMN, DRAGGABLE_COLUMN } from './constants.js'
 import TableWrapper from './TableWrapper.vue'
 import TableLoading from './TableLoading.vue'
@@ -63,13 +69,23 @@ export default {
     rowHeight: { type: Number, default: 50 },
     headerHeight: { type: Number, default: 40 },
     emptyText: { type: String, default: '' },
-    height: { type: [Number, String], default: 0 }
+    height: { type: [Number, String], default: 0 },
+    childrenField: { type: String, default: null },
+    defaultExpandAll: { type: Boolean, default: false },
+    indentSize: { type: Number, default: 28 }
   },
 
-  emits: ['change', 'sort-change', 'select-change'],
+  emits: ['change', 'sort-change', 'select-change', 'expand'],
 
   data: function () {
-    return { tableCtx: createTableContext() }
+    var expandedKeys = []
+    if (this.childrenField && this.defaultExpandAll) {
+      expandedKeys = Array.from(collectAllKeys(this.dataSource, this.rowKey, this.childrenField))
+    }
+    return {
+      tableCtx: createTableContext(),
+      innerExpandedKeys: expandedKeys
+    }
   },
 
   computed: {
@@ -109,10 +125,13 @@ export default {
     dataInput: function () {
       return {
         source: this.dataSource,
+        rowKey: this.rowKey,
         sortKey: this.tableCtx.sort.columnKey,
         sortOrder: this.tableCtx.sort.order,
         loading: this.loading,
-        emptyText: this.emptyText
+        emptyText: this.emptyText,
+        childrenField: this.childrenField,
+        expandedKeys: this.innerExpandedKeys
       }
     },
 
@@ -194,9 +213,33 @@ export default {
       immediate: true,
       handler: function (v) {
         this.tableCtx.data.source = v.source
-        ;((this.tableCtx.data.display = v.sortKey ? sortData(v.source, v.sortKey, v.sortOrder) : v.source),
-          (this.tableCtx.data.loading = v.loading))
+        var sorted = v.sortKey ? sortData(v.source, v.sortKey, v.sortOrder) : v.source
+        if (v.childrenField) {
+          var expandedSet = new Set(v.expandedKeys.map(String))
+          this.tableCtx.data.display = flattenRecords(sorted, v.rowKey, v.childrenField, expandedSet)
+        } else {
+          this.tableCtx.data.display = sorted
+        }
+        this.tableCtx.data.loading = v.loading
         this.tableCtx.data.emptyText = v.emptyText
+      }
+    },
+
+    innerExpandedKeys: function (v) {
+      this.tableCtx.tree.expandedKeys = v
+    },
+
+    childrenField: {
+      immediate: true,
+      handler: function (v) {
+        this.tableCtx.tree.childrenField = v
+      }
+    },
+
+    indentSize: {
+      immediate: true,
+      handler: function (v) {
+        this.tableCtx.tree.indentSize = v
       }
     },
 
@@ -245,6 +288,8 @@ export default {
     this.tableCtx.actions.select = this.handleSelect
     this.tableCtx.actions.resize = this.handleResize
     this.tableCtx.actions.reorder = this.handleReorder
+    this.tableCtx.actions.expand = this.handleExpand
+    this.tableCtx.tree.expandedKeys = this.innerExpandedKeys
   },
 
   methods: {
@@ -260,6 +305,24 @@ export default {
       var display = this.tableCtx.data.display
       var rowKey = this.tableCtx.layout.rowKey
       var rs = this.rowSelection || {}
+
+      // Cascade check for tree tables when checkStrictly === false
+      if (this.childrenField && rs.checkStrictly === false && meta && meta.type === 'row') {
+        var descKeys = collectDescendantKeys(this.dataSource, this.rowKey, this.childrenField, meta.record[rowKey])
+        if (descKeys.length > 0) {
+          if (meta.selected) {
+            var combined = keys.slice()
+            for (var di = 0; di < descKeys.length; di++) {
+              if (combined.indexOf(descKeys[di]) === -1) combined.push(descKeys[di])
+            }
+            keys = combined
+          } else {
+            keys = keys.filter(function (k) {
+              return descKeys.indexOf(k) === -1
+            })
+          }
+        }
+      }
 
       var selectedRows = display.filter(function (r) {
         return keys.indexOf(r[rowKey]) !== -1
@@ -291,13 +354,42 @@ export default {
       this.tableCtx.layout.columnWidths = widths
     },
 
-    handleReorder: function (oldIndex, newIndex) {
-      const display = this.tableCtx.data.display.slice()
-      const moved = display.splice(oldIndex, 1)[0]
-      display.splice(newIndex, 0, moved)
+    handleReorder: function (oldIndex, newIndex, dragOffset) {
+      var cb = this.tableCtx.draggable.handleReorder
+      if (this.childrenField) {
+        var newTree = moveTreeNodeByDrop(
+          this.tableCtx.data.display,
+          this.dataSource,
+          this.rowKey,
+          this.childrenField,
+          oldIndex,
+          newIndex,
+          dragOffset || 0,
+          this.tableCtx.tree.indentSize
+        )
+        if (!newTree) return
+        if (typeof cb === 'function') cb(oldIndex, newIndex, newTree)
+      } else {
+        var flatDisplay = this.tableCtx.data.display.slice()
+        var moved = flatDisplay.splice(oldIndex, 1)[0]
+        flatDisplay.splice(newIndex, 0, moved)
+        if (typeof cb === 'function') cb(oldIndex, newIndex, flatDisplay)
+      }
+    },
 
-      const cb = this.tableCtx.draggable.handleReorder
-      if (typeof cb === 'function') cb(oldIndex, newIndex, display)
+    handleExpand: function (key) {
+      var keyStr = String(key)
+      var idx = this.innerExpandedKeys.indexOf(keyStr)
+      var next
+      if (idx === -1) {
+        next = this.innerExpandedKeys.concat(keyStr)
+      } else {
+        next = this.innerExpandedKeys.filter(function (k) {
+          return k !== keyStr
+        })
+      }
+      this.innerExpandedKeys = next
+      this.$emit('expand', idx === -1, key)
     },
 
     handleContainerResize: function (size) {

@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  padding: var(--spacing-10) var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-10);
   border: 1px solid transparent;
   border-radius: var(--rounded-xl);
   overflow: hidden;

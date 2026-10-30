@@ -1,0 +1,104 @@
+.ui-dp-range-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  width: 100%;
+  box-sizing: border-box;
+  height: 36px;
+  padding: 0 var(--spacing-sm);
+  background: var(--input);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius);
+  color: var(--primary-fg);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  cursor: pointer;
+  transition:
+    border-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.ui-dp-range-trigger--sm {
+  height: 32px;
+  gap: var(--spacing-6);
+  padding: 0 var(--spacing-xs);
+}
+
+.ui-dp-range-trigger--xs {
+  height: 28px;
+  padding: 0 var(--spacing-xs);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+
+.ui-dp-range-trigger--lg {
+  height: 44px;
+  padding: 0 var(--spacing-md);
+}
+
+.ui-dp-range-trigger:hover:not(.is-disabled) {
+  border-color: var(--border-focus);
+}
+
+.ui-dp-range-trigger.is-focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.ui-dp-range-trigger:focus-visible {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.ui-dp-range-trigger.is-disabled {
+  background: var(--muted-bg);
+  color: var(--muted-fg);
+  cursor: not-allowed;
+}
+
+.ui-dp-range-trigger__icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted-fg);
+  flex-shrink: 0;
+}
+
+.ui-dp-range-trigger__start,
+.ui-dp-range-trigger__end {
+  flex: 1;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.ui-dp-range-trigger__start.is-placeholder,
+.ui-dp-range-trigger__end.is-placeholder {
+  color: var(--muted-fg);
+}
+
+.ui-dp-range-trigger__separator {
+  flex-shrink: 0;
+  color: var(--muted-fg);
+}
+
+.ui-dp-range-trigger__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--rounded-full);
+  background: transparent;
+  color: var(--muted-fg);
+  cursor: pointer;
+}
+
+.ui-dp-range-trigger__clear:hover {
+  background: var(--accent-1);
+  color: var(--primary-fg);
+}

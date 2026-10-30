@@ -1,0 +1,75 @@
+.ui-dp-picker-panel-wrapper {
+  display: flex;
+}
+
+.ui-dp-picker-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-dp-picker-panel {
+  display: flex;
+  background: var(--card);
+  border-radius: var(--rounded-xl);
+  font-family: var(--font-family-body);
+}
+
+/* Header + body stack vertically; time column sits to the right. */
+.ui-dp-picker-panel__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+}
+
+.ui-dp-picker-panel__bodies {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.ui-dp-picker-panel__time {
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--border-primary);
+}
+
+.ui-dp-picker-footer {
+  display: flex;
+  padding: var(--spacing-sm) var(--spacing-md);
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border-top: 1px solid var(--border-primary);
+}
+
+.ui-dp-picker-footer .ui-dp-picker-footer__range {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+}
+
+.ui-dp-picker-footer .ui-dp-picker-footer__range .ui-input {
+  width: 120px;
+}
+
+.ui-dp-picker-footer .ui-dp-picker-footer__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.ui-dp-picker-presets {
+  border-right: 1px solid var(--border-primary);
+  display: flex;
+  width: 160px;
+  padding: var(--spacing-xs);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-2xs);
+  align-self: stretch;
+}
+
+.ui-dp-picker-presets .ui-toggle {
+  width: 100%;
+  text-align: start;
+}

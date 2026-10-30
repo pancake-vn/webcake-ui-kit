@@ -5,7 +5,7 @@ export default {
   component: WkDatePicker,
   argTypes: {
     size: { control: { type: 'inline-radio' }, options: ['xs', 'sm', 'md', 'lg'] },
-    mode: { control: { type: 'inline-radio' }, options: ['single', 'range', 'multiple'] },
+    mode: { control: { type: 'inline-radio' }, options: ['single', 'multiple'] },
     placement: { control: 'text' },
     disabled: { control: 'boolean' },
     clearable: { control: 'boolean' },
@@ -98,23 +98,6 @@ Interactive.parameters = {
   }
 }
 
-export const RangeMode = () => ({
-  components: { WkDatePicker },
-  data() {
-    return { range: null }
-  },
-  template: `
-    <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
-      <WkDatePicker mode="range" :value="range" clearable value-format="YYYY-MM-DD" @change="range = $event" />
-      <code style="font-size:13px;">range = {{ range ? JSON.stringify(range) : 'null' }}</code>
-      <p style="font-size:12px;color:#6b7280;margin:0;">Click to set start, click again to set end.</p>
-    </div>
-  `
-})
-RangeMode.parameters = {
-  docs: { description: { story: '`mode="range"` — first click sets the start date, second click sets the end date.' } }
-}
-
 export const MultipleMode = () => ({
   components: { WkDatePicker },
   data() {
@@ -154,17 +137,17 @@ WithTimePicker.parameters = {
 export const TwoMonths = () => ({
   components: { WkDatePicker },
   data() {
-    return { range: null }
+    return { selected: null }
   },
   template: `
     <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
-      <WkDatePicker mode="range" :months="2" :value="range" value-format="YYYY-MM-DD" clearable @change="range = $event" />
-      <code style="font-size:13px;">range = {{ range ? JSON.stringify(range) : 'null' }}</code>
+      <WkDatePicker :months="2" :value="selected" value-format="YYYY-MM-DD" clearable @change="selected = $event" />
+      <code style="font-size:13px;">value = {{ selected || 'null' }}</code>
     </div>
   `
 })
 TwoMonths.parameters = {
-  docs: { description: { story: '`:months="2"` shows two side-by-side month panels — handy for range picking.' } }
+  docs: { description: { story: '`:months="2"` shows two side-by-side month panels in single selection mode.' } }
 }
 
 export const FocusVisible = () => ({
