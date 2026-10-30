@@ -1,668 +1,508 @@
 <template>
-  <Menu
-    :open="isOpen"
-    :disabled="disabled || loading"
-    :placement="placement"
-    :offset="4"
-    :anchor-width="effectiveDropdownMatchSelectWidth"
-    :close-on-select="false"
-    @change="onMenuChange"
-    @close="onMenuClose"
-    :overlay-class-name="overlayClassName"
-    :overlay-style="overlayStyle"
-    :width="overlayWidth"
+  <BaseSelect
+    ref="baseSelect"
+    v-bind="$attrs"
+    :optionList="OptionList"
+    :displayValues="displayValues"
+    :searchValue="searchValue"
+    :mode="mode"
+    :is-empty="flattenOptions.length === 0"
+    @search="onSearch"
+    @deselect="handleDeselect"
+    @enterSearch="handleEnterSearch"
+    @clear="handleClear"
   >
-    <template #trigger="{ toggle, isOpen: open, attrs, triggerRef }">
-      <div
-        :ref="triggerRef"
-        class="ui-select"
-        :class="[
-          `ui-select--${size}`,
-          {
-            'ui-select--open': open,
-            'ui-select--disabled': disabled,
-            'ui-select--error': error,
-            'ui-select--loading': loading,
-            'ui-select--multiple': isMultiMode,
-            'ui-select--searchable': isSearchable
-          },
-          externalClass
-        ]"
-        :style="externalStyle"
-        :tabindex="isSearchable ? -1 : 0"
-        v-bind="attrs"
-        @click="isSearchable ? openIfClosed() : toggle()"
-        @keydown.enter.prevent="toggle()"
-        @keydown.space.prevent="toggle()"
-      >
-        <span class="ui-select__left">
-          <span v-if="hasIconSlot()" class="ui-select__icon">
-            <slot name="icon" />
-          </span>
-          <span v-if="prepend" class="ui-select__prepend">{{ prepend }}</span>
-          <span v-if="isMultiMode" class="ui-select__tags">
-            <Tag
-              v-for="item in selectedItems"
-              :key="item.value"
-              :size="tagSize"
-              type="default"
-              :label="item.label"
-              :closable="!disabled"
-              @close="deselectItem(item.value)"
-            />
-            <input
-              v-if="isSearchable"
-              ref="searchInput"
-              class="ui-select__search"
-              type="text"
-              :value="filterText"
-              :placeholder="!selectedItems.length ? placeholder : ''"
-              @input="onFilterInput"
-              @click.stop="openIfClosed"
-              @keydown.stop="onSearchKeydown"
-            />
-            <span v-else-if="!selectedItems.length" class="ui-select__value ui-select__value--placeholder">{{
-              placeholder
-            }}</span>
-          </span>
-          <input
-            v-else-if="isSearchable"
-            ref="searchInput"
-            class="ui-select__search ui-select__search--single"
-            type="text"
-            :value="open ? filterText : selectedLabel"
-            :placeholder="open ? selectedLabel || placeholder : !selectedLabel ? placeholder : ''"
-            @input="onFilterInput"
-            @click.stop="openIfClosed"
-            @keydown.stop="onSearchKeydown"
-          />
-          <span v-else class="ui-select__value" :class="{ 'ui-select__value--placeholder': !selectedLabel }">
-            {{ selectedLabel || placeholder }}
-          </span>
-        </span>
-        <span v-if="append" class="ui-select__append">{{ append }}</span>
-        <Spinner v-if="loading" type="mirrored" size="sm" />
-        <span v-else class="ui-select__chevron">
-          <WkiChevronDown :size="16" />
-        </span>
-      </div>
+    <template #icon v-if="hasIconSlot()">
+      <slot name="icon" />
     </template>
-    <div class="ui-select__columns">
-      <div class="ui-select__list" :style="listStyle">
-        <div v-if="hasContentHeader()">
-          <slot name="contentHeader"></slot>
-        </div>
-        <slot>
-          <SelectOption
-            v-for="opt in filteredOptions"
-            :key="opt.value"
-            :value="opt.value"
-            :label="opt.label"
-            :mark-label="opt.markLabel"
-            :disabled="opt.disabled"
-            :children="opt.children"
-            :placement="opt.placement"
-            :offset="opt.offset"
-          />
-        </slot>
-        <slot v-if="showEmpty" name="empty">
-          <div class="ui-select__empty">
-            <img
-              src="https://content.pancake.vn/web-media-262/2e/2a/0c/96/c2b58ae9f06c4dc2a3b83016e56d5b4132ff40637862ba23435e43a0-w:224-h:224-l:3927-t:image/png.png"
-              alt=""
-            />
-            <span>{{ emptyText }}</span>
-          </div>
-        </slot>
-        <div v-if="hasContentFooter()">
-          <slot name="contentFooter"></slot>
-        </div>
-      </div>
-      <div v-for="(col, idx) in expandedColumns" :key="col.ownerValue" class="ui-select__list" :style="listStyle">
-        <SelectOption
-          v-for="opt in col.children"
-          :key="opt.value"
-          :value="opt.value"
-          :label="opt.label"
-          :mark-label="opt.markLabel"
-          :disabled="opt.disabled"
-          :children="opt.children || []"
-          :column-depth="idx + 1"
-        />
-      </div>
-    </div>
-  </Menu>
+    <template #contentHeader>
+      <slot name="contentHeader" />
+    </template>
+    <template #default>
+      <slot />
+    </template>
+    <template #contentFooter>
+      <slot name="contentFooter" />
+    </template>
+  </BaseSelect>
 </template>
 
 <script>
-import WkiChevronDown from '../../icons/ChevronDown.vue'
-import Menu from '../menu/Menu.vue'
-import SelectOption from '../select-option/SelectOption.vue'
-import Spinner from '../spinner/Spinner.vue'
-import Tag from '../tag/Tag.vue'
+import BaseSelect from '../base-select/BaseSelect.vue'
+import OptionList from './OptionList.vue'
+import { createSelectContext } from './context/createSelectContext.js'
 
 export default {
   name: 'Select',
 
-  components: { Menu, SelectOption, Spinner, WkiChevronDown, Tag },
-
-  provide() {
-    return { select: this }
-  },
-
   inheritAttrs: false,
 
-  model: {
-    prop: 'value',
-    event: 'change'
+  components: {
+    BaseSelect
   },
 
   props: {
-    size: {
-      type: String,
-      default: 'md',
-      validator: function (v) {
-        return ['xs', 'sm', 'md', 'lg'].indexOf(v) !== -1
-      }
-    },
-    optionSize: {
-      type: String,
-      default: 'md',
-      validator: v => ['sm', 'md', 'lg'].indexOf(v) !== -1
-    },
-    showChecked: {
-      type: Boolean,
-      default: false
-    },
-    value: {
-      type: [String, Number, Array],
-      default: null
-    },
-    modelValue: {
-      default: null
-    },
+    value: [String, Number, Array],
     options: {
       type: Array,
       default: () => []
     },
-    placeholder: {
-      type: String,
-      default: 'Select an item'
-    },
-    prepend: {
-      type: String,
-      default: ''
-    },
-    append: {
-      type: String,
-      default: ''
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    error: {
-      type: Boolean,
-      default: false
-    },
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    listHeight: {
-      type: [Number, String],
-      default: 256
-    },
-    listWidth: {
-      type: [Number, String],
-      default: null
-    },
     mode: {
       type: String,
       default: 'single',
-      validator: function (v) {
-        return ['single', 'multiple', 'tags'].includes(v)
-      }
-    },
-    searchable: {
-      type: Boolean,
-      default: false
-    },
-    filterOption: {
-      type: Function,
-      default: null
-    },
-    overlayClassName: { type: [String, Array, Object], default: null },
-    overlayStyle: { type: [Object, Array], default: null },
-    dropdownMatchSelectWidth: { type: Boolean, default: true },
-    overlayWidth: { type: [String, Number], default: null },
-    placement: {
-      type: String,
-      default: 'bottom-start'
-    },
-    emptyText: {
-      type: String,
-      default: 'Chưa có dữ liệu'
+      validator: value => ['single', 'multiple', 'tags'].includes(value)
     }
   },
-
-  emits: ['change', 'update:modelValue'],
 
   data() {
     return {
-      isOpen: false,
-      labelCache: {},
-      filterText: '',
-      tagOptions: [],
-      slotOptionVisible: {},
-      expandedColumns: []
+      selectCtx: createSelectContext(),
+      searchValue: undefined,
+      tagOptions: []
     }
   },
 
-  mounted() {
-    this._syncSlotLabels()
-  },
-
-  updated() {
-    this._syncSlotLabels()
+  provide() {
+    return {
+      selectCtx: this.selectCtx
+    }
   },
 
   computed: {
-    effectiveValue() {
-      return this.modelValue !== null ? this.modelValue : this.value
+    OptionList() {
+      return OptionList
     },
-    isMultiMode() {
-      return this.mode === 'multiple' || this.mode === 'tags'
-    },
-    isSearchable() {
-      return this.mode === 'tags' || this.searchable || !!this.filterOption
-    },
-    tagSize() {
-      if (['xs', 'sm'].includes(this.size)) return 'sm'
-      return 'md'
-    },
+
     normalizedOptions() {
-      var base = this.mode === 'tags' ? this.options.concat(this.tagOptions) : this.options
-      return base.map(function (opt) {
-        return typeof opt === 'string'
-          ? { label: opt, value: opt, markLabel: opt, disabled: false, children: [], placement: 'right-start' }
-          : {
-              label: opt.label || opt.value,
-              markLabel: opt.markLabel || opt.label || opt.value,
-              value: opt.value,
-              disabled: !!opt.disabled,
-              children: opt.children || [],
-              placement: opt.placement || 'right-start',
-              offset: opt.offset || null
-            }
-      })
-    },
-    filteredOptions() {
-      if (!this.filterText) return this.normalizedOptions
-      if (this.filterOption) {
-        return this.normalizedOptions.filter(opt => this.filterOption(this.filterText, opt))
-      }
-      var q = this.filterText.toLowerCase()
-      return this.normalizedOptions.filter(function (opt) {
-        return opt.label.toLowerCase().indexOf(q) !== -1
-      })
-    },
-    selectedLabel() {
-      if (this.isMultiMode) return ''
-      if (!this.effectiveValue) return ''
-      const findOpt = (opts, val) => {
-        for (let i = 0; i < opts.length; i++) {
-          if (opts[i].value === val) return opts[i]
-          if (opts[i].children && opts[i].children.length > 0) {
-            const found = findOpt(opts[i].children, val)
-            if (found) return found
-          }
+      const raw = this.options || []
+      if (!raw.length) return this._parseSlotOptions()
+      var result = []
+      for (var i = 0; i < raw.length; i++) {
+        var n = this.normalizeOption(raw[i], i)
+        if (Array.isArray(n)) {
+          for (var j = 0; j < n.length; j++) result.push(n[j])
+        } else {
+          result.push(n)
         }
-        return null
       }
-      const opt = findOpt(this.normalizedOptions, this.effectiveValue)
-      if (opt) return opt.markLabel || opt.label
-      if (this.labelCache[this.effectiveValue]) return this.labelCache[this.effectiveValue]
-      return this._findLabelInSlot(this.effectiveValue) || this.effectiveValue
+      return result
     },
-    selectedItems() {
-      if (!this.isMultiMode) return []
-      var values = Array.isArray(this.effectiveValue) ? this.effectiveValue : []
-      var self = this
-      const findOpt = (opts, val) => {
-        for (let i = 0; i < opts.length; i++) {
-          if (opts[i].value === val) return opts[i]
-          if (opts[i].children && opts[i].children.length > 0) {
-            const found = findOpt(opts[i].children, val)
-            if (found) return found
-          }
-        }
-        return null
-      }
-      return values.map(function (v) {
-        var opt = findOpt(self.normalizedOptions, v)
-        return { value: v, label: opt ? opt.label : self.labelCache[v] || v }
+
+    valueOptions() {
+      const map = new Map()
+      this.normalizedOptions.forEach(opt => {
+        if (opt.type !== 'group-header' && opt.type !== 'divider') map.set(opt.value, opt)
+      })
+      return map
+    },
+
+    rawValues() {
+      const currentValue = this.value
+
+      const values = Array.isArray(currentValue) ? currentValue : !currentValue ? [] : [currentValue]
+
+      return new Map(values.map(item => [item, true]))
+    },
+
+    flattenOptions() {
+      const tagNormalized = this.mode == 'tags' ? this.tagOptions.map(this.normalizeOption) : []
+      const base = this.normalizedOptions.concat(tagNormalized)
+      if (!this.searchValue) return base
+      const query = this.searchValue.trim().toLowerCase()
+      return base.filter(opt => {
+        if (opt.type === 'divider' || opt.type === 'group-header') return false
+        return String(opt.label).toLowerCase().includes(query)
       })
     },
-    showEmpty() {
-      if (this.normalizedOptions.length > 0 && this.filteredOptions.length === 0) return true
-      if (this.filterText) {
-        var vals = Object.keys(this.slotOptionVisible)
-        if (vals.length > 0 && vals.every(v => !this.slotOptionVisible[v])) return true
-      }
-      if (this.normalizedOptions.length === 0 && Object.keys(this.slotOptionVisible).length === 0) return true
-      return false
-    },
-    effectiveDropdownMatchSelectWidth() {
-      if (
-        this.normalizedOptions.some(function (opt) {
-          return opt.children && opt.children.length > 0
-        })
-      ) {
-        return false
-      }
-      return this.dropdownMatchSelectWidth
-    },
-    listStyle() {
-      var style = {}
-      style.maxHeight = typeof this.listHeight === 'number' ? this.listHeight + 'px' : this.listHeight
-      if (this.listWidth != null) {
-        var w = typeof this.listWidth === 'number' ? this.listWidth + 'px' : this.listWidth
-        style.width = w
-        style.minWidth = w
-      }
-      return style
-    },
-    externalClass() {
-      // Vue 3: class is in $attrs (inheritAttrs:false keeps it off the root)
-      if (this.$attrs && Object.prototype.hasOwnProperty.call(this.$attrs, 'class')) {
-        return this.$attrs.class
-      }
-      // Vue 2: class always lands on root regardless of inheritAttrs; also bind here
-      if (this.$vnode && this.$vnode.data) {
-        var parts = []
-        if (this.$vnode.data.staticClass) parts.push(this.$vnode.data.staticClass)
-        if (this.$vnode.data.class) parts.push(this.$vnode.data.class)
-        return parts.length ? parts : null
-      }
-      return null
-    },
-    externalStyle() {
-      // Vue 3: style is in $attrs
-      if (this.$attrs && Object.prototype.hasOwnProperty.call(this.$attrs, 'style')) {
-        return this.$attrs.style
-      }
-      // Vue 2: style always lands on root; also bind here for consistency
-      if (this.$vnode && this.$vnode.data) {
-        return this.$vnode.data.staticStyle || this.$vnode.data.style || null
-      }
-      return null
+
+    displayValues() {
+      return Array.from(this.rawValues.keys()).map(value => {
+        const option = this.valueOptions.get(value)
+
+        return {
+          value,
+          label: option ? option.label : value
+        }
+      })
     }
   },
 
   watch: {
-    isOpen: function (v) {
-      if (!v) {
-        this.filterText = ''
-      } else if (this.isSearchable) {
-        var self = this
-        // Double nextTick: Menu's handleOpen also uses $nextTick to call _fmFocus(float).
-        // Our first tick runs before Menu's, so Menu steals focus back. The second tick
-        // runs after Menu's floating-panel focus, letting us reclaim it for the input.
-        this.$nextTick(function () {
-          self.$nextTick(function () {
-            if (self.$refs.searchInput) self.$refs.searchInput.focus()
-          })
-        })
+    // Lưu vào context để OptionList.vue render ra.
+    flattenOptions: {
+      immediate: true,
+      handler(v) {
+        this.selectCtx.options = v
+      }
+    },
+    valueOptions: {
+      immediate: true,
+      handler(v) {
+        this.selectCtx.valueOptions = v
+      }
+    },
+    rawValues: {
+      immediate: true,
+      handler(v) {
+        this.selectCtx.rawValues = v
+      }
+    },
+    displayValues: {
+      immediate: true,
+      handler(v) {
+        this.selectCtx.displayValues = v
       }
     }
   },
 
+  created() {
+    this.selectCtx.actions.onSelect = this.onSelect
+  },
+
   methods: {
-    hasContentFooter() {
-      return !!((this.$scopedSlots && this.$scopedSlots['contentFooter']) || this.$slots['contentFooter'])
-    },
-    hasContentHeader() {
-      return !!((this.$scopedSlots && this.$scopedSlots['contentHeader']) || this.$slots['contentHeader'])
-    },
     hasIconSlot() {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
     },
-    onMenuChange(v) {
-      this.isOpen = v
-    },
-    onMenuClose() {
-      this.isOpen = false
-    },
-    openIfClosed() {
-      if (this.disabled || this.loading) return
-      if (!this.isOpen) this.isOpen = true
-    },
-    onFilterInput(e) {
-      this.filterText = e.target.value
-      if (!this.isOpen) this.isOpen = true
-    },
-    onSearchKeydown(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault()
-        if (e.isComposing) return
-        if (this.mode === 'tags' && this.filterText.trim()) {
-          const text = this.filterText.trim()
-          const existing = this.normalizedOptions.find(function (o) {
-            return o.label.toLowerCase() === text.toLowerCase() || o.value === text
-          })
-          const val = existing ? existing.value : text
-          if (!existing) {
-            this.tagOptions = this.tagOptions.concat([{ label: text, value: text, disabled: false }])
-          }
-          const current = Array.isArray(this.effectiveValue) ? this.effectiveValue.slice() : []
-          if (current.indexOf(val) === -1) {
-            current.push(val)
-            this.$emit('change', current)
-            this.$emit('update:modelValue', current)
-          }
-          this.filterText = ''
-        } else if (!this.isOpen) {
-          this.isOpen = true
+
+    onSelect(val) {
+      let nextValue
+      if (this.mode === 'multiple' || this.mode === 'tags') {
+        const current = [...this.rawValues.keys()]
+        const idx = current.indexOf(val)
+        if (idx === -1) {
+          current.push(val)
+        } else {
+          current.splice(idx, 1)
+          this.tagOptions = this.tagOptions.filter(o => o.value !== val)
         }
-      } else if (e.key === 'Escape') {
-        e.preventDefault()
-        this.isOpen = false
-      } else if (e.key === 'Backspace' && this.isMultiMode && !this.filterText) {
-        const current = Array.isArray(this.effectiveValue) ? this.effectiveValue.slice() : []
-        if (current.length > 0) {
-          const removed = current[current.length - 1]
-          current.pop()
-          this.$emit('change', current)
-          this.$emit('update:modelValue', current)
-          if (this.mode === 'tags') {
-            this.tagOptions = this.tagOptions.filter(function (o) {
-              return o.value !== removed
-            })
-          }
-        }
-      }
-    },
-    select(val) {
-      if (this.isMultiMode) {
-        var current = Array.isArray(this.effectiveValue) ? this.effectiveValue.slice() : []
-        var idx = current.indexOf(val)
-        if (idx === -1) current.push(val)
-        else current.splice(idx, 1)
-        this.$emit('change', current)
-        this.$emit('update:modelValue', current)
-        this.filterText = ''
-        this.$nextTick(function () {
-          if (this.$refs.searchInput) this.$refs.searchInput.focus()
-        })
+        nextValue = current
       } else {
-        this.$emit('change', val)
-        this.$emit('update:modelValue', val)
-        this.isOpen = false
-        this.filterText = ''
-        this.$nextTick(function () {
-          if (this.$refs.searchInput) this.$refs.searchInput.blur()
-        })
+        nextValue = val
+        // Đóng dropdown khi chọn xong ở single mode
+        this.setOpen(false)
+      }
+      this.searchValue = ''
+      this.$emit('update:value', nextValue) // hoặc update:modelValue tuỳ Vue 2/3
+      this.$emit('change', nextValue, this.valueOptions.get(val))
+    },
+    setOpen(open) {
+      if (this.$refs.baseSelect) {
+        this.$refs.baseSelect.setOpen(open)
       }
     },
-    deselectItem(val) {
-      if (!this.isMultiMode) return
-      var current = Array.isArray(this.effectiveValue) ? this.effectiveValue.slice() : []
-      var idx = current.indexOf(val)
-      if (idx !== -1) {
-        current.splice(idx, 1)
-        this.$emit('change', current)
-        this.$emit('update:modelValue', current)
+
+    handleDeselect(value) {
+      this.onSelect(value)
+    },
+
+    handleEnterSearch(value) {
+      if (this.mode !== 'tags') return
+      const text = String(value).trim()
+      if (!text) return
+      const existing = this.normalizedOptions.find(
+        o => String(o.label).toLowerCase() === text.toLowerCase() || o.value === text
+      )
+      const val = existing ? existing.value : text
+      if (!this.tagOptions.find(o => o.value === val)) {
+        this.tagOptions = this.tagOptions.concat([{ label: text, value: text, disabled: false }])
       }
-      if (this.mode === 'tags') {
-        this.tagOptions = this.tagOptions.filter(function (o) {
-          return o.value !== val
-        })
+      const current = [...this.rawValues.keys()]
+      if (current.indexOf(val) === -1) {
+        current.push(val)
+        this.$emit('update:value', current)
+        this.$emit('change', current, null)
       }
+      this.searchValue = ''
     },
-    registerOption(value, label) {
-      // Guard: SelectOption.updated() calls this on every re-render. Reassigning
-      // labelCache to a new object each time invalidates dependent computeds
-      // (selectedLabel, option.isHidden), forcing another render → updated() →
-      // registerOption → … an infinite loop that lags typing in searchable mode.
-      // Skip when the label is unchanged so the reference stays stable.
-      if (this.labelCache[value] === label) return
-      this.labelCache = Object.assign({}, this.labelCache, { [value]: label })
+
+    handleClear() {
+      const next = this.mode === 'multiple' || this.mode === 'tags' ? [] : null
+      this.$emit('update:value', next)
+      this.$emit('change', next, null)
+      this.searchValue = ''
+      if (this.mode === 'tags') this.tagOptions = []
     },
-    setSlotOptionVisible(value, visible) {
-      if (this.slotOptionVisible[value] === visible) return
-      this.slotOptionVisible = Object.assign({}, this.slotOptionVisible, { [value]: visible })
+
+    onSearch(value) {
+      this.searchValue = value
     },
-    removeSlotOption(value) {
-      var next = Object.assign({}, this.slotOptionVisible)
-      delete next[value]
-      this.slotOptionVisible = next
-    },
-    _slotNodes() {
-      // Vue 3: $slots.default is a function; Vue 2: it's an array
-      return typeof this.$slots.default === 'function' ? this.$slots.default() : this.$slots.default || []
-    },
-    _slotText(vnode) {
-      // Vue 2: text lives in componentOptions.children as text-vnodes
-      if (vnode.componentOptions && Array.isArray(vnode.componentOptions.children)) {
-        return vnode.componentOptions.children
-          .map(function (c) {
-            return c.text || ''
+
+    //Helper
+    _parseSlotOptions() {
+      var slotDefault = this.$slots.default
+      var rawVnodes = typeof slotDefault === 'function' ? slotDefault() : slotDefault || []
+
+      // Vue 3 wraps slot content in a fragment vnode — flatten one level
+      var vnodes = []
+      for (var i = 0; i < rawVnodes.length; i++) {
+        var v = rawVnodes[i]
+        if (Array.isArray(v.children)) {
+          for (var j = 0; j < v.children.length; j++) vnodes.push(v.children[j])
+        } else {
+          vnodes.push(v)
+        }
+      }
+
+      var result = []
+      for (var k = 0; k < vnodes.length; k++) {
+        var vnode = vnodes[k]
+        var isOption = false
+        var isDivider = false
+        var isGroup = false
+        var props = {}
+        if (vnode.componentOptions && vnode.componentOptions.Ctor) {
+          // Vue 2
+          var ctorOpts = vnode.componentOptions.Ctor.options || {}
+          isOption = ctorOpts.name === 'SelectOption'
+          isDivider = ctorOpts.name === 'Divider'
+          isGroup = ctorOpts.name === 'SelectOptionGroup'
+          props = vnode.componentOptions.propsData || {}
+        } else if (vnode.type && typeof vnode.type === 'object') {
+          // Vue 3
+          isOption = vnode.type.name === 'SelectOption'
+          isDivider = vnode.type.name === 'Divider'
+          isGroup = vnode.type.name === 'SelectOptionGroup'
+          props = vnode.props || {}
+        }
+
+        if (isDivider) {
+          result.push({ type: 'divider', value: '__divider_' + k + '__', disabled: true })
+          continue
+        }
+
+        if (isGroup) {
+          var groupLabel = props.label
+          var groupIcon = this._normalizeIcon(props.icon)
+          if (groupLabel === undefined) {
+            var labelVnodes = null
+            // Vue 2: #label scoped slot
+            if (vnode.data && vnode.data.scopedSlots && vnode.data.scopedSlots['label']) {
+              try {
+                labelVnodes = vnode.data.scopedSlots['label']({})
+              } catch (_e) {
+                /* noop */
+              }
+            }
+            // Vue 3: children.label()
+            if (!labelVnodes) {
+              var lc3 = vnode.children
+              if (lc3 && typeof lc3 === 'object' && !Array.isArray(lc3) && typeof lc3.label === 'function') {
+                try {
+                  labelVnodes = lc3.label()
+                } catch (_e) {
+                  /* noop */
+                }
+              }
+            }
+            if (labelVnodes) {
+              var parsed = this._parseGroupLabel(labelVnodes)
+              groupLabel = parsed.label
+              groupIcon = parsed.icon
+            }
+          }
+          result.push({
+            type: 'group-header',
+            label: groupLabel || '',
+            icon: groupIcon,
+            value: '__group_' + k + '__',
+            disabled: true
           })
-          .join('')
-          .trim()
+
+          // Collect child vnodes of the group
+          var groupChildren = []
+          if (vnode.componentOptions && vnode.componentOptions.children) {
+            groupChildren = vnode.componentOptions.children
+          }
+          var gc3 = vnode.children
+          if (gc3 && typeof gc3 === 'object' && !Array.isArray(gc3) && typeof gc3.default === 'function') {
+            try {
+              groupChildren = gc3.default() || []
+            } catch (_e) {
+              /* noop */
+            }
+          }
+
+          for (var gi = 0; gi < groupChildren.length; gi++) {
+            var gvnode = groupChildren[gi]
+            var gIsOption = false
+            var gProps = {}
+            if (gvnode.componentOptions && gvnode.componentOptions.Ctor) {
+              gIsOption = (gvnode.componentOptions.Ctor.options || {}).name === 'SelectOption'
+              gProps = gvnode.componentOptions.propsData || {}
+            } else if (gvnode.type && typeof gvnode.type === 'object') {
+              gIsOption = gvnode.type.name === 'SelectOption'
+              gProps = gvnode.props || {}
+            }
+            if (gIsOption) result.push(this._parseOptionVnode(gvnode, gProps))
+          }
+          continue
+        }
+
+        if (!isOption) continue
+        result.push(this._parseOptionVnode(vnode, props))
       }
-      // Vue 3: text lives in children.default() as vnodes with string .children
-      if (vnode.children && typeof vnode.children.default === 'function') {
+      return result
+    },
+
+    _parseOptionVnode(vnode, props) {
+      var label = props.label
+      if (label === undefined) {
+        var slotChildren = []
+        if (vnode.componentOptions && vnode.componentOptions.children) {
+          slotChildren = vnode.componentOptions.children
+        }
+        var c3 = vnode.children
+        if (c3 && typeof c3 === 'object' && !Array.isArray(c3) && typeof c3.default === 'function') {
+          slotChildren = c3.default() || []
+        } else if (Array.isArray(c3)) {
+          slotChildren = c3
+        }
+        var slotText = ''
+        for (var si = 0; si < slotChildren.length; si++) {
+          var sn = slotChildren[si]
+          if (typeof sn.text === 'string') slotText += sn.text
+          if (typeof sn.children === 'string') slotText += sn.children
+        }
+        label = slotText.trim() || String(props.value)
+      }
+
+      var iconComponent = null
+      var iconProps = {}
+      if (vnode.data && vnode.data.scopedSlots && vnode.data.scopedSlots['prefix']) {
         try {
-          return vnode.children
-            .default()
-            .map(function (c) {
-              return typeof c.children === 'string' ? c.children : ''
-            })
-            .join('')
-            .trim()
-        } catch (e) {
-          return ''
+          var prefixNodes = vnode.data.scopedSlots['prefix']({})
+          var iconVnode = prefixNodes && prefixNodes[0]
+          if (iconVnode && iconVnode.componentOptions) {
+            iconComponent = iconVnode.componentOptions.Ctor
+            iconProps = iconVnode.data.attrs || {}
+          }
+        } catch (_e) {
+          /* noop */
         }
       }
-      return ''
+      if (!iconComponent) {
+        var c3icon = vnode.children
+        if (c3icon && typeof c3icon === 'object' && !Array.isArray(c3icon) && typeof c3icon.prefix === 'function') {
+          try {
+            var prefixNodes3 = c3icon.prefix()
+            var iconVnode3 = prefixNodes3 && prefixNodes3[0]
+            if (iconVnode3 && iconVnode3.type) {
+              iconComponent = iconVnode3.type
+              iconProps = iconVnode3.props || {}
+            }
+          } catch (_e) {
+            /* noop */
+          }
+        }
+      }
+      var slotIcon = iconComponent
+        ? {
+            component: iconComponent,
+            size: iconProps.size || 16,
+            color: iconProps.color || 'var(--muted-fg)',
+            strokeWidth: iconProps.strokeWidth || iconProps['stroke-width'] || 1.75,
+            fill: iconProps.fill || 'none'
+          }
+        : null
+
+      return {
+        label: label,
+        value: props.value,
+        disabled: !!props.disabled,
+        data: props,
+        icon: slotIcon || this._normalizeIcon(props.icon)
+      }
     },
-    _syncSlotLabels() {
-      const collect = nodes => {
-        if (!Array.isArray(nodes)) return
-        nodes.forEach(vnode => {
-          if (!vnode) return
-          const props = vnode.props || (vnode.componentOptions && vnode.componentOptions.propsData)
-          if (props && props.value != null) {
-            const label = props.label || this._slotText(vnode)
-            if (label) this.registerOption(String(props.value), String(label))
-          }
-          if (Array.isArray(vnode.children)) collect(vnode.children)
-          // Vue 2: slot content of component vnodes lives in componentOptions.children
-          if (vnode.componentOptions && Array.isArray(vnode.componentOptions.children)) {
-            collect(vnode.componentOptions.children)
-          }
-          // Vue 3: slot content lives in vnode.children as a slots object
-          if (
-            vnode.children &&
-            !Array.isArray(vnode.children) &&
-            typeof vnode.children === 'object' &&
-            typeof vnode.children.default === 'function'
-          ) {
-            try {
-              collect(vnode.children.default())
-            } catch (e) {
-              /* slot fn may throw */
+
+    _extractTextFromVnodes(vnodes) {
+      if (!vnodes) return ''
+      var text = ''
+      for (var i = 0; i < vnodes.length; i++) {
+        var n = vnodes[i]
+        if (typeof n.text === 'string') text += n.text
+        if (typeof n.children === 'string') text += n.children
+        if (Array.isArray(n.children)) text += this._extractTextFromVnodes(n.children)
+      }
+      return text.trim()
+    },
+
+    _parseGroupLabel(vnodes) {
+      if (!vnodes) return { label: '', icon: null }
+      var text = ''
+      var iconComponent = null
+      var iconProps = {}
+      var walk = function (nodes) {
+        for (var i = 0; i < nodes.length; i++) {
+          var n = nodes[i]
+          if (typeof n.text === 'string') text += n.text
+          if (typeof n.children === 'string') text += n.children
+          if (!iconComponent) {
+            // Vue 2 component vnode
+            if (n.componentOptions && n.componentOptions.Ctor) {
+              iconComponent = n.componentOptions.Ctor
+              iconProps = (n.data && n.data.attrs) || n.componentOptions.propsData || {}
+            } else if (n.type && typeof n.type === 'object' && n.type.name) {
+              // Vue 3 component vnode
+              iconComponent = n.type
+              iconProps = n.props || {}
             }
           }
+          if (Array.isArray(n.children)) walk(n.children)
+        }
+      }
+      walk(vnodes)
+      var icon = iconComponent
+        ? {
+            component: iconComponent,
+            size: iconProps.size || 16,
+            color: iconProps.color || 'var(--muted-fg)',
+            strokeWidth: iconProps.strokeWidth || iconProps['stroke-width'] || 1.75,
+            fill: iconProps.fill || 'none'
+          }
+        : null
+      return { label: text.trim(), icon: icon }
+    },
+
+    normalizeOption(opt, index) {
+      if (opt && opt.type === 'divider') {
+        return { type: 'divider', value: '__divider_' + index + '__', disabled: true }
+      }
+      if (opt && Array.isArray(opt.options)) {
+        var self = this
+        var header = {
+          type: 'group-header',
+          label: opt.label !== undefined ? String(opt.label) : '',
+          value: '__group_' + index + '__',
+          disabled: true,
+          icon: this._normalizeIcon(opt.icon)
+        }
+        var children = (opt.options || []).map(function (o, i) {
+          return self.normalizeOption(o, String(index) + '_' + i)
         })
+        return [header].concat(children)
       }
-      collect(this._slotNodes())
-    },
-    _findLabelInSlot(value) {
-      const scan = nodes => {
-        if (!Array.isArray(nodes)) return null
-        for (const vnode of nodes) {
-          if (!vnode) continue
-          const props = vnode.props || (vnode.componentOptions && vnode.componentOptions.propsData)
-          if (props && String(props.value) === String(value)) {
-            const label = props.label || this._slotText(vnode)
-            if (label) return String(label)
-          }
-          if (Array.isArray(vnode.children)) {
-            const found = scan(vnode.children)
-            if (found) return found
-          }
-          // Vue 2: recurse into component slot children
-          if (vnode.componentOptions && Array.isArray(vnode.componentOptions.children)) {
-            const found = scan(vnode.componentOptions.children)
-            if (found) return found
-          }
-          // Vue 3: recurse into component slot children
-          if (
-            vnode.children &&
-            !Array.isArray(vnode.children) &&
-            typeof vnode.children === 'object' &&
-            typeof vnode.children.default === 'function'
-          ) {
-            try {
-              const found = scan(vnode.children.default())
-              if (found) return found
-            } catch (e) {
-              /* slot fn may throw */
-            }
-          }
-        }
-        return null
+      if (typeof opt === 'string' || typeof opt === 'number') {
+        return { label: String(opt), value: opt, disabled: false, data: opt }
       }
-      return scan(this._slotNodes())
-    },
-    expandColumn(depth, ownerValue, children) {
-      var existing = this.expandedColumns[depth]
-      if (existing && existing.ownerValue === ownerValue) {
-        this.expandedColumns = this.expandedColumns.slice(0, depth)
-      } else {
-        this.expandedColumns = this.expandedColumns.slice(0, depth).concat([
-          {
-            ownerValue: ownerValue,
-            children: children || []
-          }
-        ])
+      return {
+        label: opt.label !== undefined ? opt.label : String(opt.value),
+        value: opt.value,
+        disabled: !!opt.disabled,
+        data: opt,
+        icon: this._normalizeIcon(opt.icon)
       }
     },
-    openColumn(depth, ownerValue, children) {
-      var existing = this.expandedColumns[depth]
-      if (existing && existing.ownerValue === ownerValue) return
-      this.expandedColumns = this.expandedColumns.slice(0, depth).concat([
-        {
-          ownerValue: ownerValue,
-          children: children || []
-        }
-      ])
+
+    _normalizeIcon(icon) {
+      if (!icon || !icon.component) return null
+      return {
+        component: icon.component,
+        size: icon.size || 16,
+        color: icon.color || 'var(--muted-fg)',
+        strokeWidth: icon.strokeWidth || 1.75,
+        fill: icon.fill || 'none'
+      }
     }
   }
 }
 </script>
-
-<style src="./select.css" scoped></style>

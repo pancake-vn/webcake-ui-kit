@@ -1,0 +1,103 @@
+.ui-select-tree__list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: var(--spacing-2xs);
+  flex: 1;
+}
+
+.ui-select-tree__list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ui-select-tree__list::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+  border-radius: 3px;
+}
+
+.ui-select-tree__list ::v-deep .ui-menuitem__prefix {
+  gap: var(--spacing-xs);
+  overflow: visible;
+}
+
+.ui-select-tree__list .ui-select-tree__option {
+  display: flex;
+  align-items: center;
+}
+
+.ui-select-tree__list .ui-select-tree__option .ui-menuitem {
+  flex: 1;
+}
+
+.ui-select-tree__indent-wrapper {
+  display: flex;
+  padding-left: var(--spacing-xs);
+  gap: var(--spacing-xs);
+  align-self: stretch;
+}
+
+.ui-select-tree__indent {
+  flex-shrink: 0;
+  display: inline-block;
+  height: 100%;
+  width: 20px;
+  position: relative;
+}
+
+.ui-select-tree__indent--lg {
+  width: 28px;
+}
+
+.ui-select-tree__indent--sm {
+  width: 16px;
+}
+
+.ui-select-tree__indent .ui-divider {
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ui-select-tree__switcher {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--muted-fg);
+  cursor: pointer;
+}
+
+.ui-select-tree__list .ui-select-tree__option .ui-menuitem--sm .ui-select-tree__switcher {
+  width: 16px;
+  height: 16px;
+}
+
+.ui-select-tree__switcher-icon {
+  transition: transform 0.15s ease;
+}
+
+.ui-select-tree__switcher-icon--open {
+  transform: rotate(90deg);
+}
+
+.ui-select-tree__checkbox {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  /* Checkbox chỉ là hiển thị — click được xử lý ở cấp node */
+  pointer-events: none;
+}
+
+.ui-select-tree__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  color: var(--muted-fg);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+}

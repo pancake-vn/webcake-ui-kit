@@ -104,7 +104,24 @@ export default {
           const rowIndex = evt.oldIndex - offset
           self.tableContext.draggable.draggingRecord = self.tableContext.data.display[rowIndex] || null
         },
-        setData: function (dataTransfer, dragEl) {
+        onStart: function (evt) {
+          // Track horizontal pointer travel to project tree depth (nest / outdent).
+          self._dragStartX = evt.originalEvent && evt.originalEvent.clientX != null ? evt.originalEvent.clientX : null
+          self._dragCurX = self._dragStartX
+        },
+        onMove: function (evt, originalEvent) {
+          var x = null
+          if (originalEvent) {
+            if (originalEvent.clientX != null) x = originalEvent.clientX
+            else if (originalEvent.touches && originalEvent.touches[0]) x = originalEvent.touches[0].clientX
+          }
+          if (x != null) {
+            if (self._dragStartX == null) self._dragStartX = x
+            self._dragCurX = x
+          }
+          return true
+        },
+        setData: function (dataTransfer, _dragEl) {
           let previewEl =
             typeof self.tableContext.draggable.getPreviewEl === 'function'
               ? self.tableContext.draggable.getPreviewEl()
@@ -118,9 +135,12 @@ export default {
           evt.from.insertBefore(evt.item, evt.from.children[evt.oldIndex] || null)
           const oldIndex = evt.oldIndex - offset
           const newIndex = evt.newIndex - offset
+          const dragOffset = self._dragStartX != null && self._dragCurX != null ? self._dragCurX - self._dragStartX : 0
+          self._dragStartX = null
+          self._dragCurX = null
           if (oldIndex === newIndex) return
           if (typeof self.tableContext.actions.reorder === 'function') {
-            self.tableContext.actions.reorder(oldIndex, newIndex)
+            self.tableContext.actions.reorder(oldIndex, newIndex, dragOffset)
           }
         }
       })

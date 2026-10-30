@@ -304,7 +304,6 @@ export const FileUploadDemo = () => ({
   },
   methods: {
     startUpload: function (file) {
-      var self = this
       var progress = 0
       // Cancel any previous upload for the same file
       if (file._iv) {

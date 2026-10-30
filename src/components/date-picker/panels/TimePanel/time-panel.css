@@ -1,0 +1,72 @@
+.ui-dp-time-panel {
+  display: flex;
+  height: 293px;
+  font-family: var(--font-family-body);
+}
+
+/* Each part (hour/minute/second) scrolls independently. */
+.ui-dp-time-panel__col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: var(--spacing-3xs);
+  overflow-y: hidden;
+  overflow-x: hidden;
+  padding: var(--spacing-xs);
+  padding-right: calc(var(--spacing-xs) - 6px);
+  scrollbar-gutter: stable;
+}
+
+.ui-dp-time-panel__col:hover {
+  overflow-y: auto;
+}
+
+.ui-dp-time-panel__col + .ui-dp-time-panel__col {
+  border-left: 1px solid var(--border-primary);
+}
+
+.ui-dp-time-panel__col::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.ui-dp-time-panel__col::-webkit-scrollbar-thumb {
+  background: var(--accent-2);
+  border-radius: 999px;
+  border: 0 solid transparent;
+  background-clip: padding-box;
+}
+
+.ui-dp-time-panel__item {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius);
+  color: var(--primary-fg);
+  text-align: center;
+  font-size: var(--paragraph-small-font-size);
+  font-family: var(--font-family-body);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+}
+
+.ui-dp-time-panel__item:hover:not(.is-disabled):not(.is-selected) {
+  background: var(--accent-1);
+}
+
+.ui-dp-time-panel__item.is-selected {
+  background: var(--primary-brand-bg);
+  color: var(--inverse-fg);
+}
+
+.ui-dp-time-panel__item.is-disabled,
+.ui-dp-time-panel__item:disabled {
+  color: var(--muted-fg);
+  cursor: not-allowed;
+}

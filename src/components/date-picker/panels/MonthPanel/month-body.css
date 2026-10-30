@@ -1,0 +1,53 @@
+/* 12 months — 3 columns × 4 rows. */
+.ui-dp-month-body {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-2xs);
+  padding-top: var(--spacing-2xs);
+  min-width: 252px;
+  font-family: var(--font-family-body);
+}
+
+.ui-dp-month-body__cell {
+  height: 40px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--rounded-md);
+  font-family: inherit;
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--primary-fg);
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.ui-dp-month-body__cell:hover:not(:disabled):not(.is-selected) {
+  background: var(--accent-1);
+}
+
+.ui-dp-month-body__cell.is-current {
+  box-shadow: inset 0 0 0 1px var(--border-brand);
+}
+
+.ui-dp-month-body__cell.is-selected {
+  background: var(--primary-brand-bg);
+  color: var(--inverse-fg);
+}
+
+.ui-dp-month-body__cell.is-selected.is-current {
+  box-shadow: none;
+}
+
+.ui-dp-month-body__cell.is-disabled,
+.ui-dp-month-body__cell:disabled {
+  color: var(--muted-fg);
+  cursor: not-allowed;
+  background: transparent;
+}
+
+.ui-dp-month-body__cell:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}

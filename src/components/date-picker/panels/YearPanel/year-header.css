@@ -1,0 +1,16 @@
+.ui-dp-year-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: 32px;
+  font-family: var(--font-family-body);
+}
+
+.ui-dp-year-header__label {
+  flex: 1;
+  text-align: center;
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  font-weight: 500;
+  color: var(--primary-fg);
+}

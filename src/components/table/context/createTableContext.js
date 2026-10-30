@@ -43,9 +43,9 @@ export function createTableContext() {
       columnWidth: 0,
       type: '',
       checkAll: false,
-      onChange: (selectedRowKeys, selectedRows) => {},
-      onSelect: (ecord, selected, selectedRows, nativeEvent) => {},
-      onSelectAll: (selected, selectedRows, changeRows) => {},
+      onChange: (_selectedRowKeys, _selectedRows) => {},
+      onSelect: (_ecord, _selected, _selectedRows, _nativeEvent) => {},
+      onSelectAll: (_selected, _selectedRows, _changeRows) => {},
       onSelectNone: () => {}
     },
 
@@ -53,7 +53,7 @@ export function createTableContext() {
       enabled: false,
       enableAnimationFlip: false,
       columnWidth: 0,
-      handleReorder: (fromIndex, toIndex, dataSource) => {},
+      handleReorder: (_fromIndex, _toIndex, _dataSource) => {},
       draggingRecord: null,
       getPreviewEl: null
     },
@@ -68,6 +68,12 @@ export function createTableContext() {
       startIndex: 0,
       endIndex: 0,
       offsetY: 0
+    },
+
+    tree: {
+      childrenField: null,
+      expandedKeys: [],
+      indentSize: 28
     },
 
     actions: {

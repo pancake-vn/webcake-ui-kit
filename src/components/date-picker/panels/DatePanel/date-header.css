@@ -1,0 +1,66 @@
+.ui-dp-date-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-family-body);
+  justify-content: space-between;
+}
+
+.ui-dp-date-header__nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--rounded-md);
+  color: var(--secondary-fg);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.ui-dp-date-header__nav:hover:not(:disabled) {
+  background: var(--accent-1);
+  color: var(--primary-fg);
+}
+
+.ui-dp-date-header__nav:disabled {
+  color: var(--muted-fg);
+  cursor: not-allowed;
+}
+
+.ui-dp-date-header__label {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2xs);
+}
+
+.ui-dp-date-header__values {
+  flex: 1;
+}
+
+.ui-dp-date-header__values p {
+  color: var(--primary-fg);
+  text-align: center;
+
+  /* paragraph small/regular */
+  font-size: var(--paragraph-small-font-size);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--paragraph-small-line-height);
+}
+
+.ui-dp-date-header__values p span:hover {
+  color: var(--primary-brand-fg);
+  cursor: pointer;
+}
+
+/* .ui-dp-date-header__month-btn:hover,
+.ui-dp-date-header__year-btn:hover {
+  background: var(--accent-1);
+} */

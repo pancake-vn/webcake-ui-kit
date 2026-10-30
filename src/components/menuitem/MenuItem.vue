@@ -10,11 +10,14 @@
     :title="label"
     @click.stop="handleClick"
   >
-    <span v-if="$slots.prefix" class="ui-menuitem__prefix">
+    <span v-if="_hasSlotContent('prefix')" class="ui-menuitem__prefix">
       <slot name="prefix"></slot>
     </span>
-    <span class="ui-menuitem__label">{{ label }}</span>
-    <span v-if="$slots.suffix" class="ui-menuitem__suffix">
+    <div class="ui-menuitem__wrapper">
+      <span class="ui-menuitem__label">{{ label }}</span>
+      <span v-if="description" class="ui-menuitem__description">{{ description }}</span>
+    </div>
+    <span v-if="_hasSlotContent('suffix')" class="ui-menuitem__suffix">
       <slot name="suffix"></slot>
     </span>
   </div>
@@ -48,6 +51,10 @@ export default {
       type: String,
       required: true
     },
+    description: {
+      type: String,
+      default: ''
+    },
     size: {
       type: String,
       default: 'md',
@@ -64,6 +71,20 @@ export default {
       if (!this.disabled) {
         this.$emit('click', this.value)
       }
+    },
+
+    _hasSlotContent(name) {
+      var slot = this.$slots[name]
+      if (!slot) return false
+      var nodes = typeof slot === 'function' ? slot() : slot
+      if (!Array.isArray(nodes) || !nodes.length) return false
+      return nodes.some(function (n) {
+        if (!n) return false
+        if (n.tag) return true
+        if (typeof n.text === 'string' && n.text.trim()) return true
+        if (n.type !== undefined && typeof n.type !== 'symbol') return true
+        return false
+      })
     }
   }
 }

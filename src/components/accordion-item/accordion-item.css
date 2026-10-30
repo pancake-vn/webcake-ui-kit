@@ -14,13 +14,13 @@
 
 .ui-accordion-item--bordered:last-child {
   border-bottom: 1px solid var(--border-primary);
-  border-bottom-left-radius: var(--rounded-3xl);
-  border-bottom-right-radius: var(--rounded-3xl);
+  border-bottom-left-radius: var(--rounded-xl);
+  border-bottom-right-radius: var(--rounded-xl);
 }
 
 .ui-accordion-item--bordered:first-child {
-  border-top-left-radius: var(--rounded-3xl);
-  border-top-right-radius: var(--rounded-3xl);
+  border-top-left-radius: var(--rounded-xl);
+  border-top-right-radius: var(--rounded-xl);
 }
 
 .ui-accordion-item--disabled {

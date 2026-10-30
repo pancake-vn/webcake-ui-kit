@@ -27,7 +27,6 @@
 .ui-menu__content {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2xs);
   overflow-y: auto;
   border-radius: var(--rounded-lg);
 }

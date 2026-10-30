@@ -20,13 +20,31 @@
       </span>
     </div>
 
-    <slot
-      v-if="!isSelectionCol && !isDraggableCol"
-      name="bodyCell"
-      :column="column"
-      :text="record[column.dataIndex]"
-      :record="record"
-    >
+    <div v-else-if="isFirstDataCol && isTreeTable" class="ui-table__tree-cell">
+      <div class="ui-table__expand-indent-wrapper">
+        <span
+          v-for="i in record.__indent__"
+          class="ui-table__expand-indent"
+          :key="i"
+          :style="{ width: indentSize + 'px' }"
+        />
+        <Button v-if="treeHasChildren" variant="ghost" size="mini" @click.stop="onToggleExpand">
+          <template #icon>
+            <WkiChevronRight
+              :size="14"
+              :class="['ui-table__expand-icon', isExpanded && 'ui-table__expand-icon--open']"
+            />
+          </template>
+        </Button>
+      </div>
+      <slot name="bodyCell" :column="column" :text="record[column.dataIndex]" :record="record">
+        <span :class="[column.ellipsis && 'ui-table__cell--ellipsis']">
+          {{ record[column.dataIndex] }}
+        </span>
+      </slot>
+    </div>
+
+    <slot v-else name="bodyCell" :column="column" :text="record[column.dataIndex]" :record="record">
       <span :class="[column.ellipsis && 'ui-table__cell--ellipsis']">
         {{ record[column.dataIndex] }}
       </span>
@@ -36,13 +54,15 @@
 
 <script>
 import Checkbox from '../../checkbox/Checkbox.vue'
+import Button from '../../button/Button.vue'
 import { SELECTION_COLUMN, DRAGGABLE_COLUMN } from '../constants.js'
 import { toCssSize } from '../../../utils/common.js'
 import { WkiGripVertical } from '../../../icons'
+import WkiChevronRight from '../../../icons/ChevronRight.vue'
 
 export default {
   name: 'TableCell',
-  components: { Checkbox, WkiGripVertical },
+  components: { Checkbox, WkiGripVertical, WkiChevronRight, Button },
   inject: ['tableContext'],
   props: {
     column: { type: Object, required: true },
@@ -55,6 +75,25 @@ export default {
     },
     isDraggableCol: function () {
       return this.column.type === DRAGGABLE_COLUMN
+    },
+    isTreeTable: function () {
+      return !!this.tableContext.tree.childrenField
+    },
+    isFirstDataCol: function () {
+      var cols = this.tableContext.columns.flat
+      for (var i = 0; i < cols.length; i++) {
+        if (cols[i].type !== SELECTION_COLUMN && cols[i].type !== DRAGGABLE_COLUMN) {
+          return cols[i].key === this.column.key
+        }
+      }
+      return false
+    },
+    treeHasChildren: function () {
+      return !!this.record.__hasChildren__
+    },
+    isExpanded: function () {
+      if (!this.isTreeTable) return false
+      return this.tableContext.tree.expandedKeys.indexOf(String(this.record.__key__)) !== -1
     },
     isLastFixedLeft: function () {
       if (this.column.fixed !== 'left') return false
@@ -72,6 +111,9 @@ export default {
         if (cols[i].fixed === 'right') return cols[i].key === this.column.key
       }
       return false
+    },
+    indentSize: function () {
+      return this.tableContext.tree.indentSize || 28
     },
     isSelected: function () {
       var key = this.record[this.tableContext.layout.rowKey]
@@ -108,6 +150,11 @@ export default {
         selected: checked,
         nativeEvent: nativeEvent
       })
+    },
+    onToggleExpand: function () {
+      if (typeof this.tableContext.actions.expand === 'function') {
+        this.tableContext.actions.expand(this.record.__key__)
+      }
     }
   }
 }

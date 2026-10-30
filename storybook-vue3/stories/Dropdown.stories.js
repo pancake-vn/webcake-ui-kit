@@ -19,8 +19,18 @@ const ITEMS_BASIC = [
 ]
 
 const ITEMS_RICH = [
-  { key: 'copy', label: 'Copy', extra: '⌘C', icon: WkiSquareNumber },
-  { key: 'paste', label: 'Paste', extra: '⌘V', icon: WkiSquareNumber },
+  {
+    key: 'copy',
+    label: 'Copy',
+    extra: '⌘C',
+    icon: { component: WkiSquareNumber, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' }
+  },
+  {
+    key: 'paste',
+    label: 'Paste',
+    extra: '⌘V',
+    icon: { component: WkiSquareNumber, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' }
+  },
   { key: 'divider-1', type: 'divider' },
   {
     key: 'export',
@@ -287,8 +297,7 @@ export const ItemSchema = () => ({
           type: 'item',
           label: 'Copy',
           title: 'Copy item to clipboard',
-          icon: WkiCopy,
-          colorIcon: 'var(--primary-fg)',
+          icon: { component: WkiCopy, size: 16, color: 'var(--primary-fg)', strokeWidth: 1.75, fill: 'none' },
           extra: '⌘C'
         },
         {
@@ -296,8 +305,7 @@ export const ItemSchema = () => ({
           type: 'item',
           label: 'Download',
           title: 'Download file',
-          icon: WkiDownload,
-          colorIcon: '#6366f1',
+          icon: { component: WkiDownload, size: 16, color: '#6366f1', strokeWidth: 1.75, fill: 'none' },
           color: '#6366f1',
           extra: '⌘S'
         },
@@ -305,8 +313,7 @@ export const ItemSchema = () => ({
           key: 'edit-action',
           type: 'item',
           label: 'Edit (disabled)',
-          icon: WkiPencil,
-          colorIcon: 'var(--muted-fg)',
+          icon: { component: WkiPencil, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' },
           disabled: true
         },
         { key: 'divider-1', type: 'divider' },
@@ -315,14 +322,23 @@ export const ItemSchema = () => ({
           type: 'group',
           label: 'Export as',
           children: [
-            { key: 'export-png', label: 'PNG', extra: '.png', icon: WkiFile, colorIcon: 'var(--muted-fg)' },
-            { key: 'export-svg', label: 'SVG', extra: '.svg', icon: WkiFile, colorIcon: 'var(--muted-fg)' },
+            {
+              key: 'export-png',
+              label: 'PNG',
+              extra: '.png',
+              icon: { component: WkiFile, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' }
+            },
+            {
+              key: 'export-svg',
+              label: 'SVG',
+              extra: '.svg',
+              icon: { component: WkiFile, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' }
+            },
             {
               key: 'export-pdf',
               label: 'PDF (disabled)',
               extra: '.pdf',
-              icon: WkiFile,
-              colorIcon: 'var(--muted-fg)',
+              icon: { component: WkiFile, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' },
               disabled: true
             }
           ]
@@ -331,11 +347,14 @@ export const ItemSchema = () => ({
         {
           key: 'share-submenu',
           label: 'Share with',
-          icon: WkiUser,
-          colorIcon: 'var(--muted-fg)',
+          icon: { component: WkiUser, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' },
           children: [
             { key: 'share-link', label: 'Copy link', extra: '⌘L' },
-            { key: 'share-settings', label: 'Manage access', icon: WkiSettings, colorIcon: 'var(--muted-fg)' }
+            {
+              key: 'share-settings',
+              label: 'Manage access',
+              icon: { component: WkiSettings, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' }
+            }
           ]
         },
         { key: 'divider-3', type: 'divider' },
@@ -344,8 +363,7 @@ export const ItemSchema = () => ({
           type: 'item',
           label: 'Xóa dữ liệu',
           title: 'Xóa dữ liệu khỏi hệ thống',
-          icon: WkiTrash,
-          colorIcon: '#ff0000',
+          icon: { component: WkiTrash, size: 16, color: '#ff0000', strokeWidth: 1.75, fill: 'none' },
           color: '#ff0000',
           destructive: true,
           disabled: false,
@@ -381,14 +399,19 @@ Every field accepted by an item object:
   type: 'item',           // 'item' (default) | 'divider' | 'group'
   label: 'Xóa dữ liệu',  // display text
   title: 'Tooltip text',  // native title attribute (hover tooltip)
-  icon: TrashIcon,        // Vue component — rendered via <component :is>
-  colorIcon: '#ff0000',   // color prop forwarded to the icon component
+  icon: {                 // icon object
+    component: TrashIcon, // Vue component — rendered via <component :is>
+    size: 16,             // icon size (px)
+    color: '#ff0000',     // icon color
+    strokeWidth: 1.75,    // stroke width
+    fill: 'none',         // fill
+  },
   color: '#ff0000',       // CSS color applied to the label text
   destructive: true,      // adds --destructive modifier (red theme)
   disabled: false,        // prevents click + grays out the row
   extra: '⌘ + D',         // right-aligned shortcut / badge text
   children: []            // type 'group' → flat labeled section;
-                          // no type → indented submenu block
+                          // no type → submenu panel (chevron added automatically)
 }
 \`\`\`
       `.trim()
@@ -418,6 +441,236 @@ Sizes.parameters = {
       story:
         '`size` (`sm` · `md` · `lg`) controls the density of the menu items (via `DropdownMenuItems`). ' +
         'Click a trigger to open the menu and compare row heights.'
+    }
+  }
+}
+
+export const WithSubmenu = () => ({
+  components: { WkDropdown, WkButton },
+  data() {
+    return {
+      selected: null,
+      items: [
+        { key: 'new-file', label: 'New file', extra: '⌘N' },
+        { key: 'open', label: 'Open...', extra: '⌘O' },
+        {
+          key: 'open-recent',
+          label: 'Open recent',
+          icon: { component: WkiFile, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' },
+          children: [
+            { key: 'recent-1', label: 'design-system.fig' },
+            { key: 'recent-2', label: 'landing-page.fig' },
+            { key: 'recent-3', label: 'mobile-app.fig' }
+          ]
+        },
+        { key: 'divider-1', type: 'divider' },
+        {
+          key: 'export',
+          label: 'Export as',
+          icon: { component: WkiDownload, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' },
+          children: [
+            { key: 'export-png', label: 'PNG', extra: '.png' },
+            { key: 'export-svg', label: 'SVG', extra: '.svg' },
+            { key: 'export-pdf', label: 'PDF', extra: '.pdf' }
+          ]
+        },
+        { key: 'divider-2', type: 'divider' },
+        {
+          key: 'share',
+          label: 'Share with',
+          icon: { component: WkiUser, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' },
+          children: [
+            { key: 'share-link', label: 'Copy link', extra: '⌘L' },
+            {
+              key: 'share-access',
+              label: 'Manage access',
+              icon: { component: WkiSettings, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  methods: {
+    onSelect(key) {
+      this.selected = key
+    }
+  },
+  template: `
+    <div style="padding: 40px;">
+      <WkDropdown :items="items" @select="onSelect" width="auto">
+        <WkButton variant="outline">
+          File {{ selected ? '→ ' + selected : '' }}
+        </WkButton>
+      </WkDropdown>
+    </div>
+  `
+})
+WithSubmenu.parameters = {
+  docs: {
+    description: {
+      story: `
+An item with \`children\` but **no \`type\`** becomes a submenu — clicking it opens a nested panel to the side. A chevron is rendered automatically.
+
+Compare with \`type: "group"\` (children are shown inline as a flat labeled section, no click needed).
+
+\`\`\`js
+// Submenu — click to open a nested panel
+{
+  key: 'export',
+  label: 'Export as',
+  icon: { component: DownloadIcon, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' },
+  children: [
+    { key: 'export-png', label: 'PNG' },
+    { key: 'export-svg', label: 'SVG' },
+  ]
+}
+
+// Group — children rendered flat under a label header (no click)
+{
+  key: 'export-group',
+  type: 'group',
+  label: 'Export as',
+  children: [
+    { key: 'export-png', label: 'PNG' },
+    { key: 'export-svg', label: 'SVG' },
+  ]
+}
+\`\`\`
+      `.trim()
+    }
+  }
+}
+
+export const WithDescription = () => ({
+  components: { WkDropdown, WkButton },
+  data() {
+    return {
+      selected: null,
+      items: [
+        {
+          key: 'profile',
+          label: 'Profile',
+          description: 'View and edit your personal info',
+          icon: { component: WkiUser, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' }
+        },
+        {
+          key: 'settings',
+          label: 'Settings',
+          description: 'Manage preferences and integrations',
+          icon: { component: WkiSettings, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' }
+        },
+        { key: 'divider-1', type: 'divider' },
+        {
+          key: 'delete',
+          label: 'Delete account',
+          description: 'Permanently remove your account and data',
+          icon: { component: WkiTrash, size: 16, color: '#ef4444', strokeWidth: 1.75, fill: 'none' },
+          destructive: true
+        }
+      ]
+    }
+  },
+  methods: {
+    onSelect(key) {
+      this.selected = key
+    }
+  },
+  template: `
+    <div style="padding: 40px;">
+      <WkDropdown :items="items" @select="onSelect">
+        <WkButton variant="outline">
+          Account {{ selected ? '→ ' + selected : '' }}
+        </WkButton>
+      </WkDropdown>
+    </div>
+  `
+})
+WithDescription.parameters = {
+  docs: {
+    description: {
+      story: `
+Add a \`description\` field to any item to show a secondary line of text below the label.
+Useful for actions that need extra context.
+
+\`\`\`js
+{
+  key: 'settings',
+  label: 'Settings',
+  description: 'Manage preferences and integrations',
+  icon: { component: SettingsIcon, size: 16, color: 'var(--muted-fg)', strokeWidth: 1.75, fill: 'none' }
+}
+\`\`\`
+      `.trim()
+    }
+  }
+}
+
+export const WithGroupHeader = () => ({
+  components: { WkDropdown, WkButton },
+  data() {
+    return {
+      selected: null,
+      items: [
+        {
+          key: 'text-group',
+          type: 'group',
+          label: 'Text',
+          children: [
+            { key: 'bold', label: 'Bold', extra: '⌘B' },
+            { key: 'italic', label: 'Italic', extra: '⌘I' },
+            { key: 'underline', label: 'Underline', extra: '⌘U' }
+          ]
+        },
+        { key: 'divider-1', type: 'divider' },
+        {
+          key: 'align-group',
+          type: 'group',
+          label: 'Alignment',
+          children: [
+            { key: 'align-left', label: 'Left' },
+            { key: 'align-center', label: 'Center' },
+            { key: 'align-right', label: 'Right' }
+          ]
+        }
+      ]
+    }
+  },
+  methods: {
+    onSelect(key) {
+      this.selected = key
+    }
+  },
+  template: `
+    <div style="padding: 40px;">
+      <WkDropdown :items="items" @select="onSelect">
+        <WkButton variant="outline">
+          Format {{ selected ? '→ ' + selected : '' }}
+        </WkButton>
+      </WkDropdown>
+    </div>
+  `
+})
+WithGroupHeader.parameters = {
+  docs: {
+    description: {
+      story: `
+\`type: "group"\` renders a non-clickable section label with its children listed flat below it (no indentation, no chevron).
+Use this for categorising related actions within the same menu level.
+
+\`\`\`js
+{
+  key: 'text-group',
+  type: 'group',
+  label: 'Text',
+  children: [
+    { key: 'bold',      label: 'Bold',      extra: '⌘B' },
+    { key: 'italic',    label: 'Italic',    extra: '⌘I' },
+    { key: 'underline', label: 'Underline', extra: '⌘U' },
+  ]
+}
+\`\`\`
+      `.trim()
     }
   }
 }
