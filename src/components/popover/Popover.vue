@@ -19,6 +19,8 @@
       <span
         :ref="triggerRef"
         class="ui-popover__anchor"
+        :class="triggerClass"
+        :style="triggerStyle"
         @click="triggerHasClick && toggle()"
         @mouseenter="triggerHasHover && handleMouseEnter()"
         @mouseleave="triggerHasHover && handleMouseLeave()"
@@ -80,7 +82,9 @@ export default {
     anchorWidth: { type: Boolean, default: false },
     width: { type: [String, Number], default: null },
     overlayClassName: { type: [String, Array, Object], default: null },
-    overlayStyle: { type: [Object, Array], default: null }
+    overlayStyle: { type: [Object, Array], default: null },
+    triggerClass: { type: [String, Array, Object], default: null },
+    triggerStyle: { type: [String, Object, Array], default: null }
   },
   emits: ['change', 'update:modelValue', 'open', 'close'],
   data() {

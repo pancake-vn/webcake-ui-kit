@@ -126,6 +126,14 @@ export default {
     }
   },
 
+  created: function () {
+    this.syncOpenParentKey()
+  },
+
+  watch: {
+    value: 'syncOpenParentKey'
+  },
+
   computed: {
     normalizedItems() {
       var result = []
@@ -187,6 +195,33 @@ export default {
         return
       }
       this.$emit('select', item.key)
+    },
+    containsValueDeep: function (items, values) {
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i]
+        if (values.indexOf(item.key) !== -1) return true
+        if (item.children && item.children.length) {
+          if (this.containsValueDeep(item.children, values)) return true
+        }
+      }
+      return false
+    },
+    syncOpenParentKey: function () {
+      if (this.value === null || this.value === undefined) return
+      var values = Array.isArray(this.value) ? this.value : [this.value]
+      var self = this
+      var found = null
+      this.normalizedItems.forEach(function (item) {
+        if (found !== null) return
+        if (item.children && item.children.length) {
+          if (self.containsValueDeep(item.children, values)) {
+            found = item.key
+          }
+        }
+      })
+      if (found !== null) {
+        this.openParentKey = found
+      }
     }
   }
 }

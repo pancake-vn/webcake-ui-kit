@@ -45,7 +45,7 @@
           size="xs"
           class="flsdfsdfsdf"
         >
-          <WkSelectOption v-for="(option, idx) in fonts" :value="option" :key="idx" :label="option">
+          <WkSelectOption v-for="(option, idx) in fieldOptions" :value="option.value" :key="idx" :label="option.label">
             <template #prefix>
               <div>
                 <img
@@ -54,7 +54,7 @@
                 />
               </div>
             </template>
-            <span class="font-select__option" :style="{ fontFamily: option }">{{ option }}</span>
+            {{ option.label }}
           </WkSelectOption>
           <template #icon>
             <WkiSettings :size="16" color="red" />

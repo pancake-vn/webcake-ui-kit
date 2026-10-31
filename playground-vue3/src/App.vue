@@ -45,7 +45,7 @@
           class="dslflsdfkdskfsdkf"
         >
           <WkSelectOption v-for="(font, idx) in fonts" :value="font" :label="font" :key="idx">
-            <span class="font-select__option" :style="{ fontFamily: font }">{{ font }}</span>
+            {{ font }}
           </WkSelectOption>
           <template #icon>
             <WkiMinus :size="12" />
@@ -2168,26 +2168,31 @@ export default {
                 size: 16,
                 color: 'red'
               },
-              description: 'Product details to show on sales channels'
-              // blockWidth: 200,
-              // children: [
-              //   { key: 'edit', label: 'test', icon: WkiChessBishop, children: [{ key: 'edit', label: 'test', icon: WkiChessBishop, children: [] }] },
-              //   { key: 'delete', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'delete2', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'delete3', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'delete4', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'delete5', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'delete6', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'delete7', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'delete8', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'delete9', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'delete88', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'deleteưer', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'deletưere', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'deletửe', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'deletưerwe', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              //   { key: 'deletewrewe', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
-              // ]
+              description: 'Product details to show on sales channels',
+              blockWidth: 200,
+              children: [
+                {
+                  key: 'edit',
+                  label: 'test',
+                  icon: WkiChessBishop,
+                  children: [{ key: 'edit', label: 'test', icon: WkiChessBishop, children: [] }]
+                },
+                { key: 'delete', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'delete2', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'delete3', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'delete4', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'delete5', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'delete6', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'delete7', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'delete8', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'delete9', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'delete88', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'deleteưer', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'deletưere', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'deletửe', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'deletưerwe', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' },
+                { key: 'deletewrewe', label: 'deeeeeeee', destructive: true, colorIcon: 'var(--destructive)' }
+              ]
             },
             {
               key: 'delete',
