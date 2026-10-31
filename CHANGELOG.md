@@ -4,6 +4,24 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.25] - 2026-10-31
+
+### Added
+- `WkSelect` and `WkSelectTree` accept new `placement`, `overlayWidth`, `overlayClassName`, and `overlayStyle` props to control their dropdown panel's position, size, and styling.
+- `WkMenuItem` accepts a new `label` slot for overriding its default label content.
+
+### Changed
+- `WkSelect`'s option `prefix` and label slot content is now rendered directly inside the dropdown list and trigger, instead of only extracting a single leading icon.
+- `WkSelect` and `WkSelectTree` no longer show a check icon next to the selected option by default.
+- `WkDropdown` item icons now default to a size based on the dropdown's `size` prop (16px for `sm`/`md`, 20px otherwise) instead of a fixed size.
+- `WkMenuItem`'s active and small-size text styling now applies to the label only, instead of the entire item.
+- `WkSelect` and `WkSelectTree` tags in multiple-select mode now wrap onto multiple lines instead of overflowing the trigger.
+
+### Fixed
+- `WkSelect`'s `listHeight` prop now actually constrains the dropdown list's maximum height; previously it had no effect.
+- `WkSelect` and `WkSelectTree` now forward attributes and classes bound on the component to their trigger element, instead of dropping them.
+- `WkSelect`'s search input text now truncates with an ellipsis instead of overflowing when it exceeds the available width.
+
 ## [1.3.24] - 2026-10-30
 
 ### Added
