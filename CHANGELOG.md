@@ -4,6 +4,17 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.26] - 2026-10-31
+
+### Added
+- `WkDropdown`, `WkPopover`, and `WkHoverCard` accept new `triggerClass` and `triggerStyle` props to style their trigger anchor element.
+
+### Changed
+- `WkDropdown` nested submenus now automatically open the parent item leading to the currently selected value.
+
+### Fixed
+- `WkSelect`'s custom default slot content no longer gets ignored in Vue 2 when it contains plain text instead of an element.
+
 ## [1.3.25] - 2026-10-31
 
 ### Added
