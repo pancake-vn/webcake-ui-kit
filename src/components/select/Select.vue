@@ -383,8 +383,11 @@ export default {
       // Vue 2: default slot là array tĩnh → wrap thành function
       if (vnode.componentOptions && vnode.componentOptions.children && vnode.componentOptions.children.length) {
         var v2label = vnode.componentOptions.children
-        labelFn = function () {
-          return v2label
+
+        if (v2label.length && v2label[0].tag) {
+          labelFn = function () {
+            return v2label
+          }
         }
       }
       // Vue 3: default slot là function

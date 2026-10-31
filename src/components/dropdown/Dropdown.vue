@@ -18,6 +18,8 @@
       <span
         :ref="triggerRef"
         class="ui-dropdown__anchor"
+        :class="triggerClass"
+        :style="triggerStyle"
         @click.stop="triggerHasClick && handleClick($event)"
         @mouseenter.stop="triggerHasHover && handleMouseEnter()"
         @mouseleave.stop="triggerHasHover && handleMouseLeave()"
@@ -106,7 +108,9 @@ export default {
     closeOnSelect: { type: Boolean, default: true },
     persistent: { type: Boolean, default: false },
     dropdownMatchSelectWidth: { type: Boolean, default: false },
-    offset: { type: Number, default: 4 }
+    offset: { type: Number, default: 4 },
+    triggerClass: { type: [String, Array, Object], default: null },
+    triggerStyle: { type: [String, Object, Array], default: null }
   },
   emits: ['change', 'update:modelValue', 'open', 'close', 'select'],
   data() {
