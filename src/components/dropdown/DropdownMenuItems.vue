@@ -10,7 +10,7 @@
           <component
             v-if="item._icon"
             :is="item._icon.component"
-            :size="item._icon.size"
+            :size="item._icon.size || ['sm', 'md'].includes(size) ? 16 : 20"
             :color="item._icon.color"
             :stroke-width="item._icon.strokeWidth"
             :fill="item._icon.fill"
@@ -32,7 +32,7 @@
           <template #prefix v-if="item._icon">
             <component
               :is="item._icon.component"
-              :size="item._icon.size"
+              :size="item._icon.size || ['sm', 'md'].includes(size) ? 16 : 20"
               :color="item._icon.color"
               :stroke-width="item._icon.strokeWidth"
               :fill="item._icon.fill"

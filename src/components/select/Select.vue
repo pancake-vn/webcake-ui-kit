@@ -366,51 +366,48 @@ export default {
         label = slotText.trim() || String(props.value)
       }
 
-      var iconComponent = null
-      var iconProps = {}
+      var prefixFn = null
+      // Vue 2
       if (vnode.data && vnode.data.scopedSlots && vnode.data.scopedSlots['prefix']) {
-        try {
-          var prefixNodes = vnode.data.scopedSlots['prefix']({})
-          var iconVnode = prefixNodes && prefixNodes[0]
-          if (iconVnode && iconVnode.componentOptions) {
-            iconComponent = iconVnode.componentOptions.Ctor
-            iconProps = iconVnode.data.attrs || {}
-          }
-        } catch (_e) {
-          /* noop */
-        }
+        prefixFn = vnode.data.scopedSlots['prefix']
       }
-      if (!iconComponent) {
+      // Vue 3
+      if (!prefixFn) {
         var c3icon = vnode.children
         if (c3icon && typeof c3icon === 'object' && !Array.isArray(c3icon) && typeof c3icon.prefix === 'function') {
-          try {
-            var prefixNodes3 = c3icon.prefix()
-            var iconVnode3 = prefixNodes3 && prefixNodes3[0]
-            if (iconVnode3 && iconVnode3.type) {
-              iconComponent = iconVnode3.type
-              iconProps = iconVnode3.props || {}
-            }
-          } catch (_e) {
-            /* noop */
-          }
+          prefixFn = c3icon.prefix
         }
       }
-      var slotIcon = iconComponent
-        ? {
-            component: iconComponent,
-            size: iconProps.size || 16,
-            color: iconProps.color || 'var(--muted-fg)',
-            strokeWidth: iconProps.strokeWidth || iconProps['stroke-width'] || 1.75,
-            fill: iconProps.fill || 'none'
-          }
-        : null
+
+      var labelFn = null
+      // Vue 2: default slot là array tĩnh → wrap thành function
+      if (vnode.componentOptions && vnode.componentOptions.children && vnode.componentOptions.children.length) {
+        var v2label = vnode.componentOptions.children
+        labelFn = function () {
+          return v2label
+        }
+      }
+      // Vue 3: default slot là function
+      if (!labelFn) {
+        var c3label = vnode.children
+        if (
+          c3label &&
+          typeof c3label === 'object' &&
+          !Array.isArray(c3label) &&
+          typeof c3label.default === 'function'
+        ) {
+          labelFn = c3label.default
+        }
+      }
 
       return {
         label: label,
         value: props.value,
         disabled: !!props.disabled,
         data: props,
-        icon: slotIcon || this._normalizeIcon(props.icon)
+        icon: prefixFn ? null : this._normalizeIcon(props.icon),
+        prefixFn: prefixFn || null,
+        labelFn: labelFn || null
       }
     },
 
@@ -454,10 +451,12 @@ export default {
       var icon = iconComponent
         ? {
             component: iconComponent,
-            size: iconProps.size || 16,
-            color: iconProps.color || 'var(--muted-fg)',
-            strokeWidth: iconProps.strokeWidth || iconProps['stroke-width'] || 1.75,
-            fill: iconProps.fill || 'none'
+            attrs: {
+              size: iconProps.size || 16,
+              color: iconProps.color || 'var(--muted-fg)',
+              strokeWidth: iconProps.strokeWidth || iconProps['stroke-width'] || 1.75,
+              fill: iconProps.fill || 'none'
+            }
           }
         : null
       return { label: text.trim(), icon: icon }
@@ -497,10 +496,12 @@ export default {
       if (!icon || !icon.component) return null
       return {
         component: icon.component,
-        size: icon.size || 16,
-        color: icon.color || 'var(--muted-fg)',
-        strokeWidth: icon.strokeWidth || 1.75,
-        fill: icon.fill || 'none'
+        attrs: {
+          size: icon.size || 16,
+          color: icon.color || 'var(--muted-fg)',
+          strokeWidth: icon.strokeWidth || 1.75,
+          fill: icon.fill || 'none'
+        }
       }
     }
   }

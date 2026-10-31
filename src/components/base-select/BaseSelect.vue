@@ -3,10 +3,14 @@
     ref="menuRef"
     :open="mergedOpen"
     :disabled="disabled"
-    placement="bottom-start"
-    :anchor-width="true"
+    :placement="placement"
+    :offset="4"
+    :anchor-width="resolveAnchor"
     :close-on-select="false"
+    :width="overlayWidth"
     @change="onMenuOpenChange"
+    :overlay-class-name="overlayClassName"
+    :overlay-style="overlayStyle"
   >
     <template #trigger="{ toggle, isOpen: open, attrs, triggerRef }">
       <div
@@ -18,10 +22,11 @@
           { 'ui-base-select--error': error },
           { 'ui-base-select--loading': loading },
           { 'ui-base-select--multiple': ['multiple', 'tags'].includes(mode) },
-          `ui-base-select--${size}`
+          `ui-base-select--${size}`,
+          inheritedClass
         ]"
         :tabindex="disabled || allowSearch ? -1 : 0"
-        v-bind="attrs"
+        v-bind="mergeAttrs(attrs)"
         @click="handleTriggerClick(toggle)"
         @keydown.enter.prevent="handleKeydown(toggle)"
         @keydown.space.prevent="handleKeydown(toggle)"
@@ -31,15 +36,17 @@
             <slot name="icon" />
           </span>
           <template v-if="['multiple', 'tags'].includes(mode)">
-            <WkTag
-              v-for="item in displayValues"
-              :key="item.value"
-              :size="tagSize"
-              type="default"
-              :label="item.label"
-              :closable="!disabled"
-              @close="handleRemoveTag(item.value)"
-            />
+            <div v-if="displayValues.length > 0" class="ui-base-select__tags">
+              <WkTag
+                v-for="item in displayValues"
+                :key="item.value"
+                :size="tagSize"
+                type="default"
+                :label="item.label"
+                :closable="!disabled"
+                @close="handleRemoveTag(item.value)"
+              />
+            </div>
             <input
               v-if="allowSearch"
               ref="searchInput"
@@ -191,12 +198,22 @@ export default {
     },
     showChecked: {
       type: Boolean,
-      default: true
+      default: false
     },
     listHeight: {
       type: [Number, String],
       default: 256
-    }
+    },
+    overlayWidth: { type: [String, Number], default: null },
+    placement: {
+      type: String,
+      default: 'bottom-start'
+    },
+    overlayClassName: {
+      type: String,
+      default: ''
+    },
+    overlayStyle: { type: [Object, Array], default: null }
   },
 
   emits: ['update:open', 'dropdownVisibleChange', 'search', 'update:searchValue', 'clear', 'deselect', 'enterSearch'],
@@ -224,12 +241,32 @@ export default {
     },
     allowSearch() {
       return this.showSearch || this.mode === 'tags'
+    },
+    resolveAnchor() {
+      return !this.overlayWidth
+    },
+    inheritedClass() {
+      if (!this.$vnode) return [] // Vue 3: class is in $attrs, handled by mergeAttrs
+      var classes = []
+      var node = this.$vnode
+      while (node) {
+        var d = node.data
+        if (d) {
+          if (d.staticClass) classes.push(d.staticClass)
+          if (d.class) classes.push(d.class)
+        }
+        node = node.context && node.context.$vnode
+      }
+      return classes
     }
   },
 
   methods: {
     hasIconSlot() {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
+    },
+    mergeAttrs(slotAttrs) {
+      return Object.assign({}, this.$attrs, slotAttrs)
     },
     setOpen(val) {
       if (this.disabled) return
