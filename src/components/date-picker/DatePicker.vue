@@ -110,12 +110,13 @@ export default {
     confirmText: { type: String, default: 'Apply' },
     presets: { type: Array, default: () => [] },
     showFooter: { type: Boolean, default: false },
-    open: { type: Boolean, default: undefined }
+    open: { type: Boolean, default: undefined },
+    defaultOpen: { type: Boolean, default: false }
   },
   emits: ['change', 'update:modelValue', 'onOpenChange', 'open', 'close', 'clear', 'focus', 'blur'],
   data() {
     return {
-      localOpen: false,
+      localOpen: this.defaultOpen,
       selection: [],
       viewISO: dayjs().format(ISO),
       hoverISO: null,

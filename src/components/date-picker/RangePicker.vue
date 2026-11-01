@@ -113,12 +113,13 @@ export default {
     confirmText: { type: String, default: 'Apply' },
     presets: { type: Array, default: () => [] },
     showFooter: { type: Boolean, default: false },
-    open: { type: Boolean, default: undefined }
+    open: { type: Boolean, default: undefined },
+    defaultOpen: { type: Boolean, default: false }
   },
   emits: ['change', 'update:modelValue', 'onOpenChange', 'open', 'close', 'clear', 'calendar-change', 'focus', 'blur'],
   data() {
     return {
-      localOpen: false,
+      localOpen: this.defaultOpen,
       rangeStartSel: null,
       rangeEndSel: null,
       rangePicking: false,
