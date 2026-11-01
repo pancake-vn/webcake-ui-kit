@@ -62,10 +62,7 @@ export default {
       return this.views.length ? this.views : [{ monthLabel: this.monthLabel }]
     }
   },
-  emits: ['prev', 'next', 'prev-year', 'next-year', 'click-month', 'click-year'],
-  mounted() {
-    console.log(this.views, 'views')
-  }
+  emits: ['prev', 'next', 'prev-year', 'next-year', 'click-month', 'click-year']
 }
 </script>
 

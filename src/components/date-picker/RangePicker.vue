@@ -11,46 +11,48 @@
     @close="onMenuClose"
   >
     <template #trigger="{ triggerRef, attrs }">
-      <div
-        :ref="triggerRef"
-        v-bind="attrs"
-        :class="[
-          'ui-dp-range-trigger',
-          `ui-dp-range-trigger--${size}`,
-          disabled && 'is-disabled',
-          isOpen && 'is-focus'
-        ]"
-        :tabindex="disabled ? -1 : 0"
-        role="combobox"
-        :aria-expanded="isOpen ? 'true' : 'false'"
-        @click="onTriggerClick"
-        @keydown="onTriggerKeydown"
-        @focus="$emit('focus', $event)"
-        @blur="$emit('blur', $event)"
-      >
-        <span class="ui-dp-range-trigger__icon"><WkiCalendar :size="16" /></span>
-
-        <span class="ui-dp-range-trigger__start" :class="{ 'is-placeholder': !rangeStartSel }">
-          {{ rangeStartSel ? formatDisplay(rangeStartSel) : startPlaceholder }}
-        </span>
-        <span class="ui-dp-range-trigger__separator"> – </span>
-        <span class="ui-dp-range-trigger__end" :class="{ 'is-placeholder': !rangeEndSel }">
-          {{ rangeEndSel ? formatDisplay(rangeEndSel) : endPlaceholder }}
-        </span>
-
-        <span
-          v-if="clearable && hasValue && !disabled"
-          role="button"
-          tabindex="0"
-          class="ui-dp-range-trigger__clear"
-          aria-label="Clear"
-          @click.stop="onClear"
-          @keydown.enter.stop.prevent="onClear"
-          @keydown.space.stop.prevent="onClear"
+      <slot name="trigger" v-bind="{ triggerRef, isOpen, toggle: onTriggerClick }">
+        <div
+          :ref="triggerRef"
+          v-bind="attrs"
+          :class="[
+            'ui-dp-range-trigger',
+            `ui-dp-range-trigger--${size}`,
+            disabled && 'is-disabled',
+            isOpen && 'is-focus'
+          ]"
+          :tabindex="disabled ? -1 : 0"
+          role="combobox"
+          :aria-expanded="isOpen ? 'true' : 'false'"
+          @click="onTriggerClick"
+          @keydown="onTriggerKeydown"
+          @focus="$emit('focus', $event)"
+          @blur="$emit('blur', $event)"
         >
-          <WkiX :size="14" />
-        </span>
-      </div>
+          <span class="ui-dp-range-trigger__icon"><WkiCalendar :size="16" /></span>
+
+          <span class="ui-dp-range-trigger__start" :class="{ 'is-placeholder': !rangeStartSel }">
+            {{ rangeStartSel ? formatDisplay(rangeStartSel) : startPlaceholder }}
+          </span>
+          <span class="ui-dp-range-trigger__separator"> – </span>
+          <span class="ui-dp-range-trigger__end" :class="{ 'is-placeholder': !rangeEndSel }">
+            {{ rangeEndSel ? formatDisplay(rangeEndSel) : endPlaceholder }}
+          </span>
+
+          <span
+            v-if="clearable && hasValue && !disabled"
+            role="button"
+            tabindex="0"
+            class="ui-dp-range-trigger__clear"
+            aria-label="Clear"
+            @click.stop="onClear"
+            @keydown.enter.stop.prevent="onClear"
+            @keydown.space.stop.prevent="onClear"
+          >
+            <WkiX :size="14" />
+          </span>
+        </div>
+      </slot>
     </template>
 
     <PickerPanel
@@ -110,12 +112,13 @@ export default {
     cancelText: { type: String, default: 'Cancel' },
     confirmText: { type: String, default: 'Apply' },
     presets: { type: Array, default: () => [] },
-    showFooter: { type: Boolean, default: false }
+    showFooter: { type: Boolean, default: false },
+    open: { type: Boolean, default: undefined }
   },
-  emits: ['change', 'update:modelValue', 'open', 'close', 'clear', 'calendar-change', 'focus', 'blur'],
+  emits: ['change', 'update:modelValue', 'onOpenChange', 'open', 'close', 'clear', 'calendar-change', 'focus', 'blur'],
   data() {
     return {
-      isOpen: false,
+      localOpen: false,
       rangeStartSel: null,
       rangeEndSel: null,
       rangePicking: false,
@@ -125,6 +128,9 @@ export default {
     }
   },
   computed: {
+    isOpen() {
+      return this.open !== undefined ? this.open : this.localOpen
+    },
     currentValue() {
       return this.modelValue !== undefined ? this.modelValue : this.value
     },
@@ -259,7 +265,7 @@ export default {
         this.hoverISO = null
         this.$emit('calendar-change', [this.buildOut(ordered.start), this.buildOut(ordered.end)])
         this.emitValue()
-        this.isOpen = false
+        this.setOpen(false)
       }
     },
     onHover(iso) {
@@ -285,21 +291,25 @@ export default {
       if (month != null) d = d.month(month)
       this.viewISO = d.date(1).format(ISO)
     },
+    setOpen(v) {
+      this.localOpen = v
+      this.$emit('onOpenChange', v)
+    },
     onTriggerClick() {
       if (this.disabled) return
-      this.isOpen = !this.isOpen
+      this.setOpen(!this.isOpen)
     },
     onTriggerKeydown(e) {
       if (this.disabled) return
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
         e.preventDefault()
-        this.isOpen = true
+        this.setOpen(true)
       } else if (e.key === 'Escape') {
-        this.isOpen = false
+        this.setOpen(false)
       }
     },
     onMenuChange(v) {
-      this.isOpen = v
+      this.setOpen(v)
     },
     onMenuOpen() {
       const anchor = this.rangeStartSel || this.rangeEndSel
@@ -327,13 +337,13 @@ export default {
       this.emitValue()
     },
     onConfirm() {
-      this.isOpen = false
+      this.setOpen(false)
     },
-    open() {
-      this.isOpen = true
+    openPicker() {
+      this.setOpen(true)
     },
-    close() {
-      this.isOpen = false
+    closePicker() {
+      this.setOpen(false)
     }
   }
 }
