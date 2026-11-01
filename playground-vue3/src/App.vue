@@ -996,7 +996,7 @@
           <div>range: {{ dpV2Range }}</div>
         </div>
         <h3 style="margin-top: 16px">Range Picker — Tag trigger</h3>
-        <WkRangePicker v-model="dpTagRange" :open="openMenuDate" @onOpenChange="openMenuDate = $event">
+        <WkRangePicker v-model="dpTagRange" :defaultOpen="true">
           <template #trigger="{ triggerRef, isOpen, toggle }">
             <WkTag
               :el-ref="triggerRef"
