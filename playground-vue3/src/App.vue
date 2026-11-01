@@ -44,9 +44,7 @@
           showTooltip
           class="dslflsdfkdskfsdkf"
         >
-          <WkSelectOption v-for="(font, idx) in fonts" :value="font" :label="font" :key="idx">
-            {{ font }}
-          </WkSelectOption>
+          <WkSelectOption v-for="(font, idx) in fonts" :value="font" :label="font" :key="idx" />
           <template #icon>
             <WkiMinus :size="12" />
           </template>

@@ -43,6 +43,8 @@ export default {
 
   props: {
     value: [String, Number, Array],
+    // Vue 3 v-model (Vue 2 v-model uses `value` + `input`)
+    modelValue: { type: [String, Number, Array], default: undefined },
     options: {
       type: Array,
       default: () => []
@@ -53,6 +55,8 @@ export default {
       validator: value => ['single', 'multiple', 'tags'].includes(value)
     }
   },
+
+  emits: ['update:value', 'update:modelValue', 'input', 'change'],
 
   data() {
     return {
@@ -97,7 +101,7 @@ export default {
     },
 
     rawValues() {
-      const currentValue = this.value
+      const currentValue = this.modelValue !== undefined ? this.modelValue : this.value
 
       const values = Array.isArray(currentValue) ? currentValue : !currentValue ? [] : [currentValue]
 
@@ -164,6 +168,12 @@ export default {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
     },
 
+    emitValue(next) {
+      this.$emit('update:value', next)
+      this.$emit('update:modelValue', next)
+      this.$emit('input', next)
+    },
+
     onSelect(val) {
       let nextValue
       if (this.mode === 'multiple' || this.mode === 'tags') {
@@ -182,7 +192,7 @@ export default {
         this.setOpen(false)
       }
       this.searchValue = ''
-      this.$emit('update:value', nextValue) // hoặc update:modelValue tuỳ Vue 2/3
+      this.emitValue(nextValue)
       this.$emit('change', nextValue, this.valueOptions.get(val))
     },
     setOpen(open) {
@@ -209,7 +219,7 @@ export default {
       const current = [...this.rawValues.keys()]
       if (current.indexOf(val) === -1) {
         current.push(val)
-        this.$emit('update:value', current)
+        this.emitValue(current)
         this.$emit('change', current, null)
       }
       this.searchValue = ''
@@ -217,7 +227,7 @@ export default {
 
     handleClear() {
       const next = this.mode === 'multiple' || this.mode === 'tags' ? [] : null
-      this.$emit('update:value', next)
+      this.emitValue(next)
       this.$emit('change', next, null)
       this.searchValue = ''
       if (this.mode === 'tags') this.tagOptions = []

@@ -30,7 +30,7 @@
   pointer-events: none;
 }
 
-.ui-menuitem--error {
+.ui-menuitem--error .ui-menuitem__label {
   color: var(--destructive-text);
 }
 

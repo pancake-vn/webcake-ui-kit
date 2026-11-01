@@ -77,6 +77,8 @@ export default {
 
   props: {
     value: [String, Number, Array],
+    // Vue 3 v-model (Vue 2 v-model uses `value` + `input`)
+    modelValue: { type: [String, Number, Array], default: undefined },
     treeData: {
       type: Array,
       default: function () {
@@ -107,7 +109,7 @@ export default {
     }
   },
 
-  emits: ['update:value', 'change', 'select', 'tree-expand'],
+  emits: ['update:value', 'update:modelValue', 'input', 'change', 'select', 'tree-expand'],
 
   data() {
     return {
@@ -142,7 +144,8 @@ export default {
     },
 
     rawValues() {
-      var value = this.value !== undefined ? this.value : this.internalValue
+      var value =
+        this.modelValue !== undefined ? this.modelValue : this.value !== undefined ? this.value : this.internalValue
       if (Array.isArray(value)) return value
       return value == null ? [] : [value]
     },
@@ -365,8 +368,10 @@ export default {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
     },
     commit(next) {
-      if (this.value === undefined) this.internalValue = next
+      if (this.value === undefined && this.modelValue === undefined) this.internalValue = next
       this.$emit('update:value', next)
+      this.$emit('update:modelValue', next)
+      this.$emit('input', next)
       this.$emit('change', next)
     },
 
