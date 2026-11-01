@@ -9,9 +9,9 @@
     @click="handleClick"
   >
     <span v-if="hasIcon" class="ui-tag__icon"><slot name="icon" /></span>
-    <span class="ui-tag__label"
-      ><slot>{{ label }}</slot></span
-    >
+    <span class="ui-tag__label">
+      <slot>{{ label }}</slot>
+    </span>
     <span v-if="counter > 0" class="ui-tag__counter">{{ counter }}</span>
     <button v-if="closable" class="ui-tag__close" type="button" @click.stop="$emit('close')">
       <WkiX :size="12" class="ui-tag__close-icon" />
@@ -42,9 +42,20 @@ export default {
     counter: { type: Number, default: 0 },
     closable: { type: Boolean, default: false },
     label: { type: String, default: '' },
-    active: { type: Boolean, default: false }
+    active: { type: Boolean, default: false },
+    elRef: { type: Function, default: null }
   },
   emits: ['close', 'click'],
+  mounted() {
+    if (this.elRef) this.elRef(this.$el)
+  },
+  beforeUnmount() {
+    if (this.elRef) this.elRef(null)
+  },
+  // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle, vue/no-dupe-keys
+  beforeDestroy() {
+    if (this.elRef) this.elRef(null)
+  },
   computed: {
     hasIcon: function () {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])

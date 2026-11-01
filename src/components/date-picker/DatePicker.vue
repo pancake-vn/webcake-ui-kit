@@ -109,12 +109,13 @@ export default {
     cancelText: { type: String, default: 'Cancel' },
     confirmText: { type: String, default: 'Apply' },
     presets: { type: Array, default: () => [] },
-    showFooter: { type: Boolean, default: false }
+    showFooter: { type: Boolean, default: false },
+    open: { type: Boolean, default: undefined }
   },
-  emits: ['change', 'update:modelValue', 'open', 'close', 'clear', 'focus', 'blur'],
+  emits: ['change', 'update:modelValue', 'onOpenChange', 'open', 'close', 'clear', 'focus', 'blur'],
   data() {
     return {
-      isOpen: false,
+      localOpen: false,
       selection: [],
       viewISO: dayjs().format(ISO),
       hoverISO: null,
@@ -123,6 +124,9 @@ export default {
     }
   },
   computed: {
+    isOpen() {
+      return this.open !== undefined ? this.open : this.localOpen
+    },
     currentValue() {
       return this.modelValue !== undefined ? this.modelValue : this.value
     },
@@ -265,7 +269,7 @@ export default {
       if (this.mode === 'single') {
         this.selection = [iso]
         this.emitValue()
-        this.isOpen = false
+        this.setOpen(false)
       } else {
         const idx = this.selection.indexOf(iso)
         let next = idx === -1 ? this.selection.concat([iso]) : this.selection.filter(x => x !== iso)
@@ -297,17 +301,21 @@ export default {
       if (month != null) d = d.month(month)
       this.viewISO = d.date(1).format(ISO)
     },
+    setOpen(v) {
+      this.localOpen = v
+      this.$emit('onOpenChange', v)
+    },
     onTriggerClick() {
       if (this.disabled) return
-      this.isOpen ? (this.isOpen = false) : (this.isOpen = true)
+      this.setOpen(!this.isOpen)
     },
     onTriggerKeydown(e) {
       if (this.disabled) return
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
         e.preventDefault()
-        this.isOpen = true
+        this.setOpen(true)
       } else if (e.key === 'Escape') {
-        this.isOpen = false
+        this.setOpen(false)
       }
     },
     onGridKeydown(e) {
@@ -331,7 +339,7 @@ export default {
       this.focusISO = d.format(ISO)
     },
     onMenuChange(v) {
-      this.isOpen = v
+      this.setOpen(v)
     },
     onMenuOpen() {
       this.syncView()
@@ -355,13 +363,13 @@ export default {
       if (d.isValid()) this.onSelectDate(d.format(ISO))
     },
     onConfirm() {
-      this.isOpen = false
+      this.setOpen(false)
     },
-    open() {
-      this.isOpen = true
+    openPicker() {
+      this.setOpen(true)
     },
-    close() {
-      this.isOpen = false
+    closePicker() {
+      this.setOpen(false)
     }
   }
 }

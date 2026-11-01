@@ -46,7 +46,10 @@
 
 .ui-dp-date-header__values p {
   color: var(--primary-fg);
-  text-align: center;
+  display: flex;
+  gap: var(--spacing-2xs);
+  justify-content: center;
+  align-items: center;
 
   /* paragraph small/regular */
   font-size: var(--paragraph-small-font-size);

@@ -995,6 +995,20 @@
         <div class="dp-values">
           <div>range: {{ dpV2Range }}</div>
         </div>
+        <h3 style="margin-top: 16px">Range Picker — Tag trigger</h3>
+        <WkRangePicker v-model="dpTagRange" :open="openMenuDate" @onOpenChange="openMenuDate = $event">
+          <template #trigger="{ triggerRef, isOpen, toggle }">
+            <WkTag
+              :el-ref="triggerRef"
+              :active="isOpen"
+              :closable="!!(dpTagRange && dpTagRange[0])"
+              @click="toggle"
+              @close="dpTagRange = []"
+            >
+              <span class="okkk"> {{ dpTagRangeLabel }} </span>
+            </WkTag>
+          </template>
+        </WkRangePicker>
       </section>
 
       <section class="section">
@@ -1032,6 +1046,8 @@
           :custom-row="tableV2CustomRow"
           :custom-header-row="tableV2CustomHeaderRow"
           :rowHeight="60"
+          children-field="children"
+          default-expand-all
         >
           <template #selectionHeader>
             <div
@@ -1652,6 +1668,8 @@ export default {
       dpMultiple: [],
       dpDateTime: null,
       dpV2Range: [],
+      openMenuDate: true,
+      dpTagRange: [],
       dpMinMax: null,
       dpNoWeekend: null,
       dpFormat: null,
@@ -1849,46 +1867,48 @@ export default {
           status: 'Active',
           score: 87,
           address: 'London, Park Lane no. 0',
-          joined: '2021-03-15'
-        },
-        {
-          key: '2',
-          name: 'Jim Green',
-          avatar: 'https://i.pravatar.cc/80?img=2',
-          age: 42,
-          email: 'jim.green@example.com',
-          phone: '+1 202-555-0132',
-          company: 'Globex',
-          status: 'Inactive',
-          score: 54,
-          address: 'Sydney No. 1 Lake Park',
-          joined: '2019-07-22'
-        },
-        {
-          key: '3',
-          name: 'Joe Black',
-          avatar: 'https://i.pravatar.cc/80?img=3',
-          age: 28,
-          email: 'joe.black@example.com',
-          phone: '+1 202-555-0178',
-          company: 'Initech',
-          status: 'Active',
-          score: 91,
-          address: 'Tokyo No. 2 Center St',
-          joined: '2022-11-01'
-        },
-        {
-          key: '4',
-          name: 'Sara Mills',
-          avatar: 'https://i.pravatar.cc/80?img=4',
-          age: 35,
-          email: 'sara.mills@example.com',
-          phone: '+1 202-555-0143',
-          company: 'Umbrella',
-          status: 'Active',
-          score: 76,
-          address: 'Paris, Rue de Rivoli',
-          joined: '2020-05-09'
+          joined: '2021-03-15',
+          children: [
+            {
+              key: '2',
+              name: 'Jim Green',
+              avatar: 'https://i.pravatar.cc/80?img=2',
+              age: 42,
+              email: 'jim.green@example.com',
+              phone: '+1 202-555-0132',
+              company: 'Globex',
+              status: 'Inactive',
+              score: 54,
+              address: 'Sydney No. 1 Lake Park',
+              joined: '2019-07-22'
+            },
+            {
+              key: '3',
+              name: 'Joe Black',
+              avatar: 'https://i.pravatar.cc/80?img=3',
+              age: 28,
+              email: 'joe.black@example.com',
+              phone: '+1 202-555-0178',
+              company: 'Initech',
+              status: 'Active',
+              score: 91,
+              address: 'Tokyo No. 2 Center St',
+              joined: '2022-11-01'
+            },
+            {
+              key: '4',
+              name: 'Sara Mills',
+              avatar: 'https://i.pravatar.cc/80?img=4',
+              age: 35,
+              email: 'sara.mills@example.com',
+              phone: '+1 202-555-0143',
+              company: 'Umbrella',
+              status: 'Active',
+              score: 76,
+              address: 'Paris, Rue de Rivoli',
+              joined: '2020-05-09'
+            }
+          ]
         },
         {
           key: '5',
@@ -2335,6 +2355,13 @@ export default {
     WkiShirt
   },
   computed: {
+    dpTagRangeLabel() {
+      const [start, end] = this.dpTagRange || []
+      if (!start && !end) return 'Create at'
+      const fmt = d => dayjs(d).format('DD/MM/YYYY')
+      if (start && end) return `Create at is ${fmt(start)} → ${fmt(end)}`
+      return `Create at is ${fmt(start)} → …`
+    },
     optionsState() {
       return (
         this.options
