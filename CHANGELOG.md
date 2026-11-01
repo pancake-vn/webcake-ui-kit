@@ -4,6 +4,20 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.27] - 2026-11-01
+
+### Added
+- `WkDatePicker` and `WkRangePicker` accept a new `open` prop to control the panel's open state externally, paired with a new `onOpenChange` emit.
+- `WkRangePicker` accepts a new `trigger` slot for fully customizing its trigger element.
+- `WkTag` accepts a new `elRef` prop for obtaining a reference to its root element.
+
+### Changed
+- `WkDatePicker` and `WkRangePicker`'s imperative `open()`/`close()` instance methods are renamed to `openPicker()`/`closePicker()`.
+
+### Fixed
+- `WkDatePicker` and `WkRangePicker`'s calendar header no longer logs its views to the console on mount.
+- `WkDatePicker` and `WkRangePicker`'s calendar header value text now aligns and spaces consistently instead of only centering.
+
 ## [1.3.26] - 2026-10-31
 
 ### Added
