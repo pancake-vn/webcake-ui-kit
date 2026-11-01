@@ -35,7 +35,7 @@
           <span v-if="hasIconSlot()" class="ui-base-select__icon">
             <slot name="icon" />
           </span>
-          <template v-if="['multiple', 'tags'].includes(mode)">
+          <div v-if="['multiple', 'tags'].includes(mode)" class="ui-base-select--multiple__values">
             <div v-if="displayValues.length > 0" class="ui-base-select__tags">
               <WkTag
                 v-for="item in displayValues"
@@ -59,7 +59,7 @@
               @keydown="onSearchKeydown"
             />
             <span v-else-if="!displayValues.length" class="ui-base-select__placeholder">{{ placeholder }}</span>
-          </template>
+          </div>
           <template v-else>
             <input
               v-if="allowSearch"

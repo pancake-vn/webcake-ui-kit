@@ -58,7 +58,6 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: var(--spacing-xs);
   overflow: hidden;
 }
@@ -68,7 +67,6 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--spacing-2xs);
-  flex: 1;
   min-width: 0;
 }
 
@@ -83,6 +81,25 @@
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+}
+
+.ui-base-select__body .ui-base-select--multiple__values {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Flatten the tags wrapper so tags + search input wrap together on the same flex line */
+.ui-base-select--multiple .ui-base-select__body .ui-base-select__tags {
+  display: contents;
+}
+
+.ui-base-select--multiple .ui-base-select__body .ui-base-select__search {
+  flex: 1 1 40px;
+  min-width: 40px;
 }
 
 .ui-base-select__value {
