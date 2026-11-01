@@ -4,6 +4,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.29] - 2026-11-01
+
+### Added
+- `WkSelect` and `WkSelectTree` now support Vue 3's `v-model` directly via `modelValue`/`update:modelValue`, in addition to the existing Vue 2 `value`/`input` pattern.
+
+### Fixed
+- `WkSelect` in multiple/tags mode now actually emits `update:modelValue`/`input` when selecting, adding, or clearing values, instead of only emitting `update:value`.
+- `WkSelect` and `WkSelectTree` tags and the search input in multiple/tags mode now wrap together onto the same flex line instead of the tags collapsing to a single line.
+- `WkMenuItem`'s error state color now applies only to its label instead of the entire item.
+
 ## [1.3.28] - 2026-11-01
 
 ### Added
