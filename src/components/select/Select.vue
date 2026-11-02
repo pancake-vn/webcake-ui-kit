@@ -62,7 +62,9 @@ export default {
     return {
       selectCtx: createSelectContext(),
       searchValue: undefined,
-      tagOptions: []
+      tagOptions: [],
+      // Chỉ dùng để trigger computed khi slot options đổi (không chứa vnode)
+      slotVersion: 0
     }
   },
 
@@ -79,7 +81,11 @@ export default {
 
     normalizedOptions() {
       const raw = this.options || []
-      if (!raw.length) return this._parseSlotOptions()
+      if (!raw.length) {
+        void this.slotVersion // đăng ký dependency
+        // watcher immediate chạy trước created() nên _slotParsed có thể chưa có
+        return this._slotParsed || []
+      }
       var result = []
       for (var i = 0; i < raw.length; i++) {
         var n = this.normalizeOption(raw[i], i)
@@ -160,10 +166,31 @@ export default {
   },
 
   created() {
+    this._slotSig = ''
+    this._slotParsed = []
     this.selectCtx.actions.onSelect = this.onSelect
+    this.refreshSlotOptions()
+  },
+
+  beforeUpdate() {
+    // $slots không reactive → quét lại mỗi lần re-render khi dùng slot options
+    if (!(this.options && this.options.length)) this.refreshSlotOptions()
   },
 
   methods: {
+    refreshSlotOptions() {
+      var parsed = this._parseSlotOptions()
+      var sig = parsed
+        .map(function (o) {
+          return [o.type, o.value, o.label, o.disabled].join('|')
+        })
+        .join('\n')
+      if (sig === this._slotSig) return // không đổi → tránh loop re-render
+      this._slotSig = sig
+      this._slotParsed = parsed
+      this.slotVersion++
+    },
+
     hasIconSlot() {
       return !!((this.$scopedSlots && this.$scopedSlots['icon']) || this.$slots['icon'])
     },
