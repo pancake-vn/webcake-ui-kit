@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.31] - 2026-11-04
+
+### Added
+- `WkSelect` options accept a new `markLabel` prop to override the displayed label text while keeping the original `label` for matching.
+
+### Changed
+- `WkSelect` option's `title` prop is renamed to `markLabel`.
+
 ## [1.3.30] - 2026-11-02
 
 ### Fixed
