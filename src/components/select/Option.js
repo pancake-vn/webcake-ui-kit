@@ -12,7 +12,7 @@ const Option = {
       type: Boolean,
       default: false
     },
-    title: String,
+    markLabel: String,
     icon: {
       type: Object
     }

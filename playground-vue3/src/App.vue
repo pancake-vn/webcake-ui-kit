@@ -43,8 +43,9 @@
           optionSize="sm"
           showTooltip
           class="dslflsdfkdskfsdkf"
+          :options="fonts.map(font => ({ value: font, label: font, markLabel: '123' }))"
         >
-          <WkSelectOption v-for="(font, idx) in fonts" :value="font" :label="font" :key="idx" />
+          <!-- <WkSelectOption v-for="(font, idx) in fonts" :value="font" :label="font" :key="idx" markLabel="123" /> -->
           <template #icon>
             <WkiMinus :size="12" />
           </template>
@@ -186,7 +187,7 @@
           @close="dropdownOpen = false"
         >
           <WkTooltip :title="'12312dssdfsdf'" side="bottom" :disabled="dropdownOpen">
-            <WkButton type="primary" icon="arrow_down" icon-position="right">Click me 123</WkButton>
+            <WkButton variant="neutral" icon="arrow_down" icon-position="right">Click me 123</WkButton>
           </WkTooltip>
         </WkDropdown>
 
