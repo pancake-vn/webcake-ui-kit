@@ -131,7 +131,7 @@ export default {
 
         return {
           value,
-          label: option ? option.label : value
+          label: option ? option.markLabel || option.label : value
         }
       })
     }
@@ -444,6 +444,7 @@ export default {
         label: label,
         value: props.value,
         disabled: !!props.disabled,
+        markLabel: props.markLabel,
         data: props,
         icon: prefixFn ? null : this._normalizeIcon(props.icon),
         prefixFn: prefixFn || null,
@@ -525,6 +526,7 @@ export default {
       }
       return {
         label: opt.label !== undefined ? opt.label : String(opt.value),
+        markLabel: opt.markLabel,
         value: opt.value,
         disabled: !!opt.disabled,
         data: opt,
