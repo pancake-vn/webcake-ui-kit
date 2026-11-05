@@ -28,12 +28,13 @@
         :is-last-item="index === tableContext.columns.flat.length - 1"
         :offset="column.fixed === 'left' ? leftStickyOffsets[column.key] : rightStickyOffsets[column.key]"
       >
-        <template v-if="column.resizable && !isEmpty" #drag-handle>
+        <template v-if="canResize(index)" #drag-handle>
           <ColumnDragHandle
             :column="column"
             :width="columnWidths.get(column.key)"
             :min-width="column.minWidth"
             :max-width="column.maxWidth"
+            @resize-start="handleResizeStart"
             @resize="hanldeResize"
           />
         </template>
@@ -146,8 +147,33 @@ export default {
   },
 
   methods: {
+    // Column chỉ resize được khi còn column resizable ở bên phải để mượn/trả width.
+    canResize(index) {
+      if (this.isEmpty) return false
+      var cols = this.tableContext.columns.flat
+      if (!cols[index].resizable) return false
+      for (var i = index + 1; i < cols.length; i++) {
+        if (cols[i].resizable) return true
+      }
+      return false
+    },
+
+    handleResizeStart() {
+      var cells = Array.prototype.filter.call(this.$el.children, function (el) {
+        return el.tagName === 'TH' && el.className.indexOf('ui-table__scrollbar-cell') === -1
+      })
+      var columns = this.tableContext.columns.flat
+      var widths = new Map()
+      cells.forEach(function (cell, i) {
+        var col = columns[i]
+        if (!col || col.type === SELECTION_COLUMN || col.type === DRAGGABLE_COLUMN) return
+        widths.set(col.key, cell.getBoundingClientRect().width)
+      })
+      this.tableContext.actions.beginResize(widths)
+    },
+
     hanldeResize(width, column) {
-      this.tableContext.actions.resize(column.key, width)
+      this.tableContext.actions.resizeColumn(column.key, width)
     }
   }
 }

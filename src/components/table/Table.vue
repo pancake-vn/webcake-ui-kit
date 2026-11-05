@@ -287,6 +287,8 @@ export default {
     this.tableCtx.actions.sort = this.handleSort
     this.tableCtx.actions.select = this.handleSelect
     this.tableCtx.actions.resize = this.handleResize
+    this.tableCtx.actions.beginResize = this.handleBeginResize
+    this.tableCtx.actions.resizeColumn = this.handleResizeColumn
     this.tableCtx.actions.reorder = this.handleReorder
     this.tableCtx.actions.expand = this.handleExpand
     this.tableCtx.tree.expandedKeys = this.innerExpandedKeys
@@ -351,6 +353,43 @@ export default {
     handleResize: function (colKey, width) {
       var widths = new Map(this.tableCtx.layout.columnWidths)
       widths.set(colKey, width)
+      this.tableCtx.layout.columnWidths = widths
+    },
+
+    // Bắt đầu kéo resize: lưu width thật của mọi column làm mốc cho cả lần kéo.
+    handleBeginResize: function (baseWidths) {
+      this._resizeBase = baseWidths
+    },
+
+    // Resize 1 column bằng cách mượn/trả width cho column resizable kế tiếp bên phải (tổng width không đổi).
+    // Column resizable cuối cùng không có "donor" nên không có handle (xem TableHeaderRow.canResize).
+    handleResizeColumn: function (colKey, width) {
+      var base = this._resizeBase
+      var cols = this.tableCtx.columns.flat
+      var idx = cols.findIndex(function (c) {
+        return c.key === colKey
+      })
+      var donor = null
+      for (var i = idx + 1; i < cols.length; i++) {
+        if (cols[i].resizable) {
+          donor = cols[i]
+          break
+        }
+      }
+      if (!base || idx === -1 || !donor || !base.has(colKey) || !base.has(donor.key)) {
+        this.handleResize(colKey, width)
+        return
+      }
+      var ownBase = base.get(colKey)
+      var donorBase = base.get(donor.key)
+      var delta = width - ownBase
+      // donor không được nhỏ hơn minWidth / lớn hơn maxWidth
+      delta = Math.min(delta, donorBase - (donor.minWidth || 0))
+      if (isFinite(donor.maxWidth)) delta = Math.max(delta, donorBase - donor.maxWidth)
+
+      var widths = new Map(base)
+      widths.set(colKey, ownBase + delta)
+      widths.set(donor.key, donorBase - delta)
       this.tableCtx.layout.columnWidths = widths
     },
 

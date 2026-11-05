@@ -36,8 +36,10 @@
         <h2>Select V2</h2>
         <WkSelect
           allowClear
+          loading
           :value="selectV2"
           @change="handleSelectV2Change"
+          placeholder="Vui lòng nhập tên, mã sản phẩm"
           size="sm"
           mode="tags"
           optionSize="sm"
@@ -50,6 +52,31 @@
             <WkiMinus :size="12" />
           </template>
         </WkSelect>
+      </section>
+      <section class="section">
+        <h2>Select — async options (ẩn value ở lần loading đầu)</h2>
+        <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 8px">
+          Lần 1: loading → hiện placeholder, không hiện id. Bấm "Reload" (lần 2+): value vẫn giữ nguyên, chỉ hiện
+          spinner.
+        </p>
+        <WkButton style="margin-bottom: 12px" @click="reloadAsyncOptions">Reload options</WkButton>
+        <div style="display: flex; flex-direction: column; gap: 12px; max-width: 320px">
+          <WkSelect
+            :value="asyncSingle"
+            :options="asyncOptions"
+            :loading="asyncLoading"
+            placeholder="Chọn sản phẩm"
+            @change="asyncSingle = $event"
+          />
+          <WkSelect
+            mode="multiple"
+            :value="asyncMultiple"
+            :options="asyncOptions"
+            :loading="asyncLoading"
+            placeholder="Chọn nhiều sản phẩm"
+            @change="asyncMultiple = $event"
+          />
+        </div>
       </section>
       <section class="section">
         <h2>Select Tree</h2>
@@ -1033,6 +1060,15 @@
       </section>
 
       <section class="section">
+        <h2>Table — resize column (mượn/trả width cột kế bên)</h2>
+        <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 8px">
+          Kéo 1 cột: cột resizable kế tiếp bên phải bị mượn/trả width, tổng không đổi. Company là cột resizable cuối nên
+          không có handle (cột co giãn); Status cố định, không đổi.
+        </p>
+        <WkTable bordered :columns="tableResizeColumns" :data-source="tableV2Data.slice(0, 3)" />
+      </section>
+
+      <section class="section">
         <h2>Table V2 — base (header + body)</h2>
         <WkTable
           :emptyText="'sjdfljskdfljs'"
@@ -1048,7 +1084,7 @@
           children-field="children"
           default-expand-all
         >
-          <template #selectionHeader>
+          <!-- <template #selectionHeader>
             <div
               style="
                 display: flex;
@@ -1069,7 +1105,7 @@
               />
               <WkButton size="sm" variant="outline">llllllllllll</WkButton>
             </div>
-          </template>
+          </template> -->
           <template #bodyCell="{ column, text, record }">
             <template v-if="column.dataIndex === 'name'">
               <div style="display: flex; align-items: center; gap: 8px">
@@ -1696,16 +1732,23 @@ export default {
         { value: 'spam', label: 'Spam', counter: 3, icon: WkiChessBishop },
         { value: 'trash', label: 'Trash', disabled: true }
       ],
+      tableResizeColumns: [
+        { title: 'Name', dataIndex: 'name', width: 200, resizable: true },
+        { title: 'Email', dataIndex: 'email', resizable: true },
+        { title: 'Phone', dataIndex: 'phone', resizable: true },
+        { title: 'Company', dataIndex: 'company', resizable: true },
+        { title: 'Status', dataIndex: 'status', width: 100, align: 'center' }
+      ],
       tableV2Columns: [
-        { title: 'Name', dataIndex: 'name', width: 180, ellipsis: true, resizable: true, maxWidth: 250 },
-        { title: 'Age', dataIndex: 'age', align: 'center', width: 80, resizable: true },
-        { title: 'Email', dataIndex: 'email', width: 220, ellipsis: true, resizable: true },
+        { title: 'Name', dataIndex: 'name', ellipsis: true, resizable: true },
+        { title: 'Age', dataIndex: 'age', align: 'center', resizable: true },
+        { title: 'Email', dataIndex: 'email', ellipsis: true, resizable: true },
         { title: 'Phone', dataIndex: 'phone', width: 140, resizable: true },
         { title: 'Company', dataIndex: 'company', width: 180, ellipsis: true, resizable: true },
         { title: 'Status', dataIndex: 'status', align: 'center', width: 100, resizable: true },
         { title: 'Score', dataIndex: 'score', align: 'right', width: 90, resizable: true },
         { title: 'Address', dataIndex: 'address', width: 260, ellipsis: true, resizable: true },
-        { title: 'Joined', dataIndex: 'joined', align: 'center', width: 120, resizable: true },
+        { title: 'Joined', dataIndex: 'joined', align: 'center', resizable: true },
         { title: 'Action', dataIndex: 'action', align: 'center', width: 50, fixed: 'right' }
       ],
       treeTableColumns: [
@@ -1866,48 +1909,48 @@ export default {
           status: 'Active',
           score: 87,
           address: 'London, Park Lane no. 0',
-          joined: '2021-03-15',
-          children: [
-            {
-              key: '2',
-              name: 'Jim Green',
-              avatar: 'https://i.pravatar.cc/80?img=2',
-              age: 42,
-              email: 'jim.green@example.com',
-              phone: '+1 202-555-0132',
-              company: 'Globex',
-              status: 'Inactive',
-              score: 54,
-              address: 'Sydney No. 1 Lake Park',
-              joined: '2019-07-22'
-            },
-            {
-              key: '3',
-              name: 'Joe Black',
-              avatar: 'https://i.pravatar.cc/80?img=3',
-              age: 28,
-              email: 'joe.black@example.com',
-              phone: '+1 202-555-0178',
-              company: 'Initech',
-              status: 'Active',
-              score: 91,
-              address: 'Tokyo No. 2 Center St',
-              joined: '2022-11-01'
-            },
-            {
-              key: '4',
-              name: 'Sara Mills',
-              avatar: 'https://i.pravatar.cc/80?img=4',
-              age: 35,
-              email: 'sara.mills@example.com',
-              phone: '+1 202-555-0143',
-              company: 'Umbrella',
-              status: 'Active',
-              score: 76,
-              address: 'Paris, Rue de Rivoli',
-              joined: '2020-05-09'
-            }
-          ]
+          joined: '2021-03-15'
+          // children: [
+          //   {
+          //     key: '2',
+          //     name: 'Jim Green',
+          //     avatar: 'https://i.pravatar.cc/80?img=2',
+          //     age: 42,
+          //     email: 'jim.green@example.com',
+          //     phone: '+1 202-555-0132',
+          //     company: 'Globex',
+          //     status: 'Inactive',
+          //     score: 54,
+          //     address: 'Sydney No. 1 Lake Park',
+          //     joined: '2019-07-22'
+          //   },
+          //   {
+          //     key: '3',
+          //     name: 'Joe Black',
+          //     avatar: 'https://i.pravatar.cc/80?img=3',
+          //     age: 28,
+          //     email: 'joe.black@example.com',
+          //     phone: '+1 202-555-0178',
+          //     company: 'Initech',
+          //     status: 'Active',
+          //     score: 91,
+          //     address: 'Tokyo No. 2 Center St',
+          //     joined: '2022-11-01'
+          //   },
+          //   {
+          //     key: '4',
+          //     name: 'Sara Mills',
+          //     avatar: 'https://i.pravatar.cc/80?img=4',
+          //     age: 35,
+          //     email: 'sara.mills@example.com',
+          //     phone: '+1 202-555-0143',
+          //     company: 'Umbrella',
+          //     status: 'Active',
+          //     score: 76,
+          //     address: 'Paris, Rue de Rivoli',
+          //     joined: '2020-05-09'
+          //   }
+          // ]
         },
         {
           key: '5',
@@ -2090,6 +2133,10 @@ export default {
         }
       ],
       selectSingle: '',
+      asyncLoading: true,
+      asyncOptions: [],
+      asyncSingle: 'b',
+      asyncMultiple: ['a', 'c'],
       selectSearchable: '',
       selectMultiple: [],
       selectMultiSearch: [],
@@ -2583,7 +2630,22 @@ export default {
       })
     }
   },
+  mounted() {
+    this.reloadAsyncOptions()
+  },
   methods: {
+    // Giả lập bắn API: loading 1.5s rồi mới có options
+    reloadAsyncOptions() {
+      this.asyncLoading = true
+      setTimeout(() => {
+        this.asyncOptions = [
+          { value: 'a', label: 'Sản phẩm A' },
+          { value: 'b', label: 'Sản phẩm B' },
+          { value: 'c', label: 'Sản phẩm C' }
+        ]
+        this.asyncLoading = false
+      }, 1500)
+    },
     handleSelectV2Change(val) {
       console.log('change: ==========', val)
       this.selectV2 = val

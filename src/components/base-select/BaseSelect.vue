@@ -36,7 +36,7 @@
             <slot name="icon" />
           </span>
           <div v-if="['multiple', 'tags'].includes(mode)" class="ui-base-select--multiple__values">
-            <div v-if="displayValues.length > 0" class="ui-base-select__tags">
+            <div v-if="hasValue" class="ui-base-select__tags">
               <WkTag
                 v-for="item in displayValues"
                 :key="item.value"
@@ -53,12 +53,12 @@
               class="ui-base-select__search"
               type="text"
               :value="searchValue"
-              :placeholder="!displayValues.length ? placeholder : ''"
+              :placeholder="!hasValue ? placeholder : ''"
               @input="onSearchInput"
               @click.stop="handleSearchClick"
               @keydown="onSearchKeydown"
             />
-            <span v-else-if="!displayValues.length" class="ui-base-select__placeholder">{{ placeholder }}</span>
+            <span v-else-if="!hasValue" class="ui-base-select__placeholder">{{ placeholder }}</span>
           </div>
           <template v-else>
             <input
@@ -221,16 +221,26 @@ export default {
   data() {
     return {
       innerOpen: this.defaultOpen,
-      isFocused: false
+      isFocused: false,
+      hasLoadedOptions: false
+    }
+  },
+
+  watch: {
+    loading(val, old) {
+      if (old && !val) this.hasLoadedOptions = true
     }
   },
 
   computed: {
+    hideValue() {
+      return this.loading && !this.hasLoadedOptions
+    },
     mergedOpen() {
       return this.open !== undefined ? this.open : this.innerOpen
     },
     hasValue() {
-      return Array.isArray(this.displayValues) && this.displayValues.length > 0
+      return Array.isArray(this.displayValues) && this.displayValues.length > 0 && !this.hideValue
     },
     showClearBtn() {
       return this.allowClear && !this.disabled && this.hasValue && this.innerOpen

@@ -80,6 +80,8 @@ export function createTableContext() {
       sort: null,
       select: null,
       resize: null,
+      beginResize: null,
+      resizeColumn: null,
       expand: null,
       reorder: null
     }
