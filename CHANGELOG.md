@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.32] - 2026-11-05
+
+### Changed
+- `WkTable` column resizing now borrows/returns width from the next resizable column to the right instead of resizing in isolation, keeping the total table width unchanged.
+
+### Fixed
+- `WkSelect` and `WkSelectTree` no longer briefly show stale selected tags/placeholder while options are reloading.
+
 ## [1.3.31] - 2026-11-04
 
 ### Added
