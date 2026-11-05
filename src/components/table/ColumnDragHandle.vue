@@ -19,7 +19,7 @@ export default {
     maxWidth: { type: Number, default: Infinity },
     reversed: { type: Boolean, default: false }
   },
-  emits: ['resize'],
+  emits: ['resize', 'resize-start'],
   data: function () {
     return {
       dragging: false
@@ -77,6 +77,7 @@ export default {
     },
     _handleStart: function (e) {
       this.dragging = true
+      this.$emit('resize-start', this.column)
       this._removeEvents()
       this._baseWidth = this.$el.parentNode.getBoundingClientRect().width
       this._startX = this._getPageX(e)
