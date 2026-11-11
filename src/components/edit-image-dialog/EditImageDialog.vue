@@ -89,17 +89,19 @@
                 <template v-else>
                   <AiPromptBox
                     :value="localPrompt"
+                    :enhancing="enhancing"
                     :placeholder="text.placeholder"
                     :reference-label="text.addReference"
                     :enhance-label="text.enhancePrompt"
                     @input="onPrompt"
                     @add-reference="$emit('add-reference')"
                     @enhance="$emit('enhance-prompt', $event)"
+                    @submit="onRegenerate"
                   />
                   <Button
                     class="ui-edit-image__btn"
-                    :disabled="loading || !image || !localPrompt.trim()"
-                    @click="$emit('regenerate', { prompt: localPrompt })"
+                    :disabled="loading || enhancing || !image || !localPrompt.trim()"
+                    @click="onRegenerate"
                   >
                     {{ text.generate }}
                   </Button>
@@ -220,6 +222,8 @@ export default {
     // Current image URL. Replace it with each API result; "Save" buttons appear once it differs from the opening image.
     image: { type: String, default: '' },
     loading: { type: Boolean, default: false },
+    // Set while your enhance-prompt request runs; Regenerate is blocked until it ends.
+    enhancing: { type: Boolean, default: false },
     prompt: { type: String, default: '' },
     defaultTool: {
       type: String,
@@ -444,6 +448,10 @@ export default {
       }
       ctx.putImageData(img, 0, 0)
       return out.toDataURL('image/png')
+    },
+    onRegenerate() {
+      if (this.loading || this.enhancing || !this.image || !this.localPrompt.trim()) return
+      this.$emit('regenerate', { prompt: this.localPrompt })
     },
     onErase() {
       if (this.hasMask && this.$refs.mask && !this.loading)
