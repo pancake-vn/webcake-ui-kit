@@ -1433,6 +1433,42 @@
           <div style="font-size: 13px; color: var(--muted-fg)">Selected key: {{ sidebarActiveKey || '—' }}</div>
         </div>
       </section>
+
+      <section class="section">
+        <h2>AI image — Generate / Edit dialogs</h2>
+        <div class="row">
+          <WkButton @click="aiGenOpen = true">Generate image</WkButton>
+          <WkButton variant="outline" @click="aiEditOpen = true">Edit image</WkButton>
+        </div>
+        <pre style="font-size: 12px; color: var(--muted-fg); max-height: 160px; overflow: auto">{{
+          aiLog.join('\n')
+        }}</pre>
+        <WkGenerateImageDialog
+          v-model="aiGenOpen"
+          :prompt="aiPrompt"
+          :loading="aiGenLoading"
+          :image="aiGenImage"
+          credits="1.443"
+          @update:prompt="aiPrompt = $event"
+          @generate="aiGenerate"
+          @use="aiDone('use', $event)"
+          @add-reference="aiLog.unshift('add-reference')"
+          @enhance-prompt="aiLog.unshift('enhance-prompt ' + $event)"
+        />
+        <WkEditImageDialog
+          v-model="aiEditOpen"
+          :image="aiEditImage"
+          :loading="aiEditLoading"
+          @upscale="aiEdit('upscale', $event)"
+          @crop="aiEdit('crop', $event)"
+          @extend="aiEdit('extend', $event)"
+          @change-background="aiEdit('change-background', $event)"
+          @erase="aiEdit('erase', $event)"
+          @regenerate="aiEdit('regenerate', $event)"
+          @save="aiDone('save', $event)"
+          @save-copy="aiDone('save-copy', $event)"
+        />
+      </section>
     </div>
   </div>
 </template>
@@ -2382,7 +2418,15 @@ export default {
           showIcon: false
         }
       ],
-      selectedRowKeys: ['1']
+      selectedRowKeys: ['1'],
+      aiGenOpen: false,
+      aiGenLoading: false,
+      aiGenImage: '',
+      aiPrompt: '',
+      aiEditOpen: false,
+      aiEditLoading: false,
+      aiEditImage: 'https://picsum.photos/seed/webcake-shoe/800/800',
+      aiLog: []
     }
   },
   components: {
@@ -2634,6 +2678,29 @@ export default {
     this.reloadAsyncOptions()
   },
   methods: {
+    // Fake API for the AI image dialogs — the consumer app calls its real endpoint here.
+    aiGenerate(payload) {
+      this.aiLog.unshift('generate ' + JSON.stringify(payload))
+      this.aiGenLoading = true
+      this.aiGenImage = ''
+      setTimeout(() => {
+        this.aiGenLoading = false
+        this.aiGenImage = 'https://picsum.photos/seed/' + encodeURIComponent(payload.prompt) + '/800/800'
+      }, 1500)
+    },
+    aiEdit(action, payload) {
+      this.aiLog.unshift(action + ' ' + JSON.stringify(payload).slice(0, 120))
+      this.aiEditLoading = true
+      setTimeout(() => {
+        this.aiEditLoading = false
+        this.aiEditImage = 'https://picsum.photos/seed/' + action + Date.now() + '/800/800'
+      }, 1200)
+    },
+    aiDone(action, payload) {
+      this.aiLog.unshift(action + ' ' + JSON.stringify(payload))
+      this.aiGenOpen = false
+      this.aiEditOpen = false
+    },
     // Giả lập bắn API: loading 1.5s rồi mới có options
     reloadAsyncOptions() {
       this.asyncLoading = true

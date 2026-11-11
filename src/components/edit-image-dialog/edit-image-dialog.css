@@ -1,0 +1,195 @@
+/* Dialog body has its own padding; the two-pane layout is edge-to-edge in the design. */
+.ui-edit-image {
+  display: flex;
+  height: min(904px, calc(100vh - 160px));
+  margin: calc(-1 * var(--spacing-md));
+  background: var(--card);
+}
+
+.ui-edit-image__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  flex-shrink: 0;
+  width: 320px;
+  padding: var(--spacing-md);
+  border-right: 1px solid var(--border-primary);
+  overflow-y: auto;
+}
+
+.ui-edit-image__tools {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  flex: 1 1 auto;
+}
+
+.ui-edit-image__tool-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.ui-edit-image__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.ui-edit-image__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.ui-edit-image__btn {
+  width: 100%;
+}
+
+/* ── background swatches ── */
+.ui-edit-image__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.ui-edit-image__swatch {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  padding: var(--spacing-3);
+  background: var(--card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-full);
+  cursor: pointer;
+  outline: none;
+}
+
+.ui-edit-image__swatch:focus-visible {
+  box-shadow: var(--shadow-focus-ring);
+}
+
+.ui-edit-image__swatch--active {
+  border: 1.5px solid var(--stroke);
+}
+
+.ui-edit-image__swatch-fill {
+  flex: 1;
+  border-radius: var(--rounded-full);
+}
+
+.ui-edit-image__checker {
+  background: repeating-conic-gradient(var(--tertiary-bg) 0% 25%, var(--card) 0% 50%) 50% / 16px 16px;
+}
+
+/* ── preview ── */
+.ui-edit-image__preview {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: var(--spacing-md);
+  overflow: hidden;
+}
+
+.ui-edit-image__frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  border-radius: var(--rounded-2xl);
+}
+
+.ui-edit-image__img {
+  display: block;
+  max-width: 100%;
+  max-height: min(566px, calc(100vh - 220px));
+  object-fit: contain;
+}
+
+/* Crop/Extend: the frame takes the target ratio */
+.ui-edit-image__frame--wide {
+  width: 100%;
+}
+
+.ui-edit-image__frame--tall {
+  height: min(100%, 566px);
+}
+
+.ui-edit-image__frame--crop .ui-edit-image__img,
+.ui-edit-image__frame--extend .ui-edit-image__img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+}
+
+.ui-edit-image__frame--crop .ui-edit-image__img {
+  object-fit: cover;
+}
+
+.ui-edit-image__frame--crop,
+.ui-edit-image__frame--extend {
+  border-radius: 0;
+}
+
+/* Object eraser brush layer */
+.ui-edit-image__mask {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--primary-brand-bg);
+  opacity: 0.5;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* "Processing" glow — same treatment as GenerateImageDialog */
+.ui-edit-image__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 8px solid transparent;
+  border-image: linear-gradient(135deg, var(--ai-glow-1), var(--ai-glow-2), var(--ai-glow-3), var(--ai-glow-1)) 1;
+  box-shadow: inset 0 0 24px var(--ai-glow-2);
+  opacity: 0.73;
+  filter: blur(4px);
+  animation: ui-edit-image-glow 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes ui-edit-image-glow {
+  from {
+    filter: blur(4px) hue-rotate(0deg);
+  }
+  to {
+    filter: blur(10px) hue-rotate(60deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-edit-image__glow {
+    animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .ui-edit-image {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .ui-edit-image__sidebar {
+    width: 100%;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  .ui-edit-image__preview {
+    min-height: 320px;
+  }
+}
