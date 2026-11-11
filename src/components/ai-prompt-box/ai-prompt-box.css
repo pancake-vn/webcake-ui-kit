@@ -1,0 +1,50 @@
+.ui-ai-prompt-box {
+  width: 100%;
+  padding: var(--spacing-6);
+  border-radius: var(--rounded-3xl);
+  background: linear-gradient(70deg, var(--ai-gradient-start) 2.5%, var(--ai-gradient-end) 97.5%);
+}
+
+.ui-ai-prompt-box__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs);
+  background: var(--input);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--rounded-2xl);
+}
+
+.ui-ai-prompt-box__input {
+  display: block;
+  width: 100%;
+  min-height: 80px;
+  max-height: 300px;
+  padding: 0;
+  border: 0;
+  outline: none;
+  resize: none;
+  overflow-y: auto;
+  background: transparent;
+  font-family: var(--paragraph-small-font-family);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+  font-weight: var(--paragraph-font-weight);
+  color: var(--primary-fg);
+}
+
+.ui-ai-prompt-box__input::placeholder {
+  color: var(--muted-fg);
+}
+
+.ui-ai-prompt-box__input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.ui-ai-prompt-box__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}

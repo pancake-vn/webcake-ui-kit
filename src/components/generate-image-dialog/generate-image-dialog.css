@@ -1,0 +1,132 @@
+/* Dialog body has its own padding; the two-pane layout is edge-to-edge in the design. */
+.ui-gen-image {
+  display: flex;
+  height: min(904px, calc(100vh - 160px));
+  margin: calc(-1 * var(--spacing-md));
+  background: var(--card);
+}
+
+.ui-gen-image__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  flex-shrink: 0;
+  width: 320px;
+  padding: var(--spacing-md);
+  border-right: 1px solid var(--border-primary);
+  overflow-y: auto;
+}
+
+.ui-gen-image__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  flex: 1 1 auto;
+}
+
+.ui-gen-image__credits {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--spacing-6);
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  background: var(--primary-bg);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius);
+  font-family: var(--paragraph-small-font-family);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--secondary-fg);
+}
+
+.ui-gen-image__credits-icon {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  color: var(--primary-brand-bg);
+}
+
+.ui-gen-image__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.ui-gen-image__btn {
+  width: 100%;
+}
+
+.ui-gen-image__preview {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: var(--spacing-md) var(--spacing-3xs) var(--spacing-md) var(--spacing-md);
+  overflow: hidden;
+}
+
+.ui-gen-image__result {
+  display: block;
+  max-width: 100%;
+  max-height: min(100%, 566px);
+  object-fit: contain;
+  border-radius: var(--rounded-2xl);
+}
+
+.ui-gen-image__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-6);
+  font-family: var(--paragraph-small-font-family);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  color: var(--muted-fg);
+}
+
+/* "Generating" glow — Figma SiriAnimation (stacked blurred borders) */
+.ui-gen-image__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 8px solid transparent;
+  border-image: linear-gradient(135deg, var(--ai-glow-1), var(--ai-glow-2), var(--ai-glow-3), var(--ai-glow-1)) 1;
+  box-shadow: inset 0 0 24px var(--ai-glow-2);
+  opacity: 0.73;
+  filter: blur(4px);
+  animation: ui-gen-image-glow 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes ui-gen-image-glow {
+  from {
+    filter: blur(4px) hue-rotate(0deg);
+  }
+  to {
+    filter: blur(10px) hue-rotate(60deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-gen-image__glow {
+    animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .ui-gen-image {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .ui-gen-image__sidebar {
+    width: 100%;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  .ui-gen-image__preview {
+    min-height: 320px;
+  }
+}
