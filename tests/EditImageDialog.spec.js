@@ -430,6 +430,46 @@ describe('WkEditImageDialog', () => {
       expect($('.ui-edit-image__mask')).toBeNull()
       w.unmount()
     })
+
+    const paint = async w => {
+      await loadImage(w)
+      pointer('pointerdown', 50, 50)
+      pointer('pointerup', 50, 50)
+      await tick(w)
+    }
+
+    it('forgets the strokes when the canvas is remounted by switching tools (no all-black mask)', async () => {
+      mockCanvas()
+      const w = open({ defaultTool: 'eraser' })
+      await tick(w)
+      await paint(w)
+      expect(action('Eraser').disabled).toBe(false)
+      await openTool(w, 'Upscale')
+      await openTool(w, 'Object eraser')
+      expect(action('Eraser').disabled).toBe(true)
+      action('Eraser').click()
+      await tick(w)
+      expect(w.emitted('erase')).toBeFalsy()
+      w.unmount()
+    })
+
+    it('forgets the strokes after a failed request (loading true → false, same image)', async () => {
+      mockCanvas()
+      const w = open({ defaultTool: 'eraser' })
+      await tick(w)
+      await paint(w)
+      action('Eraser').click()
+      await tick(w)
+      expect(w.emitted('erase').length).toBe(1)
+      await w.setProps({ loading: true })
+      await w.setProps({ loading: false })
+      await tick(w)
+      expect(action('Eraser').disabled).toBe(true)
+      action('Eraser').click()
+      await tick(w)
+      expect(w.emitted('erase').length).toBe(1)
+      w.unmount()
+    })
   })
 
   describe('regenerate', () => {
@@ -527,6 +567,19 @@ describe('WkEditImageDialog', () => {
       expect($('.ui-edit-image__glow')).not.toBeNull()
       expect(btn('Save image')).toBeUndefined()
       expect($$('.ui-accordion-item__trigger').every(t => t.disabled)).toBe(true)
+      w.unmount()
+    })
+
+    it('blocks the action button of an already-open tool while loading (no duplicate paid calls)', async () => {
+      const w = open({ defaultTool: 'upscale' })
+      await tick(w)
+      action('Upscale').click()
+      await w.setProps({ loading: true })
+      await tick(w)
+      expect(action('Upscale').disabled).toBe(true)
+      action('Upscale').click()
+      await tick(w)
+      expect(w.emitted('upscale').length).toBe(1)
       w.unmount()
     })
 

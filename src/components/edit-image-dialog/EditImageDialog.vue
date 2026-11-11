@@ -29,7 +29,7 @@
                   <Field :label="text.scaleFactor">
                     <Select :value="scale" :options="scaleOptions" @change="scale = $event" />
                   </Field>
-                  <Button class="ui-edit-image__btn" :disabled="!image" @click="$emit('upscale', { scale })">
+                  <Button class="ui-edit-image__btn" :disabled="loading || !image" @click="$emit('upscale', { scale })">
                     <template #icon-left><WkiSparkles :size="20" /></template>
                     {{ text.upscaleAction }}
                   </Button>
@@ -43,7 +43,7 @@
                   <Field :label="text.ratio">
                     <Select :value="ratio" :options="ratioOptions" @change="ratio = $event" />
                   </Field>
-                  <Button class="ui-edit-image__btn" :disabled="!image" @click="onCrop">
+                  <Button class="ui-edit-image__btn" :disabled="loading || !image" @click="onCrop">
                     <template #icon-left><WkiSparkles :size="20" /></template>
                     {{ cropMode === 'crop' ? text.crop : text.extend }}
                   </Button>
@@ -68,7 +68,7 @@
                   </div>
                   <Button
                     class="ui-edit-image__btn"
-                    :disabled="!image || !bgColor"
+                    :disabled="loading || !image || !bgColor"
                     @click="$emit('change-background', { color: bgColor })"
                   >
                     <template #icon-left><WkiSparkles :size="20" /></template>
@@ -80,7 +80,7 @@
                   <Field :label="text.size">
                     <Slider :value="eraserSize" :min="1" :max="100" variant="primary" @change="eraserSize = $event" />
                   </Field>
-                  <Button class="ui-edit-image__btn" :disabled="!hasMask" @click="onErase">
+                  <Button class="ui-edit-image__btn" :disabled="loading || !hasMask" @click="onErase">
                     <template #icon-left><WkiSparkles :size="20" /></template>
                     {{ text.eraseAction }}
                   </Button>
@@ -98,7 +98,7 @@
                   />
                   <Button
                     class="ui-edit-image__btn"
-                    :disabled="!image || !localPrompt.trim()"
+                    :disabled="loading || !image || !localPrompt.trim()"
                     @click="$emit('regenerate', { prompt: localPrompt })"
                   >
                     {{ text.generate }}
@@ -357,6 +357,13 @@ export default {
       if (!this.initialImage) this.initialImage = v
       this.clearMask()
     },
+    // The mask canvas is v-if'd on both: each remount is a fresh, empty canvas.
+    activeTool() {
+      this.hasMask = false
+    },
+    loading(v) {
+      if (v) this.hasMask = false
+    },
     prompt(v) {
       this.localPrompt = v
     }
@@ -439,7 +446,8 @@ export default {
       return out.toDataURL('image/png')
     },
     onErase() {
-      if (this.hasMask) this.$emit('erase', { size: this.eraserSize, mask: this.exportMask() })
+      if (this.hasMask && this.$refs.mask && !this.loading)
+        this.$emit('erase', { size: this.eraserSize, mask: this.exportMask() })
     }
   }
 }
