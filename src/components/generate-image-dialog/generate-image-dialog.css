@@ -1,7 +1,9 @@
 /* Dialog body has its own padding; the two-pane layout is edge-to-edge in the design. */
 .ui-gen-image {
   display: flex;
-  height: min(904px, calc(100vh - 160px));
+  /* = min(904px, 100vh - 160px). No CSS min(): LibSass (sass-loader in consumers) evaluates it. */
+  height: 904px;
+  max-height: calc(100vh - 160px);
   margin: calc(-1 * var(--spacing-md));
   background: var(--card);
 }
@@ -70,9 +72,16 @@
 .ui-gen-image__result {
   display: block;
   max-width: 100%;
-  max-height: min(100%, 566px);
+  max-height: 566px;
   object-fit: contain;
   border-radius: var(--rounded-2xl);
+}
+
+/* Preview content box < 566px once the dialog (100vh - 160px) minus 32px padding is smaller. */
+@media (max-height: 757px) {
+  .ui-gen-image__result {
+    max-height: 100%;
+  }
 }
 
 .ui-gen-image__placeholder {
