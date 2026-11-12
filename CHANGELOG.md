@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-11-12
+
+### Added
+- `AiPromptBox` now submits on Cmd/Ctrl+Enter (plain Enter still inserts a newline), ignoring the shortcut while an IME is composing.
+- `WkGenerateImageDialog` and `WkEditImageDialog` accept a new `enhancing` prop that shows an animated gradient frame and light sweep on the prompt box while a prompt-enhance request is running, keeping the text readable but read-only and blocking Generate/Regenerate, enhance, and add-reference until it finishes.
+
 ## [1.5.0] - 2026-11-11
 
 ### Added
