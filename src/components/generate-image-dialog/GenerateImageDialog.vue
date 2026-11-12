@@ -36,11 +36,13 @@
             :value="localPrompt"
             :placeholder="text.placeholder"
             :disabled="loading"
+            :enhancing="enhancing"
             :reference-label="text.addReference"
             :enhance-label="text.enhancePrompt"
             @input="setValue('prompt', $event)"
             @add-reference="$emit('add-reference')"
             @enhance="$emit('enhance-prompt', $event)"
+            @submit="onGenerate"
           />
         </div>
 
@@ -113,6 +115,8 @@ export default {
     // Result image URL. Set it when your API returns; clear it to go back to the empty state.
     image: { type: String, default: '' },
     loading: { type: Boolean, default: false },
+    // Set while your enhance-prompt request runs; Generate is blocked until it ends.
+    enhancing: { type: Boolean, default: false },
     credits: { type: [Number, String], default: null },
     labels: { type: Object, default: () => ({}) },
     width: { type: [Number, String], default: 1280 },
@@ -156,7 +160,7 @@ export default {
       return this.credits !== null && this.credits !== ''
     },
     canGenerate() {
-      return !this.loading && !!this.localPrompt.trim()
+      return !this.loading && !this.enhancing && !!this.localPrompt.trim()
     },
     payload() {
       return { prompt: this.localPrompt, dimension: this.currentDimension, style: this.currentStyle }

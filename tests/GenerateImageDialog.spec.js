@@ -132,6 +132,50 @@ describe('WkGenerateImageDialog', () => {
       expect($('[aria-label="Enhance prompt"]').disabled).toBe(true)
       w.unmount()
     })
+
+    it('Enter keeps typing; Cmd/Ctrl+Enter generates; not while composing or loading', async () => {
+      const key = init => {
+        const e = new KeyboardEvent('keydown', { key: 'Enter', keyCode: 13, bubbles: true, cancelable: true, ...init })
+        $('.ui-ai-prompt-box__input').dispatchEvent(e)
+        return e
+      }
+      const w = open({ prompt: 'a cat' })
+      await tick(w)
+      expect(key({}).defaultPrevented).toBe(false)
+      key({ ctrlKey: true, isComposing: true })
+      expect(w.emitted('generate')).toBeFalsy()
+      expect(key({ metaKey: true }).defaultPrevented).toBe(true)
+      key({ ctrlKey: true })
+      expect(w.emitted('generate').length).toBe(2)
+      expect(w.emitted('generate')[0][0].prompt).toBe('a cat')
+      await w.setProps({ loading: true })
+      await tick(w)
+      key({ ctrlKey: true })
+      expect(w.emitted('generate').length).toBe(2)
+      w.unmount()
+    })
+  })
+
+  describe('enhancing', () => {
+    it('animates the prompt box, keeps text readable and blocks Generate / enhance / submit', async () => {
+      const w = open({ prompt: 'a cat', enhancing: true })
+      await tick(w)
+      expect($('.ui-ai-prompt-box').classList.contains('ui-ai-prompt-box--enhancing')).toBe(true)
+      expect($('.ui-ai-prompt-box').getAttribute('aria-busy')).toBe('true')
+      const input = $('.ui-ai-prompt-box__input')
+      expect(input.readOnly).toBe(true)
+      expect(input.disabled).toBe(false)
+      expect(btn('Generate').disabled).toBe(true)
+      expect($('[aria-label="Enhance prompt"]').disabled).toBe(true)
+      expect($('[aria-label="Add reference image"]').disabled).toBe(true)
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', keyCode: 13, ctrlKey: true, cancelable: true }))
+      expect(w.emitted('generate')).toBeFalsy()
+      await w.setProps({ enhancing: false })
+      await tick(w)
+      expect($('.ui-ai-prompt-box').classList.contains('ui-ai-prompt-box--enhancing')).toBe(false)
+      expect(btn('Generate').disabled).toBe(false)
+      w.unmount()
+    })
   })
 
   describe('dimension / style', () => {

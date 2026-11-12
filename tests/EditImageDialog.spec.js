@@ -513,6 +513,30 @@ describe('WkEditImageDialog', () => {
       expect(action('Generate').disabled).toBe(true)
       w.unmount()
     })
+
+    it('blocks Regenerate while the prompt is being enhanced', async () => {
+      const w = open({ defaultTool: 'regenerate', prompt: 'beach', enhancing: true })
+      await tick(w)
+      expect($('.ui-ai-prompt-box--enhancing')).toBeTruthy()
+      expect(action('Generate').disabled).toBe(true)
+      w.unmount()
+    })
+
+    it('Cmd/Ctrl+Enter regenerates, but not while loading', async () => {
+      const w = open({ defaultTool: 'regenerate', prompt: 'beach' })
+      await tick(w)
+      const key = () =>
+        $('.ui-ai-prompt-box__input').dispatchEvent(
+          new KeyboardEvent('keydown', { key: 'Enter', keyCode: 13, ctrlKey: true, bubbles: true, cancelable: true })
+        )
+      key()
+      expect(w.emitted('regenerate')[0][0]).toEqual({ prompt: 'beach' })
+      await w.setProps({ loading: true })
+      await tick(w)
+      key()
+      expect(w.emitted('regenerate').length).toBe(1)
+      w.unmount()
+    })
   })
 
   describe('save / loading / labels', () => {
