@@ -1,7 +1,7 @@
 /* Dialog body has its own padding; the two-pane layout is edge-to-edge in the design. */
 .ui-gen-image {
   display: flex;
-  height: min(904px, calc(100vh - 160px));
+  height: calc(min(904px, 100vh - 160px));
   margin: calc(-1 * var(--spacing-md));
   background: var(--card);
 }
@@ -70,7 +70,7 @@
 .ui-gen-image__result {
   display: block;
   max-width: 100%;
-  max-height: min(100%, 566px);
+  max-height: calc(min(100%, 566px));
   object-fit: contain;
   border-radius: var(--rounded-2xl);
 }
