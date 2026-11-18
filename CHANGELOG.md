@@ -4,6 +4,17 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.3] - 2026-11-18
+
+### Added
+- `WkDatePicker` accepts a new `trigger` slot for fully customizing its trigger element, matching `WkRangePicker`.
+- `WkSelectTree` now emits a `search` event with the current query when the search input changes.
+- `WkSelectTree` accepts a new `showTooltip` prop to show the full option label in a tooltip when it overflows.
+
+### Fixed
+- `WkInput` no longer shrinks to its content width and now fills its container by default.
+- `WkSelect` in tags mode no longer lists an option twice when its value is already selected, or creates a duplicate tag option when the entered text matches an existing option's label or value.
+
 ## [1.6.2] - 2026-11-17
 
 ### Fixed
