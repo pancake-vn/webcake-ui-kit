@@ -10,7 +10,41 @@
           <WkDivider direction="vertical" />
         </span>
       </div>
+      <WkTooltip v-if="showTooltip" :title="node.label" side="top">
+        <WkMenuItem
+          :label="node.label"
+          :active="node.selected && !checkable"
+          :disabled="node.disabled"
+          :size="optionSize"
+          @click="onNodeClick(node)"
+        >
+          <template #prefix>
+            <span class="ui-select-tree__switcher" @click.stop="onSwitcher(node)">
+              <WkiChevronRight
+                v-if="node.hasChildren"
+                :size="16"
+                class="ui-select-tree__switcher-icon"
+                :class="{ 'ui-select-tree__switcher-icon--open': node.expanded }"
+              />
+            </span>
+            <span v-if="checkable" class="ui-select-tree__checkbox">
+              <WkCheckbox
+                :model-value="node.checked || node.halfChecked"
+                :icon-type="node.halfChecked && !node.checked ? 'minus' : 'default'"
+                :disabled="node.disabled"
+                tabindex="-1"
+              />
+            </span>
+          </template>
+
+          <template v-if="!checkable && node.selected && showChecked" #suffix>
+            <WkiCheck :size="16" />
+          </template>
+        </WkMenuItem>
+      </WkTooltip>
+
       <WkMenuItem
+        v-else
         :label="node.label"
         :active="node.selected && !checkable"
         :disabled="node.disabled"
@@ -50,11 +84,12 @@ import WkiChevronRight from '../../icons/ChevronRight.vue'
 import WkiCheck from '../../icons/Check.vue'
 import WkCheckbox from '../checkbox/Checkbox.vue'
 import WkDivider from '../divider/Divider.vue'
+import WkTooltip from '../tooltip/Tooltip.vue'
 
 export default {
   name: 'TreeList',
 
-  components: { WkMenuItem, WkiChevronRight, WkiCheck, WkCheckbox, WkDivider },
+  components: { WkMenuItem, WkiChevronRight, WkiCheck, WkCheckbox, WkDivider, WkTooltip },
 
   inject: {
     treeSelectContext: { default: null }
@@ -65,6 +100,10 @@ export default {
       type: String,
       default: 'md',
       validator: v => ['sm', 'md', 'lg'].indexOf(v) !== -1
+    },
+    showTooltip: {
+      type: Boolean,
+      default: false
     },
     showChecked: {
       type: Boolean,

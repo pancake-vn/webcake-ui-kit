@@ -10,6 +10,7 @@
   transition:
     border-color 0.12s ease,
     box-shadow 0.12s ease;
+  width: 100%;
 }
 
 /* Size — paddings, gaps, heights, typography. Inner field inherits typography. */
