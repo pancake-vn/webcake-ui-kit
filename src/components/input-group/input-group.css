@@ -1,0 +1,76 @@
+.ui-input-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* Reset radius on every control, then re-apply it on the outer corners.
+   Class doubled (.x.x) to outrank per-size radius rules in each component's
+   own CSS (same trick as button-group.css). */
+.ui-input-group .ui-input.ui-input,
+.ui-input-group .ui-btn.ui-btn,
+.ui-input-group .ui-base-select.ui-base-select,
+.ui-input-group .ui-input-counter.ui-input-counter,
+.ui-input-group .ui-input-number.ui-input-number,
+.ui-input-group .ui-input-group__addon.ui-input-group__addon {
+  border-radius: 0;
+}
+
+.ui-input-group > :first-child.ui-input.ui-input,
+.ui-input-group > :first-child .ui-input.ui-input,
+.ui-input-group > :first-child.ui-btn.ui-btn,
+.ui-input-group > :first-child .ui-btn.ui-btn,
+.ui-input-group > :first-child.ui-base-select.ui-base-select,
+.ui-input-group > :first-child .ui-base-select.ui-base-select,
+.ui-input-group > :first-child.ui-input-counter.ui-input-counter,
+.ui-input-group > :first-child .ui-input-counter.ui-input-counter,
+.ui-input-group > :first-child.ui-input-number.ui-input-number,
+.ui-input-group > :first-child .ui-input-number.ui-input-number,
+.ui-input-group > :first-child.ui-input-group__addon.ui-input-group__addon,
+.ui-input-group > :first-child .ui-input-group__addon.ui-input-group__addon {
+  border-top-left-radius: var(--rounded-xl);
+  border-bottom-left-radius: var(--rounded-xl);
+}
+
+.ui-input-group > :last-child.ui-input.ui-input,
+.ui-input-group > :last-child .ui-input.ui-input,
+.ui-input-group > :last-child.ui-btn.ui-btn,
+.ui-input-group > :last-child .ui-btn.ui-btn,
+.ui-input-group > :last-child.ui-base-select.ui-base-select,
+.ui-input-group > :last-child .ui-base-select.ui-base-select,
+.ui-input-group > :last-child.ui-input-counter.ui-input-counter,
+.ui-input-group > :last-child .ui-input-counter.ui-input-counter,
+.ui-input-group > :last-child.ui-input-number.ui-input-number,
+.ui-input-group > :last-child .ui-input-number.ui-input-number,
+.ui-input-group > :last-child.ui-input-group__addon.ui-input-group__addon,
+.ui-input-group > :last-child .ui-input-group__addon.ui-input-group__addon {
+  border-top-right-radius: var(--rounded-xl);
+  border-bottom-right-radius: var(--rounded-xl);
+}
+
+/* Collapse shared borders. */
+.ui-input-group > :not(:first-child) {
+  margin-left: -1px;
+}
+
+/* Lift the interacted item so its border / focus ring is not covered by siblings. */
+.ui-input-group > :hover,
+.ui-input-group > :focus-within {
+  position: relative;
+  z-index: 1;
+}
+
+/* Input fills the remaining space; buttons / addons keep intrinsic width. */
+.ui-input-group > .ui-input,
+.ui-input-group > .ui-input-number,
+.ui-input-group > .ui-input-counter,
+.ui-input-group > .ui-base-select {
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+}
+
+.ui-input-group > .ui-btn,
+.ui-input-group > .ui-input-group__addon {
+  flex: 0 0 auto;
+}

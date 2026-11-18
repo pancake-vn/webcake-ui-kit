@@ -23,6 +23,8 @@ export { default as WkGenerateImageDialog } from './components/generate-image-di
 export { default as WkHoverCard } from './components/hover-card/HoverCard.vue'
 export { default as WkInput } from './components/input/Input.vue'
 export { default as WkInputCounter } from './components/input-counter/InputCounter.vue'
+export { default as WkInputGroup } from './components/input-group/InputGroup.vue'
+export { default as WkInputGroupAddon } from './components/input-group-addon/InputGroupAddon.vue'
 export { default as WkItem } from './components/item/Item.vue'
 export { default as WkInputNumber } from './components/input-number/InputNumber.vue'
 export { default as WkMenu } from './components/menu/Menu.vue'

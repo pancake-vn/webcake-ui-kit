@@ -1,7 +1,18 @@
 import WkButton from '../../src/components/button/Button.vue'
 import { WkiChevronRight, WkiChevronLeft } from '../../src/icons'
 
-const VARIANTS = ['primary', 'neutral', 'secondary', 'outline', 'ghost', 'destructive', 'link', 'ghost-destructive']
+const VARIANTS = [
+  'primary',
+  'neutral',
+  'secondary',
+  'outline',
+  'ghost',
+  'destructive',
+  'link',
+  'link-block',
+  'ghost-destructive',
+  'outline-destructive'
+]
 const SIZES = ['mini', 'xs', 'sm', 'md', 'lg', 'xl']
 const ROUNDNESS = ['default', 'round']
 

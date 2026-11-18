@@ -1,0 +1,47 @@
+.ui-input-group__addon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  box-sizing: border-box;
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-xs);
+  color: var(--muted-fg);
+  font-family: var(--font-family-body);
+  font-size: var(--paragraph-small-font-size);
+  line-height: var(--paragraph-small-line-height);
+  letter-spacing: var(--paragraph-small-letter-spacing);
+  white-space: nowrap;
+}
+
+.ui-input-group__addon--size-lg {
+  height: 40px;
+  padding: 0 var(--spacing-md);
+}
+
+.ui-input-group__addon--size-md {
+  height: 36px;
+  padding: 0 var(--spacing-sm);
+}
+
+.ui-input-group__addon--size-sm {
+  height: 32px;
+  padding: 0 var(--spacing-xs);
+}
+
+.ui-input-group__addon--size-xs {
+  height: 28px;
+  padding: 0 var(--spacing-6);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}
+
+.ui-input-group__addon--size-tiny {
+  height: 24px;
+  padding: 0 var(--spacing-6);
+  font-size: var(--paragraph-mini-font-size);
+  line-height: var(--paragraph-mini-line-height);
+  letter-spacing: var(--paragraph-mini-letter-spacing);
+}

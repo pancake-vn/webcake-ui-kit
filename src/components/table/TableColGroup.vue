@@ -24,7 +24,9 @@ export default {
     toCssSize,
     colStyle: function (col) {
       const res = {}
-      res.width = (this.tableContext.layout.columnWidths.get(col.key) || col.width) + 'px'
+      // Số đo là px; col.width có thể là số (px) hoặc chuỗi CSS như '100%'
+      const w = this.tableContext.layout.columnWidths.get(col.key) || col.width
+      res.width = typeof w === 'number' ? w + 'px' : w || undefined
       if (col.type === SELECTION_COLUMN) {
         const w = (this.tableContext.selection.columnWidth || 36) + 'px'
         res.width = w
