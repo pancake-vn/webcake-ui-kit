@@ -4,6 +4,22 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.4] - 2026-11-18
+
+### Added
+- `WkButton` accepts new `outline-destructive` and `link-block` variants.
+- `WkInputGroup` and `WkInputGroupAddon` components are now available for composing grouped input fields with leading/trailing addons.
+- `WkiStatusDraft`, `WkiStatusError`, `WkiStatusInfo`, `WkiStatusSuccess`, and `WkiStatusWarning` icons are now available.
+
+### Changed
+- `WkTag` label text now uses the medium paragraph font-weight token instead of a hardcoded weight.
+- `WkAlert` description text now uses the regular paragraph font-weight token instead of the medium one.
+- Ghost and outline hover backgrounds are now slightly darker.
+
+### Fixed
+- `WkTable` no longer keeps stale column widths after columns are added, removed, or reordered, which could push the total table width past its container.
+- `WkTable` columns with non-pixel widths (e.g. percentages) are no longer forced to pixel units.
+
 ## [1.6.3] - 2026-11-18
 
 ### Added

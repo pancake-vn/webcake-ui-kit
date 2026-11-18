@@ -1,6 +1,6 @@
 {
   "name": "webcake-ui-kit",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "UI Kit for Vue 2 && 3 - Pure Options API",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -41,6 +41,8 @@
     "./WkHoverCard": "./src/components/hover-card/HoverCard.vue",
     "./WkInput": "./src/components/input/Input.vue",
     "./WkInputCounter": "./src/components/input-counter/InputCounter.vue",
+    "./WkInputGroup": "./src/components/input-group/InputGroup.vue",
+    "./WkInputGroupAddon": "./src/components/input-group-addon/InputGroupAddon.vue",
     "./WkInputNumber": "./src/components/input-number/InputNumber.vue",
     "./WkItem": "./src/components/item/Item.vue",
     "./WkMenu": "./src/components/menu/Menu.vue",
