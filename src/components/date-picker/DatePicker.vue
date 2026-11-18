@@ -11,9 +11,10 @@
     @close="onMenuClose"
   >
     <template #trigger="{ triggerRef, attrs }">
-      <div :ref="triggerRef">
+      <slot name="trigger" v-bind="{ triggerRef, isOpen, toggle: onTriggerClick }">
         <PickerTrigger
           v-bind="attrs"
+          :elRef="triggerRef"
           :display-text="displayText"
           :placeholder="placeholderText"
           :has-value="hasValue"
@@ -31,7 +32,7 @@
             ><slot name="icon"><WkiCalendar :size="16" /></slot
           ></template>
         </PickerTrigger>
-      </div>
+      </slot>
     </template>
 
     <PickerPanel

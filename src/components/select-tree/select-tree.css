@@ -25,8 +25,14 @@
   align-items: center;
 }
 
+.ui-select-tree__list .ui-tooltip {
+  flex: 1;
+  min-width: 0;
+}
+
 .ui-select-tree__list .ui-select-tree__option .ui-menuitem {
   flex: 1;
+  min-width: 0;
 }
 
 .ui-select-tree__indent-wrapper {

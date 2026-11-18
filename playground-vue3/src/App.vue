@@ -36,7 +36,6 @@
         <h2>Select V2</h2>
         <WkSelect
           allowClear
-          loading
           :value="selectV2"
           @change="handleSelectV2Change"
           placeholder="Vui lòng nhập tên, mã sản phẩm"
@@ -47,7 +46,6 @@
           class="dslflsdfkdskfsdkf"
           :options="fonts.map(font => ({ value: font, label: font, markLabel: '123' }))"
         >
-          <!-- <WkSelectOption v-for="(font, idx) in fonts" :value="font" :label="font" :key="idx" markLabel="123" /> -->
           <template #icon>
             <WkiMinus :size="12" />
           </template>
@@ -61,7 +59,7 @@
         </p>
         <WkButton style="margin-bottom: 12px" @click="reloadAsyncOptions">Reload options</WkButton>
         <div style="display: flex; flex-direction: column; gap: 12px; max-width: 320px">
-          <WkSelect
+          <!-- <WkSelect
             :value="asyncSingle"
             :options="asyncOptions"
             :loading="asyncLoading"
@@ -75,7 +73,7 @@
             :loading="asyncLoading"
             placeholder="Chọn nhiều sản phẩm"
             @change="asyncMultiple = $event"
-          />
+          /> -->
         </div>
       </section>
       <section class="section">
@@ -83,7 +81,7 @@
         <div style="display: flex; flex-direction: column; gap: 24px; max-width: 360px">
           <div>
             <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 6px">Single — default expand all</p>
-            <WkSelectTree
+            <!-- <WkSelectTree
               allowClear
               :value="stSingle"
               :tree-data="stTreeData"
@@ -94,7 +92,7 @@
               default-expand-all
               placeholder="Chọn khu vực"
               @change="stSingle = $event"
-            />
+            /> -->
             <code style="font-size: 11px">{{ stSingle }}</code>
           </div>
 
@@ -105,6 +103,7 @@
               :value="stChecked"
               :tree-data="stTreeData"
               tree-checkable
+              showTooltip
               show-checked-strategy="SHOW_PARENT"
               default-expand-all
               placeholder="Chọn nhiều"
@@ -962,7 +961,13 @@
       <section class="section">
         <h2>Date Picker</h2>
         <div class="dp-grid">
-          <label>Single<WkDatePicker v-model="dpSingle" /></label>
+          <!-- <label>Single
+            <WkDatePicker v-model="dpSingle">
+              <template #trigger="{ triggerRef, _Open, toggle }">
+                <WkTag :elRef="triggerRef" @click="toggle">{{ dpSingle || 'Select date'}}</WkTag>
+              </template>
+            </WkDatePicker>
+          </label> -->
           <label>Multiple<WkDatePicker v-model="dpMultiple" mode="multiple" :max-count="3" :months="2" /></label>
           <label>Date + time<WkDatePicker v-model="dpDateTime" show-time /></label>
           <label>Min/Max (this month)<WkDatePicker v-model="dpMinMax" :min-date="dpMin" :max-date="dpMax" /></label>

@@ -115,7 +115,10 @@ export default {
     },
 
     flattenOptions() {
-      const tagNormalized = this.mode == 'tags' ? this.tagOptions.map(this.normalizeOption) : []
+      const tagNormalized =
+        this.mode == 'tags'
+          ? this.tagOptions.filter(o => !this.valueOptions.has(o.value)).map(this.normalizeOption)
+          : []
       const base = this.normalizedOptions.concat(tagNormalized)
       if (!this.searchValue) return base
       const query = this.searchValue.trim().toLowerCase()
@@ -240,7 +243,8 @@ export default {
         o => String(o.label).toLowerCase() === text.toLowerCase() || o.value === text
       )
       const val = existing ? existing.value : text
-      if (!this.tagOptions.find(o => o.value === val)) {
+      // An existing option already carries the label: only a brand-new text becomes a tag option
+      if (!existing && !this.tagOptions.find(o => o.value === val)) {
         this.tagOptions = this.tagOptions.concat([{ label: text, value: text, disabled: false }])
       }
       const current = [...this.rawValues.keys()]

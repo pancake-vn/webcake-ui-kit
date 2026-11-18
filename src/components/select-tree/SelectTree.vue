@@ -109,7 +109,7 @@ export default {
     }
   },
 
-  emits: ['update:value', 'update:modelValue', 'input', 'change', 'select', 'tree-expand'],
+  emits: ['update:value', 'update:modelValue', 'input', 'change', 'select', 'tree-expand', 'search'],
 
   data() {
     return {
@@ -381,6 +381,7 @@ export default {
 
     onSearch(value) {
       this.searchValue = value
+      this.$emit('search', value)
     },
 
     onExpand(key) {

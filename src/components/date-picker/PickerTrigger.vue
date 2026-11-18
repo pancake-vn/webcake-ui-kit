@@ -49,9 +49,20 @@ export default {
       type: String,
       default: 'md',
       validator: v => ['xs', 'sm', 'md', 'lg'].includes(v)
-    }
+    },
+    elRef: { type: Function, default: null }
   },
-  emits: ['click', 'keydown', 'focus', 'blur', 'clear']
+  emits: ['click', 'keydown', 'focus', 'blur', 'clear'],
+  mounted() {
+    if (this.elRef) this.elRef(this.$el)
+  },
+  beforeUnmount() {
+    if (this.elRef) this.elRef(null)
+  },
+  // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle, vue/no-dupe-keys
+  beforeDestroy() {
+    if (this.elRef) this.elRef(null)
+  }
 }
 </script>
 

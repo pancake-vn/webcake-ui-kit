@@ -242,6 +242,19 @@ describe('WkSelect', () => {
       w.vm.tagOptions = [{ label: 'Mango', value: 'Mango', disabled: false }]
       expect(w.vm.flattenOptions.some(o => o.value === 'Mango')).toBe(true)
     })
+
+    it('handleEnterSearch does not add a tag option when an existing option matches', () => {
+      const w = mount(WkSelect, { props: { mode: 'tags', options: FRUITS, value: [] } })
+      w.vm.handleEnterSearch('apple')
+      expect(w.vm.tagOptions).toEqual([])
+    })
+
+    it('lists a typed tag once when it is also supplied through options', async () => {
+      const w = mount(WkSelect, { props: { mode: 'tags', options: FRUITS, value: [] } })
+      w.vm.handleEnterSearch('Mango')
+      await w.setProps({ options: [...FRUITS, 'Mango'] })
+      expect(w.vm.flattenOptions.filter(o => o.value === 'Mango')).toHaveLength(1)
+    })
   })
 
   // --- clear ---
