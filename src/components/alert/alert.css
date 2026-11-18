@@ -40,7 +40,7 @@
   font-size: var(--paragraph-small-font-size);
   line-height: var(--paragraph-small-line-height);
   letter-spacing: var(--paragraph-small-letter-spacing);
-  font-weight: var(--paragraph-medium-font-weight);
+  font-weight: var(--paragraph-font-weight);
   word-break: break-word;
   color: var(--primary-fg);
 }

@@ -21,6 +21,11 @@ describe('WkButton', () => {
     expect(w.classes()).toEqual(expect.arrayContaining(['ui-btn', 'ui-btn--destructive', 'ui-btn--lg']))
   })
 
+  it('accepts the link-block variant', () => {
+    const w = mount(WkButton, { props: { label: 'X', variant: 'link-block', size: 'md' } })
+    expect(w.classes()).toEqual(expect.arrayContaining(['ui-btn--link-block', 'ui-btn--md']))
+  })
+
   it('emits click on user click', async () => {
     const w = mount(WkButton, { props: { label: 'X' } })
     await w.trigger('click')

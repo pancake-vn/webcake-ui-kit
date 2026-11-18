@@ -1066,11 +1066,19 @@
 
       <section class="section">
         <h2>Table — resize column (mượn/trả width cột kế bên)</h2>
-        <p style="font-size: 12px; color: var(--muted-fg); margin-bottom: 8px">
+        <p
+          style="font-size: 12px; color: var(--muted-fg); margin-bottom: 8px"
+          @click="toggleDraggable = !toggleDraggable"
+        >
           Kéo 1 cột: cột resizable kế tiếp bên phải bị mượn/trả width, tổng không đổi. Company là cột resizable cuối nên
           không có handle (cột co giãn); Status cố định, không đổi.
         </p>
-        <WkTable bordered :columns="tableResizeColumns" :data-source="tableV2Data.slice(0, 3)" />
+        <WkTable
+          bordered
+          :columns="tableResizeColumns"
+          :data-source="tableV2Data.slice(0, 3)"
+          :rowDraggable="rowDraggable2"
+        />
       </section>
 
       <section class="section">
@@ -1474,6 +1482,36 @@
           @save-copy="aiDone('save-copy', $event)"
         />
       </section>
+      <section class="section">
+        <h2>InputGroup</h2>
+        <div style="display: flex; flex-direction: column; gap: 16px; max-width: 480px">
+          <WkInputGroup label="url">
+            <WkInputGroupAddon>https://</WkInputGroupAddon>
+            <WkInput placeholder="example.com" />
+          </WkInputGroup>
+          <WkInputGroup>
+            <WkInput placeholder="Search..." />
+            <WkButton variant="outline">Search</WkButton>
+          </WkInputGroup>
+          <WkInputGroup>
+            <WkInputGroupAddon>https://</WkInputGroupAddon>
+            <WkInput placeholder="domain" />
+            <WkInputGroupAddon>.com</WkInputGroupAddon>
+          </WkInputGroup>
+          <WkInputGroup>
+            <WkInput placeholder="Error state" error />
+            <WkButton variant="outline">Go</WkButton>
+          </WkInputGroup>
+          <WkInputGroup>
+            <WkInput placeholder="Disabled" disabled />
+            <WkButton variant="outline" disabled>Go</WkButton>
+          </WkInputGroup>
+          <WkInputGroup v-for="s in ['lg', 'sm', 'xs', 'tiny']" :key="s">
+            <WkInputGroupAddon :size="s">{{ s }}</WkInputGroupAddon>
+            <WkInput :size="s" placeholder="Input" />
+          </WkInputGroup>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -1774,10 +1812,8 @@ export default {
         { value: 'trash', label: 'Trash', disabled: true }
       ],
       tableResizeColumns: [
-        { title: 'Name', dataIndex: 'name', width: 200, resizable: true },
-        { title: 'Email', dataIndex: 'email', resizable: true },
-        { title: 'Phone', dataIndex: 'phone', resizable: true },
-        { title: 'Company', dataIndex: 'company', resizable: true },
+        { title: 'Name', dataIndex: 'name' },
+        { title: 'Email', dataIndex: 'email', width: 100 },
         { title: 'Status', dataIndex: 'status', width: 100, align: 'center' }
       ],
       tableV2Columns: [
@@ -2431,7 +2467,8 @@ export default {
       aiEditOpen: false,
       aiEditLoading: false,
       aiEditImage: 'https://picsum.photos/seed/webcake-shoe/800/800',
-      aiLog: []
+      aiLog: [],
+      toggleDraggable: false
     }
   },
   components: {
@@ -2456,6 +2493,15 @@ export default {
       const fmt = d => dayjs(d).format('DD/MM/YYYY')
       if (start && end) return `Create at is ${fmt(start)} → ${fmt(end)}`
       return `Create at is ${fmt(start)} → …`
+    },
+    rowDraggable2() {
+      if (!this.toggleDraggable) return null
+      return {
+        columnWidth: 46,
+        handleReorder: () => {
+          console.log('1111111111')
+        }
+      }
     },
     optionsState() {
       return (

@@ -1082,6 +1082,36 @@
           @save-copy="aiDone('save-copy', $event)"
         />
       </section>
+      <section class="section">
+        <h2>InputGroup</h2>
+        <div style="display: flex; flex-direction: column; gap: 16px; max-width: 480px">
+          <WkInputGroup label="url">
+            <WkInputGroupAddon>https://</WkInputGroupAddon>
+            <WkInput placeholder="example.com" />
+          </WkInputGroup>
+          <WkInputGroup>
+            <WkInput placeholder="Search..." />
+            <WkButton variant="outline">Search</WkButton>
+          </WkInputGroup>
+          <WkInputGroup>
+            <WkInputGroupAddon>https://</WkInputGroupAddon>
+            <WkInput placeholder="domain" />
+            <WkInputGroupAddon>.com</WkInputGroupAddon>
+          </WkInputGroup>
+          <WkInputGroup>
+            <WkInput placeholder="Error state" error />
+            <WkButton variant="outline">Go</WkButton>
+          </WkInputGroup>
+          <WkInputGroup>
+            <WkInput placeholder="Disabled" disabled />
+            <WkButton variant="outline" disabled>Go</WkButton>
+          </WkInputGroup>
+          <WkInputGroup v-for="s in ['lg', 'sm', 'xs', 'tiny']" :key="s">
+            <WkInputGroupAddon :size="s">{{ s }}</WkInputGroupAddon>
+            <WkInput :size="s" placeholder="Input" />
+          </WkInputGroup>
+        </div>
+      </section>
     </div>
   </div>
 </template>

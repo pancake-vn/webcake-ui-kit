@@ -181,6 +181,18 @@ export default {
             ellipsis: false
           })
         }
+        // Số đo cũ gắn với bộ cột cũ: đổi bộ cột (vd bật/tắt rowDraggable) mà giữ lại thì tổng width vượt container
+        var prevKeys = this.tableCtx.columns.flat.map(function (c) {
+          return c.key
+        })
+        var keysChanged =
+          prevKeys.length !== cols.length ||
+          cols.some(function (c, i) {
+            return c.key !== prevKeys[i]
+          })
+        if (keysChanged && this.tableCtx.layout.columnWidths.size) {
+          this.tableCtx.layout.columnWidths = new Map()
+        }
         this.tableCtx.columns.flat = cols
         this.tableCtx.layout.rowKey = v.rowKey
       }

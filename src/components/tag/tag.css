@@ -106,7 +106,7 @@
   color: var(--primary-fg);
   font-size: var(--paragraph-mini-font-size);
   line-height: var(--paragraph-mini-line-height);
-  font-weight: 600;
+  font-weight: var(--paragraph-medium-font-weight);
   flex-shrink: 0;
   box-sizing: border-box;
 }

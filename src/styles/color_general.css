@@ -191,9 +191,9 @@
   --infor-border-subtle: var(--color-blue-800);
   --ghost: var(--color-white-alpha-001);
   --ghost-foreground: var(--color-brand-neutrals-200);
-  --ghost-hover: var(--color-black-alpha-10);
+  --ghost-hover: var(--color-black-alpha-15);
   --outline: var(--color-white-alpha-5);
-  --outline-hover: var(--color-black-alpha-10);
+  --outline-hover: var(--color-black-alpha-15);
   --outline-active: var(--color-white-alpha-15);
   --accent-0: var(--color-neutral-900);
   --accent-1: var(--color-brand-neutrals-800);

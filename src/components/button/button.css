@@ -236,6 +236,19 @@
   background: var(--destructive-subtle);
 }
 
+/* outline-destructive */
+.ui-btn--outline-destructive {
+  background: var(--primary-bg);
+  color: var(--destructive);
+  border: 1px solid var(--destructive-border);
+}
+
+.ui-btn--outline-destructive:hover,
+.ui-btn--outline-destructive:active,
+.ui-btn--outline-destructive.ui-btn--active {
+  background: var(--destructive-subtle);
+}
+
 /* Link — text-only button on transparent ghost bg, brand-colored. */
 .ui-btn--link {
   background: var(--ghost);
@@ -248,6 +261,19 @@
 .ui-btn--link:hover,
 .ui-btn--link:active,
 .ui-btn--link.ui-btn--active {
+  color: var(--primary-brand-hover);
+}
+
+/* Link-block — link colors, but keeps the size's height / padding / radius
+   like every other variant (a block-level hit area instead of inline text). */
+.ui-btn--link-block {
+  background: var(--ghost);
+  color: var(--primary-brand-fg);
+}
+
+.ui-btn--link-block:hover,
+.ui-btn--link-block:active,
+.ui-btn--link-block.ui-btn--active {
   color: var(--primary-brand-hover);
 }
 
@@ -272,7 +298,8 @@
 }
 
 .ui-btn--destructive:focus-visible,
-.ui-btn--ghost-destructive:focus-visible {
+.ui-btn--ghost-destructive:focus-visible,
+.ui-btn--outline-destructive:focus-visible {
   box-shadow: 0 0 0 3px var(--focus-ring-error);
 }
 
@@ -287,7 +314,7 @@
   color: var(--primary-fg);
 }
 
-.ui-btn:not(.ui-btn--ghost):not(.ui-btn--link):not(.ui-btn--ghost-destructive):disabled {
+.ui-btn:not(.ui-btn--ghost):not(.ui-btn--link):not(.ui-btn--link-block):not(.ui-btn--ghost-destructive):disabled {
   background: var(--secondary-bg);
   color: var(--primary-fg);
   border: 1px solid var(--border-3);

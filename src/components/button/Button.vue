@@ -50,7 +50,18 @@ export default {
       type: String,
       default: 'primary',
       validator: v =>
-        ['primary', 'neutral', 'secondary', 'outline', 'ghost', 'destructive', 'link', 'ghost-destructive'].includes(v)
+        [
+          'primary',
+          'neutral',
+          'secondary',
+          'outline',
+          'ghost',
+          'destructive',
+          'link',
+          'link-block',
+          'ghost-destructive',
+          'outline-destructive'
+        ].includes(v)
     },
     size: {
       type: String,
